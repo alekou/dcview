@@ -15,10 +15,10 @@
 # https://docs.gitlab.com/ee/development/cicd/templates.html
 # This specific template is located at:
 # https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Getting-Started.gitlab-ci.yml
-variables:
-  API_TOKEN: $DEPLOYMENT_TOKEN
-  APP_PATH: '$CI_PROJECT_DIR/src'
-  OUTPUT_PATH: '$CI_PROJECT_DIR/dist/angular-basic'
+#variables:
+  #API_TOKEN: $DEPLOYMENT_TOKEN
+  #APP_PATH: '$CI_PROJECT_DIR/src'
+  #OUTPUT_PATH: '$CI_PROJECT_DIR/dist/angular-basic'
 
 stages:          # List of stages for jobs, and their order of execution
   - build
