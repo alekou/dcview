@@ -4,14 +4,14 @@
 
 export const environment = {
   production: false,
-  apiBaseUrl: 'http://localhost:8080/dcapi',
+  apiBaseUrl: 'https://dc-test.sofron.gov.gr/api',
   keycloak: {
-    issuer: 'https://keycloak.open1.eu',
+    issuer: 'https://sso-test.sofron.gov.gr',
     realm: 'dc',
     clientId: 'dc-view',
     roleClientId: 'dc-api'
   },
-  kcmUrl: 'http://localhost:4201'
+  kcmUrl: 'http://kcm-test.sofron.gov.gr'
 };
 
 /*
