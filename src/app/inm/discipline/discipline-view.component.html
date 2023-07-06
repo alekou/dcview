@@ -1,0 +1,295 @@
+<form>
+  
+  <div class="grid">
+    <div class="col-12 button-container flex-container">
+      <div class="flex-container-start">
+      <button pButton type="button" *ngIf="!lockedRecord()"
+              label="{{'global.save' | translate}}" class="p-button-success"
+              icon="fa fa-save" iconPos="left" (click)="saveDiscipline()">
+      </button>
+      <button pButton type="button" *ngIf="id && authService.hasPermission('') && !lockedRecord()"
+              label="{{'global.delete' | translate}}" class="p-button-danger"
+              icon="fa fa-trash" iconPos="left" (click)="deleteDiscipline()">
+      </button>
+      <button pButton type="button" *ngIf="id" label="{{'global.newRecord' | translate}}" class="p-button-info"
+              icon="fa fa-plus" iconPos="left" (click)="newRecord()">
+      </button>
+      <button pButton type="button" label="{{'global.index' | translate}}" class="p-button-help"
+              icon="fa fa-table" iconPos="left" (click)="goToList()">
+      </button>
+      <button pButton type="button" *ngIf="id && discipline.merging"
+              label="{{'discipline.view.unmerge.button' | translate}}" class="p-button-warning"
+              icon="fa fa-chain-broken" iconPos="left" (click)="unmergeDiscipline()">
+      </button>
+      <app-template-button *ngIf="!!id" [entity]="'DISCIPLINE'" [entityId]="this.id"
+                           [entityIdColName]="'disciplineId'" [application]="'INM'">
+      </app-template-button>
+      <app-other-dc-name [dcId]="discipline.dcId"></app-other-dc-name>
+      </div>
+      <div class="flex-container-end">
+      <app-documents [entity]="'DISCIPLINE'" [entityId]="id" [inmateId]="discipline.inmateId"></app-documents>
+      <app-field-revisions *ngIf="id" [entityClass]="'inm.core.domain.Discipline'" [entityId]="id"></app-field-revisions>
+      </div>
+    </div>
+  </div>
+  
+<!--  Στοιχεία Πειθαρχικού-->
+  
+  <div class="grid" appToitsuLockControls [lockCondition]="lockedRecord()">
+    
+    <div class="col-12 xl:col-6 p-fluid">
+      
+      <p-panel header="{{'discipline.view.disciplineData' | translate}}">
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'discipline.inmateId' | translate}}</label>
+          <div class="col-12 md:col-8">
+          <app-select-inmate [(model)]="discipline.inmateId" [loadOnOpen]="true" [dialogUrl]="inmateDialogUrl"
+                             [disabled]="(!!id && (discipline.merging || discipline.merged)) || lockIfDisciplineWasCreatedFromDisciplineCouncil(discipline.id)"></app-select-inmate>
+        </div>
+        </div>
+        
+        <div class="grid align-items-center" *ngIf="(!id || discipline.merging) && (!discipline.merged)">
+          <label class="col-12 sm:col-4">{{'discipline.merging' | translate}}</label>
+          <div class="col-12 md:col-2">
+            <p-checkbox [(ngModel)]="discipline.merging" name="merging" [binary]="true" [disabled]="!!id"></p-checkbox>
+          </div>
+          
+          
+          <div *ngIf="(discipline.merging && !id)">
+            <div class="col-sm-5">
+              <p-button label="{{'discipline.disciplinesToMerge' | translate}}" styleClass="p-button-lg" (click)="openMergingDisciplinesDialog()"></p-button>
+            </div>
+          </div>
+          
+          <div *ngIf="discipline.merging && !!id">
+            <div class="col-sm-5">
+              <p-button label="{{'discipline.mergedDisciplines' | translate}}" styleClass="p-button-lg" (click)="openMergedDisciplinesDialog()"></p-button>
+            </div>
+          </div>
+        
+        </div>
+  
+        <div class="grid align-items-center" *ngIf="!!discipline.merged">
+          <label class="col-12 sm:col-4">{{'discipline.merged' | translate}}</label>
+          <div class="col-12 md:col-2">
+            <p-checkbox [(ngModel)]="discipline.merged" name="merged" [binary]="true" [disabled]="true"></p-checkbox>
+          </div>
+          <span>
+            <td>
+              {{'discipline.mergingDiscipline' | translate}} ({{mergingDiscipline.decisionNo}} | {{mergingDiscipline.endDate}})
+            </td>
+            <td>
+              <a href="{{viewLink}}/{{mergingDiscipline.id}}" target="_blank">
+                <i class="fa fa-external-link" pTooltip="{{'discipline.view.openMergingDiscipline' | translate}}"></i>
+              </a>
+            </td>
+          </span>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'discipline.reportProtocolNo' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="discipline.reportProtocolNo" name="reportProtocolNo" appToitsuCapitalize [disabled]="lockIfDisciplineWasCreatedFromDisciplineCouncil(discipline.id)">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'discipline.disciplineTypePid' | translate}}</label>
+          <div class="col-12 md:col-8">
+            <app-select-gen-parameter [type]="disciplineTypeParams" [(model)]="discipline.disciplineTypePid" name="disciplineTypePid" [disabled]="lockIfDisciplineWasCreatedFromDisciplineCouncil(discipline.id)"></app-select-gen-parameter>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'discipline.decisionNo' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="discipline.decisionNo" name="decisionNo" appToitsuCapitalize [disabled]="lockIfDisciplineWasCreatedFromDisciplineCouncil(discipline.id)">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'discipline.decisionDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="discipline.decisionDate" name="decisionDate" [disabled]="lockIfDisciplineWasCreatedFromDisciplineCouncil(discipline.id)"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'discipline.endDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="discipline.endDate" name="endDate"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'discipline.decisionAuthorityPid' | translate}}</label>
+          <div class="col-12 md:col-8">
+            <app-select-gen-parameter [type]="disciplineDecisionAuthorityParams" [(model)]="discipline.decisionAuthorityPid" name="decisionAuthorityPid" ></app-select-gen-parameter>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'discipline.reason' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="discipline.reason" name="reason" rows="8" [disabled]="lockIfDisciplineWasCreatedFromDisciplineCouncil(discipline.id)"></textarea>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'discipline.behaviorPid' | translate}}</label>
+          <div class="col-12 md:col-8">
+            <app-select-gen-parameter [type]="disciplineBehaviorParams" [(model)]="discipline.behaviorPid" name="behaviorPid" ></app-select-gen-parameter>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'discipline.points' | translate}}</label>
+          <div class="col-12 md:col-3">
+            <p-inputNumber [(ngModel)]="discipline.points" name="points" [showButtons]="true" buttonLayout="horizontal" inputId="horizontal" spinnerMode="horizontal" [step]="1" [min]="0"
+                           decrementButtonClass="p-button-danger" incrementButtonClass="p-button-success" incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" [inputStyle]="{'text-align': 'center'}"
+                           [disabled]="lockIfDisciplineWasCreatedFromDisciplineCouncil(discipline.id)">
+            </p-inputNumber>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'discipline.visitDenied' | translate}}</label>
+          <div class="col-12 md:col-2">
+            <p-checkbox [(ngModel)]="discipline.visitDenied" name="visitDenied" [binary]="true"></p-checkbox>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'discipline.solitaryConfinement' | translate}}</label>
+          <div class="col-12 md:col-2">
+            <p-checkbox [(ngModel)]="discipline.solitaryConfinement" name="solitaryConfinement" [binary]="true"></p-checkbox>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'discipline.solitaryConfinementDuration' | translate}}</label>
+          <div class="col-12 md:col-3">
+            <p-inputNumber [(ngModel)]="discipline.solitaryConfinementDuration" name="solitaryConfinementDuration" [showButtons]="true" buttonLayout="horizontal" inputId="horizontal" spinnerMode="horizontal" [step]="1" [min]="0"
+                           decrementButtonClass="p-button-danger" incrementButtonClass="p-button-success" incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" [inputStyle]="{'text-align': 'center'}">
+            </p-inputNumber>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'discipline.disciplinaryTransfer' | translate}}</label>
+          <div class="col-12 md:col-2">
+            <p-checkbox [(ngModel)]="discipline.disciplinaryTransfer" name="disciplinaryTransfer" [binary]="true"></p-checkbox>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'discipline.workDeprivation' | translate}}</label>
+          <div class="col-12 md:col-2">
+            <p-checkbox [(ngModel)]="discipline.workDeprivation" name="workDeprivation" [binary]="true" ></p-checkbox>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'discipline.workDeprivationDuration' | translate}}</label>
+          <div class="col-12 md:col-3">
+            <p-inputNumber [(ngModel)]="discipline.workDeprivationDuration" name="workDeprivationDuration" [showButtons]="true" buttonLayout="horizontal" inputId="horizontal" spinnerMode="horizontal" [step]="1" [min]="0"
+                           decrementButtonClass="p-button-danger" incrementButtonClass="p-button-success" incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" [inputStyle]="{'text-align': 'center'}">
+            </p-inputNumber>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'discipline.comments' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="discipline.comments" name="comments" rows="8"></textarea>
+          </div>
+        </div>
+      
+      </p-panel>
+    </div>
+  
+    <!--  Στοιχεία Πειθαρχικού-->
+  
+    <!--  Είδη Ποινής-->
+    
+    <div class="col-12 xl:col-6 p-fluid">
+  
+      <p-tabView appToitsuLockControls [lockCondition]="lockedRecord()">
+    
+        <p-tabPanel header="{{'discipline.view.tab.disciplinePenalties' | translate}}" >
+      
+          <div class="grid">
+            <div class="col-12 sm:col-2">
+              <button pButton type="button" label="{{'global.add' | translate}}" class="p-button-info"
+                      icon="fa fa-plus" iconPos="left"
+                      (click)="addDisciplinePenalty()"
+                      [disabled]="lockIfDisciplineWasCreatedFromDisciplineCouncil(discipline.id)">
+              </button>
+            </div>
+          </div>
+      
+          <div class="grid">
+            <div class="col-12 md:col-12 p-fluid" >
+          
+              <p-table [value]="discipline.disciplinePenalties" [scrollable]="true" scrollHeight="25rem" styleClass="p-datatable-gridlines p-datatable-striped" appToitsuPTableCellWidth >
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th [style.width]="'5rem'" [style.justify-content]="'center'">#</th>
+                    <th [style.width]="'25rem'">{{'disciplinePenalty.penaltyTypePid' | translate}}</th>
+                    <th [style.width]="'8rem'"></th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-disciplinePenalty let-index="rowIndex">
+                  <tr class="p-fluid">
+                
+                    <td [style.justify-content]="'center'">{{index + 1}}</td>
+                
+                    <td>
+                      <app-select-gen-parameter [type]="disciplinePenaltyParams" [(model)]="disciplinePenalty.penaltyTypePid" name="disciplinePenalty{{index}}.penaltyTypePid"
+                                                [disabled]="lockIfDisciplineWasCreatedFromDisciplineCouncil(discipline.id)">
+                      </app-select-gen-parameter>
+                    </td>
+                
+                    <td [style.justify-content]="'center'" class="button-container">
+                      <app-field-revisions *ngIf="disciplinePenalty.id" [entityClass]="'inm.core.domain.DisciplinePenalty'"
+                                           [entityId]="disciplinePenalty.id" [tableMode]="true"></app-field-revisions>
+                      <button pButton type="button" class="p-button-danger" icon="{{(disciplinePenalty.id ? 'fa fa-times' : 'fa fa-minus')}}" iconPos="left"
+                              pTooltip="{{(disciplinePenalty.id ? 'global.delete' : 'global.remove') | translate}}" tooltipPosition="top"
+                              (click)="deleteDisciplinePenalty(index, disciplinePenalty.id)"
+                              [disabled]="lockIfDisciplineWasCreatedFromDisciplineCouncil(discipline.id)">
+                      </button>
+                    </td>
+              
+                  </tr>
+                </ng-template>
+              </p-table>
+        
+            </div>
+          </div>
+    
+        </p-tabPanel>
+  
+      </p-tabView>
+    </div>
+  
+    <!--  Είδη Ποινής-->
+
+  </div>
+  
+
+</form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

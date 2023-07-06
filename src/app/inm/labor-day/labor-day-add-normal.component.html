@@ -1,0 +1,119 @@
+<div class="grid">
+  <div class="col-12 button-container">
+    <button pButton type="submit" label="{{'global.search' | translate}}" class="p-button-warning"
+            icon="fa fa-search" iconPos="left" (click)="loadInmateLaborDays()">
+    </button>
+    <button pButton type="button" *ngIf="inmateLaborDays && inmateLaborDays.length > 0"
+            label="{{'global.save' | translate}}" class="p-button-success"
+            icon="fa fa-save" iconPos="left" (click)="saveInmateLaborDays()">
+    </button>
+  </div>
+</div>
+
+<div class="grid">
+  
+  <div class="col-12 md:col-6 md:col-offset-3 p-fluid">
+    
+    <p-panel header="{{'laborDay.add.args' | translate}}">
+      
+      <div class="grid align-items-center">
+        <label class="col-12 sm:col-4 font-bold">{{'laborDay.addNormal.args.laborDate' | translate}}</label>
+        <div class="col-12 sm:col-8">
+          <app-toitsu-calendar [(model)]="args.laborDate" name="laborDate"></app-toitsu-calendar>
+        </div>
+      </div>
+      
+      <div class="grid align-items-center">
+        <label class="col-12 sm:col-4">{{'laborDay.addNormal.args.professionCategoryPid' | translate}}</label>
+        <div class="col-12 sm:col-8">
+          <app-select-gen-parameter [type]="pProfessionCategory" [(model)]="args.professionCategoryPid" name="professionCategoryPid"></app-select-gen-parameter>
+        </div>
+      </div>
+      
+      <div class="grid align-items-center">
+        <label class="col-12 sm:col-4">{{'laborDay.addNormal.args.locationPid' | translate}}</label>
+        <div class="col-12 sm:col-8">
+          <app-select-gen-parameter [type]="pLocation" [(model)]="args.locationPid" name="locationPid"></app-select-gen-parameter>
+        </div>
+      </div>
+      
+      <div class="grid align-items-center">
+        <label class="col-12 sm:col-4">{{'laborDay.addNormal.args.areaId' | translate}}</label>
+        <div class="col-12 sm:col-8">
+          <p-dropdown [(ngModel)]="args.areaId" name="areaId"
+                      [options]="areas" optionValue="id" optionLabel="fullDescription"
+                      placeholder="{{'global.selectOption' | translate}}"
+                      emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                      [showClear]="true" [filter]="true">
+          </p-dropdown>
+        </div>
+      </div>
+      
+    </p-panel>
+    
+  </div>
+  
+  <div class="col-12 md:col-12 p-fluid" *ngIf="inmateLaborDays && inmateLaborDays.length > 0">
+    
+    <p-table [value]="inmateLaborDays" styleClass="p-datatable-gridlines p-datatable-striped" appToitsuPTableCellWidth>
+      <ng-template pTemplate="header">
+        <tr>
+          <th [style.width]="'3%'" [style.justify-content]="'center'">{{'laborDay.addNormal.table.index' | translate}}</th>
+          <th [style.width]="'18%'" [style.justify-content]="'center'">{{'laborDay.addNormal.table.inmateFullName' | translate}}</th>
+          <th [style.width]="'15%'" [style.justify-content]="'center'">{{'laborDay.addNormal.table.professionName' | translate}}</th>
+          <th [style.width]="'5%'" [style.justify-content]="'center'">{{'laborDay.addNormal.table.presence' | translate}}</th>
+          <th [style.width]="'15%'" [style.justify-content]="'center'">{{'laborDay.addNormal.table.comments' | translate}}</th>
+          <th [style.width]="'10%'" [style.justify-content]="'center'">{{'laborDay.addNormal.table.factor' | translate}}</th>
+          <th [style.width]="'17%'" [style.justify-content]="'center'">{{'laborDay.addNormal.table.locationPid' | translate}}</th>
+          <th [style.width]="'17%'" [style.justify-content]="'center'">{{'laborDay.addNormal.table.paymentCategoryId' | translate}}</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-inmatelaborDay let-index="rowIndex">
+        <tr class="p-fluid">
+          
+          <td [style.text-align]="'center'">{{index + 1}}</td>
+          
+          <td>
+            {{inmatelaborDay.inmateFullName}}
+            <i class="fa fa-camera color-green cursor-pointer" (click)="inmatePhotoService.openInmatePhotoDisplayDialog(inmatelaborDay.inmateId)"></i>
+          </td>
+          
+          <td>
+            {{inmatelaborDay.professionName}}
+          </td>
+          
+          <td [style.text-align]="'center'">
+            <p-checkbox binary="true" [(ngModel)]="inmatelaborDay.presence" name="laborDay{{index}}.presence"></p-checkbox>
+          </td>
+          
+          <td>
+            <textarea pInputTextarea [(ngModel)]="inmatelaborDay.comments" name="laborDay{{index}}.comments" rows="1" appToitsuTextareaAutoResize></textarea>
+          </td>
+          
+          <td>
+            <p-dropdown [(ngModel)]="inmatelaborDay.factor" name="factor" styleClass="no-wrap"
+                        [options]="factors" optionValue="value" optionLabel="label"
+                        appendTo="body">
+            </p-dropdown>
+          </td>
+          
+          <td>
+            <app-select-gen-parameter [type]="pLocation" [(model)]="inmatelaborDay.locationPid" name="laborDay{{index}}.locationPid"></app-select-gen-parameter>
+          </td>
+          
+          <td>
+            <p-dropdown [(ngModel)]="inmatelaborDay.paymentCategoryId" name="laborDay{{index}}.paymentCategoryId"
+                        [options]="paymentCategories" optionValue="id" optionLabel="description"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [showClear]="true" appendTo="body">
+            </p-dropdown>
+          </td>
+          
+        </tr>
+      </ng-template>
+    </p-table>
+    
+  </div>
+  
+</div>

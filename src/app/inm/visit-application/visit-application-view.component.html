@@ -1,0 +1,253 @@
+<form>
+  
+  <div class="grid">
+    <div class="col-12 button-container">
+      <button pButton type="button"
+              label="{{'global.save' | translate}}" class="p-button-success"
+              icon="fa fa-save" iconPos="left" (click)="saveVisitApplication()" *ngIf="!lockedRecord()">
+      </button>
+      <button pButton type="button" *ngIf="id  && !lockedRecord() && authService.hasPermission('inm_visitor_delete')"
+              label="{{'global.delete' | translate}}" class="p-button-danger"
+              icon="fa fa-trash" iconPos="left" (click)="deleteVisit()">
+      </button>
+      <button pButton type="button" label="{{'global.newRecord' | translate}}" class="p-button-info"
+              icon="fa fa-plus" iconPos="left" (click)="newRecord()" *ngIf="id">
+      </button>
+      <button pButton type="button" label="{{'global.index' | translate}}" class="p-button-help"
+              icon="fa fa-table" iconPos="left" (click)="goToList()">
+      </button>
+      <app-template-button *ngIf="!!id" [entity]="'VISITAPPLICATION'" [entityId]="this.id"
+                           [entityIdColName]="'visitApplicationId'" [application]="'INM'">
+      </app-template-button>
+      <button pButton type="button" label="{{'visitApplication.view.visitorAdd' | translate}}" icon="fa fa-plus" iconPos="left"
+              class="p-button-info" (click)="addVisitApplicationVisitor()">
+      </button>
+      <app-other-dc-name [dcId]="visitApplication.dcId"></app-other-dc-name>
+    </div>
+  </div>
+  
+  <div class="grid" appToitsuLockControls [lockCondition]="lockedRecord()"> 
+    
+    <div class="col-12 xl:col-6 p-fluid">
+      
+      <p-panel header="{{'visitApplication.view.visitData' | translate}}">
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'visitApplication.inmateId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-select-inmate [(model)]="visitApplication.inmateId" [disabled]="!!id" name="inmateId" required
+                               [inmates]="inmates" [dialogUrl]="inmateDialogUrl"></app-select-inmate>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center" *ngIf="id && visitApplication.visitorName && visitApplication.visitApplicationVisitors.length === 0">
+          <label class="col-12 sm:col-4">{{'visitApplication.visitorName' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="visitApplication.visitorName" name="lastName"  pTooltip="{{'visitApplication.view.visitorAddToolTip' | translate}}" disabled>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'visitApplication.visitTypeId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+                        <p-dropdown [options]="visitTypes"
+                                    optionValue="id"
+                                    optionLabel="description"
+                                    name="visitTypeId"
+                                    [(ngModel)]="visitApplication.visitTypeId"
+                                    [showClear]="true"
+                                    [filter]="true"
+                                    placeholder="{{'global.selectOption' | translate}}"
+                                    [disabled]="!!id"
+                                    emptyMessage="{{'global.noResultsFound' | translate}}"
+                                    emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        >
+                          
+                        </p-dropdown>
+            
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'visitApplication.applicationNo' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="visitApplication.applicationNo" name="applicationNo">
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'visitApplication.applicationDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="visitApplication.applicationDate" name="visitDate" [showTime]="true"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'visitApplication.applicationText' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="visitApplication.applicationText" name="visitor" rows="4"></textarea>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'visitApplication.socialWorkerMotion' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox [binary]="true" [(ngModel)]="visitApplication.socialWorkerMotion" name="socialWorkerMotion"></p-checkbox>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'visitApplication.comments' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="visitApplication.comments" name="comments" rows="5"></textarea>
+          </div>
+        </div>
+        
+      </p-panel>
+  
+      <p-panel header="{{'visitApplication.view.visitorsData' | translate}}">
+        <p-table [value]=" visitApplication.visitApplicationVisitors"  [scrollable]="true" scrollHeight="25rem" styleClass="p-datatable-gridlines p-datatable-striped" appToitsuPTableCellWidth>
+          <ng-template pTemplate="header">
+            <tr>
+              <th [style.width]="'5rem'" [style.justify-content]="'center'">#</th>
+              <th [style.width]="'15rem'" class="font-bold">{{'visitApplicationVisitor.visitorId' | translate}}</th>
+              <th [style.width]="'15rem'" *ngIf="getVisitTypeKindByVisitTypeId(visitApplication.visitTypeId) === 'RELATION'">{{'visitApplicationVisitor.statedRelationKind' | translate}}</th>
+              <th [style.width]="'15rem'" *ngIf="getVisitTypeKindByVisitTypeId(visitApplication.visitTypeId) === 'RELATION'">{{'visitApplicationVisitor.statedOtherRelationKindPid' | translate}}</th>
+              <th [style.width]="'5rem'"></th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-visitApplicationVisitor let-index="rowIndex">
+            <tr class="p-fluid">
+          
+              <td [style.justify-content]="'center'">{{index + 1}}</td>
+              
+              <td>
+                <app-select-visitor [(model)]="visitApplicationVisitor.visitorId" [canCreate]="true" class="width-100percent" name="visitApplicationVisitor{{index}}.visitorId">
+                </app-select-visitor>
+              </td>
+          
+              <td *ngIf="getVisitTypeKindByVisitTypeId(visitApplication.visitTypeId) === 'RELATION'">
+  
+                <p-dropdown [(ngModel)]="visitApplicationVisitor.statedRelationKind" name="visitApplicationVisitor{{index}}.relationKind"
+                            [options]="relationKinds" optionValue="value" optionLabel="label"
+                            placeholder="{{'global.selectOption' | translate}}"
+                            emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                            [showClear]="true" appendTo="body">
+                </p-dropdown>
+                
+              </td>
+          
+              <td *ngIf="getVisitTypeKindByVisitTypeId(visitApplication.visitTypeId) === 'RELATION'">
+  
+                <p-dropdown [(ngModel)]="visitApplicationVisitor.statedOtherRelationKindPid" name="inmateRelation{{index}}.otherRelationKindPid"
+                            [options]="otherRelationKinds" optionValue="id" optionLabel="description"
+                            placeholder="{{'global.selectOption' | translate}}"
+                            emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                            [showClear]="true" [filter]="true" appendTo="body">
+                </p-dropdown>
+              </td>
+              
+              <td [style.justify-content]="'center'">
+                <button pButton type="button"  pTooltip="{{(visitApplicationVisitor.id ? 'global.delete' : 'global.remove') | translate}}" class="p-button-danger"
+                        icon="{{(visitApplicationVisitor.id ? 'fa fa-times' : 'fa fa-minus') | translate}}" iconPos="left"
+                        (click)="deleteVisitApplicationVisitor(index, visitApplicationVisitor.id)">
+                </button>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </p-panel>
+      
+    </div>
+    <div class="col-12 xl:col-6 p-fluid">
+      
+      <p-panel header="{{'visitApplication.view.stateData' | translate}}">
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'visitApplication.approved' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [options]="visitApplicationStatuses"
+                        autoDisplayFirst
+                        optionValue="value"
+                        *ngIf="visitApplicationStatuses[0]"
+                        optionLabel="label"
+                        name="visitApplicationStatus"
+                        [(ngModel)]="visitApplication.approved"
+                        [filter]="true"
+                        placeholder="{{'global.all' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}"
+                        emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+            >
+            </p-dropdown>
+    
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'visitApplication.approvalDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="visitApplication.approvalDate" name="visitDate" [showTime]="true"></app-toitsu-calendar>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'visitApplication.approvalNo' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="visitApplication.approvalNo" name="approvalNo">
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'visitApplication.approvalText' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="visitApplication.approvalText" name="comments" rows="5"></textarea>
+          </div>
+        </div>
+        
+      </p-panel>
+  
+      <p-panel header="{{'visitApplication.view.visitImplementationData' | translate}}">
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'visitApplication.frequent' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox [binary]="true" [(ngModel)]="visitApplication.frequent" name="frequent" (ngModelChange)="clearVisitDates()"></p-checkbox>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center" *ngIf="!visitApplication.frequent">
+          <label class="col-12 sm:col-4">{{'visitApplication.visitDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="visitApplication.visitDate" name="visitDate" [showTime]="true"></app-toitsu-calendar>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center" *ngIf="visitApplication.frequent">
+          <label class="col-12 sm:col-4">{{'visitApplication.visitDateFrom' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="visitApplication.visitDateFrom" name="visitDateFrom" [showTime]="true"></app-toitsu-calendar>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center" *ngIf="visitApplication.frequent">
+          <label class="col-12 sm:col-4">{{'visitApplication.visitDateTo' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="visitApplication.visitDateTo" name="visitDateTo" [showTime]="true"></app-toitsu-calendar>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'visitApplication.frequency' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="visitApplication.frequency" name="comments" rows="5"></textarea>
+          </div>
+        </div>
+        
+      </p-panel>
+  
+   
+      
+    </div>
+  </div>
+
+</form>

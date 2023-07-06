@@ -1,0 +1,15 @@
+{
+  "area.areaTypeId": "Τύπος",
+  "area.code" : "Κωδικός",
+  "area.description" : "Περιγραφή",
+  "area.fullDescription" : "Πλήρης Περιγραφή",
+  "area.positions" : "Θέσεις",
+  "area.availablePositions" : "Διαθέσιμες Θέσεις",
+  "area.reservedPositions": "Κρατημένες Θέσεις",
+  "area.parentAreaId" : "Ανωτεροβάθμια Περιοχή",
+
+  "area.view.basicData" : "Στοιχεία Περιοχής",
+
+  "area.info.noSelectedAreaType": "Παρακαλώ, επιλέξτε τύπο περιοχής για να εμφανιστούν οι διαθέσιμες ανωτεροβάθμιες περιοχές.",
+  "area.info.forbiddenView": "Δεν μπορείτε να επεξεργαστείτε ή να διαγράψετε περιοχές άλλου καταστήματος κράτησης."
+}

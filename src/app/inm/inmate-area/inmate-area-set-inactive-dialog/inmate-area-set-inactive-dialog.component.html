@@ -1,0 +1,36 @@
+<!--- Dialog: Άδειασμα Κελιού - Κλείσιμο/Απενεργοποίηση εγγραφής θέσης κράτησης --->
+<form>
+  <div>
+    <div class="col-12 p-fluid">
+
+      <div class="flex align-items-center justify-content-center">
+        <h6>
+          <i class="fa fa-info-circle" aria-hidden="true"></i>
+          {{'inmateArea.infoMessage.exitDateField' | translate}}
+        </h6>
+      </div>
+      <p-divider></p-divider>
+      <div class="grid align-items-center">
+        <label class="col-12 sm:col-4 font-bold">{{'inmateArea.exitDate' | translate}}</label>
+        <div class="col-12 sm:col-8">
+          <app-toitsu-calendar
+            name="exitDate" [(model)]="inmateAreaToSetInactive.exitDate">
+          </app-toitsu-calendar>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!--- Κουμπιά --->
+  <div class="grid">
+    <div class="col-12 button-container text-align-end">
+      <button pButton type="button" label="{{'global.confirm' | translate}}" class="p-button-success"
+              icon="fa fa-check" iconPos="left" (click)="setInactiveInmateArea()">
+      </button>
+      <button pButton type="button" label="{{'global.cancel' | translate}}" class="p-button-warning"
+              icon="fa fa-times" iconPos="left" (click)="cancel()">
+      </button>
+    </div>
+  </div>
+</form>

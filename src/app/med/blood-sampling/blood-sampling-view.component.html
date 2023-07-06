@@ -1,0 +1,127 @@
+<form>
+  <div class="grid">
+    <div class="col-12 button-container">
+      <button pButton type="button"
+              label="{{'global.save' | translate}}" class="p-button-success"
+              icon="fa fa-save" iconPos="left" (click)="saveBloodSampling()">
+      </button>
+      <button pButton type="button" *ngIf="id"
+              label="{{'global.delete' | translate}}" class="p-button-danger"
+              icon="fa fa-trash" iconPos="left" (click)="deleteBloodSampling()">
+      </button>
+      <app-documents [entity]="'BLOOD_SAMPLING'" [entityId]="id" [inmateId]="bloodSampling.inmateId"></app-documents>
+      <button pButton type="button" *ngIf="id" label="{{'global.newRecord' | translate}}" class="p-button-info"
+              icon="fa fa-plus" iconPos="left" (click)="newRecord()">
+      </button>
+      <button pButton type="button" label="{{'global.index' | translate}}" class="p-button-help"
+              icon="fa fa-table" iconPos="left" (click)="goToList()">
+      </button>
+      <button pButton type="button" label="{{'bloodSampling.examinationSelection' | translate}}" class="p-button-info"
+              icon="fa fa-plus" iconPos="left" (click)="openDialog()">
+      </button>
+      <app-other-dc-name [dcId]="bloodSampling.dcId"></app-other-dc-name>
+    </div>
+  </div>
+  <div class="grid" appToitsuLockControls [lockCondition]="lockedRecord()">
+    
+    <div class="col-12 md:col-6 p-fluid">
+      
+      <p-panel header="{{'bloodSampling.details' | translate}}">
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'bloodSampling.inmateId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-select-inmate [(model)]="bloodSampling.inmateId" [loadOnOpen]="true" [dialogUrl]="inmateDialogUrl" name="inmateId"></app-select-inmate>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'bloodSampling.samplingDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="bloodSampling.samplingDate" name="samplingDate"></app-toitsu-calendar>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'bloodSampling.testDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="bloodSampling.testDate" name="testDate"></app-toitsu-calendar>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'bloodSampling.resultDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="bloodSampling.resultDate" name="resultDate"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'bloodSampling.comments' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="bloodSampling.comments" name="comments" rows="5"></textarea>
+          </div>
+        </div>
+        
+      </p-panel>
+    </div>
+  </div>
+  
+  <div class="grid" appToitsuLockControls [lockCondition]="lockedRecord()">
+    <div class="col-12">
+      <p-tabView>
+        <p-tabPanel header="{{'bloodSampling.view.tab.examinations' | translate}}">
+    
+          <div class="grid">
+            <div class="col-12">
+        
+              <p-table [value]="bloodSampling.examinations" [scrollable]="true" scrollHeight="25rem" styleClass="p-datatable-gridlines p-datatable-striped" appToitsuPTableCellWidth>
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th [style.width]="'5rem'" [style.justify-content]="'center'">#</th>
+                    <th [style.width]="'25rem'" [style.justify-content]="'center'">{{'examination.examinationTypeId' | translate}}</th>
+                    <th [style.width]="'15rem'" [style.justify-content]="'center'">{{'examination.examinationDate' | translate}}</th>
+                    <th [style.width]="'15rem'" [style.justify-content]="'center'">{{'examination.resultsDate' | translate}}</th>
+                    <th [style.width]="'22rem'" [style.justify-content]="'center'">{{'examination.results' | translate}}</th>
+                    <th [style.width]="'22rem'" [style.justify-content]="'center'">{{'examination.comments' | translate}}</th>
+                    <th [style.width]="'8rem'"></th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-examination let-index="rowIndex">
+                  <tr class="p-fluid">
+                    <td [style.justify-content]="'center'">{{index + 1}}</td>
+                    <td>
+                      {{examination.examinationType.description}}
+                    </td>
+                    <td>
+                      <app-toitsu-calendar [(model)]="examination.examinationDate" name="examination{{index}}.examinationDate"></app-toitsu-calendar>
+                    </td>
+                    <td>
+                      <app-toitsu-calendar [(model)]="examination.resultsDate" name="examination{{index}}.resultsDate"></app-toitsu-calendar>
+                    </td>
+                    <td [style.justify-content]="'center'">
+                      <input type="text" pInputText [(ngModel)]="examination.results" class="width-100percent" name="examination{{index}}.results">
+                    </td>
+                    <td [style.justify-content]="'center'">
+                      <input type="text" pInputText [(ngModel)]="examination.comments" class="width-100percent" name="examination{{index}}.comments">
+                    </td>
+                    <td [style.justify-content]="'center'">
+                      <button pButton type="button" class="p-button-danger" icon="{{(examination.id ? 'fa fa-times' : 'fa fa-minus')}}" iconPos="left"
+                              pTooltip="{{(examination.id ? 'global.delete' : 'global.remove') | translate}}" tooltipPosition="top"
+                              (click)="deleteExamination(index, examination.id)">
+                      </button>
+                    </td>
+            
+                  </tr>
+                </ng-template>
+              </p-table>
+      
+            </div>
+          </div>
+        </p-tabPanel>
+        
+      </p-tabView>
+    </div>
+  </div>
+  
+</form>

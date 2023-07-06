@@ -1,0 +1,5 @@
+.custom-scroll {
+  max-height: 45rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+}

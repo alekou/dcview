@@ -1,0 +1,16 @@
+{
+  "vaccination.details": "Στοιχεία",
+  "vaccination.inmate": "Κρατούμενος",
+  "vaccination.vaccine": "Εμβόλιο",
+  "vaccination.currentDose": "Τρέχουσα Δόση",
+  "vaccination.scheduledDate": "Ημερομηνία Προγραμματισμού",
+  "vaccination.vaccinationStatus": "Κατάσταση Εμβολιασμού",
+  "vaccination.vaccinationDate": "Ημερομηνία Εμβολιασμού",
+  "vaccination.cancelDate": "Ημερομηνία Ακύρωσης",
+  "vaccination.cancelReason": "Αιτιολογία Ακύρωσης",
+  "vaccination.comments": "Παρατηρήσεις",
+  "vaccination.vaccineDescription": "Εμβόλιο",
+  "vaccination.nextDose": "Επόμενη Δόση",
+  
+  "vaccination.dialog.title": "Εμβολιασμός"
+}

@@ -1,0 +1,204 @@
+<form>
+  <div class="grid">
+    <div class="col-12 button-container flex-container">
+      <div class="flex-container-start">
+        <button pButton type="button" *ngIf="!lockedRecord()"
+                label="{{'global.save' | translate}}" class="p-button-success"
+                icon="fa fa-save" iconPos="left" (click)="saveVacationMotion()">
+        </button>
+        <button pButton type="submit" *ngIf="!lockedRecord()"
+                label="{{'vacationApplication.view.submitMotion' | translate}}" class="p-button-warning"
+                icon="fa fa-paper-plane-o" iconPos="left" (click)="submitMotion()">
+        </button>
+        <button pButton type="button" label="{{'global.index' | translate}}" class="p-button-help"
+                icon="fa fa-table" iconPos="left" (click)="goToList()">
+        </button>
+        <app-other-dc-name [dcId]="vacationApplication.dcId"></app-other-dc-name>
+      </div>
+      <div>
+        <app-documents [entity]="'VACATION_MOTION'" [entityId]="id" [inmateId]="vacationApplication.inmateId"></app-documents>
+        <app-field-revisions *ngIf="id" [entityClass]="'inm.core.domain.VacationApplication'" [entityId]="id"></app-field-revisions>
+      </div>
+    </div>
+  </div>
+  
+  <div class="grid" appToitsuLockControls [lockCondition]="lockedRecord()">
+  
+    <div class="col-12 xl:col-6 p-fluid">
+      <p-panel header="{{'vacationMotion.view.motionData' | translate}}">
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'vacationMotion.applicationStatus' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="applicationStatusLabel" name="applicationStatus" [disabled]="true">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'vacationMotion.motionProgressDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="vacationApplication.motionProgressDate" name="motionProgressDate" [disabled]="!!id" ></app-toitsu-calendar>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'vacationMotion.motionComments' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="vacationApplication.motionComments" name="motionComments" rows="3"></textarea>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'vacationMotion.pendingFelonies' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox name="pendingFelonies" [binary]="true" [(ngModel)]="vacationApplication.pendingFelonies" ></p-checkbox>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center" *ngIf="vacationApplication.pendingFelonies">
+          <label class="col-12 sm:col-4">{{'vacationMotion.pendingFeloniesComments' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="vacationApplication.pendingFeloniesComments" name="pendingFeloniesComments" rows="3"></textarea>
+          </div>
+        </div>
+        
+      </p-panel>
+      <p-panel header="{{'vacationMotion.view.motionProgress' | translate}}">
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'vacationMotion.secMotionCheck' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox name="secMotionCheck" [binary]="true" [(ngModel)]="vacationApplication.secMotionCheck" ></p-checkbox>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'vacationMotion.doctorMotionCheck' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox name="doctorMotionCheck" [binary]="true" [(ngModel)]="vacationApplication.doctorMotionCheck" ></p-checkbox>
+          </div>
+        </div>
+        
+      </p-panel>
+      <div class="grid" appToitsuLockControls [lockCondition]="lockedRecord()">
+        <div class="col-12">
+            <p-panel header="{{'vacationMotion.view.vacationCouncilData' | translate}}" appToitsuLockControls [lockCondition]="lockedVacationApplicationDataRecord()">
+              <div class="grid">
+                <div class="col-12">
+                    <p-table [value]="this.vacationApplication.vacationCouncilInMotionDetails" styleClass="p-datatable-gridlines p-datatable-striped" appToitsuPTableCellWidth>
+                      <ng-template pTemplate="header">
+                        <tr>
+                          <th [style.width]="'10rem'" [style.justify-content]="'center'">{{'vacationCouncil.councilDate' | translate}}</th>
+                          <th [style.width]="'10rem'" [style.justify-content]="'center'">{{'vacationCouncil.councilCode' | translate}}</th>
+                          <th [style.width]="'10rem'" [style.justify-content]="'center'">{{'vacationCouncil.postponementStatus' | translate}}</th>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-vacationCouncilApplicationData>
+                        <tr class="p-fluid">
+                          <td style="text-align: center;">
+                            {{vacationCouncilApplicationData.councilDate}}
+                          </td>
+                          <td style="text-align: center;">
+                            {{vacationCouncilApplicationData.councilCode}}
+                          </td>
+                          <td style="text-align: center;">
+                            <i *ngIf="(vacationCouncilApplicationData.isPostponed)" class="fa fa-check color-green"></i>
+                          </td>
+                        </tr>
+                      </ng-template>
+                    </p-table>
+                </div>
+              </div>
+            </p-panel>
+        </div>
+      </div>
+  
+  
+      <p-panel header="{{'vacationMotion.view.vacationApplicationData' | translate}}" appToitsuLockControls [lockCondition]="lockedVacationApplicationDataRecord()">
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'vacationApplication.vacationTypeId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="vacationApplication.vacationTypeId" name="vacationTypeId" [options]="vacationTypes" optionLabel="description" optionValue="id"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [showClear]="true" [filter]="true">
+            </p-dropdown>
+          </div>
+        </div>
+    
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'vacationApplication.protocolNo' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="vacationApplication.protocolNo" name="protocolNo" required>
+          </div>
+        </div>
+    
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'vacationApplication.applicationDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="vacationApplication.applicationDate" name="applicationDate"></app-toitsu-calendar>
+          </div>
+        </div>
+    
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'vacationApplication.destination' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="vacationApplication.destination" name="destination">
+          </div>
+        </div>
+    
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'vacationApplication.reason' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="vacationApplication.reason" name="reason" rows="3"></textarea>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'vacationApplication.applicationFromDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="vacationApplication.applicationFromDate" name="applicationFromDate"
+                                 [showTime]="true"></app-toitsu-calendar>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'vacationApplication.applicationToDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="vacationApplication.applicationToDate" name="applicationToDate"
+                                 [showTime]="true"></app-toitsu-calendar>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'vacationApplication.applicationDays' | translate}}</label>
+          <div class="col-12 sm:col-4">
+            <p-inputNumber [(ngModel)]="vacationApplication.applicationDays" name="applicationDays" [showButtons]="true" [min]="0"
+                           buttonLayout="horizontal" inputId="horizontal"
+                           spinnerMode="horizontal" [step]="1" placeholder="0" [inputStyle]="{'text-align': 'center'}"
+                           decrementButtonClass="p-button-danger" incrementButtonClass="p-button-success"
+                           incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus">
+            </p-inputNumber>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'vacationApplication.applicationHours' | translate}}</label>
+          <div class="col-12 sm:col-4">
+            <p-inputNumber [(ngModel)]="vacationApplication.applicationHours" name="applicationHours" [showButtons]="true" [min]="0"
+                           buttonLayout="horizontal" inputId="horizontal"
+                           spinnerMode="horizontal" [step]="1" placeholder="0" [inputStyle]="{'text-align': 'center'}"
+                           decrementButtonClass="p-button-danger" incrementButtonClass="p-button-success"
+                           incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus">
+            </p-inputNumber>
+          </div>
+        </div>
+      </p-panel>
+    </div>
+  
+    <div class="col-12 xl:col-6 p-fluid">
+      <p-panel header="{{'vacationMotion.view.inmateData' | translate}}">
+      </p-panel>
+    </div>
+  </div>
+</form>

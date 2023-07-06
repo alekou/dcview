@@ -1,0 +1,45 @@
+export class Vacation {
+  public id: number = null;
+  public dcId: number = null;
+  public inmateId: number = null;
+  public inmateRecordId: number = null;
+  public vacationTypeId: number = null;
+  public protocolNo: string = null;
+  public applicationDate: Date = null;
+  public destination: string = null;
+  public reason: string = null;
+  public applicationFromDate: Date = null;
+  public applicationToDate: Date = null;
+  public applicationDays: number = null;
+  public applicationHours: number = null;
+  public recordNo: string = null;
+  public recordDate: Date = null;
+  public fromDate: Date = null;
+  public toDate: Date = null;
+  public vacationDays: number = null;
+  public vacationHours: number = null;
+  public travelingDays: number = null;
+  public travelingHours: number = null;
+  public expectedReturnDate: Date = null;
+  public localPoliceDeptId: number = null;
+  public destinationPoliceDeptId: number = null;
+  public presenceFrequency: string = null;
+  public destinationPoliceDepartmentDate: Date = null;
+  public comments: string = null;
+  public approvalStatus: string = null;
+  public rejectionComments: string = null;
+  public exited: boolean = false;
+  public exitDate: Date = null;
+  public escortName: string = null;
+  public escortStatus: string = null;
+  public escortService: string = null;
+  public extension: boolean = false;
+  public extendedToDate: Date = null;
+  public extensionReason: string = null;
+  public returned: boolean = false;
+  public returnDate: Date = null;
+  public violationDays: number = null;
+  public escape: boolean = false;
+  public noReturnComments: string = null;
+
+}

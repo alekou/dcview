@@ -1,0 +1,314 @@
+<form>
+  
+  <div class="grid">
+    <div class="col-12 button-container flex-container">
+      <div class="flex-container-start">
+      <button pButton type="button" *ngIf="!disciplineCouncil.completed"
+              label="{{'global.save' | translate}}" class="p-button-success"
+              icon="fa fa-save" iconPos="left" (click)="saveDisciplineCouncil()">
+      </button>
+      <button pButton type="button" *ngIf="(id && authService.hasPermission('')) && !disciplineCouncil.completed"
+              label="{{'global.delete' | translate}}" class="p-button-danger"
+              icon="fa fa-trash" iconPos="left" (click)="deleteDisciplineCouncil()">
+      </button>
+      <button pButton type="button" *ngIf="id" label="{{'global.newRecord' | translate}}" class="p-button-info"
+              icon="fa fa-plus" iconPos="left" (click)="newRecord()">
+      </button>
+      <button pButton type="button" label="{{'global.index' | translate}}" class="p-button-help"
+              icon="fa fa-table" iconPos="left" (click)="goToList()">
+      </button>
+      <button pButton type="button" *ngIf="id && !disciplineCouncil.completed" label="{{'disciplineCouncil.addDisciplineReports' | translate}}" class="p-button-info"
+              icon="fa fa-plus-circle" iconPos="left" (click)="addDisciplineReports()">
+      </button>
+      <button pButton type="button" *ngIf="id && !disciplineCouncil.completed" label="{{'disciplineCouncil.complete' | translate}}" class="p-button-warning"
+              icon="fa fa-archive" iconPos="left" (click)="completeDisciplineCouncil()">
+      </button>
+      <app-other-dc-name [dcId]="disciplineCouncil.dcId"></app-other-dc-name>
+      </div>
+      <div class="flex-container-end">
+      <app-field-revisions *ngIf="id" [entityClass]="'inm.core.domain.DisciplineCouncil'" [entityId]="id"></app-field-revisions>
+      </div>
+    </div>
+  </div>
+  
+  <!--  Στοιχεία Συμβουλίου Πειθαρχικών-->
+  
+  <div class="grid" appToitsuLockControls [lockCondition]="disciplineCouncil.completed">
+    
+    <div class="col-12 xl:col-4 p-fluid">
+  
+      <p-panel header="{{'disciplineCouncil.view.disciplineCouncilData' | translate}}">
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'disciplineCouncil.councilNo' | translate}}</label>
+          <div class="col-12 sm:col-4">
+            <input type="text" pInputText [(ngModel)]="disciplineCouncil.councilNo" name="reportNo" appToitsuCapitalize >
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'disciplineCouncil.councilDate' | translate}}</label>
+          <div class="col-12 sm:col-6">
+            <app-toitsu-calendar [(model)]="disciplineCouncil.councilDate" name="reportDate" >
+            </app-toitsu-calendar>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'disciplineCouncil.comments' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="disciplineCouncil.comments" name="comments" rows="8" ></textarea>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center" *ngIf="disciplineCouncil.completed">
+          <label class="col-12 sm:col-4">{{'disciplineCouncil.completed' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <i class="fa fa-check-square color-green"></i>
+          </div>
+        </div>
+        
+      </p-panel>
+      
+    </div>
+    
+  </div>
+  
+  
+      <!--  Στοιχεία Συμβουλίου Πειθαρχικών-->
+
+  
+      <!--  Αναφερόμενοι/ Αποφάσεις/ Πειθαρχικά-->
+  
+  
+  <div class="grid" appToitsuLockControls [lockCondition]="disciplineCouncil.completed">
+    
+    <div class="col-12">
+      
+      <p-tabView>
+  
+        <!------------------------------------------ Αναφερόμενοι -------------------------------------------->
+  
+        <p-tabPanel header="disciplineOffense.view.reported">
+  
+          <div class="grid">
+            <div class="col-12 button-container">
+              <button pButton type="button" label="{{'disciplineCouncil.reported.newDecision' | translate}}" class="p-button-info"
+                      icon="fa fa-plus-square" iconPos="left" (click)="openAddDisciplineDecisionDialog(selectedDiscCouncilOffenses)">
+              </button>
+              <button pButton type="button" label="{{'disciplineCouncil.reported.postpone' | translate}}" class="p-button-secondary"
+                      icon="fa fa-repeat" iconPos="left" (click)="postponeDisciplineOffenses(selectedDiscCouncilOffenses)">
+              </button>
+            </div>
+          </div>
+          
+          <ng-template pTemplate="header">
+            <span class="color-steelblue">
+              <i class="fa fa-list-alt "></i>
+              <span>{{'disciplineOffense.view.reported' | translate}}</span>
+            </span>
+          </ng-template>
+          
+          <p-table [value]="disciplineCouncil.discCouncilOffenses" styleClass="p-datatable-gridlines" appToitsuPTableCellWidth
+                   sortMode="single" rowGroupMode="subheader" groupRowsBy="disciplineOffense.inmateFullName"
+                   selectionMode="multiple" [(selection)]="selectedDiscCouncilOffenses">
+  
+          <ng-template pTemplate="header">
+            <tr>
+              <th [style.width]="'3rem'"></th>
+              <th [style.width]="'3rem'">
+                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+              </th>
+              <th [style.width]="'10rem'">{{'disciplineOffense.allDisciplineReportNames' | translate}}</th>
+              <th [style.width]="'10rem'">{{'disciplineOffense.offenseTypePid' | translate}}</th>
+              <th [style.width]="'10rem'">{{'disciplineOffense.incidentDate' | translate}}</th>
+              <th [style.width]="'10rem'">{{'disciplineOffense.articles' | translate}}</th>
+              <th [style.width]="'10rem'">{{'disciplineOffense.comments' | translate}}</th>
+              <th [style.width]="'10rem'">{{'disciplineOffense.apology' | translate}}</th>
+              <th [style.width]="'10rem'">{{'disciplineOffense.status' | translate}}</th>
+              <th [style.width]="'10rem'">{{'disciplineOffense.decisionName' | translate}}</th>
+              <th [style.width]="'10rem'">{{'disciplineOffense.disciplineId' | translate}}</th>
+            </tr>
+          </ng-template>
+  
+          <ng-template pTemplate="groupheader" let-discCouncilOffense >
+            <tr pRowGroupHeader>
+              <td colspan="12" style="background-color:lightgray;">
+                <span class="font-bold ml-2" >{{discCouncilOffense.disciplineOffense.inmateFullName}}</span>
+              </td>
+            </tr>
+          </ng-template>
+          
+          <ng-template pTemplate="body" let-discCouncilOffense let-index="rowIndex" >
+            
+            <tr class="p-fluid">
+              <td style="text-align:center" [style.width]="'3rem'" [style.justify-content]="'center'">{{index + 1}}</td>
+              <td style="text-align:center">
+              <p-tableCheckbox  [value]="discCouncilOffense" 
+                                *ngIf="discCouncilOffense.disciplineCouncilId
+                                && ((discCouncilOffense.postponed == false && discCouncilOffense.disciplineOffense.status == 'PENDING') || (discCouncilOffense.postponed == false && discCouncilOffense.disciplineOffense.status == 'POSTPONED'))"
+                                >
+              </p-tableCheckbox>
+                <span *ngIf="discCouncilOffense.disciplineCouncilId && discCouncilOffense.postponed == true"><i class="fa fa-ban color-gray" pTooltip="{{'disciplineCouncil.reported.hasStatusPostponed' | translate}}" tooltipPosition="top"></i></span>
+                <span *ngIf="discCouncilOffense.disciplineCouncilId && discCouncilOffense.postponed == false && discCouncilOffense.disciplineOffense.status == 'GUILTY'"><i class="fa fa-frown-o color-red" pTooltip="{{'disciplineCouncil.reported.hasStatusGuilty' | translate}}" tooltipPosition="top"></i></span>
+                <span *ngIf="discCouncilOffense.disciplineCouncilId && discCouncilOffense.postponed == false && discCouncilOffense.disciplineOffense.status == 'INNOCENT'"><i class="fa fa-smile-o color-green" pTooltip="{{'disciplineCouncil.reported.hasStatusInnocent' | translate}}" tooltipPosition="top"></i></span>
+              </td>
+              <td style="text-align:center" [style.width]="'10rem'"> {{discCouncilOffense.disciplineOffense.allDisciplineReportNames}}</td>
+              <td style="text-align:center" [style.width]="'10rem'"> {{discCouncilOffense.disciplineOffense.offenseType}}</td>
+              <td style="text-align:center" [style.width]="'10rem'"> {{discCouncilOffense.disciplineOffense.incidentDate}}</td>
+              <td style="text-align:center" [style.width]="'10rem'"> {{discCouncilOffense.disciplineOffense.articles}}</td>
+              <td style="text-align:center" [style.width]="'10rem'"> {{discCouncilOffense.disciplineOffense.comments}}</td>
+              <td style="text-align:center" [style.width]="'10rem'">
+              <a role="button" (click)="openInmateApologyDialog(index)" pTooltip="{{'disciplineOffense.InmateApology' | translate}}" class="cursor-pointer" *ngIf="discCouncilOffense.disciplineCouncilId"> <i class="fa fa-sticky-note-o"></i> </a>
+              </td>
+              <td style="text-align:center" [style.width]="'10rem'"> {{discCouncilOffense.disciplineOffense.councilSpecificStatusLabel}}</td>
+              <td style="text-align:center" [style.width]="'10rem'"> {{discCouncilOffense.disciplineOffense.decisionName}}</td>
+              <td style="text-align:center" [style.width]="'10rem'">
+               <span *ngIf="discCouncilOffense.disciplineOffense.disciplineId && discCouncilOffense.disciplineCouncilId"><i class="fa fa-check color-green" pTooltip="{{'global.yes' | translate}}" tooltipPosition="top"></i></span>
+               <span *ngIf="!discCouncilOffense.disciplineOffense.disciplineId && discCouncilOffense.disciplineCouncilId"><i class="fa fa-ban color-dimgrey" pTooltip="{{'global.no' | translate}}" tooltipPosition="top"></i></span>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+          
+        </p-tabPanel>
+        
+        <!------------------------------------------ Αναφερόμενοι -------------------------------------------->
+  
+  
+        <!------------------------------------------ Αποφάσεις -------------------------------------------->
+        
+          <p-tabPanel header="disciplineDecision.view.decisions">
+  
+            <div class="grid">
+              <div class="col-12 button-container">
+                <button pButton type="button" label="{{'disciplineCouncil.disciplineDecisions.createDisciplines' | translate}}" class="p-button-info"
+                        icon="fa fa-plus-square" iconPos="left" (click)="createDisciplinesFromDisciplineDecisions(selectedDisciplineDecisions)">
+                </button>
+              </div>
+            </div>
+            
+            <ng-template pTemplate="header">
+            <span class="color-green">
+              <i class="fa fa-balance-scale"></i>
+              <span>{{'disciplineDecision.view.decisions' | translate}}</span>
+            </span>
+            </ng-template>
+  
+        <p-table [value]="disciplineCouncil.disciplineDecisions" styleClass="p-datatable-gridlines" appToitsuPTableCellWidth
+                 selectionMode="multiple" [(selection)]="selectedDisciplineDecisions">
+  
+          <ng-template pTemplate="header">
+            <tr>
+              <th [style.width]="'3rem'"></th>
+              <th [style.width]="'3rem'">
+                <p-tableHeaderCheckbox ></p-tableHeaderCheckbox>
+              </th>
+              <th [style.width]="'3rem'"></th>
+              <th [style.width]="'10rem'">{{'disciplineDecision.decisionNo' | translate}}</th>
+              <th [style.width]="'10rem'">{{'disciplineDecision.decisionDate' | translate}}</th>
+              <th [style.width]="'14rem'">{{'disciplineDecision.comments' | translate}}</th>
+              <th [style.width]="'3rem'"></th>
+            </tr>
+          </ng-template>
+          
+        <ng-template pTemplate="body" let-disciplineDecision let-index="rowIndex" >
+  
+          <tr class="p-fluid">
+            <td style="text-align:center" [style.width]="'3rem'" [style.justify-content]="'center'">{{index + 1}}</td>
+            <td style="text-align:center">
+              <p-tableCheckbox [value]="disciplineDecision" *ngIf="showDisciplineDecisionOnDisciplineDecisionsTable(disciplineDecision)"></p-tableCheckbox>
+              <span *ngIf="!showDisciplineDecisionOnDisciplineDecisionsTable(disciplineDecision)"><i class="fa fa-gavel color-green" pTooltip="{{'disciplineCouncil.disciplineDecisions.hasDisciplines' | translate}}" tooltipPosition="top"></i></span>
+            </td>
+            <td style="text-align:center" [style.width]="'3rem'" [style.justify-content]="'center'">
+              <p-button icon="fa fa-pencil-square-o" pTooltip="{{'disciplineDecision.view.disciplineDecisionData' | translate}}"
+                        (click)="openEditDisciplineDecisionDialog(index)">
+              </p-button>
+            </td>
+            <td style="text-align:center" [style.width]="'10rem'"> {{disciplineDecision.decisionNo}}</td>
+            <td style="text-align:center" [style.width]="'10rem'"> {{disciplineDecision.decisionDate}}</td>
+            <td style="text-align:center" [style.width]="'10rem'"> {{disciplineDecision.comments}}</td>
+            <td style="text-align:center" [style.width]="'3rem'" [style.justify-content]="'center'" class="button-container">
+              <app-field-revisions *ngIf="disciplineDecision.id" [entityClass]="'inm.core.domain.DisciplineDecision'"
+                                   [entityId]="disciplineDecision.id" [tableMode]="true"></app-field-revisions>
+              <button pButton type="button" class="p-button-danger"
+                      icon="{{(disciplineDecision.id ? 'fa fa-times' : 'fa fa-minus')}}" iconPos="left"
+                      pTooltip="{{(disciplineDecision.id ? 'global.delete' : 'global.remove') | translate}}"
+                      (click)="deleteDisciplineDecision(index, disciplineDecision.id)">
+              </button>
+            </td>
+          </tr>
+          
+        </ng-template>
+
+        </p-table>
+
+          </p-tabPanel>
+  
+  
+  
+        <!------------------------------------------ Αποφάσεις -------------------------------------------->
+  
+  
+        <!------------------------------------------ Πειθαρχικά -------------------------------------------->
+  
+          <p-tabPanel header="discipline.view.disciplines">
+            
+            <ng-template pTemplate="header">
+            <span class="color-red">
+              <i class="fa fa-frown-o"></i>
+              <span>{{'discipline.view.disciplines' | translate}}</span>
+            </span>
+            </ng-template>
+  
+            <p-table [value]="disciplinesOfDisciplineCouncil" styleClass="p-datatable-gridlines" appToitsuPTableCellWidth>
+  
+              <ng-template pTemplate="header">
+                <tr>
+                  <th [style.width]="'3rem'"></th>
+                  <th [style.width]="'3rem'"></th>
+                  <th [style.width]="'10rem'">{{'discipline.inmateId' | translate}}</th>
+                  <th [style.width]="'10rem'">{{'discipline.decisionName' | translate}}</th>
+                  <th [style.width]="'10rem'">{{'discipline.reportProtocolNo' | translate}}</th>
+                  <th [style.width]="'10rem'">{{'discipline.reason' | translate}}</th>
+                  <th [style.width]="'10rem'">{{'discipline.disciplinePenaltiesFullDescription' | translate}}</th>
+                  <th [style.width]="'10rem'">{{'discipline.points' | translate}}</th>
+                </tr>
+              </ng-template>
+  
+              <ng-template pTemplate="body" let-discipline let-index="rowIndex" >
+  
+                <tr class="p-fluid">
+                <td style="text-align:center" [style.width]="'3rem'" [style.justify-content]="'center'">{{index + 1}}</td>
+                <td style="text-align:center" [style.width]="'3rem'" [style.justify-content]="'center'">
+                  <p-button icon="fa fa-chevron-circle-right" pTooltip="{{'disciplineCouncil.disciplines.openDiscipline' | translate}}" (click)="openDisciplineViewLink(discipline)">
+                  </p-button>
+                </td>
+                  <td style="text-align:center" [style.width]="'10rem'"> {{discipline.inmateFullName}}</td>
+                <td style="text-align:center" [style.width]="'10rem'"> {{discipline.decisionName}}</td>
+                <td style="text-align:center" [style.width]="'10rem'"> {{discipline.reportProtocolNo}}</td>
+                <td style="text-align:center" [style.width]="'10rem'"> {{discipline.reason}}</td>
+                  <td style="text-align:center" [style.width]="'10rem'"> {{discipline.disciplinePenaltiesFullDescription}}</td>
+                <td style="text-align:center" [style.width]="'10rem'"> {{discipline.points}}</td>
+                </tr>
+                
+              </ng-template>
+
+            </p-table>
+
+
+          </p-tabPanel>
+  
+        <!------------------------------------------ Πειθαρχικά -------------------------------------------->
+        
+      </p-tabView>
+
+    </div>
+
+  </div>
+  
+  
+      <!--  Αναφερόμενοι/ Αποφάσεις/ Πειθαρχικά-->
+  
+  
+</form>

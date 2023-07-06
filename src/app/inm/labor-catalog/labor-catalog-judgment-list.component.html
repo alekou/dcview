@@ -1,0 +1,34 @@
+<div class="flipleft animation-duration-200">
+
+  <!--- Κουμπιά Ευρετηρίου --->
+  <div class="grid">
+    <div class="col-12 button-container">
+      <button pButton type="submit" label="{{'global.search' | translate}}" class="p-button-warning"
+              icon="fa fa-search" iconPos="left" (click)="loadTableData()">
+      </button>
+    </div>
+  </div>
+
+  <div class="grid">
+
+    <!--- Ευρετήριο Αποφάσεων Κρατουμένου --->
+    <div class="col-12 md:col-12">
+      <app-toitsu-table #table
+                        [url]="url"
+                        [cols]="cols"
+                        [first]="paging.first"
+                        [rows]="paging.rows"
+                        [sortField]="paging.sortField"
+                        [sortOrder]="paging.sortOrder"
+                        [args]="args"
+                        [excel]="true"
+                        [exportModel]="exportModel"
+                        [loadOnInit]="false"
+      >
+      </app-toitsu-table>
+    </div>
+
+  </div>
+
+</div>
+

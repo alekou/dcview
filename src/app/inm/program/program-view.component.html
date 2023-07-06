@@ -1,0 +1,171 @@
+<form>
+  
+  <div class="grid">
+    <div class="col-12 button-container flex-container">
+      <div class="flex-container-start">
+        <button pButton type="button" *ngIf="!lockedRecord()"
+                label="{{'global.save' | translate}}" class="p-button-success"
+                icon="fa fa-save" iconPos="left" (click)="saveProgram()">
+        </button>
+        <button pButton type="button" *ngIf="id && !lockedRecord()"
+                label="{{'global.delete' | translate}}" class="p-button-danger"
+                icon="fa fa-trash" iconPos="left" (click)="deleteProgram()">
+        </button>
+        <button pButton type="button" label="{{'global.newRecord' | translate}}" class="p-button-info" *ngIf="id"
+                icon="fa fa-plus" iconPos="left" (click)="newRecord()">
+        </button>
+        <button pButton type="button" label="{{'global.index' | translate}}" class="p-button-help"
+                icon="fa fa-table" iconPos="left" (click)="goToList()">
+        </button>
+        <app-other-dc-name [dcId]="program.dcId"></app-other-dc-name>
+      </div>
+      <div class="flex-container-end">
+        <app-documents [entity]="'PROGRAM'" [entityId]="id"></app-documents>
+        <app-field-revisions *ngIf="id" [entityClass]="'inm.core.domain.Program'" [entityId]="id"></app-field-revisions>
+      </div>
+    </div>
+  </div>
+  
+  <div class="grid" appToitsuLockControls [lockCondition]="lockedRecord()">
+    
+    <div class="col-12 md:col-6 p-fluid">
+      
+      <p-panel header="{{'program.view.data' | translate}}">
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'program.programTypeId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="program.programTypeId" [options]="programTypes"
+                        name="programTypeId" (ngModelChange)="programTypeChanged()"
+                        optionValue="id" optionLabel="fullDescription" [disabled]="!!id"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}"
+                        emptyFilterMessage="{{'global.noResultsFound' | translate}}">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'program.status' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="program.status" name="status" [options]="statuses" [disabled]="true" optionValue="value" optionLabel="label"
+                        placeholder="{{'global.selectOption' | translate}}">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center" *ngIf="certification">
+          <label class="col-12 sm:col-4">{{'program.certification' | translate}}</label>
+          <div class="col-12 md:col-2">
+            <p-checkbox [(ngModel)]="program.certification" name="certification" [binary]="true"></p-checkbox>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'program.description' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="program.description" name="description" rows="8"></textarea>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'program.goal' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="program.goal" name="goal" rows="8"></textarea>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'program.subsidizer' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="program.subsidizer" name="subsidizer">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'program.startDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="program.startDate" name="startDate"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'program.endDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="program.endDate" name="endDate"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'program.totalHours' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-inputNumber [(ngModel)]="program.totalHours" name="totalHours"></p-inputNumber>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'program.professionId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="program.professionId" name="professionId" [options]="professions" optionValue="id" optionLabel="name"
+                        placeholder="{{'global.selectOption' | translate}}" [showClear]="true" [filter]="true"
+                        [disabled]="program.status === 'ΑPPROVED' || program.status === 'COMPLETE'"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}">
+            </p-dropdown>
+          </div>
+        </div>
+      
+      </p-panel>
+    
+    </div>
+    
+    <div class="col-12">
+      
+      <p-panel header="{{'program.view.applications' | translate}}" *ngIf="!!id">
+        
+        <app-toitsu-table #table
+                          [url]="programApplicationsUrl"
+                          [cols]="programApplicationCols"
+                          [first]="paging.first"
+                          [rows]="paging.rows"
+                          [sortField]="paging.sortField"
+                          [sortOrder]="paging.sortOrder"
+                          [args]="args"
+                          [loadOnInit]="true">
+          <ng-template let-rowData #cell1>
+            <a class="cursor-pointer"
+               href="{{programApplicationViewLink}}/{{rowData.id}}" target="_blank"
+               pTooltip="{{'global.display' | translate}}" tooltipPosition="right">
+              <i class="fa fa-external-link"></i>
+            </a>
+          </ng-template>
+        </app-toitsu-table>
+      
+      </p-panel>
+      
+      <p-panel header="{{'program.view.inmateLabors' | translate}}" *ngIf="!!id">
+        
+        <app-toitsu-table #table
+                          [url]="inmateLaborsUrl"
+                          [cols]="inmateLaborCols"
+                          [first]="paging.first"
+                          [rows]="paging.rows"
+                          [sortField]="paging.sortField"
+                          [sortOrder]="paging.sortOrder"
+                          [args]="args"
+                          [loadOnInit]="true">
+          <ng-template let-rowData #cell1>
+            <a class="cursor-pointer"
+               href="{{inmateLaborViewLink}}/{{rowData.id}}" target="_blank"
+               pTooltip="{{'global.display' | translate}}" tooltipPosition="right">
+              <i class="fa fa-external-link"></i>
+            </a>
+          </ng-template>
+        </app-toitsu-table>
+      
+      </p-panel>
+    
+    </div>
+  
+  </div>
+
+</form>

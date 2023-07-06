@@ -1,0 +1,36 @@
+.printout-header {
+  padding-top: 0.4rem;
+  padding-bottom: 0.4rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+.printout-message {
+  padding: 0.4rem 0.8rem;
+  border-radius: 1rem;
+}
+
+.hover-transparent:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 0.3rem;
+}
+
+.padding-top {
+  padding-top: 0.9rem;
+}
+
+.font-settings {
+  background-color: rgba(0, 0, 0, 0.1);
+  padding: 0.4rem 0.8rem;
+  border-radius: 0.3rem;
+  font-size: 1.5rem;
+  font-weight: normal;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+.custom-scroll {
+  max-height: 25rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+}

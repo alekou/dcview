@@ -1,0 +1,154 @@
+<div class="flipleft animation-duration-200" >
+
+  <p-panel class="inmate-photo-gallery-panel" toggleable="true" *ngIf="model.id">
+
+    <ng-template pTemplate="header">
+      <div class="font-weight-600" *ngIf="!hideUtils">
+        {{'inmatePhoto.photos' | translate}}
+      </div>
+      <div class="font-weight-600" *ngIf="hideUtils">
+        {{'inmatePhoto.photo' | translate}}
+      </div>
+    </ng-template>
+
+    <!--- Εικονίδια/κουμπιά για προσθήκη φωτογραφιών --->
+    <ng-template pTemplate="icons" *ngIf="authService.getUserDcId() === model.inmateRecord.dcId && !hideUtils">
+      <a pTooltip="{{'inmatePhoto.uploadPhotos' | translate}}" tooltipPosition="left" (click)="openInmatePhotoUploadDialog()">
+        <i class="fa fa-upload color-green p-panel-header-icon p-link"></i>
+      </a>
+      <a pTooltip="{{'inmatePhoto.captureNewPhoto' | translate}}" tooltipPosition="left" (click)="openInmatePhotoCaptureDialog()">
+        <i class="fa fa-camera color-noir p-panel-header-icon p-link"></i>
+      </a>
+      <a>
+        <i></i>
+      </a>
+    </ng-template>
+
+    <div class="grid">
+      <div class="col-12 md:col-12 p-fluid">
+
+        <!--- Εμφάνιση spinner κατά την φόρτωση των φωτογραφιών του κρατουμένου από την βάση δεδομένων --->
+        <i class="flex align-items-center justify-content-center fa fa-spinner fa-pulse" *ngIf="loading"></i>
+
+
+        <!--- Προβολή Φωτογραφιών Κρατουμένου --->
+        <p-card class="padding-right-10 padding-bottom-10" *ngIf="totalInmatePhotos > 0 && !loading">
+          <div>
+            <!--- Προβολή επιλεγμένης φωτογραφίας --->
+            <div class="align-items-center justify-content-center animation-duration-1000 zoomin">
+              <p-image class="selected-inmate-photo-content animation-duration-500 zoomin"
+                       [preview]="true" src="data:image/png;base64, {{selectedInmatePhoto.mediumBlob}}" alt="{{'inmatePhoto.photo' | translate}}"
+                       [width]="selectedInmatePhotoDimensions.width" [height]="selectedInmatePhotoDimensions.height">
+                <ng-template pTemplate="indicator">
+                  <i class="fa fa-eye" pTooltip="{{'inmatePhoto.showPhoto' | translate}}" tooltipPosition="right"></i>
+                </ng-template>
+              </p-image>
+            </div>
+            <!--- Προβολή των thumbnails των φωτογραφιών--->
+            <div *ngIf="!hideUtils">
+              <div class="flex align-items-center justify-content-start photo-thumbnails-row">
+                <div *ngFor="let inmatePhoto of inmatePhotos; let i = index">
+                  <div class="photo-thumbnails-column flipright">
+                    <div class="image-container">
+                      <img class="p-link" src="data:image/png;base64, {{inmatePhoto.thumbnailBlob}}" alt="{{'inmatePhoto.thumbnail' | translate}}"
+                           (click)="selectedInmatePhotoChanged(i)"
+                      />
+                      <span class="top-left">
+                      <i class="fa fa-check color-green" *ngIf="inmatePhoto.current"
+                         pTooltip="{{'inmatePhoto.tooltip.currentInmatePhoto' | translate}}" tooltipPosition="top">
+                      </i>
+                    </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!--- Προβολή πληροφοριών/λειτουργιών επιλεγμένης φωτογραφίας κρατουμένου --->
+          <ng-template pTemplate="footer" *ngIf="!hideUtils">
+            <div class="grid">
+              <!--- Πληροφορίες Επιλεγμένης Φωτογραφίας --->
+              <div class="col-5 flex align-items-center justify-content-center">
+              <span class="font-light">
+                <div>
+                  <span class="font-bold">{{'inmatePhoto.photoDate' | translate}}:&nbsp;</span>
+                  <span class="font-italic">{{selectedInmatePhoto.photoDate}}</span>
+                </div>
+                <div>
+                  <span class="font-bold">{{'inmatePhoto.comments' | translate}}:&nbsp;</span>
+                  <span *ngIf="selectedInmatePhoto.comments">{{selectedInmatePhoto.comments}}</span>
+                  <span *ngIf="!selectedInmatePhoto.comments">-</span>
+                </div>
+                <div>
+                  <span class="font-bold">{{'inmatePhoto.current' | translate}}:&nbsp;</span>
+                  <i class="fa fa-check-circle color-green" *ngIf="selectedInmatePhoto.current"
+                     pTooltip="{{'inmatePhoto.tooltip.currentInmatePhoto' | translate}}" tooltipPosition="right">
+                  </i>
+                  <i class="fa fa-history color-steelblue" *ngIf="!selectedInmatePhoto.current"
+                     pTooltip="{{'inmatePhoto.tooltip.notCurrentInmatePhoto' | translate}}" tooltipPosition="right">
+                  </i>
+                </div>
+              </span>
+              </div>
+              <!--- Διαχωριστικό --->
+              <div class="col-2">
+                <p-divider layout="vertical">
+                  <i class="fa fa-superpowers" aria-hidden="true"></i>
+                </p-divider>
+              </div>
+              <!--- Λειτουργίες Επιλεγμένης Φωτογραφίας --->
+              <div class="col-5 flex align-items-center justify-content-center">
+              <span class="grid">
+                <!--- Κουμπιά Λειτουργιών --->
+              <span class="col-12 button-container">
+                <button *ngIf="!selectedInmatePhoto.current"
+                        pButton type="button" class="p-button-rounded p-button-help p-button-outlined flipleft"
+                        pTooltip="{{'inmatePhoto.tooltip.setAsCurrentInmatePhoto' | translate}}" tooltipPosition="top"
+                        icon="fa fa-exchange" iconPos="left"
+                        (click)="swapCurrentInmatePhoto(this.currentInmatePhoto, selectedInmatePhoto)">
+                </button>
+                <button pButton type="button" class="p-button-rounded p-button-info p-button-outlined flipleft"
+                        pTooltip="{{'inmatePhoto.tooltip.download' | translate}}" tooltipPosition="top"
+                        icon="fa fa-download" iconPos="left"
+                        [loading]="downloadLoading" loadingIcon="fa fa-spinner fa-pulse"
+                        (click)="downloadInmatePhoto(selectedInmatePhoto.id)">
+                </button>
+                <button pButton type="button" class="p-button-rounded p-button-danger p-button-outlined flipleft"
+                        pTooltip="{{'inmatePhoto.tooltip.delete' | translate}}" tooltipPosition="top"
+                        icon="fa fa-trash-o" iconPos="left" (click)="deleteInmatePhoto(selectedInmatePhoto.id)">
+                </button>
+              </span>
+            </span>
+              </div>
+            </div>
+          </ng-template>
+        </p-card>
+
+
+        <!--- Δεν υπάρχουν φωτογραφίες για τον κρατούμενο --->
+        <div *ngIf="totalInmatePhotos === 0">
+          <p-card>
+            <div class="flex align-items-center justify-content-center">
+              <i class="fa fa-info-circle" aria-hidden="true"></i>
+              <p class="font-italic">{{'inmatePhoto.thereAreNoPhotos' | translate}}: </p>
+            </div>
+            <div class="flex align-items-center justify-content-center">
+              <p>{{inmateFullName}}</p>
+            </div>
+          </p-card>
+        </div>
+
+      </div>
+    </div>
+
+    <!--- Προβολή συνολικού αριθμού των φωτογραφιών του κρατουμένου --->
+    <ng-template pTemplate="footer" *ngIf="model.id && !hideUtils">
+      <div class="grid grid-nogutter justify-content-end">
+        <label class="font-light font-italic">{{'inmatePhoto.total' | translate}}:&nbsp;{{totalInmatePhotos}}</label>
+      </div>
+    </ng-template>
+
+  </p-panel>
+
+</div>

@@ -1,0 +1,15 @@
+{
+  "appeal.inmateId": "Κρατούμενος",
+  "appeal.creationDate": "Ημερομηνία Δημιουργίας",
+  "appeal.serialNo": "Αύξων Αριθμός",
+  "appeal.protocolNo": "Αριθμός Πρωτοκόλλου",
+  "appeal.appealTypePid": "Είδος",
+  "appeal.courthouseId": "Δικαστήριο",
+  "appeal.judgmentId": "Απόφαση",
+  "appeal.judgmentText": "Λεκτικό Απόφασης",
+  "appeal.comments": "Παρατηρήσεις",
+
+  "appeal.args.inmateCode" : "Α.Γ.Μ. Κρατουμένου",
+
+  "appeal.view.appealData": "Στοιχεία Ένδικου Μέσου"
+}

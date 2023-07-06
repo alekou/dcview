@@ -1,0 +1,226 @@
+<form>
+  <div class="grid">
+    <div class="col-12 button-container">
+      <button pButton type="button"
+              label="{{'global.save' | translate}}" class="p-button-success"
+              icon="fa fa-save" iconPos="left" (click)="saveMedicine()">
+      </button>
+      <button pButton type="button" *ngIf="id"
+              label="{{'global.delete' | translate}}" class="p-button-danger"
+              icon="fa fa-trash" iconPos="left" (click)="deleteMedicine()">
+      </button>
+      <button pButton type="button" *ngIf="id" label="{{'global.newRecord' | translate}}" class="p-button-info"
+              icon="fa fa-plus" iconPos="left" (click)="newRecord()">
+      </button>
+      <button pButton type="button" label="{{'global.index' | translate}}" class="p-button-help"
+              icon="fa fa-table" iconPos="left" (click)="goToList()">
+      </button>
+    </div>
+  </div>
+  <div class="grid">
+    
+    <div class="col-12 md:col-6 p-fluid">
+      
+      <p-panel header="{{'medicine.id.details' | translate}}">
+        
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'medicine.categoryId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="medicine.categoryId" (ngModelChange)="categoryChanged()" [options]="categories" name="categoryId"
+                        optionValue="id" optionLabel="description"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}"
+                        emptyFilterMessage="{{'global.noResultsFound' | translate}}" [showClear]="true">
+            </p-dropdown>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'medicine.subCategoryId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="medicine.subCategoryId" [options]="retrievedSubCategories" name="subCategoryId"
+                        optionValue="id" optionLabel="description"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}"
+                        emptyFilterMessage="{{'global.noResultsFound' | translate}}" [showClear]="true">
+            </p-dropdown>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'medicine.code' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input pInputText [(ngModel)]="medicine.code" name="code">
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'medicine.secondaryCode' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input pInputText [(ngModel)]="medicine.secondaryCode" name="secondaryCode">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'medicine.characterizationPid' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-select-gen-parameter [type]="pCharacterization" [(model)]="medicine.characterizationPid" name="characterizationPid"></app-select-gen-parameter>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'medicine.eofCode' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input pInputText [(ngModel)]="medicine.eofCode" name="eofCode">
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'medicine.medicineName' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input pInputText [(ngModel)]="medicine.medicineName" name="medicineName">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{ 'medicine.isPsychiatric' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox binary="true" [(ngModel)]="medicine.isPsychiatric" name="isPsychiatric"></p-checkbox>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{ 'medicine.isAntiRetroViral' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox binary="true" [(ngModel)]="medicine.isAntiRetroViral" name="isAntiRetroViral"></p-checkbox>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{ 'medicine.isVaccine' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox binary="true" [(ngModel)]="medicine.isVaccine" name="isVaccine"></p-checkbox>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{ 'medicine.isInjectable' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox binary="true" [(ngModel)]="medicine.isInjectable" name="isInjectable"></p-checkbox>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'medicine.shape' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input pInputText [(ngModel)]="medicine.shape" name="shape">
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'medicine.content' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input pInputText [(ngModel)]="medicine.content" name="content">
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'medicine.packing' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input pInputText [(ngModel)]="medicine.packing" name="packing">
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'medicine.atc' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input pInputText [(ngModel)]="medicine.atc" name="atc">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'medicine.substancesPid' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-select-gen-parameter [type]="pSubstance" [(model)]="medicine.substancesPid" name="substancesPid"></app-select-gen-parameter>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'medicine.supplierId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="medicine.supplierId" [options]="suppliers" name="supplierId"
+                        optionValue="id" optionLabel="title"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}"
+                        emptyFilterMessage="{{'global.noResultsFound' | translate}}" [filter]="true" [showClear]="true">
+            </p-dropdown>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{ 'medicine.isParamedical' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox binary="true" [(ngModel)]="medicine.isParamedical" name="isParamedical"></p-checkbox>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{ 'medicine.isGeneric' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox binary="true" [(ngModel)]="medicine.isGeneric" name="isGeneric"></p-checkbox>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'medicine.typePid' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-select-gen-parameter [type]="pMedicineType" [(model)]="medicine.typePid" name="typePid"></app-select-gen-parameter>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'medicine.comments' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="medicine.comments" name="comments" rows="5"></textarea>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'medicine.isInactive' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox binary="true" [(ngModel)]="medicine.isInactive" name="isInactive"></p-checkbox>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'medicine.withDrawalDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="medicine.withDrawalDate" name="withDrawalDate"></app-toitsu-calendar>
+          </div>
+        </div>
+      </p-panel>
+    </div>
+    
+    <div class="col-12 md:col-6 p-fluid">
+      <p-panel header="{{'medicine.generic.details' | translate}}">
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'medicine.measurementUnitPid' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-select-gen-parameter [type]="pMeasurementUnit" [(model)]="medicine.measurementUnitPid" name="measurementUnitPid">
+            </app-select-gen-parameter>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'medicine.quantityPerPacket' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-inputNumber [(ngModel)]="medicine.quantityPerPacket" name="quantityPerPacket"></p-inputNumber>
+          </div>
+        </div>
+        
+      </p-panel>
+    </div>
+  </div>
+</form>  

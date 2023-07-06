@@ -1,0 +1,18 @@
+{
+  "template.isActive": "Ενεργό",
+  "template.title": "Τίτλος",
+  "template.application": "Εφαρμογή",
+  "template.entity": "Ενοτητα Φόρμας",
+  "template.category": "Κατηγορία",
+  "template.definition": "Βασική Πηγή Δεδομένων",
+  "template.doctorType": "Τύπος Ιατρού",
+  "template.reportCode": "Κωδικός Φόρμας",
+  "template.canEditReport": "Δυνατότητα Επεξεργασίας Φόρμας",
+  "template.creationDate": "Ημ/νία Δημιουργίας",
+  "template.comments": "Παρατηρήσεις",
+  
+  "template.view.templateData": "Στοιχεία Προτύπου",
+  
+  "template.select.dialogTitle": "Επιλογή Προτύπου",
+  "template.view.tab.templateList": "Λίστα Προτύπων"
+}

@@ -1,0 +1,73 @@
+<form>
+  <div class="grid">
+    <div class="col-12 button-container">
+      <button pButton type="button"
+              label="{{'global.save' | translate}}" class="p-button-success"
+              icon="fa fa-save" iconPos="left" (click)="saveGateMovementType()">
+      </button>
+      <button pButton type="button" *ngIf="id"
+              label="{{'global.delete' | translate}}" class="p-button-danger"
+              icon="fa fa-trash" iconPos="left" (click)="deleteGateMovementType()">
+      </button>
+      <button pButton type="button" *ngIf="id" label="{{'global.newRecord' | translate}}" class="p-button-info"
+              icon="fa fa-plus" iconPos="left" (click)="newRecord()">
+      </button>
+      <button pButton type="button" label="{{'global.index' | translate}}" class="p-button-help"
+              icon="fa fa-table" iconPos="left" (click)="goToList()">
+      </button>
+    </div>
+  </div>
+  <div class="grid">
+    
+    <div class="col-12 md:col-6 p-fluid">
+      
+      <p-panel header="{{'gateMovement.movementKind' | translate}}">
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'gateMovementType.movementKind' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [disabled]="!!id" [(ngModel)]="gateMovementType.movementKind" name="movementKind"  [options]="gateMovementTypeKinds" optionValue="value" optionLabel="label"
+                        placeholder="{{'global.selectOption' | translate}}" [showClear]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center" *ngIf="gateMovementType.movementKind === 'INMATE'">
+          <label class="col-12 sm:col-4 font-bold">{{'gateMovementType.reasonForInmateMovementKind' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="gateMovementType.reasonForInmateMovementKind"  name="reasonForInmateMovementKind"
+                        [options]="reasonForInmateMovementKinds" optionValue="value"
+                        emptyMessage="{{'global.noResultsFound' | translate}}"
+                        emptyFilterMessage="{{'global.noResultsFound' | translate}}" optionLabel="label"
+                        placeholder="{{'global.selectOption' | translate}}" [showClear]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'gateMovementType.description' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="gateMovementType.description" name="description" rows="5"></textarea>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'gateMovementType.inOutKind' | translate}}</label>
+          <div class="col-12 sm:col-2" *ngFor="let direction of defaultInOutKinds">
+            <p-radioButton name="defaultInOutKind" [value]="direction.value" [label]="direction.label" [(ngModel)]="gateMovementType.defaultInOutKind"></p-radioButton>
+            
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'gateMovementType.comments' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="gateMovementType.comments" name="comments" rows="5"></textarea>
+          </div>
+        </div>
+        
+      </p-panel>
+    </div>
+  </div>
+
+</form>

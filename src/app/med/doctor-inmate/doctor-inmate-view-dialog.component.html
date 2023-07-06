@@ -1,0 +1,59 @@
+<form>
+  <div class="grid">
+    <div class="col-12">
+      <app-other-dc-name [dcId]="doctorInmate.dcId"></app-other-dc-name>
+    </div>
+  </div>
+  <div class="grid">
+    <div class="col-12 p-fluid">
+      <p-panel header="{{'DoctorInmate.details' | translate}}">
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'doctorInmate.doctorId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="doctorInmate.doctorId" [options]="allDoctors" name="doctorId" optionValue="id" optionLabel="fullName"
+                        placeholder="{{'global.selectOption' | translate}}" emptyMessage="{{'global.noResultsFound' | translate}}"
+                        emptyFilterMessage="{{'global.noResultsFound' | translate}}" [showClear]="true" [filter]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{ 'doctorInmate.isActive' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox binary="true" [(ngModel)]="doctorInmate.isActive" (ngModelChange)="isActiveChecked()" name="isActive"></p-checkbox>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'doctorInmate.fromDate' | translate}}</label>
+          <div class="col-12 sm:col-8 inline-flex align-items-center">
+            <app-toitsu-calendar class="flex-grow" [(model)]="doctorInmate.fromDate" name="fromDate"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'doctorInmate.toDate' | translate}}</label>
+          <div class="col-12 sm:col-8 inline-flex align-items-center">
+            <app-toitsu-calendar class="flex-grow" [(model)]="doctorInmate.toDate" name="toDate"></app-toitsu-calendar>
+          </div>
+        </div>
+      
+      </p-panel>
+    </div>
+  </div>
+  
+  <div class="grid">
+    <div class="col-12 button-container text-align-end m-1">
+      <button pButton type="button" label="{{'global.save' | translate}}" class="p-button-success"
+              icon="fa fa-save" iconPos="left" (click)="saveDoctorInmate()">
+      </button>
+      <button pButton type="button" label="{{'global.delete' | translate}}" class="p-button-danger"
+              icon="fa fa-save" iconPos="left" *ngIf="doctorInmate.id" (click)="deleteDoctorInmate()">
+      </button>
+      <button pButton type="button" label="{{'global.cancel' | translate}}" class="p-button-warning"
+              icon="fa fa-times" iconPos="left" (click)="cancel()">
+      </button>
+    </div>
+  </div>
+</form>

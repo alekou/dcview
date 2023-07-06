@@ -1,0 +1,13 @@
+{
+  "disease.inmateId": "Κρατούμενος",
+  "disease.diseaseTypeId": "Πάθηση",
+  "disease.diagnosisDate": "Ημερομηνία Διάγνωσης",
+  "disease.progression": "Εξέλιξη",
+  "disease.isChronic": "Χρόνια",
+  "disease.view.diseaseTypeCategoryPid": "Κατηγορία Πάθησης",
+  "disease.diseaseTypeIdDescription": "Περιγραφή Πάθησης",
+  "disease.details": "Στοιχέια Πάθησης",
+  "disease.symptoms": "Συμπτώματα",
+  
+  "disease.dialog.title": "Πάθηση Κρατουμένου"
+}

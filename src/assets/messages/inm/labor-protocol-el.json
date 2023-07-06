@@ -1,0 +1,32 @@
+{
+  "laborProtocol.protocolNo": "Αριθμός Πρακτικού",
+  "laborProtocol.protocolDate": "Ημερομηνία Πρακτικού",
+  "laborProtocol.startDate": "Ημερομηνία Έναρξης",
+  "laborProtocol.endDate": "Ημερομηνία Λήξης",
+  "laborProtocol.type": "Τύπος",
+  "laborProtocol.professionCategoryPid": "Κατηγορία Θέσης Εργασίας",
+  "laborProtocol.comments": "Παρατηρήσεις",
+  "laborProtocol.approved": "Έγκριση",
+  "laborProtocol.approvalDate": "Ημερομηνία Έγκρισης",
+  
+  "laborProtocol.view.protocolData": "Στοιχεία Πρακτικού",
+  "laborProtocol.view.argsInmates": "Κρατούμενοι",
+  "laborProtocol.view.laborDays": "Ημερομίσθια",
+  
+  "laborProtocol.view.button.getLaborDaysForProtocol": "Αναζήτηση Ημερομισθίων",
+  "laborProtocol.view.noLaborDaysFound": "Δε βρέθηκαν ημερομίσθια.",
+  "laborProtocol.view.overlappingLaborDaysExist": "Βρέθηκαν ημερομίσθια που δεν είναι ακριβώς μέσα στο εύρος ημερομηνιών που ορίσατε. Μπορείτε να τα αναζητήσετε μέσω του ευρετηρίου ημερομισθίων.",
+  
+  "laborProtocol.view.groupedLaborDays.index": "Α/Α",
+  "laborProtocol.view.groupedLaborDays.inmateFullName": "Κρατούμενος",
+  "laborProtocol.view.groupedLaborDays.professionName": "Θέση Εργασίας",
+  "laborProtocol.view.groupedLaborDays.inmateLaborStartDate": "Εργασία Από",
+  "laborProtocol.view.groupedLaborDays.inmateLaborActualEndDate": "Εργασία Έως",
+  "laborProtocol.view.groupedLaborDays.factor": "Συντελεστής",
+  "laborProtocol.view.groupedLaborDays.workDays": "Ημέρες Εργασίας",
+  "laborProtocol.view.groupedLaborDays.beneficialCalculation": "Ευεργετικός Υπολογισμός",
+  
+  "laborProtocol.view.approve.button": "Έγκριση Πρακτικού",
+  "laborProtocol.view.approve.confirmation": "Είστε βέβαιοι για την έγκριση του πρακτικού ημερομισθίων;",
+  "laborProtocol.view.approve.success": "Το πρακτικό εγκρίθηκε με επιτυχία."
+}

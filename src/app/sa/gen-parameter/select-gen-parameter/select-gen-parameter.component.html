@@ -1,0 +1,41 @@
+<div class="display-flex align-items-start">
+  <p-dropdown *ngIf="!multipleSelection" [(ngModel)]="model" (ngModelChange)="emitModelChange()" name="{{name}}" 
+              [options]="genParameters" optionValue="id" optionLabel="description"
+              [disabled]="disabled || type.isBigList"
+              class="width-100percent" styleClass="{{(type.isBigList && !disabled) ? 'dropdown-appear-unlocked' : ''}}"
+              placeholder="{{(type.isBigList) ? ('global.searchViaDialog' | translate) : ('global.selectOption' | translate)}}"
+              emptyMessage="{{'global.noResultsFound' | translate}}" 
+              emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+              [showClear]="true" [filter]="true" appendTo="body">
+    <ng-template pTemplate="emptyfilter">
+      <div>
+        {{'global.noResultsFound' | translate}}
+      </div>
+      <button pButton type="button" *ngIf="type.isEditable && !hideAdd"
+              class="p-button-info margin-top-10" icon="fa fa-plus" label="{{'global.add' | translate}}" 
+              (click)="openViewDialog()">
+      </button>
+    </ng-template>
+  </p-dropdown>
+  
+  <p-multiSelect *ngIf="multipleSelection" [(ngModel)]="models" (ngModelChange)="emitModelsChange()" name="{{name}}"
+             [options]="genParameters" optionValue="id" optionLabel="description" [disabled]="disabled || type.isBigList"
+             class="width-100percent" styleClass="{{(type.isBigList && !disabled) ? 'multiselect-without-clear multiselect-appear-unlocked' : 'multiselect-without-clear'}}"
+             placeholder="{{(type.isBigList) ? ('global.searchViaDialog' | translate) : ('global.selectOption' | translate)}}"
+             emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+             [showClear]="true" [filter]="true" appendTo="body" display="chip">
+    <ng-template pTemplate="emptyfilter">
+      <div>{{'global.noResultsFound' | translate}}</div>
+      <button pButton type="button" *ngIf="type.isEditable && !hideAdd" class="p-button-info margin-top-10" 
+              icon="fa fa-plus" label="{{'global.add' | translate}}" (click)="openViewDialog()">
+      </button>
+    </ng-template>
+  </p-multiSelect>
+  
+  <button pButton type="button" *ngIf="(type.isBigList || type.isHierarchical) && !disabled && !hasModel()"
+          class="p-button-info" icon="fa fa-search" pTooltip="{{'global.search' | translate}}" (click)="openListDialog()">
+  </button>
+  <button pButton type="button" *ngIf="(type.isBigList || type.isHierarchical) && !disabled && hasModel()"
+          class="p-button-info" icon="fa fa-times" pTooltip="{{'global.remove' | translate}}" (click)="removeRecord()">
+  </button>
+</div>

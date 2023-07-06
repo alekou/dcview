@@ -1,0 +1,187 @@
+<!--- Πληροφορίες Κρατουμένου --->
+<div class="grid">
+
+  <!--- Στοιχεία Κρατουμένου --->
+  <div class="col-12 md:col-6 p-fluid flipleft animation-duration-200">
+
+    <p-panel header="{{'laborCatalog.inmateData' | translate}}" toggleable="true">
+
+      <p-card>
+
+        <!--- Αριθμός Γενικού Μητρώου --->
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'laborCatalog.inmateData.masterInmate.code' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText class="font-semibold" name="masterInmate.code" [disabled]="true" [(ngModel)]="laborCatalog.inmate.code"/>
+          </div>
+        </div>
+
+        <!--- Επώνυμο Κρατουμένου --->
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'laborCatalog.inmateData.inmate.lastName' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText class="font-semibold" name="inmate.lastName" [disabled]="true" [(ngModel)]="laborCatalog.inmate.lastName"/>
+          </div>
+        </div>
+
+        <!--- Όνομα Κρατουμένου --->
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'laborCatalog.inmateData.inmate.firstName' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText class="font-semibold" name="inmate.firstName" [disabled]="true" [(ngModel)]="laborCatalog.inmate.firstName"/>
+          </div>
+        </div>
+
+        <!--- Πατρώνυμο Κρατουμένου --->
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'laborCatalog.inmateData.inmate.fatherName' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText class="font-semibold" name="inmate.fatherName" [disabled]="true" [(ngModel)]="laborCatalog.inmate.fatherName"/>
+          </div>
+        </div>
+
+        <!--- Μητρώνυμο Κρατουμένου --->
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'laborCatalog.inmateData.inmate.motherName' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText class="font-semibold" name="inmate.motherName" [disabled]="true" [(ngModel)]="laborCatalog.inmate.motherName"/>
+          </div>
+        </div>
+
+        <!--- Τελευταία Κράτηση --->
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'laborCatalog.inmateData.inmate.lastInmateRecord' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText class="font-semibold" name="inmate.lastInmateRecord" [disabled]="true" [(ngModel)]="laborCatalog.lastInmateRecordDetails"/>
+          </div>
+        </div>
+
+        <!--- Απουσία --->
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'laborCatalog.inmateData.inmate.absence' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea class="font-semibold" name="inmate.absence" rows="2"
+                      [disabled]="true" [(ngModel)]="laborCatalog.inmateAbsenceDescription">
+            </textarea>
+          </div>
+        </div>
+
+        <!--- Τελευταία Ενεργή Θέση --->
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'laborCatalog.inmateData.inmate.lastActiveInmateArea' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea class="font-semibold" name="inmate.lastActiveInmateArea" rows="2"
+                      [disabled]="true" [(ngModel)]="laborCatalog.lastActiveInmateAreaFullDescription">
+            </textarea>
+          </div>
+        </div>
+
+        <!--- Τελευταία Εργασία --->
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'laborCatalog.inmateData.inmate.lastInmateLabor' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea class="font-semibold" name="inmate.lastInmateLabor" rows="2"
+                      [disabled]="true" [(ngModel)]="laborCatalog.lastInmateLaborDetails">
+            </textarea>
+          </div>
+        </div>
+
+        <!--- Αριθμός Βιβλίου --->
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'laborCatalog.inmateData.inmate.bookNo' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText class="font-semibold" name="inmate.bookNo" [disabled]="true" [(ngModel)]="laborCatalog.bookNo"/>
+          </div>
+        </div>
+
+        <!--- Συνολικός Ευεργετικός --->
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'laborCatalog.inmateData.inmate.totalBeneficialValue' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText class="font-semibold" name="inmate.totalBeneficialValue" [disabled]="true" [(ngModel)]="laborCatalog.beneficialCalculation"/>
+          </div>
+        </div>
+
+      </p-card>
+
+    </p-panel>
+
+  </div>
+
+
+  <!--- Τρέχουσα Φωτογραφία Κρατουμένου --->
+  <div class="col-12 md:col-6">
+
+    <!--- Φωτογραφία Κρατουμένου --->
+    <app-inm-inmate-photo-view-panel
+      [model]="inmate" name="inmatePhoto.inmateId" [hideUtils]="true">
+    </app-inm-inmate-photo-view-panel>
+
+  </div>
+
+</div>
+
+
+<!--- Κατάλογος/Ευρετήρια --->
+<div class="grid flipleft animation-duration-200">
+  <div class="col-12">
+
+    <p-panel header="{{'laborCatalog.catalog' | translate}}" #tablePanel>
+
+      <p-tabView>
+        <!--- Ευρετήριο Ημερομισθίων Κρατουμένου --->
+        <p-tabPanel>
+          <ng-template pTemplate="header">
+            <span class="font-bold color-green">
+              <i class="fa fa-book"></i>
+              <span>{{'laborCatalog.laborDays' | translate}}</span>
+            </span>
+          </ng-template>
+          <app-inm-labor-catalog-labor-day-list [model]="laborCatalog"></app-inm-labor-catalog-labor-day-list>
+        </p-tabPanel>
+        <!--- Ευρετήριο Αποφάσεων Κρατουμένου --->
+        <p-tabPanel>
+          <ng-template pTemplate="header">
+            <span class="font-bold color-red">
+              <i class="fa fa-gavel"></i>
+              <span>{{'laborCatalog.judgments' | translate}}</span>
+            </span>
+          </ng-template>
+          <app-inm-labor-catalog-judgment-list [model]="laborCatalog"></app-inm-labor-catalog-judgment-list>
+        </p-tabPanel>
+        <!--- Ευρετήριο Εργασιών Κρατουμένου --->
+        <p-tabPanel>
+          <ng-template pTemplate="header">
+            <span class="font-bold color-orange">
+              <i class="fa fa-wrench"></i>
+              <span>{{'laborCatalog.inmateLabors' | translate}}</span>
+            </span>
+          </ng-template>
+          <app-inm-labor-catalog-inmate-labor-list [model]="laborCatalog"></app-inm-labor-catalog-inmate-labor-list>
+        </p-tabPanel>
+        <!--- Ευρετήριο Αποσπασμάτων Κρατουμένου --->
+        <p-tabPanel>
+          <ng-template pTemplate="header">
+            <span class="font-bold color-purple">
+              <i class="fa fa-trello"></i>
+              <span>{{'laborCatalog.excerpt' | translate}}</span>
+            </span>
+          </ng-template>
+          <app-inm-labor-catalog-excerpt-list [model]="laborCatalog"></app-inm-labor-catalog-excerpt-list>
+        </p-tabPanel>
+        <!--- Ευρετήριο Ημερολογίου Κρατουμένου --->
+        <p-tabPanel *ngIf="!authService.isMinistry()">
+          <ng-template pTemplate="header">
+            <span class="font-bold color-steelblue">
+              <i class="fa fa-calendar"></i>
+              <span>{{'laborCatalog.calendar' | translate}}</span>
+            </span>
+          </ng-template>
+          <app-inm-labor-catalog-calendar-list [model]="laborCatalog"></app-inm-labor-catalog-calendar-list>
+        </p-tabPanel>
+      </p-tabView>
+
+    </p-panel>
+
+  </div>
+</div>

@@ -1,0 +1,17 @@
+{
+  "eventParticipant.eventTypePid": "Τύπος Συμβάντος",
+  "eventParticipant.eventPlacePid": "Τόπος Συμβάντος",
+  "eventParticipant.participantType": "Ιδιότητα",
+  "eventParticipant.inmateId": "Κρατούμενος",
+  "eventParticipant.employeeId": "Εργαζόμενος",
+  "eventParticipant.lastName": "Επώνυμο",
+  "eventParticipant.firstName": "Όνομα",
+  "eventParticipant.nationalityId": "Υπηκοότητα",
+  "eventParticipant.isNewcomer": "Νεοεισερχόμενος",
+  "eventParticipant.externalTreatment": "Εξωτερική Νοσηλεία",
+  "eventParticipant.hasProsecution": "Άσκηση Ποινικής Δίωξης",
+  "eventParticipant.protectionMeasures": "Μέτρα Προστασίας",
+  "eventParticipant.hasEventReport": "Έκθεση Ιατρείου Καταστήματος",
+  "eventParticipant.hasForensicReport": "Έκθεση Ιατρείου Νοσοκομείου",
+  "eventParticipant.hasForensicEvaluation": "Ιατροδικαστική Έκθεση"
+}

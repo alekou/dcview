@@ -1,0 +1,52 @@
+{
+  "inm.laborCatalog": "Κατάλογος Ημερομισθίων",
+
+  "laborCatalog.inmateData": "Στοιχεία Κρατουμένου",
+  "laborCatalog.catalog": "Κατάλογος",
+
+  "laborCatalog.inmateData.masterInmate.code": "Α.Γ.Μ.",
+  "laborCatalog.inmateData.inmate.lastName": "Επώνυμο",
+  "laborCatalog.inmateData.inmate.firstName": "Όνομα",
+  "laborCatalog.inmateData.inmate.fatherName": "Πατρώνυμο",
+  "laborCatalog.inmateData.inmate.motherName": "Μητρώνυμο",
+  "laborCatalog.inmateData.inmate.lastInmateRecord": "Τελευταία Κράτηση",
+  "laborCatalog.inmateData.inmate.absence": "Απουσία",
+  "laborCatalog.inmateData.inmate.lastActiveInmateArea": "Τελευταία Ενεργή Θέση",
+  "laborCatalog.inmateData.inmate.lastInmateLabor": "Τελευταία Εργασία",
+  "laborCatalog.inmateData.inmate.bookNo": "Αριθμός Βιβλίου",
+  "laborCatalog.inmateData.inmate.totalBeneficialValue": "Συνολικός Ευεργετικός",
+  "laborCatalog.lists.beneficialCalculation": "Ευεργετικός Υπολογισμός",
+
+  "laborCatalog.laborDays": "Ημερομίσθια",
+  "laborCatalog.judgments": "Αποφάσεις",
+  "laborCatalog.inmateLabors": "Εργασίες",
+  "laborCatalog.excerpt": "Απόσπασμα",
+  "laborCatalog.calendar": "Ημερολόγιο",
+
+  "laborCatalog.lists.dateFrom": "Από",
+  "laborCatalog.lists.dateTo": "Έως",
+
+  "inm.laborCatalog.inmateLaborDays": "Ημερομίσθια Κρατουμένου",
+  "inmateLaborDays.list.judgmentId": "Απόφαση",
+
+  "inm.laborCatalog.inmateJudgments": "Αποφάσεις Κρατουμένου",
+
+  "inm.laborCatalog.inmateLabors": "Εργασίες Κρατουμένου",
+  "inmateLabors.list.category": "Κατηγορία",
+
+  "inm.laborCatalog.calendar": "Ημερολόγιο Κρατουμένου",
+  "laborCatalog.calendar.dateRange": "Εύρος Ημερομηνιών(Από-Έως) για Αναζήτηση",
+  "laborCatalog.calendar.thisDate": "Ημερομηνία",
+  "laborCatalog.calendar.inDetentionCenter": "Στο Κατάστημα",
+  "laborCatalog.calendar.periodAbsence": "Απουσία (Περιόδου)",
+  "laborCatalog.calendar.professionId": "Θέση Εργασίας",
+  "laborCatalog.calendar.laborDay": "Ημερομίσθιο Εργασίας",
+  "laborCatalog.calendar.specialLabor": "Ειδική Εργασία",
+  "laborCatalog.calendar.specialLaborDay": "Ειδικό Ημερομίσθιο Εργασίας",
+
+  "inm.laborCatalog.inmateExcerpt": "Απόσπασμα Κρατουμένου",
+  "inm.laborCatalog.inmateExcerptHistory": "Ιστορικό Αποσπάσματος Κρατουμένου",
+  "laborCatalog.excerpt.approved": "Έγκριση",
+
+  "laborProtocol.lists.dcName": "Κατάστημα"
+}

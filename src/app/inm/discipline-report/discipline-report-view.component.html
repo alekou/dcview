@@ -1,0 +1,275 @@
+<form >
+  
+  <div class="grid">
+    <div class="col-12 button-container flex-container">
+      <div class="flex-container-start">
+      <button pButton type="button"
+              label="{{'global.save' | translate}}" class="p-button-success"
+              icon="fa fa-save" iconPos="left" (click)="saveDisciplineReport()" *ngIf="!showIfDisciplineReportIsAddedInDisciplineCouncil()">
+      </button>
+      <button pButton type="button" *ngIf="id && authService.hasPermission('') && !showIfDisciplineReportIsAddedInDisciplineCouncil()"
+              label="{{'global.delete' | translate}}" class="p-button-danger"
+              icon="fa fa-trash" iconPos="left" (click)="deleteDisciplineReport()">
+      </button>
+      <button pButton type="button" *ngIf="id" label="{{'global.newRecord' | translate}}" class="p-button-info"
+              icon="fa fa-plus" iconPos="left" (click)="newRecord()">
+      </button>
+      <button pButton type="button" label="{{'global.index' | translate}}" class="p-button-help"
+              icon="fa fa-table" iconPos="left" (click)="goToList()">
+      </button>
+      <app-template-button *ngIf="!!id" [entity]="'DISCIPLINEREPORT'" [entityId]="this.id" 
+                           [entityIdColName]="'disciplineReportId'" [application]="'INM'"> 
+      </app-template-button>
+      <app-other-dc-name [dcId]="disciplineReport.dcId"></app-other-dc-name>
+      </div>
+      <div class="flex-container-end" >
+      <app-field-revisions *ngIf="id" [entityClass]="'inm.core.domain.DisciplineReport'" [entityId]="id"></app-field-revisions>
+      </div>
+    </div>
+  </div>
+  
+  <!--  ΕΝΟΤΗΤΑ ΣΤΟΙΧΕΙΑ ΑΝΑΦΟΡΑΣ-->
+  
+  <div class="grid" appToitsuLockControls [lockCondition]="lockIfDisciplineReportIsAddedInDisciplineCouncil()">
+    
+    <div class="col-12 xl:col-4 p-fluid" >
+      
+      <p-panel header="{{'disciplineReport.view.disciplineReportData' | translate}}">
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'disciplineReport.reportNo' | translate}}</label>
+          <div class="col-12 sm:col-4">
+            <input type="text" pInputText [(ngModel)]="disciplineReport.reportNo" name="reportNo" appToitsuCapitalize>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'disciplineReport.reportDate' | translate}}</label>
+          <div class="col-12 sm:col-6">
+            <app-toitsu-calendar [(model)]="disciplineReport.reportDate" name="reportDate"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'disciplineReport.reporterType' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="disciplineReport.reporterType" name="reporterType"
+                        [options]="reporterTypes" optionValue="value" optionLabel="label"
+                        (ngModelChange)="clearReporterFieldsOnReporterTypeChanged()"
+                        placeholder="{{'global.selectOption' | translate}}" emptyMessage="{{'global.noResultsFound' | translate}}"
+                        emptyFilterMessage="{{'global.noResultsFound' | translate}}" [showClear]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center" *ngIf="disciplineReport.reporterType === 'INMATE'">
+          <label class="col-12 sm:col-4">{{'discipline.inmateId' | translate}}</label>
+          <div class="col-12 md:col-8">
+            <app-select-inmate [(model)]="disciplineReport.inmateId" [inmates]="inmateReporters" 
+                               [dialogUrl]="inmateReporterDialogUrl" (modelChange)="reporterFirstAndLastNameChanged()">
+            </app-select-inmate>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center" *ngIf="disciplineReport.reporterType">
+          <label class="col-12 sm:col-4">{{'disciplineReport.reporterLastName' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="disciplineReport.reporterLastName" name="reporterLastName"
+                      rows="1" appToitsuTextareaAutoResize [disabled]="disciplineReport.reporterType === 'INMATE'">
+            </textarea>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center" *ngIf="disciplineReport.reporterType">
+          <label class="col-12 sm:col-4">{{'disciplineReport.reporterFirstName' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="disciplineReport.reporterFirstName" name="reporterFirstName"
+                      rows="1" appToitsuTextareaAutoResize [disabled]="disciplineReport.reporterType === 'INMATE'">
+            </textarea>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'disciplineReport.comments' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="disciplineReport.comments" name="comments" rows="8"></textarea>
+          </div>
+        </div>
+      
+      </p-panel>
+    
+    </div>
+  
+    <!--  ΕΝΟΤΗΤΑ ΣΤΟΙΧΕΙΑ ΑΝΑΦΟΡΑΣ-->
+  
+    <!--  ΕΝΟΤΗΤΑ ΜΑΡΤΥΡΕΣ  -->
+  
+    <div class="col-12 xl:col-8 p-fluid">
+    
+      <p-panel header="{{'disciplineWitness.view.witness' | translate}}" *ngIf="disciplineReport.id">
+        <ng-template pTemplate="header">
+      
+        </ng-template>
+      
+        <div class="grid">
+          <div class="col-12 sm:col-2">
+            <button pButton type="button" label="{{'global.add' | translate}}" class="p-button-info"
+                    icon="fa fa-plus" iconPos="left"
+                    (click)="addWitness()">
+            </button>
+          </div>
+        </div>
+  
+        <div class="grid" style="overflow-y: scroll; height: 340px">
+          <div class="col-12 md:col-12 p-fluid">
+  
+            <p-table [value]="this.disciplineReport.discReportWitnesses" styleClass="p-datatable-gridlines" appToitsuPTableCellWidth>
+              <ng-template pTemplate="header">
+                <tr>
+                  <th [style.width]="'1rem'"></th>
+                  <th [style.width]="'5rem'">{{'discReportWitness.witnessType' | translate}}</th>
+                  <th [style.width]="'5rem'">{{'discReportWitness.witness' | translate}}</th>
+                  <th [style.width]="'5rem'">{{'discReportWitness.witnessLastName' | translate}}</th>
+                  <th [style.width]="'5rem'">{{'discReportWitness.witnessFirstName' | translate}}</th>
+                  <th [style.width]="'3rem'"></th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-discReportWitness let-index="rowIndex">
+                <tr class="p-fluid">
+                  <td style="text-align:center" [style.width]="'1rem'" [style.justify-content]="'center'">{{index + 1}}</td>
+        
+                  <td  [style.width]="'10rem'">
+                    <p-dropdown [(ngModel)]="discReportWitness.witnessType" name="discReportWitness{{index}}.witnessType"
+                                [options]="witnessTypes" optionValue="value" optionLabel="label"
+                                (ngModelChange)="clearWitnessFieldsOnWitnessTypeChanged(discReportWitness)"
+                                placeholder="{{'global.selectOption' | translate}}" emptyMessage="{{'global.noResultsFound' | translate}}"
+                                emptyFilterMessage="{{'global.noResultsFound' | translate}}" [showClear]="true" appendTo="body">
+                    </p-dropdown>
+                  </td>
+        
+                  <td  [style.width]="'5rem'">
+                    <app-select-inmate *ngIf="discReportWitness.witnessType === 'INMATE'"
+                                       [(model)]="discReportWitness.inmateId" [inmates]="inmateWitnesses"
+                                       [dialogUrl]="inmateWitnessDialogUrl" (modelChange)="witnessFirstAndLastNameChanged(discReportWitness)" name="inmateId">
+                    </app-select-inmate>
+                    <b *ngIf="discReportWitness.witnessType === 'EMPLOYEE'"> Dropdown Υπαλλήλου (Μελλοντική Υλοποίηση)</b>
+                  </td>
+        
+                  <td style="text-align:center" [style.width]="'5rem'" [style.justify-content]="'center'">
+                <textarea
+                  *ngIf="(discReportWitness.witnessType && discReportWitness.inmateId) || (discReportWitness.witnessType && discReportWitness.employeeId) || (discReportWitness.witnessType == 'OTHER')"
+                  pInputTextarea [(ngModel)]="discReportWitness.witnessLastName" name="discReportWitness{{index}}.witnessLastName"
+                  rows="1" appToitsuTextareaAutoResize 
+                  [disabled]="discReportWitness.witnessType === 'INMATE' || discReportWitness.witnessType === 'EMPLOYEE'">
+                </textarea>
+                  </td>
+        
+                  <td style="text-align:center" [style.width]="'5rem'" [style.justify-content]="'center'">
+                <textarea *ngIf="(discReportWitness.witnessType && discReportWitness.inmateId) || (discReportWitness.witnessType && discReportWitness.employeeId) || (discReportWitness.witnessType == 'OTHER')"
+                          pInputTextarea [(ngModel)]="discReportWitness.witnessFirstName" name="discReportWitness{{index}}.witnessFirstName"
+                          rows="1" appToitsuTextareaAutoResize
+                          [disabled]="discReportWitness.witnessType === 'INMATE' ||discReportWitness.witnessType === 'EMPLOYEE'">
+            </textarea>
+                  </td>
+        
+                  <td style="text-align:center" [style.width]="'3rem'" class="button-container">
+                    <app-field-revisions *ngIf="discReportWitness.id" [entityClass]="'inm.core.domain.DiscReportWitness'"
+                                         [entityId]="discReportWitness.id" [tableMode]="true"></app-field-revisions>
+                    <button pButton type="button"
+                            class="p-button-danger"
+                            icon="{{(discReportWitness.id ? 'fa fa-times' : 'fa fa-minus')}}" iconPos="left"
+                            pTooltip="{{(discReportWitness.id ? 'global.delete' : 'global.remove') | translate}}"
+                            (click)="removeWitnessRowFromDiscReportWitnessesTable(index, discReportWitness.id)">
+                    </button>
+                  </td>
+      
+                </tr>
+              </ng-template>
+            </p-table>
+
+          </div>
+        </div>
+    
+      </p-panel>
+  
+    </div>
+    
+    <!--  ΕΝΟΤΗΤΑ ΜΑΡΤΥΡΕΣ  -->
+    
+  </div>
+  
+  <div class="col-12 p-fluid" appToitsuLockControls [lockCondition]="lockIfDisciplineReportIsAddedInDisciplineCouncil()">
+  
+  <!--  // ΕΝΟΤΗΤΑ ΑΝΑΦΕΡΟΜΕΝΟΙ-->
+  
+  <p-panel header="{{'disciplineOffense.view.reported' | translate}}" *ngIf="disciplineReport.id">
+    <ng-template pTemplate="header">
+    
+    </ng-template>
+    
+    <div class="grid">
+      <div class="col-12 sm:col-1">
+        <button pButton type="button" label="{{'global.add' | translate}}" class="p-button-info"
+                icon="fa fa-plus" iconPos="left"
+                (click)="openCreateDisciplineOffenseDialog()">
+        </button>
+      </div>
+    </div>
+    
+    <p-table [value]="this.disciplineReport.discReportOffenses" styleClass="p-datatable-gridlines" appToitsuPTableCellWidth>
+      <ng-template pTemplate="header">
+        <tr>
+          <th [style.width]="'3rem'"></th>
+          <th [style.width]="'3rem'"></th>
+          <th [style.width]="'3rem'"></th>
+          <th [style.width]="'10rem'">{{'disciplineOffense.inmateId' | translate}}</th>
+          <th [style.width]="'10rem'">{{'disciplineOffense.incidentDate' | translate}}</th>
+          <th [style.width]="'10rem'">{{'disciplineOffense.offenseTypePid' | translate}}</th>
+          <th [style.width]="'10rem'">{{'disciplineOffense.articles' | translate}}</th>
+          <th [style.width]="'10rem'">{{'disciplineOffense.comments' | translate}}</th>
+          <th [style.width]="'3rem'"></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-discReportOffense let-index="rowIndex" let-rowData>
+        <tr class="p-fluid">
+          <td style="text-align:center" [style.width]="'3rem'" [style.justify-content]="'center'">{{index + 1}}</td>
+          <td style="text-align:center" [style.width]="'3rem'" [style.justify-content]="'center'">
+            <p-button icon="fa fa-pencil-square-o" pTooltip="{{'disciplineOffense.view.disciplineOffenseData' | translate}}"
+              (click)="openEditDisciplineOffenseDialog(index)"
+              *ngIf="rowData.disciplineReportId === rowData.disciplineOffense.firstDisciplineReportId">
+            </p-button>
+          </td>
+          <td style="text-align:center" [style.width]="'3rem'" [style.justify-content]="'center'" >
+            <p-button icon="fa fa-external-link-square" pTooltip="{{'disciplineOffense.view.relatedDisciplineReports' | translate}} "
+                      (click)="openRelatedDisciplineReportsOfDisciplineOffenseDialog(index)"
+                      *ngIf="showRelatedDisciplinesOfDisciplineOffenseButton[index]"
+            >
+            </p-button>
+          </td>
+          <td style="text-align:center" [style.width]="'10rem'"> {{discReportOffense.disciplineOffense.inmateFullName}}</td>
+          <td style="text-align:center" [style.width]="'10rem'"> {{discReportOffense.disciplineOffense.incidentDate}}</td>
+          <td style="text-align:center" [style.width]="'10rem'"> {{discReportOffense.disciplineOffense.offenseType}}</td>
+          <td style="text-align:center" [style.width]="'10rem'"> {{discReportOffense.disciplineOffense.articles}}</td>
+          <td style="text-align:center" [style.width]="'10rem'"> {{discReportOffense.disciplineOffense.comments}}</td>
+          <td style="text-align:center" [style.width]="'3rem'" class="button-container">
+            <app-field-revisions *ngIf="discReportOffense.id" [entityClass]="'inm.core.domain.DisciplineOffense'"
+                                 [entityId]="discReportOffense.disciplineOffenseId" [tableMode]="true"></app-field-revisions>
+            <button pButton type="button"
+                    class="p-button-danger"
+                    icon="{{(discReportOffense.id ? 'fa fa-times' : 'fa fa-minus')}}" iconPos="left"
+                    pTooltip="{{(discReportOffense.id ? 'global.delete' : 'global.remove') | translate}}" (click)="deleteDiscReportOffense(index, discReportOffense.id)">
+            </button>
+          </td>
+        
+        </tr>
+      </ng-template>
+    </p-table>
+  
+  
+  </p-panel>
+
+  </div>
+  
+  <!--  // ΕΝΟΤΗΤΑ ΑΝΑΦΕΡΟΜΕΝΟΙ-->
+  
+</form>

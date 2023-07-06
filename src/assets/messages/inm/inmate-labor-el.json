@@ -1,0 +1,33 @@
+{
+  "inmateLabor.inmateId": "Κρατούμενος",
+  "inmateLabor.inmateLaborApplicationId": "Αίτημα Εργασίας",
+  "inmateLabor.professionId": "Θέση Εργασίας",
+  "inmateLabor.startDate": "Ημερομηνία Έναρξης",
+  "inmateLabor.endDate": "Ημερομηνία Λήξης",
+  "inmateLabor.renewal": "Επανατοποθέτηση",
+  "inmateLabor.bookNo": "Αριθμός Βιβλίου",
+  "inmateLabor.areaId": "Περιοχή",
+  "inmateLabor.locationPid": "Τοποθεσία",
+  "inmateLabor.paymentCategoryId": "Κατηγορία Αποζημίωσης",
+  "inmateLabor.programId": "Επιμορφωτικό Πρόγραμμα",
+  "inmateLabor.programApplicationId": "Αίτημα Συμμετοχής σε Επιμορφωτικό Πρόγραμμα",
+  "inmateLabor.comments": "Παρατηρήσεις",
+  "inmateLabor.pause": "Παύση",
+  "inmateLabor.pauseDate": "Ημερομηνία Παύσης",
+  "inmateLabor.pauseComments": "Παρατηρήσεις Παύσης",
+  "inmateLabor.changePosProtocolNo": "Αρ. Πρακτικού Αλλαγής Θέσης",
+  "inmateLabor.actualEndDate": "Πραγματική Ημερομηνία Λήξης",
+  
+  "inmateLabor.args.inmateCode": "ΑΓΜ Κρατουμένου",
+  "inmateLabor.args.startDate": "Έναρξη",
+  "inmateLabor.args.actualEndDate": "Λήξη",
+  "inmateLabor.list.startDate": "Έναρξη",
+  "inmateLabor.list.actualEndDate": "Λήξη",
+  
+  "inmateLabor.view.fromApplication": "Από Αίτημα",
+  "inmateLabor.view.basicData": "Βασικά Στοιχεία",
+  "inmateLabor.view.pauseData": "Στοιχεία Παύσης",
+
+  "inmateLabor.getAttachedInmateLaborApplicationsByInmate.success": "Τα ενεργά αιτήματα εργασίας του κρατουμένου φορτώθηκαν με επιτυχία.",
+  "inmateLabor.getAttachedInmateLaborApplicationsByInmate.info.noSelectedInmate": "Παρακαλώ επιλέξτε κρατούμενο για να δημιουργήσετε εργασία από αίτημα, εάν υπάρχει."
+}

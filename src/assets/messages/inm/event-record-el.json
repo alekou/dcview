@@ -1,0 +1,24 @@
+{
+  "eventRecord.dcId": "Κατάστημα Κράτησης",
+  "eventRecord.code": "Αριθμός Μητρώου Συμβάντος",
+  "eventRecord.eventTypePid": "Τύπος Συμβάντος",
+  "eventRecord.eventPlacePid": "Τόπος Συμβάντος",
+  "eventRecord.description": "Περιγραφή",
+  "eventRecord.eventStartDate": "Ημερομηνία Έναρξης",
+  "eventRecord.eventEndDate": "Ημερομηνία Λήξης",
+  "eventRecord.hasDisciplinaryControl": "Πειθαρχικός Έλεγχος",
+  "eventRecord.daProtocolNo": "Αριθμός Πρωτοκόλλου",
+  "eventRecord.daProtocolDate": "Ημερομηνία Πρωτοκόλλου",
+  "eventRecord.comments": "Παρατηρήσεις",
+
+  "eventRecord.list.type": "Τύπος",
+
+  "eventRecord.view.eventData": "Στοιχεία Συμβάντος",
+  "eventRecord.view.daNotice": "Ενημέρωση Εισαγγελέα",
+  
+  "eventRecord.view.tab.eventVictims": "Θύματα",
+  "eventRecord.view.tab.eventCulprits": "Θύτες",
+
+  "eventRecord.addEventVictim": "Προσθήκη Θύματος",
+  "eventRecord.addEventCulprit": "Προσθήκη Θύτη"
+}

@@ -1,0 +1,112 @@
+<div class="grid">
+  <div class="col-12 button-container">
+    <button pButton type="submit" label="{{'global.search' | translate}}" class="p-button-warning"
+            icon="fa fa-search" iconPos="left" (click)="loadTableData()">
+    </button>
+    <button pButton type="button" label="{{'global.clearArgs' | translate}}" class="p-button-help"
+            icon="fa fa-times" iconPos="left" (click)="clearArgs()">
+    </button>
+    <button pButton type="button" label="{{'global.newRecord' | translate}}" class="p-button-info"
+            icon="fa fa-plus" iconPos="left" (click)="newRecord()">
+    </button>
+  </div>
+</div>
+
+<div class="grid">
+  <div class="col-12 md:col-3">
+    
+    <p-panel header="{{'global.args' | translate}}">
+      
+      <div class="p-fluid">
+        
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'medicine.medicineName' | translate}}</label>
+            <input pInputText [(ngModel)]="args.medicineName" name="medicineName">
+            </div>
+          </div>
+        
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'medicine.categoryId' | translate}}</label>
+            <p-dropdown [(ngModel)]="args.categoryId" [options]="categories"
+                        name="categoryId"
+                        optionValue="id" optionLabel="description"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}"
+                        emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [showClear]="true" [filter]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'medicine.subCategoryId' | translate}}</label>
+            <p-dropdown [(ngModel)]="args.subCategoryId" [options]="subCategories" name="subCategoryId"
+                        optionValue="id" optionLabel="description"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}"
+                        emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [showClear]="true" [filter]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'medicine.substancesPid' | translate}}</label>
+            <app-select-gen-parameter [type]="pSubstance" [(model)]="args.substancesPid" name="substancesPid" [hideAdd]="true"></app-select-gen-parameter>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'medicine.isGeneric' | translate}}</label>
+            <p-dropdown [(ngModel)]="args.isGeneric" [options]="yesNoEnums" name="isGeneric"
+                        optionValue="value" optionLabel="label"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}"
+                        emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [showClear]="true" [filter]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <div class="col-12 no-padding-bottom">
+            <label>{{'medicine.eofCode' | translate}}</label>
+            <div class="grid field-group">
+              <div class="col-6">
+                <input pInputText [(ngModel)]="args.eofCodeBefore" name="eofCodeBefore">
+              </div>
+              <span><i class="fa fa-arrow-right no-padding no-margin"></i></span>
+              <div class="col-6">
+                <input pInputText [(ngModel)]="args.eofCodeAfter" name="eofCodeAfter">
+              </div>
+            </div>
+          </div>
+        </div>
+      
+      </div>
+    
+    </p-panel>
+  </div>
+  
+  <div class="col-12 md:col-9">
+    <app-toitsu-table #table
+                      [url]="url"
+                      [cols]="cols"
+                      [first]="paging.first"
+                      [rows]="paging.rows"
+                      [sortField]="paging.sortField"
+                      [sortOrder]="paging.sortOrder"
+                      [args]="args"
+                      [viewLink]="viewLink"
+                      [excel]="true"
+                      [exportModel]="exportModel"
+                      [loadOnInit]="false"
+                      (loadComplete)="loadComplete()">
+    </app-toitsu-table>
+  </div>
+</div>

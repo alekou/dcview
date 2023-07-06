@@ -1,0 +1,37 @@
+{
+  "vacationCouncil.view.submit": "Διεκπεραίωση",
+
+  "vacationCouncil.councilDate": "Ημερομηνία",
+  "vacationCouncil.councilCode": "Αριθμός Συμβουλίου",
+  "vacationCouncil.accomplished": "Κατάσταση",
+  "vacationCouncil.view.accomplished": "Διεκπεραιωμένο",
+  "vacationCouncil.councilComments": "Παρατηρήσεις",
+  
+  "vacationCouncil.view.vacationCouncilData": "Στοιχεία Συμβουλίου",
+  "vacationCouncil.composition": "Ανάλυση Συμβουλίου",
+  "vacationCouncil.select.dialogTitle": "Επιλογή Αδειών",
+  "vacationCouncil.edit.vacationDialog": "Επεξεργασία Άδειας",
+  "vacationCouncilApplication.rejectionDetails": "Στοιχεία Απόρριψης",
+  "vacationCouncilApplication.rejected": "Απορρίφθηκε",
+  "vacationCouncilApplication.rejectionComments": "Παρατηρήσεις Απόρριψης Άδειας",
+  "vacationCouncilApplication.postponement": "Αναβολή",
+  "vacationCouncilApplication.postponement.confirmation": "Είστε βέβαιοι για την αναβολή της απόφασης για την άδεια;",
+  
+  "vacationCouncil.newReport": "Νέα Φόρμα",
+  "vacationCouncil.openReport": "Αποθηκ. Φόρμα",
+  "vacationCouncil.approvalStatus": "Έγκριση / Απόρριψη",
+  "vacationCouncil.postponementStatus": "Αναβολή",
+  "vacationCouncil.vacationTypeDescription": "Τύπος",
+  "vacationCouncil.recordNo": "Αρ. Πρακτικού",
+  "vacationCouncil.recordDate": "Ημ/νία Πρακτικού",
+  "vacationCouncil.protocolNo": "Αρ. Πρωτοκόλλου Αίτησης",
+  "vacationCouncil.inmateFullName": "Κρατούμενος",
+  "vacationCouncil.motionProgressDate": "Έναρξη Εισήγησης",
+  "vacationCouncil.applicationDate": "Ημ/νία Αίτησης",
+  "vacationCouncil.applicationFromDate": "Αιτηθείσα Ημ/νία Έναρξης",
+  "vacationCouncil.applicationToDate": "Αιτηθείσα Ημ/νία Λήξης",
+  "vacationCouncil.destination": "Προορισμός",
+  "vacationCouncil.reason": "Αιτία"
+  
+  
+}

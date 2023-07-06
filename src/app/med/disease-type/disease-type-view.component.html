@@ -1,0 +1,64 @@
+<form>
+  <div class="grid">
+    <div class="col-12 button-container">
+      <button pButton type="button"
+              label="{{'global.save' | translate}}" class="p-button-success"
+              icon="fa fa-save" iconPos="left" (click)="saveDiseaseType()">
+      </button>
+      <button pButton type="button" *ngIf="id"
+              label="{{'global.delete' | translate}}" class="p-button-danger"
+              icon="fa fa-trash" iconPos="left" (click)="deleteDiseaseType()">
+      </button>
+      <button pButton type="button" *ngIf="id" label="{{'global.newRecord' | translate}}" class="p-button-info"
+              icon="fa fa-plus" iconPos="left" (click)="newRecord()">
+      </button>
+      <button pButton type="button" label="{{'global.index' | translate}}" class="p-button-help"
+              icon="fa fa-table" iconPos="left" (click)="goToList()">
+      </button>
+    </div>
+  </div>
+  <div class="grid">
+    
+    <div class="col-12 md:col-6 p-fluid">
+      
+      <p-panel header="{{'diseaseType.details' | translate}}">
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'diseaseType.code' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="diseaseType.code" name="code">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'diseaseType.categoryPid' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-select-gen-parameter [type]="pDiseaseTypeCategory" [(model)]="diseaseType.categoryPid" name="categoryPid"></app-select-gen-parameter>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'diseaseType.description' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="diseaseType.description" name="description">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{ 'diseaseType.isContagious' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox binary="true" [(ngModel)]="diseaseType.isContagious" name="isContagious"></p-checkbox>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'diseaseType.comments' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="diseaseType.comments" name="comments" rows="5"></textarea>
+          </div>
+        </div>
+      </p-panel>
+    </div>
+  </div>
+
+</form>

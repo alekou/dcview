@@ -1,0 +1,6 @@
+<div class="badge-container">
+  <button pButton type="button" *ngIf="entityId" pTooltip="{{'global.upload' | translate}}"
+          tooltipPosition="top" class="p-button-warning" icon="fa fa-paperclip"
+          (click)="uploadFiles()"></button>
+  <p-badge class="attachment-badge" value="{{count}}" [badgeDisabled]="count===0"></p-badge>
+</div>

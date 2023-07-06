@@ -1,0 +1,23 @@
+<ng-container *ngIf="!iconMode && !tableMode; else bothFalseBlock">
+  <button pButton type="button"
+          pTooltip="{{'global.displayFieldRevisions' | translate}}" tooltipPosition="top" class="p-button-info"
+          icon="fa fa-history" iconPos="top" (click)="displayFieldRevisions()">
+  </button>
+</ng-container>
+
+<ng-template #bothFalseBlock>
+  <ng-container *ngIf="iconMode; else tableMode">
+    <a class="order-1 cursor-pointer" 
+        pTooltip="{{'global.displayFieldRevisions' | translate}}" tooltipPosition="top"
+        (click)="displayFieldRevisions($event)">
+      <i class="fa fa-history"></i>
+    </a>
+  </ng-container>
+  
+  <ng-template #tableMode>
+    <button pButton type="button"
+            class="p-button-info" icon="fa fa-history" iconPos="left" (click)="displayFieldRevisions()"
+            pTooltip="{{'global.displayFieldRevisions' | translate}}" tooltipPosition="right">
+    </button>
+  </ng-template>
+</ng-template>

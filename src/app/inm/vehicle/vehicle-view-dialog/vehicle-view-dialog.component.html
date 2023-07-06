@@ -1,0 +1,56 @@
+<div class="grid">
+  
+  <div class="col-12 p-fluid">
+    <p-panel header="{{'vehicle.data' | translate}}">
+      
+      <div class="grid align-items-center">
+        <label class="col-12 sm:col-4">{{'vehicle.plateNumber' | translate}}</label>
+        <div class="col-12 sm:col-8">
+          <input type="text" pInputText [(ngModel)]="vehicle.plateNumber" name="plateNumber">
+        </div>
+      </div>
+  
+      <div class="grid align-items-center">
+        <label class="col-12 sm:col-4 font-bold">{{'vehicle.manufacturer' | translate}}</label>
+        <div class="col-12 sm:col-8">
+          <app-select-gen-parameter [type]="pVehicleManufacturer" [(model)]="vehicle.manufacturerPid" name="manufacturerPid"></app-select-gen-parameter>
+        </div>
+      </div>
+      
+      <div class="grid align-items-center">
+        <label class="col-12 sm:col-4">{{'vehicle.carModel' | translate}}</label>
+        <div class="col-12 sm:col-8">
+          <input type="text" pInputText [(ngModel)]="vehicle.carModel" name="carModel">
+        </div>
+      </div>
+  
+      <div class="grid align-items-center">
+        <label class="col-12 sm:col-4 font-bold">{{'vehicle.color' | translate}}</label>
+        <div class="col-12 sm:col-8">
+          <app-select-gen-parameter [type]="pColor" [(model)]="vehicle.colorPid" name="colorPid"></app-select-gen-parameter>
+        </div>
+      </div>
+      
+      <div class="grid align-items-center">
+        <label class="col-12 sm:col-4">{{'visitor.afm' | translate}}</label>
+        <div class="col-12 sm:col-8">
+          <textarea type="text" pInputText [(ngModel)]="vehicle.comments" name="comments" rows="6"></textarea>
+        </div>
+      </div>
+      
+    </p-panel>
+  </div>
+
+</div>
+
+<div class="grid">
+  <div class="col-12 button-container text-align-end">
+    <button pButton type="button" label="{{'global.save' | translate}}" class="p-button-success"
+            icon="fa fa-check" iconPos="left" (click)="saveVehicle()">
+    </button>
+    <button pButton type="button" label="{{'global.cancel' | translate}}" class="p-button-danger"
+            icon="fa fa-times" iconPos="left" (click)="cancel()">
+    </button>
+  </div>
+</div>
+

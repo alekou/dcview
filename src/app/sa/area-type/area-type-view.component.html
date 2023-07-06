@@ -1,0 +1,76 @@
+<form>
+
+  <div class="grid">
+    <div class="col-12 md:col-6 button-container flex-container">
+      <div class="flex-container-start">
+        <button pButton type="button" *ngIf="!lockedRecord()"
+                label="{{'global.save' | translate}}" class="p-button-success"
+                icon="fa fa-save" iconPos="left" (click)="saveAreaType()">
+        </button>
+        <button pButton type="button" *ngIf="id && !lockedRecord() && authService.hasPermission('')"
+                label="{{'global.delete' | translate}}" class="p-button-danger"
+                icon="fa fa-trash" iconPos="left" (click)="deleteAreaType()">
+        </button>
+        <button pButton type="button" *ngIf="id && !lockedRecord()"
+                label="{{'global.newRecord' | translate}}" class="p-button-info"
+                icon="fa fa-plus" iconPos="left" (click)="newRecord()">
+        </button>
+        <button pButton type="button"
+                label="{{'global.index' | translate}}" class="p-button-help"
+                icon="fa fa-fw fa-table" iconPos="left" (click)="goToList()">
+        </button>
+        <app-other-dc-name [dcId]="areaType.dcId"></app-other-dc-name>
+      </div>
+      <div class="flex-container-end">
+        <app-field-revisions *ngIf="id" [entityClass]="'inm.core.domain.AreaType'" [entityId]="id"></app-field-revisions>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="grid" appToitsuLockControls [lockCondition]="lockedRecord()">
+
+    <div class="col-12 md:col-6 p-fluid">
+      <p-panel header="{{'area.view.basicData' | translate}}">
+
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'areaType.code' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" class="form-control p-inputtext" [(ngModel)]="areaType.code" name="code">
+          </div>
+        </div>
+
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'areaType.description' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" class="form-control p-inputtext" [(ngModel)]="areaType.description" name="description">
+          </div>
+        </div>
+
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'areaType.hasPositions' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox binary="true" [(ngModel)]="areaType.hasPositions" name="hasPositions"></p-checkbox>
+          </div>
+        </div>
+
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'areaType.isSpecialArea' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox binary="true" [(ngModel)]="areaType.isSpecialArea" name="isSpecialArea"></p-checkbox>
+          </div>
+        </div>
+
+      </p-panel>
+
+      <div *ngIf="lockedRecord()">
+        <p class="info-message">
+          {{'areaType.info.forbiddenView' | translate}}
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+
+</form>

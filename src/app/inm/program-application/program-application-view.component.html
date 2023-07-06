@@ -1,0 +1,203 @@
+<form>
+  
+  <div class="grid">
+    <div class="col-12 button-container flex-container">
+      <div class="flex-container-start">
+        <button pButton type="button" *ngIf="!lockedRecord()"
+                label="{{'global.save' | translate}}" class="p-button-success"
+                icon="fa fa-save" iconPos="left" (click)="saveProgramApplication()">
+        </button>
+        <button pButton type="button" *ngIf="id  && !lockedRecord()"
+                label="{{'global.delete' | translate}}" class="p-button-danger"
+                icon="fa fa-trash" iconPos="left" (click)="deleteProgramApplication()">
+        </button>
+        <button pButton type="button" label="{{'global.newRecord' | translate}}" class="p-button-info" *ngIf="id"
+                icon="fa fa-plus" iconPos="left" (click)="newRecord()">
+        </button>
+        <button pButton type="button" label="{{'global.index' | translate}}" class="p-button-help"
+                icon="fa fa-table" iconPos="left" (click)="goToList()">
+        </button>
+        <app-other-dc-name [dcId]="programApplication.dcId"></app-other-dc-name>
+      </div>
+      <div class="flex-container-end">
+        <app-documents [entity]="'PROGRAM_APPLICATION'" [entityId]="id"></app-documents>
+        <app-field-revisions *ngIf="id" [entityClass]="'inm.core.domain.ProgramApplication'" [entityId]="id"></app-field-revisions>
+      </div>
+    </div>
+  </div>
+  
+  <div class="grid" appToitsuLockControls [lockCondition]="lockedRecord()">
+    
+    <div class="col-12 md:col-6 p-fluid">
+      
+      <p-panel header="{{'programApplication.view.data' | translate}}">
+        
+        <div class="grid align-items-center" *ngIf="programApplication.protocolId">
+          <label class="col-12 sm:col-4">{{'programApplication.protocolId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input [disabled]="!!programApplication.protocolId" type="text" pInputText [(ngModel)]="programApplication.programProtocolDescription" [ngModelOptions]="{standalone: true}" name="protocolId">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'programApplication.inmateId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-select-inmate [(model)]="programApplication.inmateId" name="inmateId"
+                               [loadOnOpen]="true" [dialogUrl]="inmateDialogUrl">
+            </app-select-inmate>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'programApplication.protocolNo' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="programApplication.protocolNo" name="subsidizer">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'programApplication.applicationDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="programApplication.applicationDate" name="applicationDate"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold font-bold">{{'programApplication.programId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [options]="programs"
+                        [(ngModel)]="programApplication.programId"
+                        name="programId" (ngModelChange)="programChanged($event)"
+                        optionValue="id" optionLabel="fullDescription"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        [showClear]="true" [filter]="true"
+                        emptyMessage="{{'global.noResultsFound' | translate}}"
+                        emptyFilterMessage="{{'global.noResultsFound' | translate}}">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center" *ngIf="(id && programApplication.program.professionId ) || !id">
+          <label class="col-12 sm:col-4">{{'programApplication.professionId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="programApplication.professionId" name="professionId" [options]="professions" optionValue="id" optionLabel="name"
+                        placeholder="{{'global.selectOption' | translate}}" [showClear]="true" [filter]="true"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 ">{{'programApplication.comments' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="programApplication.comments" name="comments" rows="8"></textarea>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center" *ngIf="programApplication.protocolId && !!id && !programApplication.rejected">
+          <label class="col-12 sm:col-4">{{'programApplication.startDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="programApplication.startDate" name="startDate"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center" *ngIf="programApplication.protocolId && !!id && !programApplication.rejected">
+          <label class="col-12 sm:col-4">{{'programApplication.endDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="programApplication.endDate" name="endDate"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center" *ngIf="isSchool && programApplication.protocolId || programApplication.lateEntry && !!id">
+          <label class="col-12 sm:col-4">{{'programApplication.lateEntry' | translate}}</label>
+          <div class="col-12 md:col-2">
+            <p-checkbox [(ngModel)]="programApplication.lateEntry" name="lateEntry" [binary]="true"></p-checkbox>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center" *ngIf="isSchool && programApplication.protocolId || programApplication.lateEntry && !!id">
+          <label class="col-12 sm:col-4">{{'programApplication.graduate' | translate}}</label>
+          <div class="col-12 md:col-2">
+            <p-checkbox [(ngModel)]="programApplication.graduate" name="graduate" [binary]="true"></p-checkbox>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center" *ngIf="isCertifiedCourse && programApplication.protocolId && !!id">
+          <label class="col-12 sm:col-4">{{'programApplication.certification' | translate}}</label>
+          <div class="col-12 md:col-2">
+            <p-checkbox [(ngModel)]="programApplication.certification" name="certification" [binary]="true"></p-checkbox>
+          </div>
+        </div>
+      
+      </p-panel>
+    
+    </div>
+    
+    <div class="col-12 md:col-6 p-fluid">
+      
+      <p-panel header="{{'programApplication.view.rejectionData' | translate}}" *ngIf="programApplication.protocolId || programApplication.lateEntry">
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'programApplication.rejected' | translate}}</label>
+          <div class="col-12 md:col-2">
+            <p-checkbox [(ngModel)]="programApplication.rejected" name="rejected" [binary]="true"></p-checkbox>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'programApplication.rejectedDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="programApplication.rejectedDate" name="rejectedDate"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'programApplication.rejectedComments' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="programApplication.rejectedComments" name="rejectedComments" rows="8"></textarea>
+          </div>
+        </div>
+      
+      </p-panel>
+      
+      <p-panel header="{{'programApplication.view.withdrawalData' | translate}}" *ngIf="programApplication.protocolId || programApplication.lateEntry">
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'programApplication.withdrawal' | translate}}</label>
+          <div class="col-12 md:col-2">
+            <p-checkbox [(ngModel)]="programApplication.withdrawal" name="withdrawal" [binary]="true"></p-checkbox>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'programApplication.withdrawalReasonPid' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-select-gen-parameter [type]="pWithdrawalReasons" [(model)]="programApplication.withdrawalReasonPid"></app-select-gen-parameter>
+          </div>
+        </div>
+        
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'programApplication.withdrawalComments' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="programApplication.withdrawalComments" name="withdrawalComments" rows="8"></textarea>
+          </div>
+        </div>
+      
+      </p-panel>
+    
+    </div>
+    
+    <!--- Μήνυμα ενημέρωσης για κλειδωμένες εγγραφές --->
+    <div *ngIf="lockedRecord()">
+      <p class="info-message" *ngIf="programApplication.protocolId">
+        {{'programApplication.info.forbiddenView.attachedToProgramProtocol' | translate}}
+      </p>
+      <p class="info-message" *ngIf="programApplication.dcId !== this.authService.getUserDcId()">
+        {{'programApplication.info.forbiddenView.otherDc' | translate}}
+      </p>
+    </div>
+  
+  </div>
+
+</form>

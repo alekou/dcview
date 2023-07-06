@@ -1,0 +1,194 @@
+<form>
+  
+  <div class="grid">
+    
+    <div class="button-container col-12">
+      
+        <button pButton type="button"
+                label="{{'global.save' | translate}}" class="p-button-success"
+                icon="fa fa-save" iconPos="left" (click)="saveVisitProgram()">
+        </button>
+        <button pButton type="button" *ngIf="id && authService.hasPermission('inm_visitor_delete')"
+                label="{{'global.delete' | translate}}" class="p-button-danger"
+                icon="fa fa-trash" iconPos="left" (click)="deleteVisitProgram()">
+        </button>
+        <button pButton type="button" *ngIf="id" label="{{'global.newRecord' | translate}}" class="p-button-info"
+                icon="fa fa-plus" iconPos="left" (click)="newRecord()">
+        </button>
+        <button pButton type="button" label="{{'global.index' | translate}}" class="p-button-help"
+                icon="fa fa-table" iconPos="left" (click)="goToList()">
+        </button>
+        
+        <button pButton type="button" label="{{'visitProgram.addVisitProgramDetails' | translate}}" icon="fa fa-plus" iconPos="left"
+                class="p-button-info" (click)="addVisitProgramDetails()">
+        </button>
+      
+        <button pButton type="button" label="{{'visitProgram.addVisitProgramTimeFrame' | translate}}"  icon="fa fa-plus" iconPos="left"
+                style="background-color: #bb8100; border-color: #bb8100" (click)="addVisitProgramTimeFrame()">
+        </button>
+      
+    </div>
+  </div>
+  
+  <div class="grid">
+    <div class="col-5 p-fluid">
+      <p-panel header="{{'visitProgram.view.visitProgramData' | translate}}">
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'visitProgram.description' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="visitProgram.description" name="description">
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'visitProgram.maxSimultaneous' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-inputNumber [(ngModel)]="visitProgram.maxSimultaneous" mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="50" name="maxSimultaneous"> </p-inputNumber>
+          </div>
+        </div>
+        
+      </p-panel>
+  
+      <br>
+      <p-panel header="{{'visitProgram.view.visitProgramDetails' | translate}}">
+        
+        <p-table [value]=" visitProgram.visitProgramDetails"  [scrollable]="true" scrollHeight="25rem" styleClass="p-datatable-gridlines p-datatable-striped" appToitsuPTableCellWidth>
+          <ng-template pTemplate="header">
+            <tr>
+              <th [style.width]="'2rem'" [style.justify-content]="'center'">#</th>
+              <th [style.width]="'15rem'" [style.justify-content]="'center'">{{'visitProgramDetails.visitTypeId' | translate}}</th>
+              <th [style.width]="'10rem'" [style.justify-content]="'center'">{{'visitProgramDetails.description' | translate}}</th>
+              <th [style.width]="'6rem'" [style.justify-content]="'center'">{{'visitProgramDetails.duration' | translate}}</th>
+              <th [style.width]="'10rem'" [style.justify-content]="'center'">{{'visitProgramDetails.visitApplicationRequired' | translate}}</th>
+              <th [style.width]="'5rem'"></th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-visitProgramDetails let-index="rowIndex">
+            <tr class="p-fluid">
+              <td [style.justify-content]="'center'">{{index + 1}}</td>
+              
+              <td [style.justify-content]="'center'">
+  
+                <p-dropdown [options]="visitTypes"
+                            optionValue="id"
+                            optionLabel="description"
+                            name="visitProgramDetails{{index}}.visitTypeId"
+                            [(ngModel)]="visitProgramDetails.visitTypeId"
+                            [showClear]="true"
+                            [filter]="true"
+                            placeholder="{{'global.selectOption' | translate}}"
+                            emptyMessage="{{'global.noResultsFound' | translate}}"
+                            emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                            appendTo="body">
+                </p-dropdown>
+                
+              </td>
+  
+              <td [style.justify-content]="'center'">
+                <input type="text" pInputText [(ngModel)]="visitProgramDetails.description" name="visitProgramDetails{{index}}.description">
+              </td>
+  
+              <td [style.justify-content]="'center'">
+                <input type="text" pInputText [(ngModel)]="visitProgramDetails.duration" name="visitProgramDetails{{index}}.duration">
+              </td>
+              
+              <td [style.justify-content]="'center'">
+                <p-checkbox binary="true" [(ngModel)]="visitProgramDetails.visitApplicationRequired" name="visitProgramDetails{{index}}.visitApplicationRequired"></p-checkbox>
+              </td>
+  
+              <td [style.justify-content]="'center'">
+                <button pButton type="button"  pTooltip="{{(visitProgramDetails.id ? 'global.delete' : 'global.remove') | translate}}" class="p-button-danger"
+                        icon="{{(visitProgramDetails.id ? 'fa fa-times' : 'fa fa-minus') | translate}}" iconPos="left" (click)="deleteVisitProgramDetails(index, visitProgramDetails.id)">
+                </button>
+              </td>
+              
+            </tr>
+          </ng-template>
+        </p-table>
+  
+      </p-panel>
+    </div>
+  
+    <div class="col-7 p-fluid">
+    
+      <p-panel header="{{'visitProgram.view.visitProgramTimeFrames' | translate}}">
+  
+        <p-table [value]=" visitProgram.visitProgramTimeFrames"  [scrollable]="true" scrollHeight="25rem" styleClass="p-datatable-gridlines p-datatable-striped" appToitsuPTableCellWidth>
+          <ng-template pTemplate="header">
+            <tr>
+              <th [style.width]="'2rem'" [style.justify-content]="'center'">#</th>
+              <th [style.width]="'12rem'">{{'visitProgramTimeFrame.day' | translate}}</th>
+              <th [style.width]="'10rem'">{{'visitProgramTimeFrame.fromTime' | translate}}</th>
+              <th [style.width]="'10rem'">{{'visitProgramTimeFrame.toTime' | translate}}</th>
+              <th [style.width]="'5rem'" [style.justify-content]="'center'">{{'visitProgramTimeFrame.fromNameInitials' | translate}}</th>
+              <th [style.width]="'5rem'" [style.justify-content]="'center'">{{'visitProgramTimeFrame.toNameInitials' | translate}}</th>
+              <th [style.width]="'12rem'" [style.justify-content]="'center'">{{'visitProgramTimeFrame.areaId' | translate}}</th>
+              <th [style.width]="'5rem'"></th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-visitProgramTimeFrame let-index="rowIndex">
+            <tr class="p-fluid">
+        
+              <td [style.justify-content]="'center'">{{index + 1}}</td>
+        
+              <td>
+                <p-dropdown   [(ngModel)]="visitProgramTimeFrame.visitDay" name="visitProgramTimeFrame{{index}}.visitDay"
+                             [options]="weekdays" optionValue="value" optionLabel="label"
+                             placeholder="{{'global.selectOption' | translate}}"
+                             emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                             [showClear]="true" appendTo="body">
+                </p-dropdown>
+                
+              </td>
+        
+              <td [style.justify-content]="'center'">
+                <p-calendar [(ngModel)]="visitProgramTimeFrame.fromTime" name="visitProgramTimeFrame{{index}}.fromTime" timeOnly="true" appendTo="body" dateFormat="HH:mm" hourFormat="24" dataType="string" [showSeconds]="false"></p-calendar>
+                
+              </td>
+        
+              <td  [style.justify-content]="'center'">
+  
+                <p-calendar [(ngModel)]="visitProgramTimeFrame.toTime" name="visitProgramTimeFrame{{index}}.toTime" timeOnly="true" appendTo="body" dateFormat="HH:mm" hourFormat="24" dataType="string" [showSeconds]="false"></p-calendar>
+        
+              </td>
+        
+              <td [style.justify-content]="'center'">
+  
+                <input type="text" [(ngModel)]="visitProgramTimeFrame.fromNameInitials"  name="visitProgramTimeFrame{{index}}.fromNameInitials" pInputText>
+                
+              </td>
+              
+              <td [style.justify-content]="'center'">
+  
+                <input type="text" [(ngModel)]="visitProgramTimeFrame.toNameInitials"  name="visitProgramTimeFrame{{index}}.toNameInitials" pInputText>
+  
+              </td>
+  
+              <td [style.justify-content]="'center'">
+  
+                <p-dropdown   [(ngModel)]="visitProgramTimeFrame.areaId" name="visitProgramTimeFrame{{index}}.relationKind"
+                              [options]="areasWithoutPositions" optionValue="id" optionLabel="fullDescription"
+                              placeholder="{{'global.selectOption' | translate}}"
+                              emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                              [showClear]="true" appendTo="body">
+                </p-dropdown>
+  
+              </td>
+        
+              <td [style.justify-content]="'center'">
+                <button pButton type="button"  pTooltip="{{(visitProgramTimeFrame.id ? 'global.delete' : 'global.remove') | translate}}" class="p-button-danger"
+                        icon="{{(visitProgramTimeFrame.id ? 'fa fa-times' : 'fa fa-minus') | translate}}" iconPos="left" (click)="deleteVisitProgramTimeFrame(index, visitProgramTimeFrame.id)">
+                </button>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+        
+      </p-panel>
+     
+     
+    </div>
+  </div>
+  
+</form>

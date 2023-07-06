@@ -1,0 +1,8 @@
+{
+  "dcConfig.data": "Στοιχεία Παραμέτρων",
+  
+  "dcConfig.vacationDaysPerYear": "Ημέρες άδειας ανά έτος",
+  "dcConfig.maxVacationInterval": "Διάστημα μεταξύ δυο αδειών σε μήνες",
+  "dcConfig.maxRegularVacationDuration": "Ανώτατο όριο ημερών άδειας για τακτικές άδειες",
+  "dcConfig.maxEmergencyVacationDuration": "Ανώτατο όριο έκτακτης άδειας σε ώρες"
+}

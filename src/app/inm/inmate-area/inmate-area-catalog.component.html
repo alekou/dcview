@@ -1,0 +1,131 @@
+<div class="grid">
+  <div class="col-12 button-container">
+    <button pButton type="submit" label="{{'global.search' | translate}}" class="p-button-warning"
+            icon="fa fa-search" iconPos="left" (click)="loadTableData()">
+    </button>
+    <button pButton type="button" label="{{'global.clearArgs' | translate}}" class="p-button-help"
+            icon="fa fa-times" iconPos="left" (click)="clearArgs()">
+    </button>
+    <button *ngIf="selectedInmateAreaRecord"
+            pButton type="button" label="{{'inmatePhoto.showPhoto' | translate}}"
+            class="p-button-info scalein" icon="fa fa-camera" iconPos="left"
+            (click)="inmatePhotoService.openInmatePhotoDisplayDialog(selectedInmateAreaRecord.inmate.id)">
+    </button>
+  </div>
+</div>
+
+<div class="grid">
+
+  <div class="col-12 md:col-3">
+
+    <p-panel header="{{'global.args' | translate}}">
+
+      <div class="p-fluid">
+
+        <app-record-dc-origin [(recordDcOrigin)]="args.recordDcOrigin" [(dcId)]="args.dcId"></app-record-dc-origin>
+
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'inmateArea.inmateId' | translate}}</label>
+            <app-select-inmate [(model)]="args.inmateId"
+                               [loadOnOpen]="true" [dialogUrl]="inmateDialogUrl">
+            </app-select-inmate>
+          </div>
+        </div>
+
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'inmateArea.areaFullDescription' | translate}}</label>
+            <p-dropdown [options]="areas" optionLabel="fullDescription" optionValue="id" [disabled]="args.inmateAreaStatus === 'WITHOUTINMATEAREA'"
+                        placeholder="{{'global.selectOption' | translate}}" [showClear]="true" [filter]="true"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [(ngModel)]="args.areaId" name="args.areaId">
+            </p-dropdown>
+            <small class="info-message" *ngIf="args.inmateAreaStatus === 'WITHOUTINMATEAREA'">
+              {{'inmateArea.info.noInmateAreaToSearch' | translate}}
+            </small>
+          </div>
+        </div>
+
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'inmateArea.inmateNationality' | translate}}</label>
+            <p-dropdown [options]="nationalities" optionLabel="nationalityNameGreek" optionValue="id"
+                        placeholder="{{'global.selectOption' | translate}}" [showClear]="true" [filter]="true"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [(ngModel)]="args.inmateNationalityId" name="args.inmateNationalityId">
+            </p-dropdown>
+          </div>
+        </div>
+
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'inmateArea.judgmentFactDescription' | translate}}</label>
+            <app-select-gen-parameter
+              [type]="pJudgmentFacts" [(model)]="args.judgmentFactId" name="judgmentFactPid" [hideAdd]="true">
+            </app-select-gen-parameter>
+          </div>
+        </div>
+
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'inmateArea.inmateRecordPenaltyCharacterization' | translate}}</label>
+            <app-select-gen-parameter
+              [type]="pCharacterizations" [(model)]="args.inmateRecordPenaltyCharacterizationId" name="inmateRecordPenaltyCharacterizationPid" [hideAdd]="true">
+            </app-select-gen-parameter>
+          </div>
+        </div>
+
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'inmateArea.inmateRecordPenaltyDuration' | translate}}</label>
+            <app-select-gen-parameter
+              [type]="pDurations" [(model)]="args.inmateRecordPenaltyDurationId" name="inmateRecordPenaltyDurationPid" [hideAdd]="true">
+            </app-select-gen-parameter>
+          </div>
+        </div>
+
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'inmateArea.inmateAreaStatus' | translate}}</label>
+            <p-dropdown [options]="inmateAreaStatuses" autoDisplayFirst class="scalein" *ngIf="inmateAreaStatuses[0]"
+                        optionLabel="label" optionValue="value" [showClear]="false"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [(ngModel)]="args.inmateAreaStatus" name="args.inmateAreaStatus" (ngModelChange)="inmateAreaStatusChanged()">
+            </p-dropdown>
+          </div>
+        </div>
+
+      </div>
+
+    </p-panel>
+  </div>
+
+  <div class="col-12 md:col-9">
+
+    <app-toitsu-table #table
+                      [url]="url"
+                      [cols]="cols"
+                      [first]="paging.first"
+                      [rows]="paging.rows"
+                      [sortField]="paging.sortField"
+                      [sortOrder]="paging.sortOrder"
+                      [args]="args"
+                      [excel]="true"
+                      [exportModel]="exportModel"
+                      [loadOnInit]="false"
+                      (rowSelected)="onSelectInmateArea()"
+                      (rowUnselected)="onUnselectInmateArea()">
+
+      <ng-template #cell1 let-rowData>
+        <!--- Κατάστημα Εγγραφής --->
+        <i class="fa fa-building color-noir" pTooltip="{{rowData.dcName}}" tooltipPosition="right"
+           *ngIf="rowData.dcId && (rowData.dcId !== authService.getUserDcId())">
+        </i>
+      </ng-template>
+
+    </app-toitsu-table>
+
+  </div>
+
+</div>

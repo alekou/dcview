@@ -1,0 +1,100 @@
+<div class="grid">
+  <div class="col-12 button-container">
+    <button pButton type="submit" label="{{'global.search' | translate}}" class="p-button-warning"
+            icon="fa fa-search" iconPos="left" (click)="loadTableData()">
+    </button>
+    <button pButton type="button" label="{{'global.clearArgs' | translate}}" class="p-button-help"
+            icon="fa fa-times" iconPos="left" (click)="clearArgs()">
+    </button>
+    <button pButton type="button" label="{{'global.newRecord' | translate}}"
+            class="p-button-info" icon="fa fa-plus" iconPos="left"
+            pTooltip="{{'global.add' | translate}}" tooltipPosition="top" (click)="openInmateRelativeViewDialog(null)">
+    </button>
+  </div>
+</div>
+
+<div class="grid">
+  <div class="col-12 md:col-3">
+    <p-panel header="{{'global.args' | translate}}">
+      
+      <div class="p-fluid">
+        
+        
+        <div class="grid align-items-center" *ngIf="fromTodayGateMovements">
+          <div class="col-12">
+            <label>{{'visitor.listdialog.args' | translate}}</label>
+            <p-dropdown [(ngModel)]="args.fromTodayGateMovements" [options]="this.todayGateMovementYesNoEnums" optionValue="value" optionLabel="label"
+                        placeholder="{{'global.all' | translate}}" [showClear]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'visitor.adt' | translate}}</label>
+            <input type="text" pInputText [(ngModel)]="args.adt">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'visitor.passportNo' | translate}}</label>
+            <input type="text" pInputText [(ngModel)]="args.passportNo">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'visitor.isLawyer' | translate}}</label>
+            <p-dropdown [(ngModel)]="args.isLawyer" [options]="yesNoEnums" optionValue="value" optionLabel="label"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}" [showClear]="true" [disabled]="!!this.searchLawyer">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'visitor.lastName' | translate}}</label>
+            <input type="text" pInputText [(ngModel)]="args.lastName">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'visitor.firstName' | translate}}</label>
+            <input type="text" pInputText [(ngModel)]="args.firstName">
+          </div>
+        </div>
+      
+      </div>
+    
+    </p-panel>
+  </div>
+  
+  <div class="col-12 md:col-9">
+    <app-toitsu-table #table
+                      [url]="url"
+                      [cols]="cols"
+                      [sortField]="sortField"
+                      [sortOrder]="sortOrder"
+                      [args]="args"
+                      [loadOnInit]="false"
+                      (rowDblClicked)="rowDblClicked($event)"
+                      (rowSelected)="rowSelected($event)"
+                      (rowUnselected)="rowUnselected($event)">
+    </app-toitsu-table>
+  </div>
+</div>
+
+<div class="grid">
+  <div class="col-12 button-container text-align-end">
+    <button pButton type="button" label="{{'global.confirm' | translate}}" class="p-button-info"
+            icon="fa fa-check" iconPos="left" (click)="confirm()">
+    </button>
+    <button pButton type="button" label="{{'global.cancel' | translate}}" class="p-button-warning"
+            icon="fa fa-times" iconPos="left" (click)="cancel()">
+    </button>
+  </div>
+</div>
+

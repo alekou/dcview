@@ -1,0 +1,15 @@
+{
+  "printout.print.reports": "Εκτυπώσεις",
+  
+  "printout.print.html": "Ανάκτηση",
+  "printout.print.pdf": "Εκτύπωση",
+  "printout.print.pdfs": "Εκτυπώσεις",
+  "printout.print.xls": "Excel",
+  "reports.doNotExist": "Δεν Υπάρχουν Διαθέσιμες Εκτυπώσεις",
+
+  "secretary.printout": "Εκτυπώσεις Γραμματείας",
+  "transfer.printout": "Εκτυπώσεις Μεταγωγών",
+  "labor.printout": "Εκτυπώσεις Εργασίας",
+  "warden.printout": "Εκτυπώσεις Αρχιφυλακείου",
+  "medical.printout": "Εκτυπώσεις"
+}

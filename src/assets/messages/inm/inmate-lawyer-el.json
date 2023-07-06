@@ -1,0 +1,7 @@
+{
+  "inmateLawyer.inmateId": "Κρατουμένος",
+  "inmateLawyer.isAuthorizedLawyer": "Εξουσιοδοτ. Δικηγόρος",
+  "inmateLawyer.authorizationStartDate": "Ημ/νία Έναρξης Εξουσιοδότησης",
+  "inmateLawyer.authorizationEndDate": "Ημ/νία Λήξης Εξουσιοδότησης",
+  "inmateLawyer.authorizationFile": "Αρχείο Εξουσιοδότησης"
+}

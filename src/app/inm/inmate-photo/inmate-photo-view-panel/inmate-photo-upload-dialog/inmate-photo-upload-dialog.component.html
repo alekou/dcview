@@ -1,0 +1,117 @@
+<!--- Dialog: Μεταφόρτωση φωτογραφιών κρατουμένου --->
+
+<div class="panel-container">
+
+  <div class="panel-content">
+    <!--- Μεταφόρτωση Αρχείων --->
+    <p-fileUpload #fileUpload
+                  name="inmatePhotoUpload[]"
+                  accept="image/*"
+                  maxFileSize="10000000"
+                  multiple="multiple"
+                  chooseLabel="{{'inmatePhoto.selectPhotos' | translate}}" chooseIcon="fa fa-plus"
+                  chooseStyleClass="p-button-info"
+                  uploadLabel="{{'inmatePhoto.uploadPhotos' | translate}}" uploadIcon="fa fa-upload"
+                  uploadStyleClass="p-button-success"
+                  cancelLabel="{{'inmatePhoto.clear' | translate}}" cancelIcon="fa fa-erase"
+                  cancelStyleClass="p-button-secondary"
+                  [customUpload]="true"
+                  (uploadHandler)="onUpload($event)"
+                  [auto]="true">
+
+      <!--- Μηνύματα για τον χρήστη --->
+      <ng-template pTemplate="toolbar">
+        <div class="py-3" *ngIf="inmatePhotos.length === 0">
+          {{'inmatePhoto.UploadFilesMessage' | translate}}
+        </div>
+        <div class="py-3" *ngIf="inmatePhotos.length === 1">
+          {{'inmatePhoto.haveUpload' | translate}}&nbsp;{{uploadedFiles.length}}&nbsp;{{'inmatePhoto.file' | translate}}
+        </div>
+        <div class="py-3" *ngIf="inmatePhotos.length > 1">
+          {{'inmatePhoto.haveUpload' | translate}}&nbsp;{{uploadedFiles.length}}&nbsp;{{'inmatePhoto.files' | translate}}
+        </div>
+        <small class="info-message" *ngIf="currentInmatePhotoCount() === 0 && uploadedFiles.length >= 1">
+          {{'inmatePhoto.info.setCurrent' | translate}}
+        </small>
+        <small class="error-message" *ngIf="currentInmatePhotoCount() > 1 && uploadedFiles.length > 0">
+          {{'inmatePhoto.info.moreThanOneCurrent' | translate}}
+        </small>
+      </ng-template>
+
+      <!--- Προβολή κάθε αρχείου --->
+      <ng-template let-file pTemplate="file">
+
+      </ng-template>
+
+      <!--- Προβολή αρχείων που ανέβασε ο χρήστης --->
+      <ng-template pTemplate="content">
+        <!--- Προβολή εικονιδίου για μεταφόρτωση αρχείων --->
+        <div class="flex align-items-center justify-content-center" *ngIf="inmatePhotos.length === 0">
+          <i class="fa fa-folder-open big-icon upload-icon fa-align-center" (click)="openFileSelection()"></i>
+        </div>
+        <!--- Προβολή πληροφοριών ανεβασμένων αρχείων --->
+        <div *ngIf="uploadedFiles.length">
+          <div *ngFor="let file of uploadedFiles; let i = index">
+            <div class="p-fileupload-content">
+              <div class="p-fileupload-row ng-star-inserted">
+                <div>
+                  {{i+1}}.
+                </div>
+                <div>
+                  <img src="{{this.base64Strings[i]}}" width="50" class="ng-star-inserted">
+                </div>
+                <div class="p-fileupload-filename">
+                  {{file.name}}
+                </div>
+                <div>
+                  {{getFormatFileSize(file.size)}}
+                </div>
+                <div>
+                  <div class="flex align-items-center flex-wrap">
+                    <div class="flex align-items-center justify-content-center padding-bottom-10">
+                      <label>{{'inmatePhoto.current' | translate}}:&nbsp;</label>
+                      <p-checkbox
+                        binary="true" [(ngModel)]="inmatePhotos[i].current" name="inmatePhotos{{i}}.current"
+                        pTooltip="{{'inmatePhoto.tooltip.setAsCurrentInmatePhoto' | translate}}">
+                      </p-checkbox>
+                    </div>
+                    <div class="flex align-items-center justify-content-center">
+                      <label>{{'inmatePhoto.comments' | translate}}:&nbsp;</label>
+                      <textarea
+                        pInputTextarea appToitsuTextareaAutoResize name="inmatePhotos{{i}}.comments"
+                        [(ngModel)]="inmatePhotos[i].comments">
+                    </textarea>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <a pTooltip="{{'inmatePhoto.tooltip.removeFile' | translate}}" tooltipPosition="right" (click)="removeUploadedFile(i)">
+                    <i class="fa fa-times color-red p-link"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </p-fileUpload>
+
+    <p-divider></p-divider>
+  </div>
+
+  <div class="panel-button-set">
+    <!--- Κουμπιά --->
+    <div class="grid">
+      <div class="col-12 button-container text-align-end">
+        <button pButton type="button" label="{{'global.save' | translate}}" class="p-button-success"
+                icon="fa fa-save" iconPos="left" [disabled]="uploadedFiles.length === 0 || inmatePhotos.length === 0"
+                (click)="saveInmatePhotos()">
+        </button>
+        <button pButton type="button" label="{{'global.cancel' | translate}}" class="p-button-warning"
+                icon="fa fa-times" iconPos="left" (click)="cancel()">
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div>

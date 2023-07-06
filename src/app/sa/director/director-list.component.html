@@ -1,0 +1,68 @@
+<div class="grid">
+  <div class="col-12 button-container">
+    <button pButton type="submit" label="{{'global.search' | translate}}" class="p-button-warning"
+            icon="fa fa-search" iconPos="left" (click)="loadTableData()">
+    </button>
+    <button pButton type="button" label="{{'global.newRecord' | translate}}" class="p-button-info"
+            icon="fa fa-plus" iconPos="left" (click)="newRecord()">
+    </button>
+  </div>
+</div>
+
+
+<div class="grid">
+  
+  <div class="col-12 md:col-3">
+    
+    <!-- Κριτήρια Αναζήτησης -->
+    <p-panel header="{{'global.args' | translate}}">
+      
+      <div class="p-fluid">
+  
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'director.lastName' | translate}}</label>
+            <input type="text" pInputText [(ngModel)]="args.lastName" name="lastName">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'director.firstName' | translate}}</label>
+            <input type="text" pInputText [(ngModel)]="args.firstName" name="firstName">
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'director.fatherName' | translate}}</label>
+            <input type="text" pInputText [(ngModel)]="args.fatherName" name="fatherName">
+          </div>
+        </div>
+  
+        <app-record-dc-origin [(dcId)]="args.dcId"></app-record-dc-origin>
+      
+      </div>
+    
+    </p-panel>
+  
+  </div>
+
+  <div class="col-12 md:col-9">
+    <app-toitsu-table #table
+                      [url]="url"
+                      [cols]="cols"
+                      [first]="paging.first"
+                      [rows]="paging.rows"
+                      [sortField]="paging.sortField"
+                      [sortOrder]="paging.sortOrder"
+                      [args]="args"
+                      [viewLink]="viewLink"
+                      [excel]="true"
+                      [exportModel]="exportModel"
+                      [loadOnInit]="false"
+                      (loadComplete)="loadComplete()">
+    </app-toitsu-table>
+  </div>
+
+</div>

@@ -1,0 +1,457 @@
+<form>
+  
+  <div class="grid">
+    <div class="col-12 button-container flex-container">
+      <div class="flex-container-start">
+        <button pButton type="button" *ngIf="!lockedRecord()"
+                label="{{'global.save' | translate}}" class="p-button-success"
+                icon="fa fa-save" iconPos="left" (click)="saveTransport()">
+        </button>
+        <button pButton type="button" *ngIf="id && !lockedRecord() && authService.hasPermission('')"
+                label="{{'global.delete' | translate}}" class="p-button-danger"
+                icon="fa fa-trash" iconPos="left" (click)="deleteTransport()">
+        </button>
+        <button pButton type="button" *ngIf="id"
+                label="{{'global.newRecord' | translate}}" class="p-button-info"
+                icon="fa fa-plus" iconPos="left" (click)="newRecord()">
+        </button>
+        <button pButton type="button"
+                label="{{'global.index' | translate}}" class="p-button-help"
+                icon="fa fa-table" iconPos="left" (click)="goToList()">
+        </button>
+        <app-other-dc-name [dcId]="transport.dcId"></app-other-dc-name>
+      </div>
+      <div class="flex-container-end">
+        <app-field-revisions *ngIf="id" [entityClass]="'inm.core.domain.Transport'" [entityId]="id"></app-field-revisions>
+      </div>
+    </div>
+  </div>
+  
+  <div class="grid" appToitsuLockControls [lockCondition]="lockedRecord()">
+    
+    <div class="col-12 md:col-6 p-fluid">
+      
+      <!-- Στοιχεία Κρατουμένου -->
+      <p-panel header="{{'transport.view.inmateData' | translate}}">
+        
+        <div class="grid align-items-center" *ngIf="!authService.isMinistry()">
+          <label class="col-12 sm:col-4 font-bold">{{'transport.inmateId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-select-inmate [disabled]="!!id" [(model)]="transport.inmateId" name="inmateId"
+                               [inmates]="inmates" [dialogUrl]="inmateDialogUrl"
+                               (modelChange)="inmateIdChanged(transport)">
+            </app-select-inmate>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'transport.lastName' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="transport.lastName" name="lastName" rows="1" appToitsuTextareaAutoResize appToitsuCapitalize
+                      [disabled]="!authService.isMinistry()"></textarea>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'transport.firstName' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="transport.firstName" name="firstName" rows="1" appToitsuTextareaAutoResize appToitsuCapitalize
+                      [disabled]="!authService.isMinistry()"></textarea>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'transport.nickName' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="transport.nickName" name="nickName" appToitsuCapitalize
+                   [disabled]="!authService.isMinistry()">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'transport.gender' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="transport.gender" name="gender" [options]="genders" optionValue="value" optionLabel="label"
+                        placeholder="{{'global.selectOption' | translate}}" [showClear]="true"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [disabled]="!authService.isMinistry()">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'transport.fatherName' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="transport.fatherName" name="fatherName" appToitsuCapitalize
+                   [disabled]="!authService.isMinistry()">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'transport.motherName' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="transport.motherName" name="motherName" appToitsuCapitalize
+                   [disabled]="!authService.isMinistry()">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'transport.motherGenos' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="transport.motherGenos" name="motherGenos" appToitsuCapitalize
+                   [disabled]="!authService.isMinistry()">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'transport.adt' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="transport.adt" name="adt" appToitsuCapitalize
+                   [disabled]="!authService.isMinistry()">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'transport.passport' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="transport.passport" name="passport" appToitsuCapitalize
+                   [disabled]="!authService.isMinistry()">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'transport.afm' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="transport.afm" name="afm" appToitsuCapitalize
+                   [disabled]="!authService.isMinistry()">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'transport.birthCountryId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="transport.birthCountryId" name="birthCountryId" (ngModelChange)="birthCountryIdChanged()"
+                        [options]="countries" optionValue="id" optionLabel="countryNameGreek"
+                        placeholder="{{'global.selectOption' | translate}}" [showClear]="true" [filter]="true"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [disabled]="!authService.isMinistry()">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'transport.birthCityId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="transport.birthCityId" name="birthCityId"
+                        [options]="birthCities" optionValue="id" optionLabel="nameGreek"
+                        placeholder="{{'global.selectOption' | translate}}" [showClear]="true" [filter]="true"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [disabled]="!authService.isMinistry()">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'transport.birthDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="transport.birthDate" name="birthDate" [disabled]="!authService.isMinistry()"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'transport.birthYear' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-inputNumber [(ngModel)]="transport.birthYear" name="birthYear" [useGrouping]="false" [maxlength]="4" [disabled]="!authService.isMinistry()"></p-inputNumber>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'transport.nationalityMainId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="transport.nationalityMainId" name="nationalityMainId"
+                        [options]="countries" optionValue="id" optionLabel="nationalityNameGreek"
+                        placeholder="{{'global.selectOption' | translate}}" [showClear]="true" [filter]="true"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [disabled]="!authService.isMinistry()">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'transport.folderEuroWarrant' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox binary="true" [(ngModel)]="transport.folderEuroWarrant" name="folderEuroWarrant"></p-checkbox>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'transport.hasExtraProtocol' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox binary="true" [(ngModel)]="transport.hasExtraProtocol" name="hasExtraProtocol"></p-checkbox>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'transport.isArchive' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox binary="true" [(ngModel)]="transport.isArchived" name="isArchive"></p-checkbox>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'transport.expulsion' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox binary="true" [(ngModel)]="transport.expulsion" name="expulsion"></p-checkbox>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'transport.hasMentalDetention' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox binary="true" [(ngModel)]="transport.hasMentalDetention" name="hasMentalDetention"></p-checkbox>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'transport.hasSentenceFee' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox binary="true" [(ngModel)]="transport.hasSentenceFee" name="hasSentenceFee"></p-checkbox>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'transport.isReleased' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox binary="true" [(ngModel)]="transport.isReleased" name="isReleased"></p-checkbox>
+          </div>
+        </div>
+      
+      </p-panel>
+      
+      <!-- Στοιχεία Κατάστασης -->
+      <p-panel header="{{'transport.view.statusData' | translate}}">
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'transport.status' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="transport.status" name="status" [options]="transportStatuses" optionValue="value" optionLabel="label"
+                        placeholder="{{'global.selectOption' | translate}}" [showClear]="true"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        (ngModelChange)="statusChanged(transport)">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'transport.approvalDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="transport.approvalDate" name="approvalDate" [disabled]="transport.status !== 'APPROVED'"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'transport.requestStatusPid' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="transport.requestStatusPid" name="requestStatusPid"
+                        [options]="requestStatuses" optionValue="id" optionLabel="description"
+                        placeholder="{{'global.selectOption' | translate}}" [showClear]="true" [filter]="true"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'transport.statusComments' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="transport.statusComments" name="statusComments" rows="2"></textarea>
+          </div>
+        </div>
+      
+      </p-panel>
+    
+    </div>
+    
+    <div class="col-12 md:col-6 p-fluid">
+      
+      <!-- Στοιχεία Μεταφοράς -->
+      <p-panel header="{{'transport.view.transportData' | translate}}">
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'transport.folderSerialNo' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="transport.folderSerialNo" name="folderSerialNo">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'transport.requestNo' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="transport.requestNo" name="requestNo">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'transport.requestDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="transport.requestDate" name="requestDate"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'transport.decisionNo' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="transport.decisionNo" name="decisionNo">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'transport.decisionDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="transport.decisionDate" name="decisionDate"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'transport.authorityPid' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="transport.authorityPid" name="authorityPid"
+                        [options]="authorities" optionValue="id" optionLabel="description"
+                        placeholder="{{'global.selectOption' | translate}}" [showClear]="true" [filter]="true"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'transport.reevaluationDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="transport.reevaluationDate" name="reevaluationDate"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'transport.abroadConvictions' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="transport.abroadConvictions" name="abroadConvictions">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'transport.factPid' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="transport.factPid" name="factPid"
+                        [options]="facts" optionValue="id" optionLabel="description"
+                        placeholder="{{'global.selectOption' | translate}}" [showClear]="true" [filter]="true"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'transport.convictionCountryId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="transport.convictionCountryId" name="convictionCountryId"
+                        [options]="countries" optionValue="id" optionLabel="countryNameGreek"
+                        placeholder="{{'global.selectOption' | translate}}" [showClear]="true" [filter]="true"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'transport.executionCountryId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="transport.executionCountryId" name="executionCountryId"
+                        [options]="countries" optionValue="id" optionLabel="countryNameGreek"
+                        placeholder="{{'global.selectOption' | translate}}" [showClear]="true" [filter]="true"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'transport.factStartDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="transport.factStartDate" name="factStartDate"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'transport.factEndDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="transport.factEndDate" name="factEndDate"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'transport.irrevocableDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="transport.irrevocableDate" name="irrevocableDate"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'transport.internalReleaseDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="transport.internalReleaseDate" name="internalReleaseDate"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'transport.externalReleaseDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="transport.externalReleaseDate" name="externalReleaseDate"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'transport.comments' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="transport.comments" name="comments" rows="2"></textarea>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'transport.monitorDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="transport.monitorDate" name="monitorDate"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'transport.notes' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="transport.notes" name="notes" rows="4"></textarea>
+          </div>
+        </div>
+      
+      </p-panel>
+      
+      <!-- Στοιχεία Κατάστασης -->
+      <p-panel header="{{'transport.view.sentenceData' | translate}}">
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'transport.sentencePid' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="transport.sentencePid" name="sentencePid"
+                        [options]="sentences" optionValue="id" optionLabel="description"
+                        placeholder="{{'global.selectOption' | translate}}" [showClear]="true" [filter]="true"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'transport.sentenceStartDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="transport.sentenceStartDate" name="sentenceStartDate"></app-toitsu-calendar>
+          </div>
+        </div>
+      
+      </p-panel>
+    
+    </div>
+  
+  </div>
+
+</form>

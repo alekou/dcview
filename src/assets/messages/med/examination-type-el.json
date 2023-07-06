@@ -1,0 +1,11 @@
+{
+  "examinationType.code": "Κωδικός",
+  "examinationType.categoryPid": "Κατηγορία",
+  "examinationType.type": "Τύπος",
+  "examinationType.description": "Περιγραφή",
+  "examinationType.isBloodSampling": "Αιμοληψία",
+  "examinationType.details": "Τύπος Εξέτασης",
+  "examinationType.examinations": "Ομάδες Εξέτασης",
+  "examinationTypeList.dialogTitle": "Εξέταση Κρατουμένου"
+  
+}

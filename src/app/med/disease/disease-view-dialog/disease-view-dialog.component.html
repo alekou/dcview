@@ -1,0 +1,68 @@
+<form>
+  <div class="grid" appToitsuLockControls [lockCondition]="lockedRecord()">
+    <div class="col-12 p-fluid">
+      <p-panel header="{{'disease.details' | translate}}">
+    
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'disease.inmateId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-select-inmate [disabled]="!!disease.id" [(model)]="disease.inmateId" [loadOnOpen]="true" [dialogUrl]="inmateDialogUrl" name="inmateId"></app-select-inmate>
+          </div>
+        </div>
+    
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'disease.diseaseTypeId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="disease.diseaseTypeId" [options]="diseaseTypes" name="diseaseTypeId" optionValue="id" optionLabel="description"
+                        placeholder="{{'global.selectOption' | translate}}" emptyMessage="{{'global.noResultsFound' | translate}}"
+                        emptyFilterMessage="{{'global.noResultsFound' | translate}}" [showClear]="true" [filter]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'disease.diagnosisDate' | translate}}</label>
+          <div class="col-12 sm:col-8 inline-flex align-items-center">
+            <app-toitsu-calendar class="flex-grow" [(model)]="disease.diagnosisDate" name="diagnosisDate"></app-toitsu-calendar>
+          </div>
+        </div>
+    
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{ 'disease.isChronic' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox binary="true" [(ngModel)]="disease.isChronic" name="isChronic"></p-checkbox>
+          </div>
+        </div>
+    
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'disease.progression' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="disease.progression" name="progression">
+          </div>
+        </div>
+    
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'disease.symptoms' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="disease.symptoms" name="symptoms" rows="5"></textarea>
+          </div>
+        </div>
+      
+      </p-panel>
+    </div>
+  </div>
+  
+  <div class="grid">
+    <div class="col-12 button-container text-align-end m-1">
+      <button pButton type="button" label="{{'global.save' | translate}}" class="p-button-success"
+              icon="fa fa-save" iconPos="left" (click)="saveDisease()">
+      </button>
+      <button pButton type="button" *ngIf="disease.id" label="{{'global.delete' | translate}}" class="p-button-danger"
+              icon="fa fa-trash" iconPos="left" (click)="deleteDisease()">
+      </button>
+      <button pButton type="button" label="{{'global.cancel' | translate}}" class="p-button-warning"
+              icon="fa fa-times" iconPos="left" (click)="cancel()">
+      </button>
+    </div>
+  </div>
+</form>

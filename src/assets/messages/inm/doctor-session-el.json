@@ -1,0 +1,19 @@
+{
+  "doctorSession.doctorId": "Ιατρός",
+  "doctorSession.inmateId": "Κρατούμενος",
+  "doctorSession.sessionTypeId": "Τύπος Συνεδρίας",
+  "doctorSession.sessionDate": "Ημερομηνία",
+  "doctorSession.description": "Περιγραφή",
+  "doctorSession.comments": "Παρατηρήσεις",
+
+  "doctorSession.args.inmateCode": "Α.Γ.Μ. Κρατουμένου",
+
+  "doctorSession.emptyReport": "Κενή Φόρμα",
+  "doctorSession.templateReport": "Φόρμα απο Πρότυπο",
+  "doctorSession.openReport": "Άνοιγμα Φόρμας",
+
+  "doctorSession.view.participants": "Συμμετέχοντες",
+  "doctorSession.view.reportData": "Στοιχεία Αναφοράς",
+  
+  "doctorSession.view.replaceReport": "Υπάρχει ήδη φόρμα για τη συνεδρία. Το περιεχόμενο της τρέχουσας εκτύπωσης θα αντικατασταθεί. Θέλετε να συνεχίσετε;"
+}

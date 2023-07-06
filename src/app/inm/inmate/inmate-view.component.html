@@ -1,0 +1,1262 @@
+<form>
+  
+  <div class="grid">
+    <div class="col-12 button-container flex-container">
+      <div class="flex-container-start">
+        <button pButton type="button" *ngIf="!lockedInmate()"
+                label="{{'global.save' | translate}}" class="p-button-success"
+                icon="fa fa-save" iconPos="left" (click)="saveInmate()">
+        </button>
+        <button pButton type="button" *ngIf="id && !lockedInmate() && authService.hasPermission('inm_inmate_delete')"
+                label="{{'global.delete' | translate}}" class="p-button-danger"
+                icon="fa fa-trash" iconPos="left" (click)="deleteInmate()">
+        </button>
+        <button pButton type="button" *ngIf="id && !authService.isMinistry()" label="{{'global.newRecord' | translate}}" class="p-button-info"
+                icon="fa fa-plus" iconPos="left" (click)="goToOldList()">
+        </button>
+        <button pButton type="button" label="{{'global.index' | translate}}" class="p-button-help"
+                icon="fa fa-table" iconPos="left" (click)="goToList()">
+        </button>
+        <app-template-button *ngIf="!!id" [entity]="'INMATEFOLDER'" [entityId]="this.id" 
+                             [entityIdColName]="'inmateFolderId'" [application]="'INM'"> 
+        </app-template-button>
+        <button pButton type="button" *ngIf="id && inmate.canEditInmate && !authService.isMinistry() && inmate.folderStatus === 'OPEN'"
+                label="{{'inmate.folder.close.button' | translate}}" class="p-button-warning"
+                icon="fa fa-folder-o" iconPos="left" (click)="openCloseInmateFolderDialog()">
+        </button>
+        <button pButton type="button" *ngIf="id && inmate.canEditInmate && !authService.isMinistry() && inmate.folderStatus === 'CLOSED'"
+                label="{{'inmate.folder.reopen.button' | translate}}" class="p-button-warning"
+                icon="fa fa-folder" iconPos="left" (click)="reopenInmateFolder()">
+        </button>
+        <button pButton type="button" *ngIf="id && inmate.inmateRecord.status !== 'CLOSED' && !authService.isMinistry()"
+                label="{{'inmateRecord.close.button' | translate}}" class="p-button-warning"
+                icon="fa fa-envelope-o" iconPos="left" (click)="openCloseInmateRecordDialog()">
+        </button>
+        <button pButton type="button" *ngIf="id && inmate.inmateRecord.status === 'CLOSED' && inmate.folderStatus === 'OPEN' && !authService.isMinistry()"
+                label="{{'inmateRecord.reopen.button' | translate}}" class="p-button-warning"
+                icon="fa fa-envelope" iconPos="left" (click)="reopenInmateRecord()">
+        </button>
+      </div>
+      <div class="flex-container-end">
+        <app-documents [entity]="'INMATE'" [entityId]="id"></app-documents>
+        <app-field-revisions *ngIf="id" [entityClass]="'inm.core.domain.Inmate'" [entityId]="id" ></app-field-revisions>
+      </div>
+    </div>
+  </div>
+  
+  <div class="grid" appToitsuLockControls [lockCondition]="lockedInmate()">
+    
+    <div class="col-12 md:col-6 p-fluid">
+      
+      <p-panel header="{{'inmate.view.personalData' | translate}}" toggleable="true">
+        
+        <div class="grid align-items-center" *ngIf="id">
+          <label class="col-12 sm:col-4">{{'inmate.masterInmate.code' | translate}}
+            <app-field-revisions [entityClass]="'inm.core.domain.MasterInmate'" [entityId]="id" [fieldName]="'masterInmateId'" [iconMode]="true" ></app-field-revisions>
+          </label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="inmate.masterInmate.code" name="code" disabled>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center" *ngIf="id">
+          <label class="col-12 sm:col-4">{{'inmate.masterInmate.fingerprint' | translate}}
+          </label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="inmate.masterInmate.fingerprint" name="fingerprint" disabled>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center" *ngIf="id">
+          <label class="col-12 sm:col-4">{{'inmate.masterInmate.dee' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="inmate.masterInmate.dee" name="dee" disabled>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmate.oldCode' | translate}}
+            <app-field-revisions *ngIf="id" [entityClass]="'inm.core.domain.Inmate'" [entityId]="id" [fieldName]="'oldCode'" [iconMode]="true" ></app-field-revisions>
+          </label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="inmate.oldCode" name="oldCode" appToitsuCapitalize>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'inmate.lastName' | translate}}
+            <app-field-revisions *ngIf="id" [entityClass]="'inm.core.domain.Inmate'" [entityId]="id" [fieldName]="'lastName'" [iconMode]="true" ></app-field-revisions>
+          </label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="inmate.lastName" name="lastName" rows="1" appToitsuTextareaAutoResize appToitsuCapitalize></textarea>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'inmate.firstName' | translate}}
+            <app-field-revisions *ngIf="id" [entityClass]="'inm.core.domain.Inmate'" [entityId]="id" [fieldName]="'firstName'" [iconMode]="true" ></app-field-revisions>
+          </label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="inmate.firstName" name="firstName" rows="1" appToitsuTextareaAutoResize appToitsuCapitalize></textarea>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmate.nickName' | translate}}
+            <app-field-revisions *ngIf="id" [entityClass]="'inm.core.domain.Inmate'" [entityId]="id" [fieldName]="'nickName'" [iconMode]="true" ></app-field-revisions>
+          </label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="inmate.nickName" name="nickName" appToitsuCapitalize>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'inmate.fatherName' | translate}}
+            <app-field-revisions *ngIf="id" [entityClass]="'inm.core.domain.Inmate'" [entityId]="id" [fieldName]="'fatherName'" [iconMode]="true" ></app-field-revisions>
+          </label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="inmate.fatherName" name="fatherName" appToitsuCapitalize>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmate.motherName' | translate}}
+            <app-field-revisions *ngIf="id" [entityClass]="'inm.core.domain.Inmate'" [entityId]="id" [fieldName]="'motherName'" [iconMode]="true" ></app-field-revisions>
+          </label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="inmate.motherName" name="motherName" appToitsuCapitalize>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmate.motherGenos' | translate}}
+            <app-field-revisions *ngIf="id" [entityClass]="'inm.core.domain.Inmate'" [entityId]="id" [fieldName]="'motherGenos'" [iconMode]="true" ></app-field-revisions>
+          </label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="inmate.motherGenos" name="motherGenos" appToitsuCapitalize>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'inmate.gender' | translate}}
+            <app-field-revisions *ngIf="id" [entityClass]="'inm.core.domain.Inmate'" [entityId]="id" [fieldName]="'gender'" [iconMode]="true" ></app-field-revisions>
+          </label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="inmate.gender" name="gender" [options]="genders" optionValue="value" optionLabel="label"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [showClear]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmate.adt' | translate}}
+            <app-field-revisions *ngIf="id" [entityClass]="'inm.core.domain.Inmate'" [entityId]="id" [fieldName]="'adt'" [iconMode]="true" ></app-field-revisions>
+          </label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="inmate.adt" name="adt" appToitsuCapitalize>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmate.adtAuthority' | translate}}
+            <app-field-revisions *ngIf="id" [entityClass]="'inm.core.domain.Inmate'" [entityId]="id" [fieldName]="'adtAuthority'" [iconMode]="true" ></app-field-revisions>
+          </label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="inmate.adtAuthority" name="adtAuthority" appToitsuCapitalize>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmate.passport' | translate}}
+            <app-field-revisions *ngIf="id" [entityClass]="'inm.core.domain.Inmate'" [entityId]="id" [fieldName]="'passport'" [iconMode]="true" ></app-field-revisions>
+          </label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="inmate.passport" name="passport" appToitsuCapitalize>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmate.afm' | translate}}
+            <app-field-revisions *ngIf="id" [entityClass]="'inm.core.domain.Inmate'" [entityId]="id" [fieldName]="'afm'" [iconMode]="true" ></app-field-revisions>
+          </label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="inmate.afm" name="afm" appToitsuCapitalize>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmate.doi' | translate}}
+            <app-field-revisions *ngIf="id" [entityClass]="'inm.core.domain.Inmate'" [entityId]="id" [fieldName]="'doi'" [iconMode]="true" ></app-field-revisions>
+          </label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="inmate.doi" name="doi" appToitsuCapitalize>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmate.amka' | translate}}
+            <app-field-revisions *ngIf="id" [entityClass]="'inm.core.domain.Inmate'" [entityId]="id" [fieldName]="'amka'" [iconMode]="true" ></app-field-revisions>
+          </label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="inmate.amka" name="amka" appToitsuCapitalize>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmate.ageCategory' | translate}}
+            <app-field-revisions *ngIf="id" [entityClass]="'inm.core.domain.Inmate'" [entityId]="id" [fieldName]="'ageCategory'" [iconMode]="true" ></app-field-revisions>
+          </label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="inmate.ageCategory" name="ageCategory" [options]="ageCategories" optionValue="value" optionLabel="label"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [showClear]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmate.birthCountryId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-inputNumber [(ngModel)]="inmate.birthCountryId" name="birthCountryId" [useGrouping]="false"></p-inputNumber>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmate.birthMunicipalityId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-inputNumber [(ngModel)]="inmate.birthMunicipalityId" name="birthMunicipalityId" [useGrouping]="false"></p-inputNumber>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmate.birthCityId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-inputNumber [(ngModel)]="inmate.birthCityId" name="birthCityId" [useGrouping]="false"></p-inputNumber>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmate.birthPlace' | translate}}
+            <app-field-revisions *ngIf="id" [entityClass]="'inm.core.domain.Inmate'" [entityId]="id" [fieldName]="'birthPlace'" [iconMode]="true" ></app-field-revisions>
+          </label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="inmate.birthPlace" name="birthPlace" appToitsuCapitalize>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmate.birthDate' | translate}}
+            <app-field-revisions *ngIf="id" [entityClass]="'inm.core.domain.Inmate'" [entityId]="id" [fieldName]="'birthDate'" [iconMode]="true" ></app-field-revisions>
+          </label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="inmate.birthDate" name="birthDate"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmate.birthYear' | translate}}
+            <app-field-revisions *ngIf="id" [entityClass]="'inm.core.domain.Inmate'" [entityId]="id" [fieldName]="'birthYear'" [iconMode]="true" ></app-field-revisions>
+          </label>
+          <div class="col-12 sm:col-8">
+            <p-inputNumber [(ngModel)]="inmate.birthYear" name="birthYear" [useGrouping]="false" [maxlength]="4"></p-inputNumber>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'inmate.religionPid' | translate}}
+            <app-field-revisions *ngIf="id" [entityClass]="'inm.core.domain.Inmate'" [entityId]="id" [fieldName]="'religionPid'" [iconMode]="true" ></app-field-revisions>
+          </label>
+          <div class="col-12 sm:col-8">
+            <app-select-gen-parameter [type]="pReligion" [(model)]="inmate.religionPid" name="religionPid"></app-select-gen-parameter>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmate.recidivist' | translate}}
+            <app-field-revisions *ngIf="id" [entityClass]="'inm.core.domain.Inmate'" [entityId]="id" [fieldName]="'recidivist'" [iconMode]="true" ></app-field-revisions>
+          </label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox binary="true" [(ngModel)]="inmate.recidivist" name="recidivist"></p-checkbox>
+          </div>
+        </div>
+        
+      </p-panel>
+      
+      <p-panel header="{{'inmate.view.nationalityData' | translate}}" toggleable="true">
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'inmate.nationalityMainId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="inmate.nationalityMainId" name="nationalityMainId"
+                        [options]="countries" optionValue="id" optionLabel="nationalityNameGreek"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [showClear]="true" [filter]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmate.nationality2Id' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="inmate.nationality2Id" name="nationality2Id"
+                        [options]="countries" optionValue="id" optionLabel="nationalityNameGreek"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [showClear]="true" [filter]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmate.nationality3Id' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="inmate.nationality3Id" name="nationality3Id"
+                        [options]="countries" optionValue="id" optionLabel="nationalityNameGreek"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [showClear]="true" [filter]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmate.nationality4Id' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="inmate.nationality4Id" name="nationality4Id"
+                        [options]="countries" optionValue="id" optionLabel="nationalityNameGreek"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [showClear]="true" [filter]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmate.nationality5Id' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="inmate.nationality5Id" name="nationality5Id"
+                        [options]="countries" optionValue="id" optionLabel="nationalityNameGreek"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [showClear]="true" [filter]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+      </p-panel>
+      
+      <p-panel header="{{'inmate.view.educationData' | translate}}" toggleable="true" [collapsed]="!!id">
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmate.educationPid' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-select-gen-parameter [type]="pEducation" [(model)]="inmate.educationPid" name="educationPid"></app-select-gen-parameter>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmate.foreignLanguagePid' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-select-gen-parameter [type]="pForeignLanguage" [(model)]="inmate.foreignLanguagePid" name="foreignLanguagePid"></app-select-gen-parameter>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmate.professionPid' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-select-gen-parameter [type]="pProfession" [(model)]="inmate.professionPid" name="professionPid"></app-select-gen-parameter>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmate.otherEducation' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="inmate.otherEducation" name="otherEducation" appToitsuCapitalize>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmate.newEducationInsidePid' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-select-gen-parameter [type]="pNewEducationInside" [(model)]="inmate.newEducationInsidePid" name="newEducationInsidePid"></app-select-gen-parameter>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmate.newEducationOutsidePid' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-select-gen-parameter [type]="pNewEducationOutside" [(model)]="inmate.newEducationOutsidePid" name="newEducationOutsidePid"></app-select-gen-parameter>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmate.otherNewEducation' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="inmate.otherNewEducation" name="otherNewEducation" appToitsuCapitalize>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmate.verbalSkillGreekPid' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-select-gen-parameter [type]="pVerbalSkillGreek" [(model)]="inmate.verbalSkillGreekPid" name="verbalSkillGreekPid"></app-select-gen-parameter>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmate.writtenSkillGreekPid' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-select-gen-parameter [type]="pWrittenSkillGreek" [(model)]="inmate.writtenSkillGreekPid" name="writtenSkillGreekPid"></app-select-gen-parameter>
+          </div>
+        </div>
+        
+      </p-panel>
+      
+      <p-panel header="{{'inmate.view.residenceData' | translate}}" toggleable="true" [collapsed]="!!id">
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmate.homeCountryId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="inmate.homeCountryId" name="homeCountryId" (ngModelChange)="homeCountryIdChanged()"
+                        [options]="countries" optionValue="id" optionLabel="countryNameGreek"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [showClear]="true" [filter]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmate.homeCityId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="inmate.homeCityId" name="homeCityId"
+                        [options]="homeCities" optionValue="id" optionLabel="nameGreek"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [showClear]="true" [filter]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmate.homeArea' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="inmate.homeArea" name="homeArea" appToitsuCapitalize>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmate.homeAddress' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="inmate.homeAddress" name="homeAddress" appToitsuCapitalize>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmate.homePhone' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="inmate.homePhone" name="homePhone" appToitsuCapitalize>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmate.residenceCountryId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="inmate.residenceCountryId" name="residenceCountryId" (ngModelChange)="residenceCountryIdChanged()"
+                        [options]="countries" optionValue="id" optionLabel="countryNameGreek"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [showClear]="true" [filter]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmate.residenceCityId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="inmate.residenceCityId" name="residenceCityId"
+                        [options]="residenceCities" optionValue="id" optionLabel="nameGreek"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [showClear]="true" [filter]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmate.residenceArea' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="inmate.residenceArea" name="residenceArea" appToitsuCapitalize>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmate.residenceAddress' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="inmate.residenceAddress" name="residenceAddress" appToitsuCapitalize>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmate.residencePhone' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="inmate.residencePhone" name="residencePhone" appToitsuCapitalize>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmate.residenceYearsGreece' | translate}}</label>
+          <div class="col-12 sm:col-4">
+            <p-inputNumber [(ngModel)]="inmate.residenceYearsGreece" name="residenceYearsGreece" [useGrouping]="false"
+                           [showButtons]="true" buttonLayout="horizontal" spinnerMode="horizontal"
+                           incrementButtonClass="p-button-success" decrementButtonClass="p-button-danger" 
+                           incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus"
+                           [min]="0" [max]="99" [step]="1" inputStyleClass="text-align-center">
+            </p-inputNumber>
+          </div>
+        </div>
+        
+      </p-panel>
+      
+      <p-panel header="{{'inmate.view.characteristicsData' | translate}}" toggleable="true" [collapsed]="!!id">
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmate.height' | translate}}</label>
+          <div class="col-12 sm:col-4">
+            <p-inputNumber [(ngModel)]="inmate.height" name="height" [useGrouping]="false"
+                           [showButtons]="true" buttonLayout="horizontal" spinnerMode="horizontal"
+                           incrementButtonClass="p-button-success" decrementButtonClass="p-button-danger" 
+                           incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus"
+                           [min]="0" [max]="999" [step]="10" inputStyleClass="text-align-center">
+            </p-inputNumber>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmate.eyeColorPid' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-select-gen-parameter [type]="pEyeColor" [(model)]="inmate.eyeColorPid" name="eyeColorPid"></app-select-gen-parameter>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmate.hairColorPid' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-select-gen-parameter [type]="pHairColor" [(model)]="inmate.hairColorPid" name="hairColorPid"></app-select-gen-parameter>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmate.lineaments' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="inmate.lineaments" name="lineaments" appToitsuCapitalize>
+          </div>
+        </div>
+      </p-panel>
+      
+      <p-panel header="{{'inmate.view.commentsData' | translate}}" toggleable="true" [collapsed]="!!id">
+    
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmate.comments' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="inmate.comments" name="comments" rows="6"></textarea>
+          </div>
+        </div>
+    
+        <div class="grid align-items-center" *ngIf="inmate.medComments">
+          <label class="col-12 sm:col-4">{{'inmate.medComments' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="inmate.medComments" name="medComments" rows="6" disabled></textarea>
+          </div>
+        </div>
+  
+      </p-panel>
+      
+      <p-panel header="{{'inmate.view.familyData' | translate}}" toggleable="true" [collapsed]="!!id" (onBeforeToggle)="loadInmateRelatives()">
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmate.maritalStatus' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="inmate.maritalStatus" name="maritalStatus" [options]="maritalStatuses" optionValue="value" optionLabel="label"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [showClear]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmate.otherMaritalStatusPid' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-select-gen-parameter [type]="pOtherMaritalStatus" [(model)]="inmate.otherMaritalStatusPid" name="otherMaritalStatusPid"></app-select-gen-parameter>
+          </div>
+        </div>
+        
+        <app-inmate-relatives [inmateId]="id"></app-inmate-relatives>
+        
+      </p-panel>
+      
+    </div>
+    
+    <div class="col-12 md:col-6 p-fluid">
+
+      <!--- Απουσία Κρατουμένου --->
+      <p-panel toggleable="true" collapsed="true" *ngIf="inmate.inmateAbsence.id">
+
+        <ng-template pTemplate="header">
+          <div class="font-weight-600" *ngIf="inmate.inmateAbsence.destination">
+            {{'inm.inmateAbsence' | translate}}&nbsp;({{inmate.inmateAbsence.destination}})
+          </div>
+          <div class="font-weight-600" *ngIf="!inmate.inmateAbsence.destination">
+            {{'inm.inmateAbsence' | translate}}
+          </div>
+        </ng-template>
+
+        <!--- Απουσία Κρατουμένου --->
+        <div class="grid">
+          <div class="col-12 md:col-12 p-fluid">
+
+            <div class="grid align-items-center">
+              <label class="col-12 sm:col-4">{{'inmateAbsence.type' | translate}}</label>
+              <div class="col-12 sm:col-8">
+                <input type="text" pInputText [(ngModel)]="inmate.inmateAbsence.type" name="inmateAbsence.type" disabled>
+              </div>
+            </div>
+
+            <div class="grid align-items-center">
+              <label class="col-12 sm:col-4">{{'inmateAbsence.reason' | translate}}</label>
+              <div class="col-12 sm:col-8">
+                <input type="text" pInputText [(ngModel)]="inmate.inmateAbsence.reason" name="inmateAbsence.reason" disabled>
+              </div>
+            </div>
+
+            <div class="grid align-items-center">
+              <label class="col-12 sm:col-4">{{'inmateAbsence.dateFrom' | translate}}</label>
+              <div class="col-12 sm:col-8">
+                <app-toitsu-calendar [(model)]="inmate.inmateAbsence.fromDate" name="inmateAbsence.dateFrom" [showTime]="true" [disabled]="true"></app-toitsu-calendar>
+              </div>
+            </div>
+
+            <div class="grid align-items-center">
+              <label class="col-12 sm:col-4">{{'inmateAbsence.dateTo' | translate}}</label>
+              <div class="col-12 sm:col-8">
+                <app-toitsu-calendar [(model)]="inmate.inmateAbsence.toDate" name="inmateAbsence.dateTo" [showTime]="true" [disabled]="true"></app-toitsu-calendar>
+              </div>
+            </div>
+
+            <div class="grid align-items-center">
+              <label class="col-12 sm:col-4">{{'inmateAbsence.destination' | translate}}</label>
+              <div class="col-12 sm:col-8">
+                <input type="text" pInputText [(ngModel)]="inmate.inmateAbsence.destination" name="inmateAbsence.destination" disabled>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </p-panel>
+      
+      <p-panel header="{{'inmate.view.info' | translate}}" *ngIf="id" toggleable="true" collapsed="true">
+        
+      </p-panel>
+  
+      <p-panel *ngIf="id" header="{{'inmate.view.relevantRecords' | translate}}" toggleable="true">
+    
+        <div class="grid">
+      
+          <div class="col-12 md:col-6 p-fluid">
+        
+            <div class="grid align-items-center">
+          
+              <label class="col-12 sm:col-4">{{'inmate.view.relevantRecords.vacations' | translate}}</label>
+              <div class="col-12 sm:col-8">
+                <a (click)="goToRelatedRecordList('vacation')"  class="cursor-pointer"
+                   pTooltip="{{'inmate.view.relevantRecords.goToList' | translate}}" tooltipPosition="right">
+                  <i class="fa fa-edit"></i>
+                </a>
+              </div>
+            </div>
+        
+            <div class="grid align-items-center">
+              <label class="col-12 sm:col-4">{{'inmate.view.relevantRecords.transfers' | translate}}</label>
+              <div class="col-12 sm:col-8">
+                <a (click)="goToRelatedRecordList('transfer')" class="cursor-pointer"
+                   pTooltip="{{'inmate.view.relevantRecords.goToList' | translate}}" tooltipPosition="right">
+                  <i class="fa fa-edit"></i>
+                </a>
+              </div>
+            </div>
+        
+            <div class="grid align-items-center">
+              <label class="col-12 sm:col-4">{{'inmate.view.relevantRecords.inmateLabors' | translate}}</label>
+              <div class="col-12 sm:col-8">
+                <a (click)="goToRelatedRecordList('inmatelabor')" class="cursor-pointer"
+                   pTooltip="{{'inmate.view.relevantRecords.goToList' | translate}}" tooltipPosition="right">
+                  <i class="fa fa-edit"></i>
+                </a>
+              </div>
+            </div>
+      
+          </div>
+      
+          <div class="col-12 md:col-6 p-fluid">
+        
+            <div class="grid align-items-center">
+              <label class="col-12 sm:col-4">{{'inmate.view.relevantRecords.disciplines' | translate}}</label>
+              <div class="col-12 sm:col-8">
+                <a (click)="goToRelatedRecordList('discipline')" class="cursor-pointer"
+                   pTooltip="{{'inmate.view.relevantRecords.goToList' | translate}}" tooltipPosition="right">
+                  <i class="fa fa-edit"></i>
+                </a>
+              </div>
+            </div>
+        
+            <div class="grid align-items-center">
+              <label class="col-12 sm:col-4">{{'inmate.view.relevantRecords.visits' | translate}}</label>
+              <div class="col-12 sm:col-8">
+                <a (click)="goToRelatedRecordList('visit')"  class="cursor-pointer"
+                   pTooltip="{{'inmate.view.relevantRecords.goToList' | translate}}" tooltipPosition="right">
+                  <i class="fa fa-edit"></i>
+                </a>
+              </div>
+            </div>
+        
+            <div class="grid align-items-center">
+              <label class="col-12 sm:col-4">{{'inmate.view.relevantRecords.labordays' | translate}}</label>
+              <div class="col-12 sm:col-8">
+                <a (click)="goToRelatedRecordList('laborday')" class="cursor-pointer"
+                   pTooltip="{{'inmate.view.relevantRecords.goToList' | translate}}" tooltipPosition="right">
+                  <i class="fa fa-edit"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+    
+        </div>
+  
+      </p-panel>
+      
+      <!--- Φωτογραφίες Κρατουμένου --->
+      <app-inm-inmate-photo-view-panel [model]="inmate" name="inmatePhoto.inmateId" [hideUtils]="false"></app-inm-inmate-photo-view-panel>
+      
+      <p-panel toggleable="true">
+        <ng-template pTemplate="header">
+          <span class="p-panel-title">{{'inmate.view.folderData' | translate}}</span>
+          <a *ngIf="id" class="order-1 cursor-pointer" pTooltip="{{'inmate.view.goToFolder' | translate}}" tooltipPosition="top" (click)="goToFolder()">
+            <i class="fa fa-share"></i>
+          </a>
+        </ng-template>
+        
+        <div class="grid align-items-center" *ngIf="id">
+          <label class="col-12 sm:col-4 font-bold">{{'inmate.folderSerialNo' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="inmate.folderSerialNo" name="folderSerialNo" disabled>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'inmate.folderStatus' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="inmate.folderStatus" name="folderStatus" [disabled]="true"
+                        [options]="folderStatuses" optionValue="value" optionLabel="label"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'inmate.folderOpeningDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="inmate.folderOpeningDate" name="folderOpeningDate"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmate.folderOpeningReasonPid' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-select-gen-parameter [type]="pFolderOpeningReason" [(model)]="inmate.folderOpeningReasonPid" name="folderOpeningReasonPid"></app-select-gen-parameter>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmate.folderEuroWarrant' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox binary="true" [(ngModel)]="inmate.folderEuroWarrant" name="folderEuroWarrant"></p-checkbox>
+          </div>
+        </div>
+        
+      </p-panel>
+      
+      <p-panel toggleable="true">
+        
+        <ng-template pTemplate="header">
+          <div class="inline-flex">
+            <span class="p-panel-title"> {{'inmate.view.inmateRecordData' | translate}} </span>
+          </div>
+        </ng-template>
+        
+        <ng-template pTemplate="icons">
+           <app-field-revisions [entityClass]="'inm.core.domain.InmateRecord'" [entityId]="inmate.inmateRecord.id" [iconMode]="true" ></app-field-revisions>
+        </ng-template>
+        
+        <div class="grid align-items-center" *ngIf="id">
+          <label class="col-12 sm:col-4 font-bold">{{'inmateRecord.code' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="inmate.inmateRecord.code" name="inmateRecord.code" disabled>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'inmateRecord.status' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="inmate.inmateRecord.status" name="inmateRecord.status" [disabled]="true"
+                        [options]="inmateRecordStatuses" optionValue="value" optionLabel="label"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'inmateRecord.category' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="inmate.inmateRecord.category" name="inmateRecord.category" [disabled]="lockedInmateRecord()"
+                        [options]="inmateRecordCategories" optionValue="value" optionLabel="label"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [showClear]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'inmateRecord.characterizationPid' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-select-gen-parameter [type]="pCharacterization" [(model)]="inmate.inmateRecord.characterizationPid" name="inmateRecord.characterizationPid" [disabled]="lockedInmateRecord()"></app-select-gen-parameter>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4" [ngClass]="{'font-bold': inmate.inmateRecord.category === 'CONVICT'}">{{'inmateRecord.duration' | translate}}</label>
+          <div class="col-12 sm:col-4">
+            <app-select-gen-parameter [type]="pDurationType" [(model)]="inmate.inmateRecord.durationTypePid" name="inmateRecord.durationTypePid" [disabled]="lockedInmateRecord()"></app-select-gen-parameter>
+          </div>
+          <div class="col-12 sm:col-4">
+            <app-select-gen-parameter [type]="pDuration" [(model)]="inmate.inmateRecord.durationPid" name="inmateRecord.durationPid" [disabled]="lockedInmateRecord()"></app-select-gen-parameter>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'inmateRecord.entryDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="inmate.inmateRecord.entryDate" name="inmateRecord.entryDate" [disabled]="lockedInmateRecord()"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'inmateRecord.entryReasonPid' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-select-gen-parameter [type]="pEntryReason" [(model)]="inmate.inmateRecord.entryReasonPid" name="inmateRecord.entryReasonPid" [disabled]="lockedInmateRecord()"></app-select-gen-parameter>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmateRecord.arrestDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="inmate.inmateRecord.arrestDate" name="inmateRecord.arrestDate" [disabled]="lockedInmateRecord()"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmateRecord.custodyEndDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="inmate.inmateRecord.custodyEndDate" name="inmateRecord.custodyEndDate" [disabled]="lockedInmateRecord()"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+      </p-panel>
+      
+      <p-panel toggleable="true">
+        
+        <ng-template pTemplate="header">
+          <div class="inline-flex">
+            <span class="p-panel-title"> {{'inmate.view.judgmentData' | translate}} </span>
+          </div>
+        </ng-template>
+        
+        <ng-template pTemplate="icons">
+          <app-field-revisions *ngIf="inmate.judgment.id" [entityClass]="'inm.core.domain.Judgment'" [entityId]="inmate.judgment.id" [iconMode]="true" ></app-field-revisions>
+        </ng-template>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'judgment.sortField' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="inmate.judgment.sortField" name="judgment.sortField">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'judgment.orderNo' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="inmate.judgment.orderNo" name="judgment.orderNo">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'judgment.orderDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="inmate.judgment.orderDate" name="judgment.orderDate"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'judgment.daOfficePid' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-select-gen-parameter [type]="pDaOffice" [(model)]="inmate.judgment.daOfficePid" name="judgment.daOfficePid"></app-select-gen-parameter>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'judgment.daOfficeCityId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="inmate.judgment.daOfficeCityId" name="judgment.daOfficeCityId"
+                        [options]="greekCities" optionValue="id" optionLabel="nameGreek"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [showClear]="true" [filter]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'judgment.type' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="inmate.judgment.type" name="judgment.type"
+                        [options]="judgmentTypes" optionValue="value" optionLabel="label"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [showClear]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'judgment.judgmentNo' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="inmate.judgment.judgmentNo" name="judgment.judgmentNo">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'judgment.judgmentDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="inmate.judgment.judgmentDate" name="judgment.judgmentDate"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'judgment.courthouseId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-select-courthouse [(model)]="inmate.judgment.courthouseId" name="judgment.courthouseId"></app-select-courthouse>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'judgment.categoryPid' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-select-gen-parameter [type]="pJudgmentCategory" [(model)]="inmate.judgment.categoryPid" name="judgment.categoryPid"></app-select-gen-parameter>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'judgment.fact' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-select-gen-parameter [type]="pFact" [(model)]="inmate.judgment.factPid" name="judgment.factPid"></app-select-gen-parameter>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'judgment.sentencePid' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-select-gen-parameter [type]="pSentence" [(model)]="inmate.judgment.sentencePid" name="judgment.sentencePid"></app-select-gen-parameter>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'judgment.expulsion' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox binary="true" [(ngModel)]="inmate.judgment.expulsion" name="judgment.expulsion"></p-checkbox>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'judgment.sentenceFee' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-inputNumber [(ngModel)]="inmate.judgment.sentenceFee" name="judgment.sentenceFee"
+                           locale="de-DE" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="2">
+            </p-inputNumber>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'judgment.sentenceStartDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="inmate.judgment.sentenceStartDate" name="judgment.sentenceStartDate"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'judgment.imprisonDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="inmate.judgment.imprisonDate" name="judgment.imprisonDate"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'judgment.forLife' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox binary="true" [(ngModel)]="inmate.judgment.forLife" name="judgment.forLife"></p-checkbox>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'judgment.userRest' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox binary="true" [(ngModel)]="inmate.judgment.userRest" name="judgment.userRest"></p-checkbox>
+          </div>
+        </div>
+        
+        <div class="grid">
+          <label class="col-2"></label>
+          <label class="col-2 text-align-center">{{'judgment.sentence' | translate}}</label>
+          <label class="col-2 text-align-center">{{'judgment.imprison' | translate}}</label>
+          <label class="col-2 text-align-center">{{'judgment.detention' | translate}}</label>
+          <label class="col-2 text-align-center">{{'judgment.escape' | translate}}</label>
+          <label class="col-2 text-align-center">{{'judgment.rest' | translate}}</label>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-2">{{'judgment.years' | translate}}</label>
+          <span class="col-2 no-padding-right">
+            <p-inputNumber [(ngModel)]="inmate.judgment.sentenceYears" name="judgment.sentenceYears" [useGrouping]="false"></p-inputNumber>
+          </span>
+          <span class="col-2 no-padding-left no-padding-right">
+            <p-inputNumber [(ngModel)]="inmate.judgment.imprisonYears" name="judgment.imprisonYears" [useGrouping]="false"></p-inputNumber>
+          </span>
+          <span class="col-2 no-padding-left no-padding-right">
+            <p-inputNumber [(ngModel)]="inmate.judgment.detentionYears" name="judgment.detentionYears" [useGrouping]="false"></p-inputNumber>
+          </span>
+          <span class="col-2 no-padding-left no-padding-right">
+            <p-inputNumber [(ngModel)]="inmate.judgment.escapeYears" name="judgment.escapeYears" [useGrouping]="false"></p-inputNumber>
+          </span>
+          <span class="col-2 no-padding-left">
+            <p-inputNumber [(ngModel)]="inmate.judgment.restYears" name="judgment.restYears" [useGrouping]="false" [disabled]="!inmate.judgment.userRest"></p-inputNumber>
+          </span>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-2">{{'judgment.months' | translate}}</label>
+          <span class="col-2 no-padding-right">
+            <p-inputNumber [(ngModel)]="inmate.judgment.sentenceMonths" name="judgment.sentenceMonths" [useGrouping]="false"></p-inputNumber>
+          </span>
+          <span class="col-2 no-padding-left no-padding-right">
+            <p-inputNumber [(ngModel)]="inmate.judgment.imprisonMonths" name="judgment.imprisonMonths" [useGrouping]="false"></p-inputNumber>
+          </span>
+          <span class="col-2 no-padding-left no-padding-right">
+            <p-inputNumber [(ngModel)]="inmate.judgment.detentionMonths" name="judgment.detentionMonths" [useGrouping]="false"></p-inputNumber>
+          </span>
+          <span class="col-2 no-padding-left no-padding-right">
+            <p-inputNumber [(ngModel)]="inmate.judgment.escapeMonths" name="judgment.escapeMonths" [useGrouping]="false"></p-inputNumber>
+          </span>
+          <span class="col-2 no-padding-left">
+            <p-inputNumber [(ngModel)]="inmate.judgment.restMonths" name="judgment.restMonths" [useGrouping]="false" [disabled]="!inmate.judgment.userRest"></p-inputNumber>
+          </span>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-2">{{'judgment.days' | translate}}</label>
+          <span class="col-2 no-padding-right">
+            <p-inputNumber [(ngModel)]="inmate.judgment.sentenceDays" name="judgment.sentenceDays" [useGrouping]="false"></p-inputNumber>
+          </span>
+          <span class="col-2 no-padding-left no-padding-right">
+            <p-inputNumber [(ngModel)]="inmate.judgment.imprisonDays" name="judgment.imprisonDays" [useGrouping]="false"></p-inputNumber>
+          </span>
+          <span class="col-2 no-padding-left no-padding-right">
+            <p-inputNumber [(ngModel)]="inmate.judgment.detentionDays" name="judgment.detentionDays" [useGrouping]="false"></p-inputNumber>
+          </span>
+          <span class="col-2 no-padding-left no-padding-right">
+            <p-inputNumber [(ngModel)]="inmate.judgment.escapeDays" name="judgment.escapeDays" [useGrouping]="false"></p-inputNumber>
+          </span>
+          <span class="col-2 no-padding-left">
+            <p-inputNumber [(ngModel)]="inmate.judgment.restDays" name="judgment.restDays" [useGrouping]="false" [disabled]="!inmate.judgment.userRest"></p-inputNumber>
+          </span>
+        </div>
+        
+        <div class="grid align-items-center" *ngIf="inmate.judgment.id && !inmate.judgment.forLife">
+          <label class="col-12 sm:col-4">{{'judgment.sentenceEndDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="inmate.judgment.sentenceEndDate" name="judgment.sentenceEndDate" [disabled]="true"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center" *ngIf="inmate.judgment.id">
+          <label class="col-12 sm:col-4">{{'judgment.beneficialCalculationText' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="inmate.judgment.beneficialCalculationText" name="judgment.beneficialCalculationText" disabled>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center" *ngIf="inmate.judgment.id && !inmate.judgment.forLife">
+          <label class="col-12 sm:col-4">{{'judgment.sentenceNewEndDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="inmate.judgment.sentenceNewEndDate" name="judgment.sentenceNewEndDate" [disabled]="true"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'judgment.comments' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="inmate.judgment.comments" name="judgment.comments" rows="6"></textarea>
+          </div>
+        </div>
+        
+      </p-panel>
+      
+      <p-panel header="{{'inmate.view.releaseTimeSentenceTotals' | translate}}" *ngIf="id" toggleable="true" [(collapsed)]="releaseTimeSentenceTotalsCollapsed" (onBeforeToggle)="getReleaseTimeSentenceTotals()">
+        
+        <div *ngIf="releaseTimeSentenceTotals">
+          
+          <div class="grid align-items-center">
+            <label class="col-12 sm:col-4">{{'inmate.view.releaseTimeSentenceTotals.activeJudgmentCount' | translate}}</label>
+            <div class="col-12 sm:col-8">
+              <input type="text" pInputText [value]="releaseTimeSentenceTotals.activeJudgmentCount" disabled>
+            </div>
+          </div>
+          
+          <div class="grid align-items-center" *ngIf="releaseTimeSentenceTotals.forLife">
+            <label class="col-12 sm:col-4">{{'judgment.forLife' | translate}}</label>
+            <div class="col-12 sm:col-8">
+              <p-checkbox binary="true" [(ngModel)]="releaseTimeSentenceTotals.forLife" [ngModelOptions]="{standalone: true}" [disabled]="true" ></p-checkbox>
+            </div>
+          </div>
+          
+          <div class="grid align-items-center" *ngIf="releaseTimeSentenceTotals.forLife">
+            <label class="col-12 sm:col-4">{{'judgment.forLifeMultiplier' | translate}}</label>
+            <div class="col-12 sm:col-8">
+              <input type="text" pInputText [value]="releaseTimeSentenceTotals.forLifeMultiplier" disabled>
+            </div>
+          </div>
+          
+          <div class="grid">
+            <label class="col-2"></label>
+            <label class="col-2 text-align-center">{{'judgment.sentence' | translate}}</label>
+            <label class="col-2 text-align-center">{{'judgment.imprison' | translate}}</label>
+            <label class="col-2 text-align-center">{{'judgment.detention' | translate}}</label>
+            <label class="col-2 text-align-center">{{'judgment.escape' | translate}}</label>
+            <label class="col-2 text-align-center">{{'judgment.rest' | translate}}</label>
+          </div>
+          
+          <div class="grid align-items-center">
+            <label class="col-2">{{'judgment.years' | translate}}</label>
+            <span class="col-2 no-padding-right">
+              <input type="text" pInputText [value]="releaseTimeSentenceTotals.sentenceYears" disabled>
+            </span>
+            <span class="col-2 no-padding-left no-padding-right">
+              <input type="text" pInputText [value]="releaseTimeSentenceTotals.imprisonYears" disabled>
+            </span>
+            <span class="col-2 no-padding-left no-padding-right">
+              <input type="text" pInputText [value]="releaseTimeSentenceTotals.detentionYears" disabled>
+            </span>
+            <span class="col-2 no-padding-left no-padding-right">
+              <input type="text" pInputText [value]="releaseTimeSentenceTotals.escapeYears" disabled>
+            </span>
+            <span class="col-2 no-padding-left">
+              <input type="text" pInputText [value]="releaseTimeSentenceTotals.restYears" disabled>
+            </span>
+          </div>
+          
+          <div class="grid align-items-center">
+            <label class="col-2">{{'judgment.months' | translate}}</label>
+            <span class="col-2 no-padding-right">
+              <input type="text" pInputText [value]="releaseTimeSentenceTotals.sentenceMonths" disabled>
+            </span>
+            <span class="col-2 no-padding-left no-padding-right">
+              <input type="text" pInputText [value]="releaseTimeSentenceTotals.imprisonMonths" disabled>
+            </span>
+            <span class="col-2 no-padding-left no-padding-right">
+              <input type="text" pInputText [value]="releaseTimeSentenceTotals.detentionMonths" disabled>
+            </span>
+            <span class="col-2 no-padding-left no-padding-right">
+              <input type="text" pInputText [value]="releaseTimeSentenceTotals.escapeMonths" disabled>
+            </span>
+            <span class="col-2 no-padding-left">
+              <input type="text" pInputText [value]="releaseTimeSentenceTotals.restMonths" disabled>
+            </span>
+          </div>
+          
+          <div class="grid align-items-center">
+            <label class="col-2">{{'judgment.days' | translate}}</label>
+            <span class="col-2 no-padding-right">
+              <input type="text" pInputText [value]="releaseTimeSentenceTotals.sentenceDays" disabled>
+            </span>
+            <span class="col-2 no-padding-left no-padding-right">
+              <input type="text" pInputText [value]="releaseTimeSentenceTotals.imprisonDays" disabled>
+            </span>
+            <span class="col-2 no-padding-left no-padding-right">
+              <input type="text" pInputText [value]="releaseTimeSentenceTotals.detentionDays" disabled>
+            </span>
+            <span class="col-2 no-padding-left no-padding-right">
+              <input type="text" pInputText [value]="releaseTimeSentenceTotals.escapeDays" disabled>
+            </span>
+            <span class="col-2 no-padding-left">
+              <input type="text" pInputText [value]="releaseTimeSentenceTotals.restDays" disabled>
+            </span>
+          </div>
+          
+          <div class="grid align-items-center">
+            <label class="col-12 sm:col-4">{{'judgment.sentenceStartDate' | translate}}</label>
+            <div class="col-12 sm:col-8">
+              <input type="text" pInputText [value]="releaseTimeSentenceTotals.sentenceStartDate" disabled>
+            </div>
+          </div>
+          
+          <div class="grid align-items-center" *ngIf="!releaseTimeSentenceTotals.forLife">
+            <label class="col-12 sm:col-4">{{'judgment.sentenceEndDate' | translate}}</label>
+            <div class="col-12 sm:col-8">
+              <input type="text" pInputText [value]="releaseTimeSentenceTotals.sentenceEndDate" disabled>
+            </div>
+          </div>
+          
+          <div class="grid align-items-center">
+            <label class="col-12 sm:col-4">{{'judgment.beneficialCalculationText' | translate}}</label>
+            <div class="col-12 sm:col-8">
+              <input type="text" pInputText [value]="releaseTimeSentenceTotals.beneficialCalculationText" disabled>
+            </div>
+          </div>
+          
+          <div class="grid align-items-center" *ngIf="!releaseTimeSentenceTotals.forLife">
+            <label class="col-12 sm:col-4">{{'judgment.sentenceNewEndDate' | translate}}</label>
+            <div class="col-12 sm:col-8">
+              <input type="text" pInputText [value]="releaseTimeSentenceTotals.sentenceNewEndDate" disabled>
+            </div>
+          </div>
+          
+        </div>
+      </p-panel>
+      
+      <p-panel header="{{'inmate.view.releaseTimeCalculations' | translate}}" *ngIf="id" toggleable="true" [(collapsed)]="releaseTimeCalculationsCollapsed" (onBeforeToggle)="getReleaseTimeCalculations()">
+        
+        <div *ngIf="releaseTimeCalculations">
+          
+        </div>
+        
+      </p-panel>
+      
+    </div>
+    
+  </div>
+  
+</form>

@@ -1,0 +1,13 @@
+{
+  "appLog.level": "Level",
+  "appLog.loggerName": "Logger Name",
+  "appLog.message": "Message",
+  "appLog.date": "Date",
+  "appLog.thrown": "Thrown",
+  "appLog.contextMap": "Context Map",
+  
+  "appLog.args.thrownClassName": "Thrown Class Name",
+  "appLog.args.thrownMethodName": "Thrown Method Name",
+  "appLog.args.contextMapUser": "Context Map User",
+  "appLog.args.contextMapUrl": "Context Map Url"
+}

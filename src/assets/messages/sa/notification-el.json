@@ -1,0 +1,18 @@
+{
+  "notification.receiveAll": "Παραλαβή Όλων",
+  "notification.alertDialog": "Ειδοποιήσεις",
+  "notifications": "Ειδοποιήσεις: ",
+  "notification.all": "Όλες οι Ειδοποιήσεις",
+  "notification.notificationDate": "Ημερομηνία Ειδοποίησης",
+  "notification.notificationMessage": "Μήνυμα Ειδοποίησης ",
+  "notification.receivedOption": "Επιβεβαιωμένο",
+  "notification.receiveDate": "Ημερομηνία παραλαβής",
+  "notification.received": "Επιβεβαιωμένες",
+  "notification.markReceived": "Επιβεβαίωση Παραλαβής",
+  "notification.details": "Στοιχεία Ειδοποίησης",
+  "notification.notificationTypeId": "Τύπος Ειδοποίησης",
+  "notification.generate": "Δημιουργία Ειδοποιήσεων ",
+  "notification.navigateToEntity": "Μεταφορά στη Σχετική Ενότητα",
+  "sa.notificationsDoNotExist": "Δεν Υπάρχουν Ειδοποιήσεις"
+  
+}

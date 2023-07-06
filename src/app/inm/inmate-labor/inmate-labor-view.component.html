@@ -1,0 +1,190 @@
+<form>
+  
+  <div class="grid">
+    <div class="col-12 button-container flex-container">
+      <div class="flex-container-start">
+        <button pButton type="button" *ngIf="!lockedRecord()"
+                label="{{'global.save' | translate}}" class="p-button-success"
+                icon="fa fa-save" iconPos="left" (click)="saveInmateLabor()">
+        </button>
+        <button pButton type="button" *ngIf="id && !lockedRecord() && authService.hasPermission('inm_inmatelabor_delete')"
+                label="{{'global.delete' | translate}}" class="p-button-danger"
+                icon="fa fa-trash" iconPos="left" (click)="deleteInmateLabor()">
+        </button>
+        <button pButton type="button" *ngIf="id"
+                label="{{'global.newRecord' | translate}}" class="p-button-info"
+                icon="fa fa-plus" iconPos="left" (click)="newRecord()">
+        </button>
+        <button pButton type="button"
+                label="{{'global.index' | translate}}" class="p-button-help"
+                icon="fa fa-table" iconPos="left" (click)="goToList()">
+        </button>
+        <app-other-dc-name [dcId]="inmateLabor.dcId"></app-other-dc-name>
+      </div>
+      <div class="flex-container-start">
+        <app-documents [entity]="'INMATE_LABOR'" [entityId]="id" [inmateId]="inmateLabor.inmateId"></app-documents>
+        <app-field-revisions *ngIf="id" [entityClass]="'inm.core.domain.InmateLabor'" [entityId]="id"></app-field-revisions>
+      </div>
+    </div>
+  </div>
+  
+  <div class="grid" appToitsuLockControls [lockCondition]="lockedRecord()">
+    
+    <div class="col-12 md:col-6 p-fluid">
+      
+      <p-panel header="{{'inmateLabor.view.basicData' | translate}}">
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'inmateLabor.inmateId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-select-inmate [(model)]="inmateLabor.inmateId" name="inmateId" [disabled]="!!id"
+                               [loadOnOpen]="true" [dialogUrl]="inmateDialogUrl" (modelChange)="refreshFromApplicationAndRenewal()">
+            </app-select-inmate>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmateLabor.view.fromApplication' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox
+              binary="true" [(ngModel)]="fromApplication" [ngModelOptions]="{standalone: true}"
+              [disabled]="lockedFromApplication()" (ngModelChange)="getAttachedInmateLaborApplicationsByInmate()">
+            </p-checkbox>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center animation-duration-200 flip" *ngIf="fromApplication && !loading">
+          <label class="col-12 sm:col-4">{{'inmateLabor.inmateLaborApplicationId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="inmateLabor.inmateLaborApplicationId" name="inmateLaborApplicationId"
+                        [options]="attachedInmateLaborApplications" optionValue="inmateLaborApplicationId" optionLabel="displayDetails"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [showClear]="true" [filter]="true" [disabled]="lockedFromApplication()">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'inmateLabor.professionId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="inmateLabor.professionId" name="professionId"
+                        [options]="professions" optionValue="id" optionLabel="displayName"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [showClear]="true" [filter]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'inmateLabor.startDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="inmateLabor.startDate" name="startDate"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmateLabor.endDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="inmateLabor.endDate" name="endDate"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmateLabor.renewal' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox
+              binary="true" name="renewal"
+              [(ngModel)]="inmateLabor.renewal"
+              (ngModelChange)="getLastInmateProfession()">
+            </p-checkbox>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmateLabor.bookNo' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-inputNumber [(ngModel)]="inmateLabor.bookNo" name="bookNo" [useGrouping]="false" [maxlength]="10"></p-inputNumber>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmateLabor.areaId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="inmateLabor.areaId" name="areaId"
+                        [options]="areas" optionValue="id" optionLabel="fullDescription"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [showClear]="true" [filter]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmateLabor.locationPid' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-select-gen-parameter [type]="pLocation" [(model)]="inmateLabor.locationPid" name="locationPid"></app-select-gen-parameter>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmateLabor.paymentCategoryId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="inmateLabor.paymentCategoryId" name="paymentCategoryId"
+                        [options]="paymentCategories" optionValue="id" optionLabel="displayName"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [showClear]="true" [filter]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmateLabor.programId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="inmateLabor.programId" name="programId"
+                        [options]="programs" optionValue="id" optionLabel="fullDescription"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [showClear]="true" [filter]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmateLabor.comments' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="inmateLabor.comments" name="comments" rows="4"></textarea>
+          </div>
+        </div>
+      
+      </p-panel>
+    
+    </div>
+    
+    <div class="col-12 md:col-6 p-fluid">
+      
+      <p-panel header="{{'inmateLabor.view.pauseData' | translate}}">
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmateLabor.pause' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox binary="true" [(ngModel)]="inmateLabor.pause" name="pause" (ngModelChange)="pauseChanged()"></p-checkbox>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center" *ngIf="inmateLabor.pause">
+          <label class="col-12 sm:col-4 font-bold">{{'inmateLabor.pauseDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="inmateLabor.pauseDate" name="pauseDate"></app-toitsu-calendar>
+          </div>
+        </div>
+      
+      </p-panel>
+    
+    </div>
+  
+  </div>
+
+</form>

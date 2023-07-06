@@ -1,0 +1,18 @@
+{
+  "report.title": "Τίτλος",
+  "report.protocolNo": "Αρ. Πρωτοκόλλου",
+  "report.username": "Χρήστης",
+  "report.protocolDate": "Ημ/νία Πρωτοκόλλου",
+  "report.applicant": "Αιτών",
+  "report.comments": "Παρατηρήσεις",
+
+  "report.grammar.nominative": "Ονομαστική",
+  "report.grammar.genitive": "Γενική",
+  "report.grammar.accusative": "Αιτιατική",
+  
+  "report.view.reportData": "Στοιχεία Εκτύπωσης",
+  "report.view.grammarData": "Στοιχεία Γραμματικής",
+  "report.view.tab.savedReports": "Αποθηκευμένες Εκτυπώσεις",
+  
+  "report.recreate.confirmation": "Είστε βέβαιοι για τη επαναδημιουργία; Ότι έχετε τροποποιήσει μέχρι στιγμής θα χαθεί."
+}

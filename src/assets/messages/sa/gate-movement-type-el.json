@@ -1,0 +1,7 @@
+{
+  "gateMovementType.movementKind": "Τύπος Κίνησης",
+  "gateMovementType.inOutKind": "Κατεύθυνση Κίνησης",
+  "gateMovementType.reasonForInmateMovementKind": "Αιτία Κίνησης",
+  "gateMovementType.description": "Περιγραφή",
+  "gateMovementType.comments": "Παρατηρήσεις"
+}

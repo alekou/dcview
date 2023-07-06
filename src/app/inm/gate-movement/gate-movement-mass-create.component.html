@@ -1,0 +1,179 @@
+<div class="grid">
+  <div class="col-12 button-container">
+    <button pButton type="button"
+            label="{{'global.save' | translate}}" class="p-button-success"
+            icon="fa fa-save" iconPos="left" (click)="massCreate()">
+    </button>
+    <button pButton type="button" label="{{'global.index' | translate}}" class="p-button-help"
+            icon="fa fa-table" iconPos="left" (click)="goToList()">
+    </button>
+  </div>
+</div>
+
+<form #massCreateForm>
+  <div class="grid">
+    
+    <div class="col-12">
+      
+      <p-panel header="{{'gateMovement.sharedData' | translate}}">
+  
+        <div class="grid p-fluid">
+          
+          <div class="col-12 xl:col-6">
+  
+            <div class="grid align-items-center">
+              <label class="col-12 sm:col-4">{{'gateMovement.movementKind' | translate}}</label>
+              <div class="col-12 sm:col-8">
+                <p-dropdown [(ngModel)]="gateMovement.movementTypeId" (ngModelChange)="movementTypeIdChanged()" name="movementTypeId"
+                            [options]="allMovementTypeDescriptions" optionValue="id" optionLabel="description"
+                            placeholder="{{'global.selectOption' | translate}}" emptyMessage="{{'global.noResultsFound' | translate}}"
+                            emptyFilterMessage="{{'global.noResultsFound' | translate}}" [showClear]="true" [filter]="true">
+                </p-dropdown>
+              </div>
+            </div>
+  
+            <div class="grid align-items-center">
+              <label class="col-12 sm:col-4">{{'gateMovement.movementDate' | translate}}</label>
+              <div class="col-12 sm:col-8">
+                <app-toitsu-calendar [(model)]="gateMovement.movementDate" name="movementDate" [showTime]="true"></app-toitsu-calendar>
+              </div>
+            </div>
+  
+            <div class="grid align-items-center">
+              <label class="col-12 sm:col-4">{{'gateMovement.comments' | translate}}</label>
+              <div class="col-12 sm:col-8">
+                <textarea pInputTextarea [(ngModel)]="gateMovement.comments" name="comments" rows="5"></textarea>
+              </div>
+            </div>
+            
+          </div>
+  
+          <div class="col-12 xl:col-6">
+            
+            <div class="grid align-items-center" *ngIf="typeOfMovement === 'EMPLOYEE'">
+              <label class="col-12 sm:col-4">{{'gateMovement.searchEmployees' | translate}}</label>
+              <div class="col-12 sm:col-8">
+                <p-inputNumber [(ngModel)]="gateMovement.firstSearchEmployeeId" name="firstSearchEmployeeId" [min]="0" [useGrouping]="false"></p-inputNumber>
+              </div>
+            </div>
+            
+            <div class="grid align-items-center" *ngIf="typeOfMovement === 'EMPLOYEE'">
+              <label class="col-12 sm:col-4"></label>
+              <div class="col-12 sm:col-8">
+                <p-inputNumber [(ngModel)]="gateMovement.secondSearchEmployeeId" name="secondSearchEmployeeId" [min]="0" [useGrouping]="false"></p-inputNumber>
+              </div>
+            </div>
+            
+            <div class="grid align-items-center" *ngIf="typeOfMovement === 'INMATE'">
+              <label class="col-12 sm:col-4">{{'gateMovement.escortName' | translate}}</label>
+              <div class="col-12 sm:col-8">
+                <input type="text" pInputText [(ngModel)]="gateMovement.escortName" name="escortName">
+              </div>
+            </div>
+  
+            <div class="grid align-items-center" *ngIf="typeOfMovement === 'INMATE'">
+              <label class="col-12 sm:col-4">{{'gateMovement.escortStatus' | translate}}</label>
+              <div class="col-12 sm:col-8">
+                <input type="text" pInputText [(ngModel)]="gateMovement.escortStatus" name="escortStatus">
+              </div>
+            </div>
+  
+            <div class="grid align-items-center" *ngIf="typeOfMovement === 'INMATE'">
+              <label class="col-12 sm:col-4">{{'gateMovement.escortService' | translate}}</label>
+              <div class="col-12 sm:col-8">
+                <input type="text" pInputText [(ngModel)]="gateMovement.escortService" name="escortService">
+              </div>
+            </div>
+          </div>
+        </div>
+      </p-panel>
+    </div>
+  </div>
+  
+  <div class="grid">
+    
+    <div class="col-12">
+      <p-tabView>
+        <p-tabPanel header="{{'gateMovement.relativeMovements' | translate}}">
+          <div class="grid">
+            <div class="col-12 button-container">
+              <button pButton type="button" [disabled]="!typeOfMovement" label="{{'global.add' | translate}}" class="p-button-info"
+                      icon="fa fa-plus" iconPos="left" (click)="newRecord()">
+              </button>
+            </div>
+          </div>
+    
+          <div class="grid">
+            <div class="col-12">
+  
+              <p-table [value]="gateMovementsToSave" [scrollable]="true" scrollHeight="25rem" styleClass="p-datatable-gridlines p-datatable-striped" appToitsuPTableCellWidth>
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th *ngIf="typeOfMovement" [style.width]="'5rem'"></th>
+                    <th *ngIf="typeOfMovement" [style.width]="'25rem'" [style.justify-content]="'center'" >{{'gateMovement.inOutKind' | translate}}</th>
+                    <th *ngIf="typeOfMovement === 'INMATE'" [style.width]="'25rem'" [style.justify-content]="'center'">{{'gateMovement.inmateId' | translate}}</th>
+                    <th *ngIf="typeOfMovement === 'INMATE' && reasonForMovement === 'TRANSFER'" [style.width]="'25rem'" [style.justify-content]="'center'">{{'gateMovement.transferId' | translate}}</th>
+                    <th *ngIf="typeOfMovement === 'EMPLOYEE'" [style.width]="'25rem'" [style.justify-content]="'center'">{{'gateMovement.employeeId' | translate}}</th>
+                    <th *ngIf="typeOfMovement === 'VISITOR'" [style.width]="'25rem'" [style.justify-content]="'center'">{{'gateMovement.visitor' | translate}}</th>
+                    <th *ngIf="typeOfMovement === 'VISITOR' || typeOfMovement === 'VEHICLE'" [style.width]="'25rem'" [style.justify-content]="'center'">{{'gateMovement.visitDestinationPid' | translate}}</th>
+                    <th *ngIf="typeOfMovement === 'INMATE' && reasonForMovement === 'VACATION'" [style.width]="'25rem'" [style.justify-content]="'center'">{{'gateMovement.vacationId' | translate}}</th>
+                    <th [style.width]="'8rem'"></th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-gateMovement let-index="rowIndex">
+                  <tr class="p-fluid">
+                    
+                    <td [style.justify-content]="'center'">{{index + 1}}</td>
+        
+                    <td *ngIf="typeOfMovement">
+                      <p-dropdown [(ngModel)]="gateMovement.inOutKind" name="gateMovement{{index}}.inOutKind"  [options]="inOutKinds" optionValue="value" optionLabel="label"
+                                  placeholder="{{'global.selectOption' | translate}}" emptyMessage="{{'global.noResultsFound' | translate}}"
+                                  emptyFilterMessage="{{'global.noResultsFound' | translate}}" [showClear]="true" appendTo="body">
+                      </p-dropdown>
+                    </td>
+        
+                    <td *ngIf="typeOfMovement === 'INMATE'">
+                      <app-select-inmate [(model)]="gateMovement.inmateId" [inmates]="inmates" [dialogUrl]="inmateDialogUrl" class="width-100percent" name="gateMovement{{index}}.inmateId"></app-select-inmate>
+                    </td>
+        
+                    <td *ngIf="typeOfMovement === 'INMATE' && reasonForMovement === 'TRANSFER'">
+                      <p-inputNumber [(ngModel)]="gateMovement.transferId" name="gateMovement{{index}}.transferId" [useGrouping]="false"></p-inputNumber>
+                    </td>
+        
+                    <td *ngIf="typeOfMovement === 'EMPLOYEE'">
+                      <p-inputNumber [(ngModel)]="gateMovement.employeeId" name="gateMovement{{index}}.employeeId" [useGrouping]="false"></p-inputNumber>
+                    </td>
+        
+                    <td *ngIf="typeOfMovement === 'VISITOR'">
+                      <app-select-visitor [(model)]="gateMovement.visitorId" class="width-100percent" name="gateMovement{{index}}.visitorId"></app-select-visitor>
+                    </td>
+        
+                    <td *ngIf="typeOfMovement === 'VISITOR' || typeOfMovement === 'VEHICLE'">
+                      <p-dropdown [(ngModel)]="gateMovement.visitDestinationPid" name="gateMovement{{index}}.visitDestinationPid"
+                                  [options]="gateMovementVisitDestinations" optionValue="id" optionLabel="description"
+                                  placeholder="{{'global.selectOption' | translate}}" emptyMessage="{{'global.noResultsFound' | translate}}"
+                                  emptyFilterMessage="{{'global.noResultsFound' | translate}}" [showClear]="true" appendTo="body"
+                      ></p-dropdown>
+                    </td>
+        
+                    <td *ngIf="typeOfMovement === 'INMATE' && reasonForMovement === 'VACATION'">
+                      <p-inputNumber [(ngModel)]="gateMovement.vacationId" name="gateMovement{{index}}.vacationId" [useGrouping]="false"></p-inputNumber>
+                    </td>
+        
+                    <td [style.justify-content]="'center'">
+                      <button pButton type="button" class="p-button-danger" icon="fa fa-minus" iconPos="left"
+                              pTooltip="{{'global.remove' | translate}}" tooltipPosition="top"
+                              (click)="removeGateMovementFromList(index)">
+                      </button>
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+          </div>
+        </p-tabPanel>
+      </p-tabView>
+    </div>
+  </div>
+</form>
+

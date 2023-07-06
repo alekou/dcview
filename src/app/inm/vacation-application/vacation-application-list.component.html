@@ -1,0 +1,129 @@
+<div class="grid">
+  <div class="col-12 button-container">
+    <button pButton type="submit" label="{{'global.search' | translate}}" class="p-button-warning"
+            icon="fa fa-search" iconPos="left" (click)="loadTableData()">
+    </button>
+    <button pButton type="button" label="{{'global.clearArgs' | translate}}" class="p-button-help"
+            icon="fa fa-times" iconPos="left" (click)="clearArgs()">
+    </button>
+    <button pButton type="button" label="{{'global.newRecord' | translate}}" class="p-button-info"
+            icon="fa fa-plus" iconPos="left" (click)="newRecord()">
+    </button>
+  </div>
+</div>
+
+<div class="grid">
+  
+  <div class="col-12 md:col-3">
+    
+    <p-panel header="{{'global.args' | translate}}">
+      
+      <div class="p-fluid">
+  
+        <app-record-dc-origin [(recordDcOrigin)]="args.recordDcOrigin" [(dcId)]="args.dcId"></app-record-dc-origin>
+        
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'vacation.inmateFullName' | translate}}</label>
+            <app-select-inmate [(model)]="args.inmateId"
+                               [loadOnOpen]="true" [dialogUrl]="inmateDialogUrl">
+            </app-select-inmate>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'inmate.masterInmate.code' | translate}}</label>
+            <input type="text" pInputText [(ngModel)]="args.inmateCode">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'vacation.lastName' | translate}}</label>
+            <input type="text" pInputText [(ngModel)]="args.inmateLastName">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'vacation.firstName' | translate}}</label>
+            <input type="text" pInputText [(ngModel)]="args.inmateFirstName">
+          </div>
+        </div>
+  
+  
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'vacation.protocolNo' | translate}}</label>
+            <input type="text" pInputText [(ngModel)]="args.protocolNo">
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <div class="col-12 no-padding-bottom">
+            <label>{{'vacationApplication.applicationDate' | translate}}</label>
+            <div class="grid field-group">
+              <app-toitsu-calendar class="col-6" [(model)]="args.applicationDateAfter" [noIcon]="true"></app-toitsu-calendar>
+              <span><i class="fa fa-arrow-right no-padding no-margin"></i></span>
+              <app-toitsu-calendar class="col-6" [(model)]="args.applicationDateBefore" [noIcon]="true"></app-toitsu-calendar>
+            </div>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'vacationApplication.applicationStatus' | translate}}</label>
+            <p-dropdown [(ngModel)]="args.applicationStatus" [options]="applicationStatuses" optionValue="value" optionLabel="label"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [showClear]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'vacationApplication.approvalStatus' | translate}}</label>
+            <p-dropdown [(ngModel)]="args.approvalStatus" [options]="approvalStatuses" optionValue="value" optionLabel="label"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [showClear]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+      </div>
+    </p-panel>
+  
+  </div>
+  
+  <div class="col-12 md:col-9">
+    <app-toitsu-table #table
+                      [url]="url"
+                      [cols]="cols"
+                      [first]="paging.first"
+                      [rows]="paging.rows"
+                      [sortField]="paging.sortField"
+                      [sortOrder]="paging.sortOrder"
+                      [args]="args"
+                      [viewLink]="viewLink"
+                      [excel]="true"
+                      [exportModel]="exportModel"
+                      [loadOnInit]="false"
+                      (loadComplete)="loadComplete()">
+  
+      <ng-template #cell1 let-rowData>
+        <div class="col-12 button-container">
+          <button pButton type="button" pRipple *ngIf="(rowData.applicationStatus === 'APPLICATION' && (rowData.vacationTypeKind === 'REGULAR' || rowData.vacationTypeKind === 'EDUCATIONAL'))"
+                  class="p-button-rounded p-button-outlined" pTooltip="{{'vacationApplication.changeToMotion' | translate}}" tooltipPosition="top"
+                  icon="fa fa-paper-plane-o" iconPos="left" (click)="applicationStatusChanged(rowData.id)">
+          </button>
+          
+        </div>
+      </ng-template>
+      
+      
+    </app-toitsu-table>
+  </div>
+</div>

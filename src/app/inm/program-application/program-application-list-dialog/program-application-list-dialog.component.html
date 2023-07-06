@@ -1,0 +1,61 @@
+<div class="grid">
+  <div class="col-12 button-container">
+    <button pButton type="submit" label="{{'global.search' | translate}}" class="p-button-warning"
+            icon="fa fa-search" iconPos="left" (click)="loadTableData()">
+    </button>
+    <button pButton type="button" label="{{'global.clearArgs' | translate}}" class="p-button-help"
+            icon="fa fa-times" iconPos="left" (click)="clearArgs()">
+    </button>
+  </div>
+</div>
+
+<div class="grid">
+  
+  <div class="col-12 md:col-3">
+    
+    <p-panel header="{{'global.args' | translate}}">
+      
+      <div class="p-fluid">
+        
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'programApplication.applicationDate' | translate}}</label>
+            <div class="grid field-group">
+              <app-toitsu-calendar class="col-6" [(model)]="args.applicationDateAfter" [noIcon]="true"></app-toitsu-calendar>
+              <span><i class="fa fa-arrow-right no-padding no-margin"></i></span>
+              <app-toitsu-calendar class="col-6" [(model)]="args.applicationDateBefore" [noIcon]="true"></app-toitsu-calendar>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+    </p-panel>
+  
+  </div>
+  <div class="col-12 md:col-9">
+    
+    <app-toitsu-table #table
+                      [url]="url"
+                      [cols]="cols"
+                      [sortField]="sortField"
+                      [sortOrder]="sortOrder"
+                      [selectionMode]="'multiple'"
+                      [args]="args"
+                      [loadOnInit]="false">
+    </app-toitsu-table>
+  
+  </div>
+
+</div>
+
+<div class="grid">
+  <div class="col-12 button-container text-align-end">
+    <button pButton type="button" label="{{'global.confirm' | translate}}" class="p-button-info"
+            icon="fa fa-check" iconPos="left" (click)="confirm()">
+    </button>
+    <button pButton type="button" label="{{'global.cancel' | translate}}" class="p-button-warning"
+            icon="fa fa-times" iconPos="left" (click)="cancel()">
+    </button>
+  </div>
+</div>
+

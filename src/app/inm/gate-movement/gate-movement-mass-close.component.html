@@ -1,0 +1,217 @@
+<form>
+  <div class="grid">
+    <div class="col-12 button-container">
+      <button pButton type="button" label="{{'inm.gateMovement.closeAll' | translate}}" class="p-button-success"
+              icon="fa fa-save" iconPos="left" (click)="massCloseGateMovements()">
+      </button>
+      <button pButton type="button" label="{{'global.index' | translate}}" class="p-button-help"
+              icon="fa fa-table" iconPos="left" (click)="goToList()">
+      </button>
+    </div>
+  </div>
+  
+  <div class="grid">
+    <div class="col-12">
+    
+      <p-panel header="{{'gateMovement.sharedData' | translate}}">
+        <div class="grid p-fluid">
+      
+          <div class="col-12 xl:col-6">
+        
+            <div class="grid align-items-center">
+              <label class="col-12 sm:col-4">{{'gateMovement.movementKind' | translate}}</label>
+              <div class="col-12 sm:col-8">
+                <p-dropdown [(ngModel)]="commonGateMovementData.movementTypeId" (ngModelChange)="movementTypeIdChanged()" name="movementTypeId"
+                            [options]="allMovementTypesDesc" optionValue="id" optionLabel="description"
+                            placeholder="{{'global.selectOption' | translate}}"
+                            emptyMessage="{{'global.noResultsFound' | translate}}"
+                            emptyFilterMessage="{{'global.noResultsFound' | translate}}" [showClear]="true" [filter]="true">
+                </p-dropdown>
+              </div>
+            </div>
+        
+            <div class="grid align-items-center"  *ngIf="typeOfMovement">
+              <label class="col-12 sm:col-4">{{'gateMovement.movementDate' | translate}}</label>
+              <div class="col-12 sm:col-8">
+                <app-toitsu-calendar [(model)]="commonGateMovementData.movementDate" name="movementDate" [showTime]="true"></app-toitsu-calendar>
+              </div>
+            </div>
+        
+            <div class="grid align-items-center" *ngIf="typeOfMovement">
+              <label class="col-12 sm:col-4">{{'gateMovement.comments' | translate}}</label>
+              <div class="col-12 sm:col-8">
+                <textarea pInputTextarea [(ngModel)]="commonGateMovementData.comments" name="comments" rows="6"></textarea>
+              </div>
+            </div>
+      
+          </div>
+      
+          <div class="col-12 xl:col-6">
+  
+            <div class="grid align-items-center" *ngIf="typeOfMovement">
+              <label class="col-12 sm:col-4">{{'gateMovement.searchEmployees' | translate}}</label>
+              <div class="col-12 sm:col-8">
+                <p-inputNumber [(ngModel)]="commonGateMovementData.firstSearchEmployeeId" name="firstSearchEmployeeId" [useGrouping]="false"></p-inputNumber>
+              </div>
+            </div>
+            <div class="grid align-items-center" *ngIf="typeOfMovement">
+              <label class="col-12 sm:col-4"></label>
+              <div class="col-12 sm:col-8 ">
+                <p-inputNumber [(ngModel)]="commonGateMovementData.secondSearchEmployeeId" name="secondSearchEmployeeId" [useGrouping]="false"></p-inputNumber>
+              </div>
+            </div>
+            
+            <div class="grid align-items-center" *ngIf="typeOfMovement === 'EMPLOYEE'">
+              <label class="col-12 sm:col-4">{{'gateMovement.searchEmployees' | translate}}</label>
+              <div class="col-12 sm:col-8">
+                <p-inputNumber [(ngModel)]="commonGateMovementData.firstSearchEmployeeId" name="firstSearchEmployeeId" [useGrouping]="false"></p-inputNumber>
+              </div>
+              <label class="col-12 sm:col-4"></label>
+              <div class="col-12 sm:col-8 ">
+                <p-inputNumber [(ngModel)]="commonGateMovementData.secondSearchEmployeeId" name="secondSearchEmployeeId" [useGrouping]="false"></p-inputNumber>
+              </div>
+            </div>
+        
+            <div class="grid align-items-center" *ngIf="typeOfMovement === 'INMATE'">
+              <label class="col-12 sm:col-4">{{'gateMovement.escortName' | translate}}</label>
+              <div class="col-12 sm:col-8">
+                <input type="text" pInputText [(ngModel)]="commonGateMovementData.escortName" name="escortName">
+              </div>
+            </div>
+        
+            <div class="grid align-items-center" *ngIf="typeOfMovement === 'INMATE'">
+              <label class="col-12 sm:col-4">{{'gateMovement.escortStatus' | translate}}</label>
+              <div class="col-12 sm:col-8">
+                <input type="text" pInputText [(ngModel)]="commonGateMovementData.escortStatus" name="escortStatus">
+              </div>
+            </div>
+        
+            <div class="grid align-items-center" *ngIf="typeOfMovement === 'INMATE'">
+              <label class="col-12 sm:col-4">{{'gateMovement.escortService' | translate}}</label>
+              <div class="col-12 sm:col-8">
+                <input type="text" pInputText [(ngModel)]="commonGateMovementData.escortService" name="escortService">
+              </div>
+            </div>
+      
+          </div>
+    
+        </div>
+        
+      </p-panel>
+      
+    </div>
+  </div>
+</form>
+  
+  <div class="grid">
+    
+    <div class="col-12 md:col-3">
+      
+      <p-panel header="{{'global.args' | translate}}">
+  
+        <div class="grid">
+          <div class="col-12 button-container">
+            <button pButton type="submit" label="{{'global.search' | translate}}" class="p-button-warning"
+                    icon="fa fa-search" iconPos="left" (click)="loadTableData()">
+            </button>
+            <button pButton type="button" label="{{'global.clearArgs' | translate}}" class="p-button-help"
+                    icon="fa fa-times" iconPos="left" (click)="clearArgs()">
+            </button>
+          </div>
+        </div>
+        
+        <div class="p-fluid">
+  
+          <div class="grid align-items-center">
+            <div class="col-12 no-padding-bottom">
+              <label>{{'gateMovement.movementDate' | translate}}</label>
+              <div class="grid field-group">
+                <app-toitsu-calendar class="col-6" [(model)]="args.fromDate" [noIcon]="true" [showTime]="true"></app-toitsu-calendar>
+                <span><i class="fa fa-arrow-right no-padding no-margin"></i></span>
+                <app-toitsu-calendar class="col-6" [(model)]="args.toDate" [noIcon]="true" [showTime]="true"></app-toitsu-calendar>
+              </div>
+            </div>
+          </div>
+          
+          <div class="grid align-items-center">
+            <div class="col-12">
+              <label>{{'gateMovement.inOutKind' | translate}}</label>
+              <p-dropdown [(ngModel)]="args.inOutKind" [options]="inOutKinds" optionValue="value" optionLabel="label"
+                          placeholder="{{'global.selectOption' | translate}}" emptyMessage="{{'global.noResultsFound' | translate}}"
+                          emptyFilterMessage="{{'global.noResultsFound' | translate}}" [showClear]="true">
+              </p-dropdown>
+            </div>
+          </div>
+    
+          <div class="grid align-items-center">
+            <div class="col-12">
+              <label>{{'gateMovement.inmateId' | translate}}</label>
+              <app-select-inmate [(model)]="args.inmateId" [loadOnOpen]="true" [dialogUrl]="inmateDialogUrl" class="width-100percent" name="inmateId"></app-select-inmate>
+            </div>
+          </div>
+    
+          <div class="grid align-items-center">
+            <div class="col-12">
+              <label>{{'gateMovement.visitor' | translate}}</label>
+              <app-select-visitor [(model)]="args.visitorId" name="visitorId"></app-select-visitor>
+            </div>
+          </div>
+          
+          <div class="grid align-items-center">
+            <div class="col-12">
+              <label>{{'gateMovement.employeeId' | translate}}</label>
+              <input type="text" pInputText [(ngModel)]="args.employeeId" name="employeeId">
+            </div>
+          </div>
+  
+          <div class="grid align-items-center">
+            <div class="col-12">
+              <label>{{'gateMovement.transferTypeId' | translate}}</label>
+              <p-dropdown [(ngModel)]="args.transferTypeId" name="transferTypeId" [options]="transferTypes" optionValue="id" optionLabel="description"
+                          placeholder="{{'global.selectOption' | translate}}" emptyMessage="{{'global.noResultsFound' | translate}}"
+                          emptyFilterMessage="{{'global.noResultsFound' | translate}}" [showClear]="true">
+              </p-dropdown>
+            </div>
+          </div>
+          
+          <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'gateMovement.vacationTypeId' | translate}}</label>
+            <p-dropdown [(ngModel)]="args.vacationTypeKind" name="vacationTypeKind" [options]="vacationTypes" optionValue="value" optionLabel="label"
+                        placeholder="{{'global.selectOption' | translate}}" emptyMessage="{{'global.noResultsFound' | translate}}"
+                        emptyFilterMessage="{{'global.noResultsFound' | translate}}" [showClear]="true">
+            </p-dropdown>
+          </div>
+        </div>
+          
+          
+          <div class="grid align-items-center">
+            <div class="col-12">
+              <label>{{'gateMovement.serialNo' | translate}}</label>
+              <p-inputNumber [(ngModel)]="args.serialNo" name="serialNo" [min]="0" [useGrouping]="false"></p-inputNumber>
+            </div>
+          </div>
+          
+        </div> 
+      </p-panel>
+    </div>
+    
+    <div class="col-12 md:col-9">
+      <app-toitsu-table #table
+                        [url]="url"
+                        [cols]="cols"
+                        [scrollHeight]="scrollHeight"
+                        [first]="paging.first"
+                        [rows]="paging.rows"
+                        [sortField]="paging.sortField"
+                        [sortOrder]="paging.sortOrder"
+                        [args]="args"
+                        [excel]="true"
+                        [exportModel]="exportModel"
+                        [selectionMode]="'multiple'"
+                        [loadOnInit]="false"
+                        (loadComplete)="loadComplete()">
+      </app-toitsu-table>
+    </div>
+  </div>
+  

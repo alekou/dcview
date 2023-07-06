@@ -1,0 +1,200 @@
+<form>
+  
+  <div class="grid">
+    <div class="col-12 button-container flex-container">
+      <div class="flex-container-start">
+        <button pButton type="button" *ngIf="!lockedRecord()"
+                label="{{'global.save' | translate}}" class="p-button-success"
+                icon="fa fa-save" iconPos="left" (click)="savePostLetter()">
+        </button>
+        <button pButton type="button" *ngIf="id && !lockedRecord()"
+                label="{{'global.delete' | translate}}" class="p-button-danger"
+                icon="fa fa-trash" iconPos="left" (click)="deletePostLetter()">
+        </button>
+        <button pButton type="button" label="{{'global.newRecord' | translate}}" class="p-button-info" *ngIf="id"
+                icon="fa fa-plus" iconPos="left" (click)="newRecord()">
+        </button>
+        
+        <button pButton type="button" label="{{'global.index' | translate}}" class="p-button-help"
+                icon="fa fa-table" iconPos="left" (click)="goToList()">
+        </button>
+        <app-other-dc-name [dcId]="postLetter.dcId"></app-other-dc-name>
+      </div>
+      <div class="flex-container-end">
+        <app-field-revisions *ngIf="id" [entityClass]="'inm.core.domain.PostLetter'" [entityId]="id"></app-field-revisions>
+      </div>
+    </div>
+  </div>
+  
+  <div class="grid" appToitsuLockControls [lockCondition]="lockedRecord()">
+    
+    <div class="col-12 md:col-6 p-fluid">
+      
+      <p-panel header="{{'postLetter.view.postLetterData' | translate}}">
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold font-bold">{{'postLetter.type' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="postLetter.type" [options]="postLetterTypes" name="type" optionValue="value" optionLabel="label"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center" *ngIf="postLetter.type.toUpperCase() == 'REGISTERED'">
+          <label class="col-12 sm:col-4">{{'postLetter.reCode' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="postLetter.reCode" name="reCode">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'postLetter.receiveDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="postLetter.receiveDate" name="receiveDate"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'postLetter.inmateId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-select-inmate [(model)]="postLetter.inmateId" name="inmateId"
+                               [loadOnOpen]="true" [dialogUrl]="inmateDialogUrl">
+            </app-select-inmate>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'postLetter.employeeId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-inputNumber [(ngModel)]="postLetter.employeeId" name="employeeId"></p-inputNumber>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'postLetter.courierCode' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="postLetter.courierCode" name="courierCode">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'postLetter.isPackage' | translate}}</label>
+          <div class="col-12 md:col-2">
+            <p-checkbox [(ngModel)]="postLetter.isPackage" name="isPackage" [binary]="true"></p-checkbox>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'postLetter.containsMoney' | translate}}</label>
+          <div class="col-12 md:col-2">
+            <p-checkbox [(ngModel)]="containsMoney" name="containsMoney" [binary]="true" (ngModelChange)="containsMoneyChanged()"></p-checkbox>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center" *ngIf="containsMoney">
+          <label class="col-12 sm:col-4">{{'postLetter.amountOfMoney' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-inputNumber [(ngModel)]="postLetter.amountOfMoney" name="amountOfMoney"></p-inputNumber>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'postLetter.received' | translate}}</label>
+          <div class="col-12 md:col-2">
+            <p-checkbox [(ngModel)]="postLetter.received" name="received" [binary]="true"></p-checkbox>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center" *ngIf="!postLetter.received">
+          <label class="col-12 sm:col-4">{{'postLetter.notReceiveDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="postLetter.notReceiveDate" name="notReceiveDate"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center" *ngIf="!postLetter.received">
+          <label class="col-12 sm:col-4 ">{{'postLetter.notReceiveReason' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="postLetter.notReceiveReason" name="notReceiveReason" rows="8"></textarea>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'postLetter.returned' | translate}}</label>
+          <div class="col-12 md:col-2">
+            <p-checkbox [(ngModel)]="postLetter.returned" name="returned" [binary]="true"></p-checkbox>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center" *ngIf="postLetter.returned">
+          <label class="col-12 sm:col-4">{{'postLetter.returnDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="postLetter.returnDate" name="returnDate"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 ">{{'postLetter.comments' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="postLetter.comments" name="comments" rows="8"></textarea>
+          </div>
+        </div>
+      
+      </p-panel>
+    
+    </div>
+    
+    <div class="col-12 md:col-6 p-fluid">
+      
+      <p-panel header="{{'postLetter.view.senderData' | translate}}">
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'postLetter.senderLastName' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="postLetter.senderLastName" name="senderLastName">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'postLetter.senderFirstName' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="postLetter.senderFirstName" name="senderFirstName">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'postLetter.senderCity' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="postLetter.senderCity" name="senderCity">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'postLetter.senderAddress' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="postLetter.senderAddress" name="senderAddress">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'postLetter.senderPostalCode' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="postLetter.senderPostalCode" name="senderPostalCode">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'postLetter.senderPhone' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="postLetter.senderPhone" name="senderPhone">
+          </div>
+        </div>
+      
+      </p-panel>
+    
+    </div>
+  
+  </div>
+</form>

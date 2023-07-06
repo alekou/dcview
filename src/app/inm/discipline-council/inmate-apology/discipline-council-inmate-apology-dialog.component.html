@@ -1,0 +1,31 @@
+
+<form>
+  
+  <div class="grid">
+    <div class="col-12 p-fluid">
+  
+  <div class="grid align-items-center">
+    <label class="col-12 sm:col-2">{{'disciplineOffense.apology' | translate}}</label>
+    <div class="col-12 sm:col-10">
+      <textarea pInputTextarea [(ngModel)]="disciplineOffense.apology" name="apology" rows="8" [disabled]="lockIfDisciplineCouncilOfInmateApologyIsComplete()"></textarea>
+    </div>
+  </div>
+      
+    </div>
+  </div>
+  
+</form>
+
+<div class="grid">
+  <div class="col-12 button-container text-align-end">
+    <button pButton type="button" label="{{'global.save' | translate}}" class="p-button-success"
+            icon="fa fa-save" iconPos="left" (click)="saveDisciplineOffenseInmateApology()" *ngIf="!showIfDisciplineCouncilOfInmateApologyIsComplete()">
+    </button>
+    <button pButton type="button" label="{{'global.cancel' | translate}}" class="p-button-warning"
+            icon="fa fa-times" iconPos="left" (click)="cancel()" *ngIf="!showIfDisciplineCouncilOfInmateApologyIsComplete()">
+    </button>
+    <button pButton type="button" label="{{'global.close' | translate}}" class="p-button-warning"
+            icon="fa fa-times" iconPos="left" (click)="cancel()" *ngIf="showIfDisciplineCouncilOfInmateApologyIsComplete()">
+    </button>
+  </div>
+</div>

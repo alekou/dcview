@@ -1,0 +1,14 @@
+{
+  "examination.inmateId": "Κρατούμενος",
+  "examination.examinationTypeCategory": "Τύπος",
+  "examination.examinationDate": "Ημ/νία Εξέτασης",
+  "examination.resultsDate": "Ημ/νια Αποτελεσμάτων",
+  "examination.results": "Αποτελέσματα",
+  "examination.comments": "Παρατηρήσεις",
+
+  "examination.examinationTypeId": "Περιγραφή Εξετάσης",
+  "examination.details": "Στοιχεία Εξέτασης Κρατουμένου",
+  "examination.description": "Εξέταση",
+  "examination.dialog.title": "Εξέταση Κρατουμένου",
+  "med.examinationDateIsNull": "Η ημερομηνία εξέτασης είναι υποχρεωτική."
+}

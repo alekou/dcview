@@ -1,0 +1,10 @@
+{
+  "hospital.isActive": "Ενεργό",
+  "hospital.name": "Ονομασία",
+  "hospital.cityPid": "Πόλη",
+  "hospital.address": "Διεύθυνση",
+  "hospital.telephone": "Τηλέφωνο",
+
+  "hospital.view.hospitalData": "Στοιχεία Νοσοκομείου",
+  "hospital.view.hospitalDepartments": "Τμήματα Νοσοκομείου"
+}

@@ -1,0 +1,24 @@
+{
+  "educationNeed.inmateId": "Κρατούμενος",
+  "educationNeed.dcId": "Κατάστημα Κράτησης",
+  "educationNeed.userId": "Χρήστης",
+  "educationNeed.submitDate": "Ημερομηνία Υποβολής",
+  "educationNeed.educationUnitInterest": "Ενδιαφέρον για εκπαιδευτικές μονάδες",
+  "educationNeed.individualTeachingInterest": "Ενδιαφέρον για κατ'ιδίαν εκπαίδευση",
+  "educationNeed.tertiaryEducationInterest": "Ενδιαφέρον για πρόσβαση στην Τριτοβάθμια Εκπαίδευση",
+  "educationNeed.programInterest": "Ενδιαφέρον για Προγράμματα του Σ.Κ",
+  "educationNeed.formerProfession": "Προηγούμενη Επαγγελματική Κατάσταση",
+  "educationNeed.formerProfessionLength": "Διάρκεια Απασχόλησης",
+  "educationNeed.priorTraining": "Προηγούμενη Παρακολούθηση Προγράμματος",
+  "educationNeed.participatedCourseDetails": "Λεπτομέριες Προηγούμενης Παρακολούθησης",
+  "educationNeed.work": "Επιθυμία Εργασίας",
+  "educationNeed.professionId": "Θέση Εργασίας",
+  "educationNeed.reintegrationSupport": "Υποστήριξη Επαγγελματικής Επανένταξης",
+
+  "educationNeed.view.inmateData": "Βασικά Στοιχεία Κρατούμενου",
+  "educationNeed.view.inmateEducationData": "Μορφωτικά Στοιχεία Κρατούμενου",
+  "educationNeed.view.inmateVocationalTrainingNeedsImpression": "Αποτύπωση Εκπαιδευτικών / Επιμορφωτικών Αναγκών",
+  "educationNeed.view.inmateVocationalTrainingNeedsRegistration": "Καταγραφή Αναγκών Επαγγελματικής Κατάρτισης / Επαγγελματικού Προσανατολισμού",
+  
+  "educationNeed.view.tab.educationNeedFeedbacks": "Ανατροφοδότηση"
+}

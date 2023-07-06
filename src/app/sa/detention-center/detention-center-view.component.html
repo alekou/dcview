@@ -1,0 +1,105 @@
+<form>
+  
+  <div class="grid">
+    <div class="col-12 md:col-6 button-container flex-container">
+      <div class="flex-container-start">
+        <button pButton type="button" *ngIf="!lockedRecord()"
+                label="{{'global.save' | translate}}" class="p-button-success"
+                icon="fa fa-save" iconPos="left" (click)="saveDetentionCenter()">
+        </button>
+        <button pButton type="button" *ngIf="authService.isMinistry()"
+                label="{{'global.newRecord' | translate}}" class="p-button-info"
+                icon="fa fa-plus" iconPos="left" (click)="newRecord()">
+        </button>
+        <button pButton type="button"
+                label="{{'global.index' | translate}}" class="p-button-help"
+                icon="fa fa-table" iconPos="left" (click)="goToList()">
+        </button>
+      </div>
+      <div class="flex-container-end">
+        <app-field-revisions *ngIf="id" [entityClass]="'inm.core.domain.DetentionCenter'" [entityId]="id"></app-field-revisions>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Στοιχεία Καταστήματος -->
+  <div class="grid" appToitsuLockControls [lockCondition]="lockedRecord()">
+    
+    <div class="col-12 xl:col-6 p-fluid">
+      
+      <p-panel header="{{'detentionCenter.view.detentionCenterData' | translate}}">
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'detentionCenter.isActive' | translate}}</label>
+          <div class="col-12 md:col-2">
+            <p-checkbox binary="true" [(ngModel)]="detentionCenter.isActive" name="isActive"></p-checkbox>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'detentionCenter.type' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="detentionCenter.type" name="type"
+                        [options]="detentionCenters" optionValue="value" optionLabel="label"
+                        placeholder="{{'global.selectOption' | translate}}" [showClear]="true"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'detentionCenter.name' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="detentionCenter.name" name="name">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'detentionCenter.code' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="detentionCenter.code" name="code">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'detentionCenter.address' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="detentionCenter.address" name="address">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'detentionCenter.postalCode' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="detentionCenter.postalCode" name="postalCode">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'detentionCenter.phone' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="detentionCenter.phone" name="phone">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center" *ngIf="detentionCenter.type == 'DC'">
+          <label class="col-12 sm:col-4">{{'detentionCenter.capacity' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-inputNumber [(ngModel)]="detentionCenter.capacity" name="capacity" [useGrouping]="false"></p-inputNumber>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center" *ngIf="detentionCenter.type == 'DC'">
+          <label class="col-12 sm:col-4">{{'detentionCenter.allowsTemporary' | translate}}</label>
+          <div class="col-12 md:col-2">
+            <p-checkbox binary="true" [(ngModel)]="detentionCenter.allowsTemporary" name="allowsTemporary"></p-checkbox>
+          </div>
+        </div>
+      
+      </p-panel>
+    
+    </div>
+  
+  </div>
+
+</form>

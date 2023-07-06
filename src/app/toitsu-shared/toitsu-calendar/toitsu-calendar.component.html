@@ -1,0 +1,10 @@
+<p-calendar *ngIf="controlName" formControlName="{{controlName}}" name="{{name}}" (onSelect)="onSelect()" (onBlur)="onBlur()"
+            dateFormat="dd/mm/yy" [showTime]="showTime" hourFormat="24" dataType="string"
+            [showOnFocus]="!disabled" [showIcon]="!disabled && !noIcon" icon="fa fa-calendar" [disabled]="disabled"
+            pCalendarMask [showPlaceholder]="true" appendTo="body" inputId="{{inputId}}" (onShow)="datepickerShown()" (onClose)="datepickerClosed()">
+</p-calendar>
+<p-calendar *ngIf="!controlName" [(ngModel)]="model" name="{{name}}" (onSelect)="onSelect()" (onBlur)="onBlur()"
+            dateFormat="dd/mm/yy" [showTime]="showTime" hourFormat="24" dataType="string"
+            [showOnFocus]="!disabled" [showIcon]="!disabled && !noIcon" icon="fa fa-calendar" [disabled]="disabled"
+            pCalendarMask [showPlaceholder]="true" appendTo="body" inputId="{{inputId}}" (onShow)="datepickerShown()" (onClose)="datepickerClosed()">
+</p-calendar>

@@ -1,0 +1,6 @@
+{
+  "inmateRelation.inmateId": "Κρατουμένος",
+  "inmateRelation.relationKind": "Είδος Συγγένειας",
+  "inmateRelation.otherRelationKindPid": "Άλλη Συγγένεια",
+  "inmateRelation.isClosestRelative": "Πλησιέστερος Συγγενής"
+}

@@ -1,0 +1,54 @@
+<form>
+  
+  <div class="grid">
+    <div class="col-12 md:col-6 button-container flex-container">
+      <div class="flex-container-start">
+        <button pButton type="button"
+                label="{{'global.save' | translate}}" class="p-button-success"
+                icon="fa fa-save" iconPos="left" (click)="saveDcConfig()">
+        </button>
+      </div>
+      <div class="flex-container-end">
+        <app-field-revisions [entityClass]="'cm.core.domain.DcConfig'" [entityId]="dcId"></app-field-revisions>
+      </div>
+    </div>
+  </div>
+  
+  <div class="grid">
+    
+    <div class="col-12 md:col-6 p-fluid">
+      
+      <p-panel header="{{'dcConfig.data' | translate}}">
+            
+          <div class="grid align-items-center">
+            <label class="col-12 sm:col-4">{{'dcConfig.vacationDaysPerYear' | translate}}</label>
+            <div class="col-12 sm:col-8">
+              <input pInputText [(ngModel)]="dcConfig.vacationDaysPerYear" name="vacationDaysPerYear">
+            </div>
+          </div>
+          
+          <div class="grid align-items-center">
+            <label class="col-12 sm:col-4">{{'dcConfig.maxVacationInterval' | translate}}</label>
+            <div class="col-12 sm:col-8">
+              <input pInputText [(ngModel)]="dcConfig.maxVacationInterval" name="maxVacationInterval">
+            </div>
+          </div>
+          
+          <div class="grid align-items-center">
+            <label class="col-12 sm:col-4">{{'dcConfig.maxRegularVacationDuration' | translate}}</label>
+            <div class="col-12 sm:col-8">
+              <input pInputText [(ngModel)]="dcConfig.maxRegularVacationDuration" name="maxRegularVacationDuration">
+            </div>
+          </div>
+          
+          <div class="grid align-items-center">
+            <label class="col-12 sm:col-4">{{'dcConfig.maxEmergencyVacationDuration' | translate}}</label>
+            <div class="col-12 sm:col-8">
+              <input pInputText [(ngModel)]="dcConfig.maxEmergencyVacationDuration" name="maxEmergencyVacationDuration">
+            </div>
+          </div>
+      </p-panel>
+    </div>
+  </div>
+
+</form>

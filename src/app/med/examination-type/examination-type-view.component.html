@@ -1,0 +1,65 @@
+<form>
+  <div class="grid">
+    <div class="col-12 button-container">
+      <button pButton type="button"
+              label="{{'global.save' | translate}}" class="p-button-success"
+              icon="fa fa-save" iconPos="left" (click)="saveExamination()">
+      </button>
+      <button pButton type="button" *ngIf="id"
+              label="{{'global.delete' | translate}}" class="p-button-danger"
+              icon="fa fa-trash" iconPos="left" (click)="deleteExamination()">
+      </button>
+      <button pButton type="button" *ngIf="id" label="{{'global.newRecord' | translate}}" class="p-button-info"
+              icon="fa fa-plus" iconPos="left" (click)="newRecord()">
+      </button>
+      <button pButton type="button" label="{{'global.index' | translate}}" class="p-button-help"
+              icon="fa fa-table" iconPos="left" (click)="goToList()">
+      </button>
+    </div>
+  </div>
+  <div class="grid">
+    
+    <div class="col-12 md:col-6 p-fluid">
+      
+      <p-panel header="{{'examinationType.details' | translate}}">
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'examinationType.code' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="examinationType.code" name="code">
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'examinationType.categoryPid' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-select-gen-parameter [type]="pExaminationTypeCategory" [(model)]="examinationType.categoryPid" name="categoryPid"></app-select-gen-parameter>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'examinationType.type' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="examinationType.type" name="type">
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{ 'examinationType.isBloodSampling' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox binary="true" [(ngModel)]="examinationType.isBloodSampling" name="isBloodSampling"></p-checkbox>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'examinationType.description' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="examinationType.description" name="description" rows="5"></textarea>
+          </div>
+        </div>
+        
+      </p-panel>
+    </div>
+  </div>
+
+</form>

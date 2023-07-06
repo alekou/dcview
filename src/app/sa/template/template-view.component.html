@@ -1,0 +1,137 @@
+<form>
+  
+  <div class="grid">
+    <div class="col-12 button-container">
+      <button pButton type="button"
+              label="{{'global.save' | translate}}" class="p-button-success"
+              icon="fa fa-save" iconPos="left" (click)="saveTemplate()">
+      </button>
+      <button pButton type="button" label="{{'global.newRecord' | translate}}" class="p-button-info" *ngIf="id"
+              icon="fa fa-plus" iconPos="left" (click)="newRecord()">
+      </button>
+  
+      <button pButton type="button" label="{{'global.index' | translate}}" class="p-button-help"
+              icon="fa fa-table" iconPos="left" (click)="goToList()">
+      </button>
+      <app-other-dc-name [dcId]="template.dcId"></app-other-dc-name>
+    </div>
+  </div>
+  
+  <div class="grid">
+    
+    <div class="col-12 md:col-6 p-fluid">
+      <p-panel header="{{'template.view.templateData' | translate}}">
+        
+        <!-- Ενεργό -->
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'template.isActive' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox [(ngModel)]="template.isActive" binary="true" name="isActive">
+            </p-checkbox>
+          </div>
+        </div>
+        
+        <!-- Τίτλος -->
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'template.title' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input [(ngModel)]="template.title" type="text" pInputText name="title">
+          </div>
+        </div>
+        
+        <!-- Εφαρμογή -->
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'template.application' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="template.application" name="application" optionValue="value" optionLabel="label"
+                        [options]="applications" (ngModelChange)="templateDefinitionChanged()"
+                        placeholder="{{'global.selectOption' | translate}}" [showClear]="true" [filter]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <!-- Ενοτητα Αναφοράς -->
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold ">{{'template.entity' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="template.entity" name="entity" optionValue="value" optionLabel="label"
+                        [options]="entities" placeholder="{{'global.selectOption' | translate}}" [showClear]="true" [filter]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <!-- Κατηγορία -->
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'template.category' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input [(ngModel)]="template.category" name="category" type="text" pInputText>
+          </div>
+        </div>
+  
+        <!-- Definitions -->
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'template.definition' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [options]="templateDefinitions"
+                        [(ngModel)]="template.definition"
+                        (ngModelChange)="templateDefinitionChanged()"
+                        name="definition" optionValue="value" optionLabel="label" 
+              
+                        [showClear]="true" [filter]="true"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}"
+                        emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+            >
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <!--Tύπος Ιατρού-->
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'template.doctorType' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown  [(ngModel)]="template.doctorType" name="kind"  [options]="doctorTypes" optionValue="value" optionLabel="label"
+                         placeholder="{{'global.selectOption' | translate}}" [showClear]="true" >
+            </p-dropdown>
+          </div>
+        </div>
+  
+        <!-- Κωδικός Αναφοράς -->
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'template.reportCode' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input [(ngModel)]="template.reportCode" name="reportCode" type="text" pInputText>
+          </div>
+        </div>
+        
+        <!-- Δυνατότητα Επεξεργασίας Αναφοράς -->
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'template.canEditReport' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox [(ngModel)]="template.canEditReport" name="canEditReport" binary="true">
+            </p-checkbox>
+          </div>
+        </div>
+        
+        <!-- Παρατηρήσεις -->
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'template.comments' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea [(ngModel)]="template.comments" name="comments" pInputTextarea rows="8"></textarea>
+          </div>
+        </div>
+      
+      </p-panel>
+    </div>
+  
+  </div>
+  
+  <div class="grid" *ngIf="template.id">
+    <div class="col-12">
+      <app-toitsu-ckeditor [(model)]="template.content" [editorOptions]="editorOptions"></app-toitsu-ckeditor>
+      <input type="hidden" id="tagsList" value="{{templateDefinitionTagsList}}">
+    </div>
+  </div>
+
+</form>

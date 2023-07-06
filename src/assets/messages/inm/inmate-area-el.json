@@ -1,0 +1,88 @@
+{
+  "inmateArea.manage.structure": "Χωροταξική Δομή",
+  "inmateArea.manage.areaInformation": "Στοιχεία Περιοχής",
+  "inmateArea.manage.inmates": "Κρατούμενοι Περιοχής",
+  "inmateArea.manage.showSumUp" : "Εμφάνιση σύνοψης θέσεων κρατουμένων",
+  "inmateArea.manage.sumUp": "Σύνοψη Θέσεων Κρατουμένων",
+  "inmateArea.manage.noSelectedArea": "Δεν έχετε επιλέξει κάποια περιοχή κράτησης.",
+
+  "inmateArea.inmates": "Κρατούμενοι",
+  "inmateArea.inmates.expected": "Αναμενόμενοι",
+  "inmateArea.inmates.power": "Δύναμη",
+  "inmateArea.inmates.absences": "Απουσίες",
+  "inmateArea.inmates.present": "Παρόντες",
+  "inmateArea.inmates.havePosition": "Έχουν Θέση",
+  "inmateArea.inmates.haveNotPosition": "Χωρίς Θέση",
+
+  "inmateArea.inmateId" : "Κρατούμενος",
+  "inmateArea.inmateNationality" : "Υπηκοότητα",
+  "inmateArea.inmateRecordCode" : "Κωδικός Κράτησης",
+  "inmateArea.inmateRecordPenaltyCharacterization" : "Χαρακτηρισμός Ποινής",
+  "inmateArea.inmateRecordPenaltyDuration" : "Διάρκεια Ποινής",
+  "inmateArea.judgmentFactDescription": "Αδίκημα Απόφασης",
+  "inmateArea.absence": "Απουσία",
+  "inmateArea.previousAreaDescription": "Προηγούμενη Θέση",
+  "inmateArea.areaFullDescription": "Περιοχή",
+  "inmateArea.entryDate": "Ημερομηνία Εισόδου",
+  "inmateArea.exitDate": "Ημερομηνία Εξόδου",
+  "inmateArea.reason": "Αιτία Τοποθέτησης",
+  "inmateArea.comments": "Παρατηρήσεις",
+  "inmateArea.medComments": "Παρατηρήσεις Ιατρείου",
+  "inmateArea.active": "Ενεργή Θέση",
+  "inmateArea.reserved": "Κρατημένη Θέση",
+  "inmateArea.reservationDate": "Ημερομηνία Κράτησης",
+  "inmateArea.hasEscapeTime": "Ένδειξη Απόδρασης",
+  "inmateArea.inmateLabor": "Εργασία",
+  "inmateArea.inmateAreaStatus": "Κατάσταση Θέσης",
+  "inmateArea.inmateRecordExitDate": "Ημερομηνία Κλεισίματος Κράτησης",
+  "inmateArea.currentArea": "Τρέχουσα Θέση",
+  "inmateArea.newArea": "Νέα Τοποθέτηση",
+  "inmateArea.date": "Ημερομηνία",
+  "inmateArea.currentAreaReservation": "Κράτηση Τρέχουσας Θέσης",
+  "inmateArea.thereIsReserved": "Υπάρχει Κρατημένη Θέση",
+
+  "inm.subgroup.inmateArea.catalog": "Θέσεις Κρατουμένων - Κατάλογος",
+  "inm.subgroup.inmateArea.history": "Θέσεις Κρατουμένων - Ιστορικό",
+
+  "inmateArea.manage.editPlacement": "Επεξεργασία Τοποθέτησης",
+  "inmateArea.manage.showPhoto": "Προβολή Φωτογραφίας",
+  "inmateArea.manage.moveInmate": "Μεταφορά Κρατουμένου",
+  "inmateArea.manage.showAllAreas": "Εμφάνιση όλων των περιοχών",
+
+  "inmateArea.manage.basicData": "Στοιχεία Θέσης Κρατουμένου",
+
+  "inmateArea.manage.editPlacement.reason": "Αιτιολογία",
+  "inmateArea.manage.editPlacement.comments": "Παρατηρήσεις",
+  "inmateArea.manage.editPlacement.closePosition": "Κλείσιμο Θέσης",
+  "inmateArea.manage.editPlacement.reservePosition": "Κράτηση Θέσης",
+
+  "inmateArea.move.success": "Η μεταφορά κρατουμένου ολοκληρώθηκε με επιτυχία.",
+  "inmateArea.edit.success": "Η επεξεργασία την θέσης κρατουμένου ολοκληρώθηκε με επιτυχία.",
+
+  "inmateArea.history.searchFunction": "Λειτουργία Αναζήτησης",
+  "inmateArea.history.inmates": "Κρατούμενοι",
+  "inmateArea.history.fellowInmateId": "Συγκρατούμενος",
+  "inmateArea.history.fellowInmates": "Συγκρατούμενοι",
+  "inmateArea.history.inmateArgs": "Κριτήρια Κρατουμένων",
+  "inmateArea.history.fellowInmateArgs": "Κριτήρια Συγκρατουμένων",
+  "inmateArea.history.inmate.data": "Ιστορικό Θέσεων Κρατουμένων",
+  "inmateArea.history.fellowInmate.data": "Ιστορικό Θέσεων Συγκρατουμένων",
+  "inmateArea.history.emptyCell": "Άδειασμα Κελιού",
+  "inmateArea.history.displayFellowInmatePhoto": "Προβολή Φωτογραφίας Συγκρατουμένου",
+
+
+  "inmateArea.info.noLastInmateAreaToReserve": "Δεν μπορείτε να πραγματοποιήσετε κράτηση της τρέχουσας θέσης, γιατί ο κρατούμενος δεν βρίσκεται σε κάποια περιοχή κράτησης.",
+  "inmateArea.info.inmateAreaAlreadyReserved": "Έχει γίνει κράτηση της τρέχουσας θέσης στις: ",
+  "inmateArea.info.noInmateAreaToSearch": "Δεν μπορείτε να κάνετε αναζήτηση βάσει περιοχής κράτησης σε κρατούμενους χωρίς θέση.",
+
+  "inmateArea.error.sameAreaId": "Η νέα περιοχή κράτησης δεν μπορεί να είναι ίδια με την προηγούμενη.",
+
+  "inmateArea.warning.invalidRecord": "Μη έγκυρη καταχώρηση θέσης",
+  "inmateArea.warning.selectedArea.NoAvailablePositions": "Η επιλεγμένη Περιοχή Κράτησης δεν έχει διαθέσιμες θέσεις.",
+  "inmateArea.warning.noInmateIdToSearch": "Επιλέξτε κρατούμενο από τον πίνακα «Ιστορικό Θέσεων Κρατουμένων» για να κάνετε αναζήτηση στον πίνακα «Ιστορικού Θέσεων Συγκρατουμένων».",
+
+  "inmateArea.warningMessage.selectInvalidRecord": "Παρακαλώ επιλέξτε έγκυρη καταχώρηση θέσης.",
+
+  "inmateArea.infoMessage.exitDateField": "Παρακαλώ συμπληρώστε την ημερομηνία εξόδου του κρατουμένου."
+
+}

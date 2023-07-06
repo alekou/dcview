@@ -1,0 +1,123 @@
+<form>
+
+  <div class="grid">
+    <div class="col-12 md:col-6 button-container flex-container">
+      <div class="flex-container-start">
+      <button pButton type="button" *ngIf="authService.isMinistry()"
+              label="{{'global.save' | translate}}" class="p-button-success"
+              icon="fa fa-save" iconPos="left" (click)="saveHospital()">
+      </button>
+      <button pButton type="button" *ngIf="id && authService.isMinistry()"
+              label="{{'global.newRecord' | translate}}" class="p-button-info"
+              icon="fa fa-plus" iconPos="left" (click)="newRecord()">
+      </button>
+      <button pButton type="button"
+              label="{{'global.index' | translate}}" class="p-button-help"
+              icon="fa fa-table" iconPos="left" (click)="goToList()">
+      </button>
+      </div>
+      <div class="flex-container-end">
+        <app-field-revisions *ngIf="id" [entityClass]="'cm.core.domain.Hospital'" [entityId]="id"></app-field-revisions>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Στοιχεία Νοσοκομείου -->
+  <div class="grid" appToitsuLockControls [lockCondition]="!authService.isMinistry()">
+    
+    <div class="col-12 xl:col-6 p-fluid">
+      
+      <p-panel header="{{'hospital.view.hospitalData' | translate}}">
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'hospital.isActive' | translate}}</label>
+          <div class="col-12 md:col-2">
+            <p-checkbox binary="true" [(ngModel)]="hospital.isActive" name="isActive"></p-checkbox>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'hospital.name' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="hospital.name" name="name">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'hospital.cityPid' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-select-gen-parameter [type]="pHospitalCity" [(model)]="hospital.cityPid" name="cityPid"></app-select-gen-parameter>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'hospital.address' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="hospital.address" name="address">
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'hospital.telephone' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="hospital.telephone" name="telephone">
+          </div>
+        </div>
+      
+      </p-panel>
+      
+      <!-- Τμήματα Νοσοκομείου -->
+      <p-panel header="{{'hospital.view.hospitalDepartments' | translate}}">
+  
+        <div class="grid">
+          <div class="col-3">
+            <button pButton type="button" label="{{'global.add' | translate}}" class="p-button-info"
+                    icon="fa fa-plus" iconPos="left" (click)="addHospitalDepartment()">
+            </button>
+          </div>
+        </div>
+        
+        <p-table [value]=" hospital.hospitalDepartments" [scrollable]="true" scrollHeight="25rem" styleClass="p-datatable-gridlines p-datatable-striped" appToitsuPTableCellWidth>
+          
+          <ng-template pTemplate="header">
+            <tr>
+              <th [style.width]="'5rem'" [style.justify-content]="'center'">#</th>
+              <th [style.width]="'6rem'" [style.justify-content]="'center'">{{'hospitalDepartment.isActive' | translate}}</th>
+              <th [style.width]="'25rem'" [style.justify-content]="'center'" class="font-bold">{{'hospitalDepartment.name' | translate}}</th>
+              <th [style.width]="'8rem'"></th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-hospitalDepartment let-index="rowIndex">
+            
+            <tr class="p-fluid">
+              <td [style.justify-content]="'center'">{{index + 1}}</td>
+              
+              <td [style.justify-content]="'center'">
+                <p-checkbox binary="true" [(ngModel)]="hospitalDepartment.isActive" name="hospitalDepartment{{index}}.isActive"></p-checkbox>
+              </td>
+  
+              <td [style.justify-content]="'center'">
+                <input type="text" pInputText [(ngModel)]="hospitalDepartment.name" name="hospitalDepartment{{index}}.name">
+              </td>
+  
+              <td [style.width]="'10%'" [style.justify-content]="'center'" class="button-container">
+                <app-field-revisions *ngIf="hospitalDepartment.id" [entityClass]="'cm.core.domain.HospitalDepartment'"
+                                     [entityId]="hospitalDepartment.id" [tableMode]="true"></app-field-revisions>
+                <button pButton type="button" pTooltip="{{(hospitalDepartment.id ? 'global.delete' : 'global.remove') | translate}}" class="p-button-danger"
+                        icon="{{(hospitalDepartment.id ? 'fa fa-times' : 'fa fa-minus') | translate}}" iconPos="left"
+                        (click)="deleteHospitalDepartment(index, hospitalDepartment.id)">
+                </button>
+              </td>
+            </tr>
+            
+          </ng-template>
+          
+        </p-table>
+        
+      </p-panel>
+      
+    </div>
+  
+  </div>
+  
+</form>

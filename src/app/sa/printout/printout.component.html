@@ -1,0 +1,131 @@
+<div class="grid">
+  
+  <div class="col-12 md:col-3">
+  
+    <p-panel header="{{'global.args' | translate}}" *ngIf="isReportClicked">
+      <div class="p-fluid custom-scroll">
+        <div *ngFor="let arg of printUsedArgs, let i = index">
+          <span *ngIf="hasArgs">
+            <div class="grid align-items-center" *ngIf="arg.argType === 'STRING'">
+              <div class="col-12">
+                <label>{{arg.argumentLabel | translate}}</label>
+                <input type="text" pInputText [(ngModel)]="arg.argValue">
+              </div>
+            </div>
+        
+            <div class="grid align-items-center" *ngIf="arg.argType === 'DATE'">
+              <div class="col-12">
+                <label>{{arg.argumentLabel | translate}}</label>
+                <app-toitsu-calendar [(model)]="arg.argValue" name="{{arg.name}}"></app-toitsu-calendar>
+              </div>
+            </div>
+        
+            <div class="grid align-items-center" *ngIf="(arg.argType === 'LONG' || arg.argType === 'INTEGER') && arg.argType !== 'INMATE'">
+              <div class="col-12">
+                <label>{{arg.argumentLabel | translate}}</label>
+                <p-inputNumber [(ngModel)]="arg.argValue" name="{{arg.name}}" [useGrouping]="false"></p-inputNumber>
+              </div>
+            </div>
+        
+            <div class="grid align-items-center" *ngIf="arg.argType === 'DECIMAL'">
+              <div class="col-12">
+                <label>{{arg.argumentLabel | translate}}</label>
+                <p-inputNumber [(ngModel)]="arg.argValue" name="{{arg.name}}"></p-inputNumber>
+              </div>
+            </div>
+            <div class="grid align-items-center" *ngIf="arg.argType === 'INMATE'">
+              <div class="col-12">
+                <label>{{arg.argumentLabel | translate}}</label>
+                <app-select-inmate [inmates]="inmates" [dialogUrl]="inmateDialogUrl" [(model)]="arg.argValue" name="{{arg.name}}"></app-select-inmate>
+              </div>
+            </div>
+        
+            <div class="grid align-items-center" *ngIf="arg.argType === 'GEN_PARAMETER'">
+              <div class="col-12">
+                <label>{{arg.argumentLabel | translate}}</label>
+                <app-select-gen-parameter [(model)]="arg.argValue" [type]="arg.dropdownOptions"></app-select-gen-parameter>
+              </div>
+            </div>
+        
+            <div class="grid align-items-center" *ngIf="arg.argType === 'GEN_PARAMETER_LIST'">
+              <div class="col-12">
+                <label>{{arg.argumentLabel | translate}}</label>
+                <app-select-gen-parameter [(models)]="arg.argValue" [type]="arg.dropdownOptions" [multipleSelection]="true" [hideAdd]="true"></app-select-gen-parameter>
+              </div>
+            </div>
+        
+            <div class="grid align-items-center" *ngIf="arg.argType === 'VISITOR'">
+              <div class="col-12">
+                <label>{{arg.argumentLabel | translate}}</label>
+                <app-select-visitor [(model)]="arg.argValue" name="{{arg.name}}"></app-select-visitor>
+              </div>
+            </div>
+        
+            <div class="grid align-items-center" *ngIf="arg.argType === 'LONG_LIST'">
+              <div class="col-12">
+                <label>{{arg.argumentLabel | translate}}</label>
+                <p-multiSelect [(ngModel)]="arg.argValue" [options]="arg.dropdownOptions"
+                               placeholder="{{'global.selectOption' | translate}}" emptyMessage="{{'global.noResultsFound' | translate}}"
+                               emptyFilterMessage="{{'global.noResultsFound' | translate}}" display="chip" [showClear]="true" appendTo="body">
+                </p-multiSelect>
+              </div>
+            </div>
+        
+            <div class="grid align-items-center" *ngIf="arg.argType === 'DROPDOWN' || arg.argType === 'BOOLEAN' || arg.argType === 'ENUM'">
+              <div class="col-12">
+                <label>{{arg.argumentLabel | translate}}</label>
+                <p-dropdown [(ngModel)]="arg.argValue" [options]="arg.dropdownOptions" [optionValue]="arg.dropdownOptionValue" [optionLabel]="arg.dropdownOptionLabel"
+                            placeholder="{{'global.selectOption' | translate}}" emptyMessage="{{'global.noResultsFound' | translate}}"
+                            emptyFilterMessage="{{'global.noResultsFound' | translate}}" [showClear]="true" appendTo="body">
+                </p-dropdown>
+              </div>
+            </div>
+          </span>
+        </div>
+      </div>
+      
+      
+      <div class="grid text-align-center">
+        <div class="col-12 button-container">
+          <button pButton type="button" label="{{'printout.print.html' | translate}}" class="p-button-info"
+                  icon="fa fa-file-text-o" iconPos="left" (click)="createReportHtml()">
+          </button>
+          <button pButton type="button" label="{{'printout.print.pdf' | translate}}" class="p-button-danger"
+                  icon="fa fa-file-pdf-o" iconPos="left" (click)="createReportPdf()">
+          </button>
+          <button pButton type="button" label="{{'printout.print.xls' | translate}}" class="p-button-success"
+                  icon="fa fa-file-excel-o" iconPos="left" (click)="createReportXls()">
+          </button>
+        </div>
+      </div>
+    </p-panel>
+  
+    <br/>
+    
+    <p-panel header="{{'printout.print.reports' | translate}}" *ngIf="sectionReports.length > 0">
+      <div class="p-fluid custom-scroll">
+        <div class="padding-top hover-transparent" *ngFor="let report of sectionReports, let i = index">
+          <a class="cursor-pointer hide-hr" (click)="reportClicked(report)">
+            <span class="color-dimgrey">{{i+1}}</span>
+            <i class="fa fa-angle-right"></i>
+            <span class=" font-size-15 bold">{{report.description}}</span>
+            <hr>
+          </a>
+        </div>
+      </div>
+      
+    </p-panel>
+    
+    <div *ngIf="initialListIsEmpty">
+      <p class="font-settings">{{'reports.doNotExist' | translate}}</p>
+    </div>
+    
+  </div>
+  
+  <div class="col-12 md:col-9" *ngIf="isReportClicked">
+    <header class="printout-header">
+      <span class="printout-message">{{reportDescription}}</span>
+    </header>
+    <div [innerHTML]="htmlContent"></div>
+  </div>
+</div>

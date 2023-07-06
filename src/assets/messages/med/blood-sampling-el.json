@@ -1,0 +1,13 @@
+{
+  "bloodSampling.inmateId": "Κρατούμενος",
+  "bloodSampling.samplingDate": "Ημ/νία Λήψης Δείγματος",
+  "bloodSampling.testDate": "Ημ/νία Εξέτασης Δείγματος",
+  "bloodSampling.resultDate": "Ημ/νία Παραλαβής Αποτελεσμάτων",
+  "bloodSampling.comments": "Παρατηρήσεις",
+  "bloodSampling.details": "Στοιχεία Αιμοληψίας",
+  "bloodSampling.examinationSelection": "Επιλογή Εξετάσεων",
+  
+  "bloodSamplingExamination.dialogTitle": "Αιμοληπτικές Εξετάσεις",
+  "bloodSampling.view.tab.examinations": "Αιματολογικές Εξετάσεις Κρατουμένου",
+  "bloodSampling.dialog.title": "Αιματοληπτικές Εξετάσεις"
+}

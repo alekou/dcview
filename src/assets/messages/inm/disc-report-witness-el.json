@@ -1,0 +1,9 @@
+{
+  "discReportWitness.witnessType": "Τύπος Μάρτυρα",
+  "discReportWitness.witness": "Μάρτυρας",
+  "discReportWitness.witnessLastName": "Επώνυμο",
+  "discReportWitness.witnessFirstName": "Όνομα",
+  "discReportWitness.witnessFullName": "Ονοματεπώνυμο Μάρτυρα",
+  
+  "disciplineWitness.view.witness": "Μάρτυρες"
+}

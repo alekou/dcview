@@ -1,0 +1,23 @@
+{
+  "visitLawyerAdd.view.addInmateWithLawyer": "Προσθήκη Κρατούμενου με Δικηγόρο",
+  "visitLawyerAdd.view.addOtherInmate": "Προσθήκη Άλλου Κρατουμένου",
+  "visitLawyerAdd.view.incomingGateMovementData": "Στοιχεία Κίνησης Εισόδου",
+  "visitLawyerAdd.view.visitData": "Στοιχεία Επισκεπτηρίου",
+  "visitLawyerAdd.view.inmates": "Κρατούμενοι",
+  "visitLawyerAdd.view.incomingGateMovementCreation": "Δημιουργία Κίνησης Εισόδου",
+  
+  
+  "visitLawyerAdd.gateMovementMovementTypeId": "Τύπος Κίνησης",
+  "visitLawyerAdd.visitorId": "Επισκέπτης",
+  "visitLawyerAdd.visitTypeId": "Τύπος Επισκεπτηρίου",
+  "visitLawyerAdd.visitDate": "Ημερομηνία/Ώρα",
+  "visitLawyerAdd.visitApplicationId": "Αίτημα Επισκεπτηρίου",
+  "visitLawyerAdd.visitComments": "Παρατηρήσεις",
+
+  "error.visitLawyerAdd.save.visit": "Επισκεπτήριο",
+  "error.visitLawyerAdd.save.visitorIdNull": "Δεν έχετε επιλέξει επισκέπτη.",
+  "error.visitLawyerAdd.save.emptyLawyerVisitsList": "Η επιλογή σας δεν περιέχει κρατουμένους.",
+  "error.visitLawyerAdd.save.gateMovementMovementTypeIdNull": "Δεν έχετε ορίσει τύπο κίνησης.",
+  "error.visitLawyerAdd.save.visitTypeIdNull": "Δεν έχετε ορίσει τύπο επισκεπτηρίου.",
+  "error.visitLawyerAdd.save.inmateIdNull": "Δεν έχετε ορίσει κρατούμενο."
+}

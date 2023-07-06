@@ -1,0 +1,22 @@
+.vehicle {
+  padding-top: 0.4rem;
+  padding-bottom: 0.4rem;
+  font-size: 1.2rem;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+.vehicle > .driver-count {
+  background-color: darkorange;
+  color: white;
+  padding: 0.4rem 0.8rem;
+  border-radius: 1rem;
+}
+
+.hidden-div {
+  width: 90%; 
+  overflow: hidden;
+}
+
+.btn-float {
+  float: right;
+}

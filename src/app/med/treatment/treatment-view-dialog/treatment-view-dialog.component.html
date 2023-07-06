@@ -1,0 +1,197 @@
+<form>
+  <div class="grid">
+    <div class="col-12 button-container">
+      <button [disabled]="treatment.stop" pButton type="button" label="{{'global.add' | translate}}"
+              class="p-button-info" icon="fa fa-plus" iconPos="left" (click)="addTreatmentLine()">
+      </button>
+      <button pButton type="button" *ngIf="treatment.id && !treatment.stop" label="{{'treatment.stop' | translate}}" class="p-button-danger"
+              icon="fa fa-times" iconPos="left" (click)="stopTreatment()">
+      </button>
+    </div>
+  </div>
+  
+  <div class="grid" appToitsuLockControls [lockCondition]="lockedRecord()">
+    <div class="col-5 p-fluid">
+      <p-panel header="{{'treatment.details' | translate}}">
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'treatment.serialNo' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-inputNumber [disabled]="true" [(ngModel)]="treatment.serialNo" name="serialNo" [min]="0" [useGrouping]="false">
+            </p-inputNumber>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center" *ngIf="treatment.stop">
+          <label class="col-12 sm:col-4">{{ 'treatment.stop' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox binary="true" [disabled]="true" [(ngModel)]="treatment.stop" name="stop"></p-checkbox>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'treatment.doctorId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="treatment.doctorId" [disabled]="treatment.stop" [options]="activeDoctors" name="doctorId"
+                        optionValue="id" optionLabel="fullName"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}"
+                        emptyFilterMessage="{{'global.noResultsFound' | translate}}" [showClear]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'treatment.inmateId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-select-inmate [disabled]="true" [(model)]="treatment.inmateId" (modelChange)="inmateIdChanged()" [loadOnOpen]="true" [dialogUrl]="inmateDialogUrl" name="inmateId"></app-select-inmate>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'treatment.hearingId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="treatment.hearingId" [disabled]="treatment.stop" [options]="hearings" name="hearingId"
+                        optionValue="id" optionLabel="fullDescription"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}"
+                        emptyFilterMessage="{{'global.noResultsFound' | translate}}" [showClear]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'treatment.treatmentDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [disabled]="treatment.stop" [(model)]="treatment.treatmentDate" name="treatmentDate" [showTime]="true"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{ 'treatment.isMedPsychiatric' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox binary="true" [disabled]="!!treatment.id || treatment.stop || medicineTYpeChecked" [(ngModel)]="treatment.isMedPsychiatric" (ngModelChange)="medicineTypeChanged()" name="isMedPsychiatric"></p-checkbox>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'treatment.description' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [disabled]="treatment.stop" [(ngModel)]="treatment.description" name="description" rows="5"></textarea>
+          </div>
+        </div>
+      
+      </p-panel>
+    </div>
+    
+    <div class="col-7 p-fluid">
+      <p-panel header="{{'treatmentLine.view.tab.treatments' | translate}}">
+        
+        <p-table [value]="treatment.treatmentLines" [scrollable]="true" scrollHeight="25rem" styleClass="p-datatable-gridlines p-datatable-striped" appToitsuPTableCellWidth>
+          <ng-template pTemplate="header">
+            <tr>
+              <th [style.width]="'5rem'" [style.justify-content]="'center'">#</th>
+              <th [style.width]="'10rem'" [style.justify-content]="'center'">{{'treatmentLine.medicineId' | translate}}</th>
+              <th [style.width]="'10rem'" [style.justify-content]="'center'">{{'unit' | translate}}</th>
+              <th [style.width]="'10rem'" [style.justify-content]="'center'">{{'treatmentLine.usedQuantity' | translate}}</th>
+              <th [style.width]="'10rem'" [style.justify-content]="'center'" *ngIf="shift.used1">{{shift.name1}}</th>
+              <th [style.width]="'10rem'" [style.justify-content]="'center'" *ngIf="shift.used2">{{shift.name2}}</th>
+              <th [style.width]="'10rem'" [style.justify-content]="'center'" *ngIf="shift.used3">{{shift.name3}}</th>
+              <th [style.width]="'10rem'" [style.justify-content]="'center'" *ngIf="shift.used4">{{shift.name4}}</th>
+              <th [style.width]="'10rem'" [style.justify-content]="'center'" *ngIf="shift.used5">{{shift.name5}}</th>
+              <th [style.width]="'10rem'" [style.justify-content]="'center'">{{'treatmentLine.totalDays' | translate}}</th>
+              <th [style.width]="'10rem'" [style.justify-content]="'center'">{{'treatmentLine.fromDate' | translate}}</th>
+              <th [style.width]="'10rem'" [style.justify-content]="'center'">{{'treatmentLine.toDate' | translate}}</th>
+              <th [style.width]="'10rem'" [style.justify-content]="'center'">{{'treatmentLine.forLife' | translate}}</th>
+              <th [style.width]="'10rem'" [style.justify-content]="'center'">{{'treatmentLine.steDays' | translate}}</th>
+              <th [style.width]="'10rem'" [style.justify-content]="'center'">{{'treatmentLine.comments' | translate}}</th>
+              <th [style.width]="'5rem'"></th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-treatmentLine let-index="rowIndex">
+            <tr class="p-fluid">
+              <td [style.justify-content]="'center'">{{index + 1}}</td>
+              <td>
+                <p-dropdown [(ngModel)]="treatmentLine.medicineId" [options]="medicines" (ngModelChange)="medicineIdChanged(treatmentLine)" name="treatmentLine{{index}}.medicineId"
+                            optionValue="id" optionLabel="medicineName"
+                            placeholder="{{'global.selectOption' | translate}}"
+                            emptyMessage="{{'global.noResultsFound' | translate}}"
+                            emptyFilterMessage="{{'global.noResultsFound' | translate}}" [showClear]="true" appendTo="body">
+                </p-dropdown>
+              </td>
+              <td [style.justify-content]="'center'">
+                <input pInputText disabled value="{{treatmentLine.medicineMeasurementUnit}}">
+              </td>
+              
+              <td [style.justify-content]="'center'">
+                <p-inputNumber [disabled]="treatment.stop" [(ngModel)]="treatmentLine.usedQuantity" class="width-100percent" name="treatmentLine{{index}}.usedQuantity" [min]="0">
+                </p-inputNumber>
+              </td>
+              <td [style.justify-content]="'center'" *ngIf="shift.used1">
+                <p-checkbox [disabled]="treatment.stop" binary="true" [(ngModel)]="treatmentLine.used1" name="treatmentLine{{index}}.used1"></p-checkbox>
+              </td>
+              <td [style.justify-content]="'center'" *ngIf="shift.used2">
+                <p-checkbox [disabled]="treatment.stop" binary="true" [(ngModel)]="treatmentLine.used2" name="treatmentLine{{index}}.used2"></p-checkbox>
+              </td>
+              <td [style.justify-content]="'center'" *ngIf="shift.used3">
+                <p-checkbox [disabled]="treatment.stop" binary="true" [(ngModel)]="treatmentLine.used3" name="treatmentLine{{index}}.used3"></p-checkbox>
+              </td>
+              <td [style.justify-content]="'center'" *ngIf="shift.used4">
+                <p-checkbox [disabled]="treatment.stop" binary="true"  [(ngModel)]="treatmentLine.used4" name="treatmentLine{{index}}.used4"></p-checkbox>
+              </td>
+              <td [style.justify-content]="'center'"  *ngIf="shift.used5">
+                <p-checkbox [disabled]="treatment.stop" binary="true" [(ngModel)]="treatmentLine.used5"  name="treatmentLine{{index}}.used5"></p-checkbox>
+              </td>
+              <td>
+                <p-inputNumber [disabled]="treatment.stop" [(ngModel)]="treatmentLine.totalDays" name="treatmentLine{{index}}.totalDays" [min]="0" [useGrouping]="false">
+                </p-inputNumber>
+              </td>
+              <td>
+                <app-toitsu-calendar [disabled]="treatment.stop" [(model)]="treatmentLine.fromDate" (modelChange)="fromDateChanged(treatmentLine)" name="treatmentLine{{index}}.fromDate"></app-toitsu-calendar>
+              </td>
+              <td>
+                <app-toitsu-calendar [disabled]="treatment.stop" [(model)]="treatmentLine.toDate" name="treatmentLine{{index}}.toDate"></app-toitsu-calendar>
+              </td>
+              <td [style.justify-content]="'center'">
+                <p-checkbox [disabled]="treatment.stop" binary="true" [(ngModel)]="treatmentLine.forLife" (ngModelChange)="forLifeChecked(treatmentLine)" name="treatmentLine{{index}}.forLife"></p-checkbox>
+              </td>
+              <td>
+                <p-inputNumber [disabled]="treatment.stop" [(ngModel)]="treatmentLine.stepDays" name="treatmentLine{{index}}.stepDays" [min]="0" [useGrouping]="false">
+                </p-inputNumber>
+              </td>
+              <td>
+                <textarea [disabled]="treatment.stop" type="text" pInputText [(ngModel)]="treatmentLine.comments" class="width-100percent" name="treatmentLine{{index}}.comments" rows="1" appToitsuTextareaAutoResize></textarea>
+              </td>
+              <td [style.justify-content]="'center'">
+                <button [disabled]="treatment.stop" pButton type="button" class="p-button-danger" icon="{{(treatment.id ? 'fa fa-times' : 'fa fa-minus')}}" iconPos="left"
+                        pTooltip="{{(treatment.id ? 'global.delete' : 'global.remove') | translate}}" tooltipPosition="top"
+                        (click)="deleteTreatmentLine(index, treatment.id)">
+                </button>
+              </td>
+            
+            </tr>
+          </ng-template>
+        </p-table>
+      
+      </p-panel>
+    
+    </div>
+  </div>
+  
+  <div class="grid">
+    <div class="col-12 button-container text-align-end">
+      <button pButton type="button"
+              label="{{'global.save' | translate}}" class="p-button-success"
+              icon="fa fa-save" iconPos="left" (click)="saveTreatment()" *ngIf="!treatment.stop">
+      </button>
+      <button pButton type="button" *ngIf="treatment.id && !treatment.stop"
+              label="{{'global.delete' | translate}}" class="p-button-danger"
+              icon="fa fa-trash" iconPos="left" (click)="deleteTreatment()">
+      </button>
+      <button pButton type="button" label="{{'global.cancel' | translate}}" class="p-button-warning"
+              icon="fa fa-times" iconPos="left" (click)="cancel()">
+      </button>
+    </div>
+  </div>
+
+</form>

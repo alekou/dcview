@@ -1,0 +1,104 @@
+<script src="appeal.routing.ts"></script>
+<form>
+  
+  <div class="grid">
+    <div class="col-12 md:col-6 button-container flex-container">
+      <div class="flex-container-start">
+        <button pButton type="button" *ngIf="!lockedRecord()"
+                label="{{'global.save' | translate}}" class="p-button-success"
+                icon="fa fa-save" iconPos="left" (click)="saveAppeal()">
+        </button>
+        <button pButton type="button" *ngIf="id && !lockedRecord() && authService.hasPermission('')"
+                label="{{'global.delete' | translate}}" class="p-button-danger"
+                icon="fa fa-trash" iconPos="left" (click)="deleteAppeal()">
+        </button>
+        <button pButton type="button" *ngIf="id"
+                label="{{'global.newRecord' | translate}}" class="p-button-info"
+                icon="fa fa-plus" iconPos="left" (click)="newRecord()">
+        </button>
+        <button pButton type="button"
+                label="{{'global.index' | translate}}" class="p-button-help"
+                icon="fa fa-table" iconPos="left" (click)="goToList()">
+        </button>
+        <app-template-button *ngIf="!!id" [entity]="'APPEAL'" [entityId]="this.id"
+                             [entityIdColName]="'appealId'" [application]="'INM'">
+        </app-template-button>
+        <app-other-dc-name [dcId]="appeal.dcId"></app-other-dc-name>
+      </div>
+      <div class="flex-container-end">
+        <app-field-revisions *ngIf="id" [entityClass]="'inm.core.domain.Appeal'" [entityId]="id"></app-field-revisions>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Στοιχεία Ένδικου Μέσου -->
+  <div class="grid" appToitsuLockControls [lockCondition]="lockedRecord()">
+    
+    <div class="col-12 md:col-6 p-fluid">
+      
+      <p-panel header="{{'appeal.view.appealData' | translate}}">
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'appeal.serialNo' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-inputNumber [(ngModel)]="appeal.serialNo" name="serialNo" [useGrouping]="false"></p-inputNumber>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'appeal.protocolNo' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="appeal.protocolNo" name="protocolNo">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'appeal.inmateId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-select-inmate [(model)]="appeal.inmateId" name="inmateId" [loadOnOpen]="true" [dialogUrl]="inmateDialogUrl">
+            </app-select-inmate>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'appeal.appealTypePid' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-select-gen-parameter [type]="pAppealType" [(model)]="appeal.appealTypePid" name="appealTypePid"></app-select-gen-parameter>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'appeal.courthouseId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-select-courthouse [(model)]="appeal.courthouseId" name="courthouseId"></app-select-courthouse>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'appeal.judgmentId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-inputNumber [(ngModel)]="appeal.judgmentId" name="judgmentId" [useGrouping]="false"></p-inputNumber>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'appeal.judgmentText' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="appeal.judgmentText" name="judgmentText">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'appeal.comments' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="appeal.comments" name="comments" rows="6"></textarea>
+          </div>
+        </div>
+      
+      </p-panel>
+    
+    </div>
+  
+  </div>
+
+</form>

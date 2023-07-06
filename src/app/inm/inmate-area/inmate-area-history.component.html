@@ -1,0 +1,308 @@
+<!--- Κουμπιά: Αναζήτηση Κρατουμένων --->
+<div class="grid" *ngIf="selectedSearchOption === searchOptions[0].value">
+  <div class="col-12 button-container">
+    <button pButton type="submit" label="{{'global.search' | translate}}" class="p-button-warning"
+            icon="fa fa-search" iconPos="left" (click)="loadInmatesTableData()">
+    </button>
+    <button pButton type="button" label="{{'global.clearArgs' | translate}}" class="p-button-help"
+            icon="fa fa-times" iconPos="left" (click)="clearInmateArgs()">
+    </button>
+    <button *ngIf="selectedInmateAreaRecord"
+            pButton type="button" label="{{'inmatePhoto.showPhoto' | translate}}"
+            class="p-button-info scalein" icon="fa fa-camera" iconPos="left"
+            (click)="inmatePhotoService.openInmatePhotoDisplayDialog(selectedInmateAreaRecord.inmate.id)">
+    </button>
+  </div>
+</div>
+
+<!--- Κουμπιά: Αναζήτηση Συγκρατουμένων --->
+<div class="grid" *ngIf="selectedSearchOption === searchOptions[1].value">
+  <div class="col-12 button-container">
+    <button pButton type="submit" label="{{'global.search' | translate}}" class="p-button-warning"
+            [disabled]="selectedSearchOption === searchOptions[1].value && fellowInmateArgs.inmateId === null"
+            icon="fa fa-search" iconPos="left" (click)="loadFellowInmatesTableData()">
+    </button>
+    <button pButton type="button" label="{{'global.clearArgs' | translate}}" class="p-button-help"
+            icon="fa fa-times" iconPos="left" (click)="clearFellowInmateArgs()">
+    </button>
+    <button *ngIf="selectedInmateAreaRecord"
+            pButton type="button" label="{{'inmatePhoto.showPhoto' | translate}}"
+            class="p-button-info scalein" icon="fa fa-camera" iconPos="left"
+            (click)="inmatePhotoService.openInmatePhotoDisplayDialog(selectedInmateAreaRecord.inmate.id)">
+    </button>
+  </div>
+</div>
+
+
+<div class="grid">
+
+  <div class="col-12 md:col-3">
+
+    <!--- Panel: Λειτουργία Αναζήτησης --->
+    <p-panel header="{{'inmateArea.history.searchFunction' | translate}}">
+      <div class="card flex justify-content-center">
+        <p-selectButton
+          [options]="searchOptions" optionLabel="label" optionValue="value"
+          [(ngModel)]="selectedSearchOption">
+        </p-selectButton>
+      </div>
+      <div *ngIf="selectedSearchOption === searchOptions[1].value && fellowInmateArgs.inmateId === null">
+        <p class="info-message">
+          {{'inmateArea.warning.noInmateIdToSearch' | translate}}
+        </p>
+      </div>
+    </p-panel>
+
+    <!--- Panel: Κριτήρια Κρατουμένων --->
+    <p-panel *ngIf="selectedSearchOption === searchOptions[0].value" header="{{'inmateArea.history.inmateArgs' | translate}}">
+
+      <div class="p-fluid">
+
+        <app-record-dc-origin [(recordDcOrigin)]="inmateArgs.recordDcOrigin" [(dcId)]="inmateArgs.dcId"></app-record-dc-origin>
+
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'inmateArea.inmateId' | translate}}</label>
+            <app-select-inmate [(model)]="inmateArgs.inmateId"
+                               [loadOnOpen]="true" [dialogUrl]="inmateDialogUrl">
+            </app-select-inmate>
+          </div>
+        </div>
+
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'inmateArea.areaFullDescription' | translate}}</label>
+            <p-dropdown [options]="areas" optionLabel="fullDescription" optionValue="id"
+                        placeholder="{{'global.selectOption' | translate}}" [showClear]="true" [filter]="true"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [(ngModel)]="inmateArgs.areaId" name="args.areaId">
+            </p-dropdown>
+          </div>
+        </div>
+
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'inmateArea.active' | translate}}</label>
+            <p-dropdown [options]="yesNoEnums" optionLabel="label" optionValue="value"
+                        placeholder="{{'global.selectOption' | translate}}" [showClear]="true" [filter]="false"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [(ngModel)]="inmateArgs.inmateAreaStatus" name="args.inmateAreaStatus">
+            </p-dropdown>
+          </div>
+        </div>
+
+        <div class="grid align-items-center">
+          <div class="col-12 no-padding-bottom">
+            <label>{{'inmateArea.inmateRecordExitDate' | translate}}</label>
+            <div class="grid field-group">
+              <app-toitsu-calendar class="col-6" [(model)]="inmateArgs.inmateRecordExitDateAfter" [noIcon]="true"></app-toitsu-calendar>
+              <span><i class="fa fa-arrow-right no-padding no-margin"></i></span>
+              <app-toitsu-calendar class="col-6" [(model)]="inmateArgs.inmateRecordExitDateBefore" [noIcon]="true"></app-toitsu-calendar>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid align-items-center">
+          <div class="col-12 no-padding-bottom">
+            <label>{{'inmateArea.entryDate' | translate}}</label>
+            <div class="grid field-group">
+              <app-toitsu-calendar class="col-6" [(model)]="inmateArgs.entryDateAfter" [noIcon]="true"></app-toitsu-calendar>
+              <span><i class="fa fa-arrow-right no-padding no-margin"></i></span>
+              <app-toitsu-calendar class="col-6" [(model)]="inmateArgs.entryDateBefore" [noIcon]="true"></app-toitsu-calendar>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid align-items-center">
+          <div class="col-12 no-padding-bottom">
+            <label>{{'inmateArea.exitDate' | translate}}</label>
+            <div class="grid field-group">
+              <app-toitsu-calendar class="col-6" [(model)]="inmateArgs.exitDateAfter" [noIcon]="true"></app-toitsu-calendar>
+              <span><i class="fa fa-arrow-right no-padding no-margin"></i></span>
+              <app-toitsu-calendar class="col-6" [(model)]="inmateArgs.exitDateBefore" [noIcon]="true"></app-toitsu-calendar>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </p-panel>
+
+    <!--- Panel: Κριτήρια Συγκρατουμένων --->
+    <p-panel *ngIf="selectedSearchOption === searchOptions[1].value" header="{{'inmateArea.history.fellowInmateArgs' | translate}}">
+
+      <div class="p-fluid">
+
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'inmateArea.history.fellowInmateId' | translate}}</label>
+            <app-select-inmate [(model)]="fellowInmateArgs.fellowInmateId"
+                               [loadOnOpen]="true" [dialogUrl]="inmateDialogUrl"
+                               [disabled]="selectedSearchOption === searchOptions[1].value && fellowInmateArgs.inmateId === null">
+            </app-select-inmate>
+          </div>
+        </div>
+
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'inmateArea.areaFullDescription' | translate}}</label>
+            <p-dropdown [options]="areas" optionLabel="fullDescription" optionValue="id"
+                        placeholder="{{'global.selectOption' | translate}}" [showClear]="true" [filter]="true"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [disabled]="selectedSearchOption === searchOptions[1].value && fellowInmateArgs.inmateId === null"
+                        [(ngModel)]="fellowInmateArgs.areaId" name="args.areaId">
+            </p-dropdown>
+          </div>
+        </div>
+
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'inmateArea.active' | translate}}</label>
+            <p-dropdown [options]="yesNoEnums" optionLabel="label" optionValue="value"
+                        placeholder="{{'global.selectOption' | translate}}" [showClear]="true" [filter]="false"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [disabled]="selectedSearchOption === searchOptions[1].value && fellowInmateArgs.inmateId === null"
+                        [(ngModel)]="fellowInmateArgs.inmateAreaStatus" name="args.inmateAreaStatus">
+            </p-dropdown>
+          </div>
+        </div>
+
+        <div class="grid align-items-center">
+          <div class="col-12 no-padding-bottom">
+            <label>{{'inmateArea.inmateRecordExitDate' | translate}}</label>
+            <div class="grid field-group">
+              <app-toitsu-calendar
+                class="col-6" [(model)]="fellowInmateArgs.inmateRecordExitDateAfter" [noIcon]="true"
+                [disabled]="selectedSearchOption === searchOptions[1].value && fellowInmateArgs.inmateId === null">
+              </app-toitsu-calendar>
+              <span><i class="fa fa-arrow-right no-padding no-margin"></i></span>
+              <app-toitsu-calendar
+                class="col-6" [(model)]="fellowInmateArgs.inmateRecordExitDateBefore" [noIcon]="true"
+                [disabled]="selectedSearchOption === searchOptions[1].value && fellowInmateArgs.inmateId === null">
+              </app-toitsu-calendar>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid align-items-center">
+          <div class="col-12 no-padding-bottom">
+            <label>{{'inmateArea.entryDate' | translate}}</label>
+            <div class="grid field-group">
+              <app-toitsu-calendar
+                class="col-6" [(model)]="fellowInmateArgs.entryDateAfter" [noIcon]="true"
+                [disabled]="selectedSearchOption === searchOptions[1].value && fellowInmateArgs.inmateId === null">
+              </app-toitsu-calendar>
+              <span><i class="fa fa-arrow-right no-padding no-margin"></i></span>
+              <app-toitsu-calendar
+                class="col-6" [(model)]="fellowInmateArgs.entryDateBefore" [noIcon]="true"
+                [disabled]="selectedSearchOption === searchOptions[1].value && fellowInmateArgs.inmateId === null">
+              </app-toitsu-calendar>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid align-items-center">
+          <div class="col-12 no-padding-bottom">
+            <label>{{'inmateArea.exitDate' | translate}}</label>
+            <div class="grid field-group">
+              <app-toitsu-calendar
+                class="col-6" [(model)]="fellowInmateArgs.exitDateAfter" [noIcon]="true"
+                [disabled]="selectedSearchOption === searchOptions[1].value && fellowInmateArgs.inmateId === null">
+              </app-toitsu-calendar>
+              <span><i class="fa fa-arrow-right no-padding no-margin"></i></span>
+              <app-toitsu-calendar
+                class="col-6" [(model)]="fellowInmateArgs.exitDateBefore" [noIcon]="true"
+                [disabled]="selectedSearchOption === searchOptions[1].value && fellowInmateArgs.inmateId === null">
+              </app-toitsu-calendar>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </p-panel>
+
+  </div>
+
+  <div class="col-12 md:col-9">
+
+    <!--- Panel: Ιστορικό Θέσεων Κρατουμένων --->
+    <p-panel header="{{'inmateArea.history.inmate.data' | translate}}">
+
+      <app-toitsu-table #inmatesTable
+                        [url]="inmatesIndexUrl"
+                        [cols]="inmatesCols"
+                        [first]="paging.first"
+                        [rows]="paging.rows"
+                        [sortField]="paging.sortField"
+                        [sortOrder]="paging.sortOrder"
+                        [args]="inmateArgs"
+                        [excel]="true"
+                        [exportModel]="exportModel"
+                        [rowClass]="rowClass"
+                        [loadOnInit]="false"
+                        (loadComplete)="loadComplete()"
+                        (rowSelected)="onSelectInmateArea()"
+                        (rowUnselected)="onUnselectInmateArea()"
+      >
+
+        <ng-template #cell1 let-rowData>
+          <!--- Κατάστημα Εγγραφής --->
+          <i class="fa fa-building color-noir" pTooltip="{{rowData.dcName}}" tooltipPosition="right"
+             *ngIf="rowData.dcId && (rowData.dcId !== authService.getUserDcId())">
+          </i>
+        </ng-template>
+        <ng-template #cell2 let-rowData>
+          <!--- Άδειασμα Κελιού --->
+          <button  pButton type="button" pRipple
+                   *ngIf="rowData.active && rowData.inmateRecordExitDate && (rowData.dcId && (rowData.dcId === authService.getUserDcId()))"
+                   class="p-button-rounded p-button-outlined p-button-danger" pTooltip="{{'inmateArea.history.emptyCell' | translate}}" tooltipPosition="top"
+                   icon="fa fa-times" iconPos="left"
+                   (click)="openSetInactiveDialog(rowData)">
+          </button>
+        </ng-template>
+
+      </app-toitsu-table>
+
+    </p-panel>
+
+  </div>
+
+  <div class="col-12 md:col-12">
+
+    <!--- Panel: Ιστορικό Θέσεων Συγκρατουμένων --->
+    <p-panel class="fadeinleft animation-duration-1000" *ngIf="selectedSearchOption === searchOptions[1].value"
+             header="{{'inmateArea.history.fellowInmate.data' | translate}}">
+
+      <app-toitsu-table #fellowInmatesTable
+                        [url]="fellowInmatesIndexUrl"
+                        [cols]="fellowInmatesCols"
+                        [first]="paging.first"
+                        [rows]="paging.rows"
+                        [sortField]="paging.sortField"
+                        [sortOrder]="paging.sortOrder"
+                        [args]="fellowInmateArgs"
+                        [rowClass]="rowClass"
+                        [loadOnInit]="false"
+                        (rowSelected)="onSelectFellowInmateArea()"
+                        (rowUnselected)="onUnselectFellowInmateArea()">
+      </app-toitsu-table>
+
+      <!--- Κουμπί: Προβολή φωτογραφίας συγκρατουμένου --->
+      <div class="grid">
+        <div class="col-12 button-container">
+          <p-divider align="center">
+            <button *ngIf="selectedFellowInmateAreaRecord"
+                    pButton type="button" label="{{'inmateArea.history.displayFellowInmatePhoto' | translate}}"
+                    class="p-button-info scalein" icon="fa fa-camera" iconPos="left"
+                    (click)="inmatePhotoService.openInmatePhotoDisplayDialog(selectedFellowInmateAreaRecord.inmate.id)">
+            </button>
+          </p-divider>
+        </div>
+      </div>
+
+    </p-panel>
+
+  </div>
+
+</div>

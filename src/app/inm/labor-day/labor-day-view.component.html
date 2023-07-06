@@ -1,0 +1,220 @@
+<form>
+  
+  <div class="grid">
+    <div class="col-12 button-container flex-container">
+      <div class="flex-container-start">
+        <button pButton type="button" *ngIf="!lockedRecord()"
+                label="{{'global.save' | translate}}" class="p-button-success"
+                icon="fa fa-save" iconPos="left" (click)="saveLaborDay()">
+        </button>
+        <button pButton type="button" *ngIf="id && !lockedRecord() && authService.hasPermission('inm_laborday_delete')"
+                label="{{'global.delete' | translate}}" class="p-button-danger"
+                icon="fa fa-trash" iconPos="left" (click)="deleteLaborDay()">
+        </button>
+        <button pButton type="button" *ngIf="id"
+                label="{{'global.newRecord' | translate}}" class="p-button-info"
+                icon="fa fa-plus" iconPos="left" (click)="newRecord()">
+        </button>
+        <button pButton type="button"
+                label="{{'global.index' | translate}}" class="p-button-help"
+                icon="fa fa-table" iconPos="left" (click)="goToList()">
+        </button>
+        <app-other-dc-name [dcId]="laborDay.dcId"></app-other-dc-name>
+      </div>
+      <div class="flex-container-end">
+        <app-documents [entity]="'LABOR_DAY'" [entityId]="id" [inmateId]="laborDay.inmateId"></app-documents>
+        <app-field-revisions *ngIf="id" [entityClass]="'inm.core.domain.LaborDay'" [entityId]="id"></app-field-revisions>
+      </div>
+    </div>
+  </div>
+  
+  <div class="grid" appToitsuLockControls [lockCondition]="lockedRecord()">
+    
+    <div class="col-12 md:col-6 p-fluid">
+      
+      <p-panel header="{{'laborDay.view.basicData' | translate}}">
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'laborDay.inmateId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-select-inmate [(model)]="laborDay.inmateId" name="inmateId" (modelChange)="inmateIdChanged()" [disabled]="!!id"
+                               [loadOnOpen]="true" [dialogUrl]="inmateDialogUrl">
+            </app-select-inmate>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center" *ngIf="(!id && !laborDay.retractive) || (id && laborDay.census)">
+          <label class="col-12 sm:col-4">{{'laborDay.census' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox binary="true" [(ngModel)]="laborDay.census" name="census" (ngModelChange)="censusChanged()" [disabled]="!!id"></p-checkbox>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center" *ngIf="(!id && !laborDay.census) || (id && laborDay.retractive)">
+          <label class="col-12 sm:col-4">{{'laborDay.retractive' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox binary="true" [(ngModel)]="laborDay.retractive" name="retractive" (ngModelChange)="retractiveChanged()" [disabled]="!!id"></p-checkbox>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center" *ngIf="!laborDay.census && !laborDay.retractive">
+          <label class="col-12 sm:col-4 font-bold">{{'laborDay.inmateLaborId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="laborDay.inmateLaborId" name="inmateLaborId" (ngModelChange)="inmateLaborIdChanged()" [disabled]="!!id"
+                        [options]="inmateLabors" optionValue="id" optionLabel="displayName"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [showClear]="true" [filter]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center" *ngIf="!laborDay.census && !laborDay.retractive">
+          <label class="col-12 sm:col-4">{{'laborDay.professionId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="laborDay.professionId" name="professionId" (ngModelChange)="professionIdChanged()" [disabled]="!!laborDay.laborProtocolId"
+                        [options]="professions" optionValue="id" optionLabel="displayName"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [showClear]="true" [filter]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'laborDay.factor' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="laborDay.factor" name="factor" [disabled]="(!!id) && (laborDay.census || !!laborDay.laborProtocolId)"
+                        [options]="factors" optionValue="value" optionLabel="label">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'laborDay.workDays' | translate}}</label>
+          <div class="col-12 sm:col-4">
+            <p-inputNumber [(ngModel)]="laborDay.workDays" name="workDays" [useGrouping]="false" (ngModelChange)="workDaysChanged()" [disabled]="!!id"
+                           [showButtons]="true" buttonLayout="horizontal" spinnerMode="horizontal"
+                           incrementButtonClass="p-button-success" decrementButtonClass="p-button-danger"
+                           incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus"
+                           [min]="-9999" [max]="9999" [step]="1" inputStyleClass="text-align-center">
+            </p-inputNumber>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center" *ngIf="!laborDay.census && !laborDay.retractive">
+          <label class="col-12 sm:col-4 font-bold">{{'laborDay.laborDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            
+            <div class="grid field-group">
+              <app-toitsu-calendar class="col-6" [(model)]="laborDay.laborDate" name="laborDate" [disabled]="!!id"></app-toitsu-calendar>
+              <span *ngIf="laborDay.workDays > 1"><i class="fa fa-arrow-right no-padding no-margin"></i></span>
+              <app-toitsu-calendar class="col-6" [(model)]="laborDay.laborDateTo" name="laborDateTo" [disabled]="!!id" *ngIf="laborDay.workDays > 1"></app-toitsu-calendar>
+            </div>
+          
+          </div>
+        </div>
+        
+        <div class="grid align-items-center" *ngIf="!laborDay.census && !laborDay.retractive">
+          <label class="col-12 sm:col-4">{{'laborDay.locationPid' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-select-gen-parameter [type]="pLocation" [(model)]="laborDay.locationPid" name="locationPid"></app-select-gen-parameter>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center" *ngIf="laborDay.census || laborDay.retractive">
+          <label class="col-12 sm:col-4 font-bold">{{'laborDay.creationDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="laborDay.creationDate" name="creationDate" [disabled]="!!id"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'laborDay.comments' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="laborDay.comments" name="comments" rows="4"></textarea>
+          </div>
+        </div>
+      
+      </p-panel>
+    
+    </div>
+    
+    <div class="col-12 md:col-6 p-fluid">
+      
+      <p-panel header="{{'laborDay.view.paymentData' | translate}}" *ngIf="!laborDay.census && !laborDay.retractive">
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'laborDay.paid' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox binary="true" [(ngModel)]="laborDay.paid" name="paid"></p-checkbox>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'laborDay.paymentCategoryId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="laborDay.paymentCategoryId" name="paymentCategoryId" (ngModelChange)="paymentCategoryIdChanged()"
+                        [options]="paymentCategories" optionValue="id" optionLabel="displayName"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [showClear]="true" [filter]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'laborDay.dayPayment' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-inputNumber [(ngModel)]="laborDay.dayPayment" name="dayPayment"
+                           locale="de-DE" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="2">
+            </p-inputNumber>
+          </div>
+        </div>
+      
+      </p-panel>
+      
+      <p-panel header="{{'laborDay.view.infoData' | translate}}" *ngIf="id">
+        
+        <div class="grid align-items-center" *ngIf="!laborDay.census && !laborDay.retractive">
+          <label class="col-12 sm:col-4">{{'laborDay.presence' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox binary="true" [(ngModel)]="laborDay.presence" name="presence" [disabled]="!!laborDay.laborProtocolId"></p-checkbox>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center" *ngIf="!laborDay.census && !laborDay.retractive">
+          <label class="col-12 sm:col-4">{{'laborDay.creationDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="laborDay.creationDate" name="creationDate" [disabled]="true"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center" *ngIf="laborDay.judgment">
+          <label class="col-12 sm:col-4">{{'laborDay.judgmentId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="laborDay.judgment.displayName" name="judgment.displayName" disabled>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center" *ngIf="laborDay.laborProtocolId">
+          <label class="col-12 sm:col-4">{{'laborDay.laborProtocolId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="laborDay.laborProtocol.displayName" name="judgment.laborProtocol" disabled>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'laborDay.approved' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText value="{{ (laborDay.approved ? 'global.yes' : 'global.no') | translate}}" disabled>
+          </div>
+        </div>
+      
+      </p-panel>
+    
+    </div>
+  
+  </div>
+
+</form>

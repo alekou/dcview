@@ -1,0 +1,1 @@
+﻿CKEDITOR.plugins.setLang("base64image","el",{title:"Εισαγωγή Εικόνας",alt:"Εναλλακτικό Κείμενο",lockRatio:"Κλείδωμα Αναλογίας",vSpace:"VSpace",hSpace:"HSpace",border:"Περίγραμμα"});

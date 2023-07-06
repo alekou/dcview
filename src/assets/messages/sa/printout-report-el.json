@@ -1,0 +1,33 @@
+{
+  "printoutReport.name": "Ονομασία Αρχείου",
+  "printoutReport.description": "Περιγραφή",
+  "printoutReport.argsClass": "Κλάση Παραμέτρων",
+  "printoutReport.path": "Διαδρομή Αρχείου",
+  "printoutReport.type":"Τύπος Εκτυπωτικού",
+  "printoutReport.usedArgs": "Παράμετροι που Χρησιμοποιούνται από το Εκτυπωτικό",
+  "printoutReport.details": "Λεπτομέρειες που Χρησιμοποιούνται από το Εκτυπωτικό",
+  
+  "printoutReport.view.basicData": "Βασικά Στοιχεία",
+  
+  "printoutReport.view.tab.printoutReport": "Λεπτομέρειες",
+  "printoutReport.view.tab.printoutReport.json": "Λεπτομέρειες σε Μορφή JSON",
+  
+  "printoutReportDetails.name": "Όνομα",
+  "printoutReportDetails.description": "Περιγραφή",
+  "printoutReportDetails.value": "Τιμή",
+  
+  "printoutReport.view.tab.printoutReportArgs": "Λίστα Παραμέτρων",
+  "printoutReport.view.tab.printoutReportArgs.json": "Λίστα Παραμέτρων σε Μορφή JSON",
+  
+  "printoutReportArgs.name": "Όνομα",
+  "printoutReportArgs.label": "Επιγραφή",
+  
+  "secretary.printout": "Εκτυπώσεις Γραμματείας",
+  "transfer.printout": "Εκτυπώσεις Μεταγωγών",
+  "labor.printout": "Εκτυπώσεις Εργασίας",
+  "warden.printout": "Εκτυπώσεις Αρχιφυλακείου",
+  "medical.printout": "Εκτυπώσεις",
+  "sa.printoutReport": "Παραμετρικά Εκτυπωτικού",
+  "sa.printoutReport.edit": "Επεξεργασία Παραμετρικών Εκτυπωτικού",
+  "printout.args": "Κριτήρια για το Εκτυπωτικό: "
+}

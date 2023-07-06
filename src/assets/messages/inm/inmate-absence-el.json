@@ -1,0 +1,12 @@
+{
+  "inm.inmateAbsence": "Απουσία",
+  "inm.presence": "Παρουσία",
+
+  "inmateAbsence.type": "Τύπος",
+  "inmateAbsence.reason": "Αιτία",
+  "inmateAbsence.dateFrom": "Από",
+  "inmateAbsence.dateTo": "Έως",
+  "inmateAbsence.destination": "Προορισμός",
+
+  "inm.presence.info.message": "Ο κρατούμενος βρίσκεται εντός του καταστήματος κράτησης."
+}

@@ -1,0 +1,51 @@
+{
+  "placementProtocol.compositionDate": "Ημερομηνία Σύνταξης",
+  "placementProtocol.placementFromDate": "Ημερομηνία Τοποθετήσεων Από",
+  "placementProtocol.placementToDate": "Ημερομηνία Τοποθετήσεων Έως",
+  "placementProtocol.approved": "Έγκριση",
+  "placementProtocol.protocolNo": "Αριθμός Πρακτικού",
+  "placementProtocol.protocolDate": "Ημερομηνία Πρακτικού",
+  "placementProtocol.areaId": "Περιοχή",
+  "placementProtocol.locationPid": "Τοποθεσία",
+  "placementProtocol.comments": "Παρατηρήσεις",
+  "placementProtocol.approvalComments": "Παρατηρήσεις Έγκρισης",
+
+  "placementProtocol.addInmateLaborApplications": "Προσθήκη Αιτημάτων Εργασίας",
+  "placementProtocol.createInmateLabor": "Δημιουργία Εργασιών",
+
+  "placementProtocol.inmateLaborApplications.recordToSave": "αίτημα εργασίας συσχετίζεται με το πρακτικό τοποθέτησης",
+  "placementProtocol.inmateLaborApplications.recordsToSave": "αιτήματα εργασίας συσχετίζονται με το πρακτικό τοποθέτησης",
+  "placementProtocol.inmateLaborApplications.recordToDetach": "αίτημα εργασίας προς αφαίρεση από το πρακτικό τοποθέτησης",
+  "placementProtocol.inmateLaborApplications.recordsToDetach": "αιτήματα εργασίας προς αφαίρεση από το πρακτικό τοποθέτησης",
+
+  "placementProtocol.approve": "Έγκριση Πρακτικού Τοποθέτησης",
+  "placementProtocol.approve.confirmation": "Είστε βέβαιοι για την οριστική έγκριση του πρακτικού τοποθέτησης;",
+  "placementProtocol.approve.info": "Το πρακτικό τοποθέτησης έχει εγκριθεί.",
+
+  "placementProtocol.createInmateLaborsByInmateLaborApplications.confirmation": "Είστε βέβαιοι για τη δημιουργία εργασιών κρατουμένων από τα συσχετισμένα αιτήματα;",
+  "placementProtocol.createInmateLaborsByInmateLaborApplications.created": "Δημιουργήθηκαν",
+  "placementProtocol.createInmateLaborsByInmateLaborApplications.success": "εργασίες για τα συσχετισμένα αιτήματα εργασίας που δεν έχουν απορριφθεί.",
+  "placementProtocol.createInmateLaborsByInmateLaborApplications.allInmateLaborsCreated.success": "Δημιουργήθηκαν εργασίες για όλα τα αιτήματα εργασίας που συσχετίζονται με το πρακτικό τοποθέτησης.",
+  "placementProtocol.createInmateLaborsByInmateLaborApplications.notCreatedInmateLabors": "Δεν δημιουργήθηκαν εργασίες από τα παρακάτω αιτήματα, γιατί ο κρατούμενος έχει ήδη κανονική εργασία σε αυτό το διάστημα.",
+  "placementProtocol.createInmateLaborsByInmateLaborApplications.inmateLaborApplication": "Αίτημα Εργασίας",
+  "placementProtocol.createInmateLaborsByInmateLaborApplications.info.applicationsRejected": "Συσχετισμένα αιτήματα που έχουν απορριφθεί",
+  "placementProtocol.createInmateLaborsByInmateLaborApplications.info.allApplicationsRejected": "Δεν δημιουργήθηκαν εργασίες, γιατί όλα τα συσχετισμένα αιτήματα έχουν απορριφθεί.",
+
+  "placementProtocol.inmateLaborApplications.remove.confirmation": "Είστε βέβαιοι για την αφαίρεση του αιτήματος εργασίας από το πρακτικό τοποθέτησης;",
+  "placementProtocol.inmateLaborApplications.removeAll.confirmation": "Είστε βέβαιοι για την αφαίρεση όλων των αιτημάτων εργασίας από το πρακτικό τοποθέτησης;",
+  "placementProtocol.inmateLaborApplications.remove.success": "Η αφαίρεση του αιτήματος εργασίας από το πρακτικό τοποθέτησης ολοκληρώθηκε με επιτυχία.",
+  "placementProtocol.inmateLaborApplications.removeAll.success": "Η αφαίρεση όλων των αιτημάτων εργασίας από το πρακτικό τοποθέτησης ολοκληρώθηκε με επιτυχία.",
+
+  "placementProtocol.inmateLaborApplications.tooltip.removeAll": "Αφαίρεση όλων των συσχετισμένων αιτημάτων εργασίας",
+
+  "placementProtocol.view.basicData": "Στοιχεία Πρακτικού Τοποθέτησης",
+  "placementProtocol.inmateLaborApplications.view": "Αιτήματα Εργασίας",
+  "placementProtocol.view.tab.inmateLaborApplications.basicData": "Στοιχεία Αιτημάτων Εργασίας",
+
+  "placementProtocol.info.forbiddenView": "Δεν μπορείτε να επεξεργαστείτε ή να διαγράψετε πρακτικά τοποθέτησης άλλου καταστήματος κράτησης.",
+
+  "placementProtocol.inmateLaborApplications.add.info": "Κάντε κλικ στο κουμπί \"Προσθήκη Αιτημάτων Εργασίας\" για να καταχωρίσετε αιτήματα εργασίας στο πρακτικό τοποθέτησης",
+
+  "placementProtocol.title.abbreviation": "Πρακτικό"
+
+}

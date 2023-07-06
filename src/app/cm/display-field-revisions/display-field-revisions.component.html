@@ -1,0 +1,56 @@
+<div class="grid">
+  <div class="col-12 button-container">
+    <button pButton type="submit" label="{{'global.search' | translate}}" class="p-button-warning"
+            icon="fa fa-search" iconPos="left" (click)="loadTableData()">
+    </button>
+    <button pButton type="button" label="{{'global.clearArgs' | translate}}" class="p-button-help"
+            icon="fa fa-times" iconPos="left" (click)="clearArgs()">
+    </button>
+  </div>
+</div>
+
+<div class="grid">
+
+  <div class="col-12 md:col-3">
+    
+    <p-panel header="{{'global.args' | translate}}">
+  
+      <div class="p-fluid">
+        
+          <div class="grid align-items-center">
+            <div class="col-12">
+              <p-dropdown placeholder="{{'global.selectOption' | translate}}" [options]="fieldRevisions"
+                          [showClear]="true" [filter]="true" [(ngModel)]="args.fieldName" appendTo="body">
+              </p-dropdown>
+            </div>
+          </div>
+        
+        </div>
+
+    </p-panel>
+
+  </div>
+
+<div class="col-12 md:col-9">
+  
+    <app-toitsu-table #table
+                      [url]="url"
+                      [cols]="cols"
+                      [sortField]="sortField"
+                      [sortOrder]="sortOrder"
+                      [args]="args"
+                      [excel]="false"
+                      [loadOnInit]="false">
+    </app-toitsu-table>
+  
+  </div>
+
+</div>
+
+<div class="grid">
+  <div class="col-12 button-container text-align-end">
+    <button pButton type="button" label="{{'global.cancel' | translate}}" class="p-button-warning"
+            icon="fa fa-times" iconPos="left" (click)="cancel()">
+    </button>
+  </div>
+</div>

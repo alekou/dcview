@@ -1,0 +1,142 @@
+<!--- Dialog: Εμφάνιση τρέχουσας φωτογραφίας κρατουμένου --->
+
+<!--- Εμφάνιση spinner κατά την φόρτωση της τρέχουσας φωτογραφίας κρατουμένου από την βάση δεδομένων --->
+<i class="flex align-items-center justify-content-center fa fa-spinner fa-pulse" *ngIf="loading"></i>
+
+
+<!--- Υπάρχει τρέχουσα φωτογραφία --->
+<div class="inmate-photo-gallery-panel" *ngIf="currentInmatePhoto.mediumBlob && !loading">
+  <p-card class="display-current-inmate-photo-card">
+    <!--- Τρέχουσα Φωτογραφία Κρατουμένου --->
+    <div class="image-container">
+      <p-image class="current-inmate-photo-content"
+               src="data:image/png;base64, {{this.inmatePhotoPreviewSrc}}" alt="{{'inmatePhoto.showPhotoHeader' | translate}}"
+               [width]="currentInmatePhotoDimensions.width" [height]="currentInmatePhotoDimensions.height">
+      </p-image>
+    </div>
+    <ng-template pTemplate="footer">
+      <!--- Πληροφορίες Τρέχουσας Κατάστασης Κρατουμένου --->
+      <p-divider align="center" *ngIf="currentInmatePhoto.currentInmateStatus">
+        <div class="inline-flex align-items-center">
+          <i class="fa fa-gg mr-2"></i>
+          <b>{{'inmatePhoto.currentInmateStatus' | translate}}</b>
+          <a pTooltip="{{(showInmateCurrentStatusDetails ? 'inmatePhoto.tooltip.hideInmateCurrentStatusDetails' : 'inmatePhoto.tooltip.showInmateCurrentStatusDetails') | translate}}"
+             tooltipPosition="right" (click)="showInmateCurrentStatusDetails = !showInmateCurrentStatusDetails">
+            <i *ngIf="!showInmateCurrentStatusDetails" class="fa fa-angle-down color-dimgrey p-link"></i>
+            <i *ngIf="showInmateCurrentStatusDetails" class="fa fa-angle-up color-dimgrey p-link"></i>
+          </a>
+        </div>
+      </p-divider>
+      <div *ngIf="currentInmatePhoto.currentInmateStatus && showInmateCurrentStatusDetails" class="flipup">
+        <span *ngIf="currentInmatePhoto.currentInmateStatus.type" class="inmate-info-label">
+          <i class="fa fa-angle-right"></i>
+          {{currentInmatePhoto.currentInmateStatus.type}}
+        </span>
+        <span *ngIf="currentInmatePhoto.currentInmateStatus.title" class="inmate-info-label">
+          <i class="fa fa-angle-right"></i>
+          {{currentInmatePhoto.currentInmateStatus.title}}
+          <i class="fa fa-info-circle color-steelblue"
+             pTooltip="{{currentInmatePhoto.currentInmateStatus.message}}" tooltipPosition="right">
+          </i>
+        </span>
+        <span *ngIf="currentInmatePhoto.currentInmateStatus.parentInmateArea" class="inmate-info-label">
+          <i class="fa fa-angle-right"></i>
+          {{currentInmatePhoto.currentInmateStatus.parentInmateArea}}
+        </span>
+      </div>
+      <!--- Πληροφορίες Φωτογραφίας --->
+      <p-divider align="center">
+        <div class="inline-flex align-items-center">
+          <i class="fa fa-picture-o mr-2"></i>
+          <b>{{'inmatePhoto.info' | translate}}</b>
+          <a pTooltip="{{(showInmatePhotoDetails ? 'inmatePhoto.tooltip.hideInmatePhotoDetails' : 'inmatePhoto.tooltip.showInmatePhotoDetails') | translate}}"
+             tooltipPosition="right" (click)="showInmatePhotoDetails = !showInmatePhotoDetails">
+            <i *ngIf="!showInmatePhotoDetails" class="fa fa-angle-down color-dimgrey p-link"></i>
+            <i *ngIf="showInmatePhotoDetails" class="fa fa-angle-up color-dimgrey p-link"></i>
+          </a>
+        </div>
+      </p-divider>
+      <div *ngIf="showInmatePhotoDetails" class="flipup">
+        <div>
+          <span class="font-bold">{{'inmatePhoto.photoDate' | translate}}:&nbsp;</span>
+          <span class="font-italic">{{currentInmatePhoto.photoDate}}</span>
+        </div>
+        <div>
+          <span class="font-bold">{{'inmatePhoto.comments' | translate}}:&nbsp;</span>
+          <span *ngIf="currentInmatePhoto.comments">{{currentInmatePhoto.comments}}</span>
+          <span *ngIf="!currentInmatePhoto.comments">-</span>
+        </div>
+        <div>
+          <span class="font-bold">{{'inmatePhoto.current' | translate}}:&nbsp;</span>
+          <i class="fa fa-check-circle color-green"  *ngIf="currentInmatePhoto.current"
+             pTooltip="{{'inmatePhoto.tooltip.currentInmatePhoto' | translate}}" tooltipPosition="right">
+          </i>
+          <i class="fa fa-history color-steelblue"  *ngIf="!currentInmatePhoto.current"
+             pTooltip="{{'inmatePhoto.tooltip.mostRecentInmatePhoto' | translate}}" tooltipPosition="right">
+          </i>
+        </div>
+      </div>
+    </ng-template>
+  </p-card>
+  <p-divider></p-divider>
+  <!--- Κουμπιά --->
+  <div class="grid">
+    <div class="col-12 button-container text-align-end">
+      <button pButton type="button" label="{{'global.close' | translate}}" class="p-button-warning"
+              icon="fa fa-times" iconPos="left" (click)="close()">
+      </button>
+    </div>
+  </div>
+</div>
+
+
+<!--- Δεν υπάρχει τρέχουσα φωτογραφία --->
+<div class="inmate-photo-gallery-panel" *ngIf="!currentInmatePhoto.mediumBlob && !loading">
+  <p-card class="display-current-inmate-photo-card">
+    <div class="flex align-items-center justify-content-center">
+      <i class="fa fa-info-circle" aria-hidden="true"></i>
+      <p class="font-italic">{{'inmatePhoto.thereIsNoPhoto' | translate}}</p>
+    </div>
+    <ng-template pTemplate="footer">
+      <!--- Πληροφορίες Τρέχουσας Κατάστασης Κρατουμένου --->
+      <p-divider align="center" *ngIf="currentInmatePhoto.currentInmateStatus">
+        <div class="inline-flex align-items-center">
+          <i class="fa fa-gg mr-2"></i>
+          <b>{{'inmatePhoto.currentInmateStatus' | translate}}</b>
+          <a pTooltip="{{(showInmateCurrentStatusDetails ? 'inmatePhoto.tooltip.hideInmateCurrentStatusDetails' : 'inmatePhoto.tooltip.showInmateCurrentStatusDetails') | translate}}"
+             tooltipPosition="right" (click)="showInmateCurrentStatusDetails = !showInmateCurrentStatusDetails">
+            <i *ngIf="!showInmateCurrentStatusDetails" class="fa fa-angle-down color-dimgrey p-link"></i>
+            <i *ngIf="showInmateCurrentStatusDetails" class="fa fa-angle-up color-dimgrey p-link"></i>
+          </a>
+        </div>
+      </p-divider>
+      <div *ngIf="currentInmatePhoto.currentInmateStatus && showInmateCurrentStatusDetails" class="flipup">
+        <span *ngIf="currentInmatePhoto.currentInmateStatus.type" class="inmate-info-label">
+          <i class="fa fa-angle-right"></i>
+          {{currentInmatePhoto.currentInmateStatus.type}}
+        </span>
+        <span *ngIf="currentInmatePhoto.currentInmateStatus.title" class="inmate-info-label">
+          <i class="fa fa-angle-right"></i>
+          {{currentInmatePhoto.currentInmateStatus.title}}
+          <i class="fa fa-info-circle color-steelblue"
+             pTooltip="{{currentInmatePhoto.currentInmateStatus.message}}" tooltipPosition="right">
+          </i>
+        </span>
+        <span *ngIf="currentInmatePhoto.currentInmateStatus.parentInmateArea" class="inmate-info-label">
+          <i class="fa fa-angle-right"></i>
+          {{currentInmatePhoto.currentInmateStatus.parentInmateArea}}
+        </span>
+      </div>
+    </ng-template>
+  </p-card>
+  <p-divider></p-divider>
+  <!--- Κουμπιά --->
+  <div class="grid">
+    <div class="col-12 button-container text-align-end">
+      <button pButton type="button" label="{{'global.close' | translate}}" class="p-button-warning"
+              icon="fa fa-times" iconPos="left" (click)="close()">
+      </button>
+    </div>
+  </div>
+</div>
+

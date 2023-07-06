@@ -1,0 +1,132 @@
+<form>
+  <div class="grid">
+    <div class="col-12 button-container">
+      <button pButton type="button"
+              label="{{'global.save' | translate}}" class="p-button-success"
+              icon="fa fa-save" iconPos="left" (click)="saveReferral()">
+      </button>
+      <button pButton type="button" *ngIf="id"
+              label="{{'global.delete' | translate}}" class="p-button-danger"
+              icon="fa fa-trash" iconPos="left" (click)="deleteReferral()">
+      </button>
+      <button pButton type="button" *ngIf="id" label="{{'global.newRecord' | translate}}" class="p-button-info"
+              icon="fa fa-plus" iconPos="left" (click)="newRecord()">
+      </button>
+      <button pButton type="button" label="{{'global.index' | translate}}" class="p-button-help"
+              icon="fa fa-table" iconPos="left" (click)="goToList()">
+      </button>
+      <app-template-button *ngIf="!!id" [entity]="'REFERRAL'" [entityId]="this.id" 
+                           [entityIdColName]="'referralId'" [application]="'MED'"> 
+      </app-template-button>
+      <app-other-dc-name [dcId]="referral.dcId"></app-other-dc-name>
+    </div>  
+  </div>
+  <div class="grid" appToitsuLockControls [lockCondition]="lockedRecord()">
+    
+    <div class="col-12 md:col-6 p-fluid">
+      
+      <p-panel header="{{'referral.basicDetails' | translate}}">
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'referral.inmateId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-select-inmate [(model)]="referral.inmateId" [loadOnOpen]="true" [dialogUrl]="inmateDialogUrl" name="inmateId"></app-select-inmate>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'referral.doctorId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="referral.doctorId" [options]="activeDoctors" name="doctorId"
+                        optionValue="id" optionLabel="fullName"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}"
+                        emptyFilterMessage="{{'global.noResultsFound' | translate}}" [showClear]="true">
+            </p-dropdown>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'referral.incident' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="referral.incident" name="incident" rows="8"></textarea>
+          </div>
+        </div>
+  
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'referral.comments' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="referral.comments" name="comments" rows="8"></textarea>
+          </div>
+        </div>
+      
+      </p-panel>
+    </div>
+    
+    <div class="col-12 md:col-6 p-fluid">
+      <p-panel header="{{'referral.restDetails' | translate}}">
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'referral.hospitalId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="referral.hospitalId" (ngModelChange)="hospitalChanged()" [options]="hospitals" 
+                        name="hospitalId" optionValue="id" optionLabel="name"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}"
+                        emptyFilterMessage="{{'global.noResultsFound' | translate}}" [showClear]="true">
+            </p-dropdown>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center" *ngIf="hospitalDepartments && hospitalDepartments.length > 0">
+          <label class="col-12 sm:col-4">{{'referral.hospitalDepartmentId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="referral.hospitalDepartmentId" [options]="hospitalDepartments"
+                        name="hospitalDepartmentId" optionValue="id" optionLabel="name"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}"
+                        emptyFilterMessage="{{'global.noResultsFound' | translate}}" [showClear]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{ 'referral.frequency' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox binary="true" [(ngModel)]="referral.frequency" name="frequency"></p-checkbox>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'referral.transferDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="referral.transferDate" name="transferDate"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'referral.returnDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="referral.returnDate" name="returnDate"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'referral.reason' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="referral.reason" name="reason" rows="6" appToitsuTextareaAutoResize></textarea>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{ 'referral.rejectedTransfer' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox binary="true" [(ngModel)]="referral.rejectedTransfer" name="rejectedTransfer"></p-checkbox>
+          </div>
+        </div>
+        
+      </p-panel>
+    </div>
+  </div>
+</form>

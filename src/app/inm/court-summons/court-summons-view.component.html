@@ -1,0 +1,172 @@
+<form>
+  
+  <div class="grid">
+    <div class="col-12 button-container flex-container">
+      <div class="flex-container-start">
+        <button pButton type="button" *ngIf="!lockedRecord()"
+                label="{{'global.save' | translate}}" class="p-button-success"
+                icon="fa fa-save" iconPos="left" (click)="saveCourtSummons()">
+        </button>
+        <button pButton type="button" *ngIf="id && !lockedRecord()"
+                label="{{'global.delete' | translate}}" class="p-button-danger"
+                icon="fa fa-trash" iconPos="left" (click)="deleteCourtSummons()">
+        </button>
+        <button pButton type="button" label="{{'global.newRecord' | translate}}" class="p-button-info" *ngIf="id"
+                icon="fa fa-plus" iconPos="left" (click)="newRecord()">
+        </button>
+        <button pButton type="button" label="{{'global.index' | translate}}" class="p-button-help right-align"
+                icon="fa fa-table" iconPos="left" (click)="goToList()">
+        </button>
+        <app-template-button *ngIf="!!id" [entity]="'COURTSUMMONS'" [entityId]="this.id"
+                             [entityIdColName]="'courtSummonsId'" [application]="'INM'">
+        </app-template-button>
+        <app-other-dc-name [dcId]="courtSummons.dcId"></app-other-dc-name>
+      </div>
+      <div class="flex-container-end">
+        <app-documents [entity]="'COURT_SUMMONS'" [entityId]="id" [inmateId]="courtSummons.inmateId"></app-documents>
+        <app-field-revisions *ngIf="id" [entityClass]="'inm.core.domain.CourtSummons'" [entityId]="id"></app-field-revisions>
+      </div>
+    </div>
+  </div>
+  
+  <div class="grid" appToitsuLockControls [lockCondition]="lockedRecord()">
+    
+    <div class="col-12 md:col-6 p-fluid">
+      
+      <p-panel header="{{'courtSummons.view.basicData' | translate}}">
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'courtSummons.summonsNo' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="courtSummons.summonsNo" name="summonsNo">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'courtSummons.summonsDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="courtSummons.summonsDate" name="summonsDate"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'courtSummons.daOfficePid' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-select-gen-parameter [type]="pDaOffices" [(model)]="courtSummons.daOfficePid"></app-select-gen-parameter>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'courtSummons.daOfficeCityId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="courtSummons.daOfficeCityId" [options]="cities" name="daOfficeCityId"
+                        optionValue="id" optionLabel="nameGreek"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}"
+                        emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [showClear]="true" [filter]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'courtSummons.daProtocolNo' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="courtSummons.daProtocolNo" name="daProtocolNo">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'transfer.inmateId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-select-inmate [(model)]="courtSummons.inmateId" name="inmateId"
+                               [loadOnOpen]="true" [dialogUrl]="inmateDialogUrl">
+            </app-select-inmate>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'courtSummons.courthouseId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-select-courthouse [(model)]="courtSummons.courthouseId" name="courthouseId"></app-select-courthouse>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'courtSummons.courtDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="courtSummons.courtDate" name="courtDate"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'courtSummons.protocolNo' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="courtSummons.protocolNo" name="protocolNo">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'courtSummons.protocolDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="courtSummons.protocolDate" name="protocolDate"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'courtSummons.comments' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="courtSummons.comments" name="comments" rows="8"></textarea>
+          </div>
+        </div>
+      
+      </p-panel>
+    
+    </div>
+    
+    <div class="col-12 md:col-6 p-fluid">
+      
+      <p-panel header="{{'courtSummons.view.deliveryData' | translate}}">
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'courtSummons.deliveryStatus' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            
+            <p-dropdown [options]="deliveryStatuses"
+                        [(ngModel)]="courtSummons.deliveryStatus"
+                        name="deliveryStatus"
+                        optionValue="value" optionLabel="label"
+                        emptyMessage="{{'global.noResultsFound' | translate}}"
+                        emptyFilterMessage="{{'global.noResultsFound' | translate}}">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'courtSummons.deliveryDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="courtSummons.deliveryDate" name="deliveryDate"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'courtSummons.deliveryEmployeeId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-inputNumber [(ngModel)]="courtSummons.deliveryEmployeeId" name="deliveryEmployeeId"></p-inputNumber>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'courtSummons.deliveryComments' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="courtSummons.deliveryComments" name="deliveryComments" rows="8"></textarea>
+          </div>
+        </div>
+      
+      </p-panel>
+    
+    </div>
+  
+  </div>
+
+</form>

@@ -1,0 +1,42 @@
+<div>
+  <div class="col-12 p-fluid padding-bottom-10">
+    
+    <p-table [value]="mergedDisciplines" [scrollable]="true" scrollHeight="25rem" styleClass="p-datatable-gridlines p-datatable-striped" appToitsuPTableCellWidth>
+      
+      <ng-template pTemplate="header">
+      
+        <tr>
+          <th [style.width]="'3rem'" [style.justify-content]="'center'">{{'#'}}</th>
+          <th [style.width]="'10rem'" [style.justify-content]="'center'">{{'discipline.decisionNo' | translate}}</th>
+          <th [style.width]="'10rem'" [style.justify-content]="'center'">{{'discipline.endDate' | translate}}</th>
+          <th [style.width]="'10rem'" [style.justify-content]="'center'">{{'discipline.reason' | translate}}</th>
+          <th [style.width]="'3rem'" [style.justify-content]="'center'"></th>
+        </tr>
+    
+      </ng-template>
+      <ng-template pTemplate="body" let-mergedDiscipline let-index="rowIndex">
+      
+        <tr >
+          <td [style.justify-content]="'center'">{{index + 1}}</td>
+          <td [style.justify-content]="'center'">{{mergedDiscipline.decisionNo}}</td>
+          <td [style.justify-content]="'center'">{{mergedDiscipline.endDate}}</td>
+          <td [style.justify-content]="'center'">{{mergedDiscipline.reason}}</td>
+          <td [style.justify-content]="'center'"><a href="{{viewLink}}/{{mergedDiscipline.id}}" target="_blank">
+            <i class="fa fa-external-link" pTooltip="{{'discipline.view.openMergedDiscipline' | translate}}"></i></a>
+          </td>
+        </tr>
+    
+      </ng-template>
+  
+    </p-table>
+  
+  </div>
+</div>
+
+<div class="grid">
+  <div class="col-12 button-container text-align-end">
+    <button pButton type="button" label="{{'global.confirm' | translate}}" class="p-button-info"
+            icon="fa fa-check" iconPos="left" (click)="confirm()">
+    </button>
+  </div>
+</div>

@@ -1,0 +1,88 @@
+<form>
+  <div class="grid">
+    <div class="col-12 p-fluid">
+      <p-panel header="{{'genParameter.details' | translate}}">
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'genParameter.category' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [disabled]="!!genParameter.id || !!category" [(ngModel)]="genParameter.category" [options]="genParameterCategories" 
+                        (ngModelChange)="parameterCategoryChanged()" name="category" optionValue="category" optionLabel="description"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}"
+                        emptyFilterMessage="{{'global.noResultsFound' | translate}}" [showClear]="true" [filter]="true">
+            </p-dropdown>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'genParameter.description' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="genParameter.description" name="description">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center" *ngIf="isHierarchical">
+          <label class="col-12 sm:col-4">{{'genParameter.parentCategory' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <div class="display-flex align-items-start">
+              <p-dropdown [options]="retrievedGenParameters" [disabled]="genParameterType.isBigList || !!genParameter.id"
+                          [(ngModel)]="genParameter.parentId" (ngModelChange)="genParameterParentChanged()"
+                          name="parentId" optionValue="id" optionLabel="description" class="width-100percent" 
+                          placeholder="{{'global.selectOption' | translate}}"
+                          emptyMessage="{{'global.noResultsFound' | translate}}"
+                          emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                          [showClear]="true" [filter]="true">
+              </p-dropdown>
+              <button [disabled]="!!genParameter.id" pButton type="button" *ngIf="isHierarchical"
+                      class="p-button-info" icon="fa fa-search"
+                      pTooltip="{{'global.search' | translate}}" (click)="openListDialog()">
+              </button>
+            </div>
+            
+          </div>
+        </div>
+        
+        <div class="grid align-items-center" *ngIf="!hideCheckBox">
+          <label class="col-12 sm:col-4">{{ 'genParameter.isNotSelectable' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox binary="true" [(ngModel)]="genParameter.isNotSelectable" name="isNotSelectable"></p-checkbox>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'genParameter.code' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="genParameter.code" name="code">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center" *ngIf="!hideCheckBox">
+          <label class="col-12 sm:col-4">{{ 'genParameter.isActive' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox binary="true" [(ngModel)]="genParameter.isActive" name="isActive"></p-checkbox>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{ 'genParameter.order' | translate}}</label>
+          <div class="col-12 sm:col-8 ">
+            <p-inputNumber [(ngModel)]="genParameter.order" name="order" [useGrouping]="false"></p-inputNumber>
+          </div>
+        </div>
+      
+      </p-panel>
+    </div>
+  </div>
+  
+  <div class="grid">
+    <div class="col-12 button-container text-align-end m-1">
+      <button pButton type="button" label="{{'global.save' | translate}}" class="p-button-success"
+              icon="fa fa-save" iconPos="left" (click)="saveGenParameter()">
+      </button>
+      <button pButton type="button" label="{{'global.cancel' | translate}}" class="p-button-warning"
+              icon="fa fa-times" iconPos="left" (click)="cancel()">
+      </button>
+    </div>
+  </div>
+</form>

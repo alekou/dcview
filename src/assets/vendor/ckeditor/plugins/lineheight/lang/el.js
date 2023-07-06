@@ -1,0 +1,1 @@
+﻿CKEDITOR.plugins.setLang("lineheight","el",{title:"Ύψος Γραμμής"});

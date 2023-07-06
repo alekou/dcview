@@ -1,0 +1,90 @@
+<div class="grid">
+  <div class="col-12 button-container">
+    <button pButton type="submit" label="{{'global.search' | translate}}" class="p-button-warning"
+            icon="fa fa-search" iconPos="left" (click)="loadTableData()">
+    </button>
+    <button pButton type="button" label="{{'global.clearArgs' | translate}}" class="p-button-help"
+            icon="fa fa-times" iconPos="left" (click)="clearArgs()">
+    </button>
+    <button pButton type="button" label="{{'med.medicalFolder.displayPicture' | translate}}" class="p-button-success"
+            icon="fa fa-camera" iconPos="left" (click)="displayPicture()">
+    </button>
+  </div>
+</div>
+
+<div class="grid">
+  
+  <div class="col-12 md:col-3">
+    
+    <p-panel header="{{'global.args' | translate}}">
+      
+      <div class="p-fluid">
+        
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'inmate.masterInmate.code' | translate}}</label>
+            <input type="text" pInputText [(ngModel)]="args.code">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'inmate.lastName' | translate}}</label>
+            <input type="text" pInputText [(ngModel)]="args.lastName">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'inmate.firstName' | translate}}</label>
+            <input type="text" pInputText [(ngModel)]="args.firstName">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'inmate.fatherName' | translate}}</label>
+            <input type="text" pInputText [(ngModel)]="args.fatherName">
+          </div>
+        </div>
+        
+        
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'inmate.args.status' | translate}}</label>
+            <p-dropdown [(ngModel)]="args.status" [options]="statuses" optionValue="value" optionLabel="label"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [showClear]="true">
+            </p-dropdown>
+          </div>
+        </div>
+      
+      
+      </div>
+    
+    </p-panel>
+  
+  </div>
+  
+  <div class="col-12 md:col-9">
+    
+    <app-toitsu-table #table
+                      [url]="url"
+                      [cols]="cols"
+                      [first]="paging.first"
+                      [rows]="paging.rows"
+                      [sortField]="paging.sortField"
+                      [sortOrder]="paging.sortOrder"
+                      [args]="args"
+                      [excel]="true"
+                      [exportModel]="exportModel"
+                      [loadOnInit]="false"
+                      [viewLink]="viewLink"
+                      (loadComplete)="loadComplete()"
+                      (rowDblClicked)="rowDblClicked($event)">
+    </app-toitsu-table>
+  
+  </div>
+
+</div>

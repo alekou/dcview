@@ -1,0 +1,129 @@
+<form>
+  <div class="grid">
+    <div class="col-12 button-container">
+      <button pButton type="button"
+              label="{{'global.save' | translate}}" class="p-button-success"
+              icon="fa fa-save" iconPos="left" (click)="saveVehicle()">
+      </button>
+      <button pButton type="button" *ngIf="id"
+              label="{{'global.delete' | translate}}" class="p-button-danger"
+              icon="fa fa-trash" iconPos="left" (click)="deleteVehicle()">
+      </button>
+      <button pButton type="button" *ngIf="id" label="{{'global.newRecord' | translate}}" class="p-button-info"
+              icon="fa fa-plus" iconPos="left" (click)="newRecord()">
+      </button>
+  
+      <button pButton type="button" label="{{'global.index' | translate}}" class="p-button-help"
+              icon="fa fa-table" iconPos="left" (click)="goToList()">
+      </button>
+      <button pButton type="button" label="{{'vehicle.addDriver' | translate}}" class="p-button-info"
+          icon="fa fa-plus-square" iconPos="left" (click)="addDriver()"></button>
+    </div>
+  </div>
+  
+  <div class="grid">
+    
+    <div class="col-12 md:col-6 p-fluid">
+      
+      <p-panel header="{{'vehicle.data' | translate}}">
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'vehicle.plateNumber' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="vehicle.plateNumber" name="plateNumber">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'vehicle.manufacturer' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-select-gen-parameter [type]="pVehicleManufacturer" [(model)]="vehicle.manufacturerPid" name="manufacturerPid"></app-select-gen-parameter>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'vehicle.carModel' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input pInputText [(ngModel)]="vehicle.carModel" name="carModel">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'vehicle.color' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-select-gen-parameter [type]="pColor" [(model)]="vehicle.colorPid" name="colorPid"></app-select-gen-parameter>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'vehicle.comments' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="vehicle.comments" name="comments" rows="8"></textarea>
+          </div>
+        </div>
+        
+      </p-panel>
+    </div>
+    
+    <div class="col-12 md:col-6" *ngIf="countDrivers">
+      <header class="vehicle">
+        <span class="driver-count">{{'vehicle.view.tab.drivers' | translate}} ( {{countDrivers}} )</span>
+      </header>
+      <hr>
+      <p-accordion [activeIndex]="driverActiveIndex" (onOpen)="onAddDriverOpen($event)" (onClose)="onAddDriverClose($event)">
+        <p-accordionTab *ngFor="let vehicleDriver of vehicle.vehicleDrivers; let index = index">
+          <ng-template pTemplate="header">
+            <div class="hidden-div">
+              {{index+1}}. {{getVisitorLabelById(vehicleDriver.visitorId)}}
+            </div>
+            <div class="hidden-div">
+              <button pButton type="button" class="p-button-danger btn-float" icon="{{(id ? 'fa fa-times' : 'fa fa-minus')}}"
+                      iconPos="left" pTooltip="{{(id ? 'global.delete' : 'global.remove') | translate}}" tooltipPosition="top"
+                      (click)="deleteVehicleDriver(index, vehicleDriver.id)">
+              </button>
+            </div>
+          </ng-template>
+          
+          <div class="grid align-items-center">
+            <label class="col-12 sm:col-4">{{'vehicleDriver.visitor' | translate}}</label>
+            <div class="col-12 sm:col-8">
+              
+              <div class="grid p-fluid">
+                <div class="col-12 md:col-12">
+                  <div class="p-inputgroup">
+                    <app-select-visitor [(model)]="vehicleDriver.visitorId" class="width-100percent" name="visitorId" #visitor ></app-select-visitor>
+                  </div>
+                </div>
+              </div>
+              
+            </div>
+          </div>
+          
+          <div class="grid align-items-center">
+            <label class="col-12 sm:col-4">{{ 'vehicleDriver.isActive' | translate}}</label>
+            <div class="col-12 sm:col-8">
+              <p-checkbox binary="true" [(ngModel)]="vehicleDriver.isActive" name="isActive"></p-checkbox>
+            </div>
+          </div>
+          
+          <div class="grid align-items-center">
+            <label class="col-12 sm:col-4">{{'vehicleDriver.fromDate' | translate}}</label>
+            <div class="col-12 sm:col-8">
+              <app-toitsu-calendar class="flex-grow" [(model)]="vehicleDriver.fromDate" name="fromDate" [showTime]="true"></app-toitsu-calendar>
+            </div>
+          </div>
+  
+          <div class="grid align-items-center" *ngIf="!vehicleDriver.isActive">
+            <label class="col-12 sm:col-4">{{'vehicleDriver.toDate' | translate}}</label>
+            <div class="col-12 sm:col-8">
+              <app-toitsu-calendar class="flex-grow" [(model)]="vehicleDriver.toDate" name="toDate" [showTime]="true"></app-toitsu-calendar>
+            </div>
+          </div>
+        </p-accordionTab>
+      </p-accordion>
+    </div>
+  
+  </div>
+
+</form>
+

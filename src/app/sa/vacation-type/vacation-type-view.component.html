@@ -1,0 +1,64 @@
+<form>
+  
+  <div class="grid">
+    <div class="col-12 md:col-6 button-container flex-container">
+      <div class="flex-container-start">
+        <button pButton type="button" *ngIf="!lockedRecord()"
+                label="{{'global.save' | translate}}" class="p-button-success"
+                icon="fa fa-save" iconPos="left" (click)="saveVacationType()">
+        </button>
+        <button pButton type="button" *ngIf="id && !lockedRecord()"
+                label="{{'global.newRecord' | translate}}" class="p-button-info"
+                icon="fa fa-plus" iconPos="left" (click)="newRecord()">
+        </button>
+        <button pButton type="button"
+                label="{{'global.index' | translate}}" class="p-button-help"
+                icon="fa fa-table" iconPos="left" (click)="goToList()">
+        </button>
+        <app-other-dc-name [dcId]="vacationType.dcId"></app-other-dc-name>
+      </div>
+      <div class="flex-container-end">
+        <app-field-revisions *ngIf="id" [entityClass]="'inm.core.domain.VacationType'" [entityId]="id"></app-field-revisions>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Στοιχεία Τύπου Άδειας -->
+  <div class="grid" appToitsuLockControls [lockCondition]="lockedRecord()">
+    
+    <div class="col-12 xl:col-6 p-fluid">
+      
+      <p-panel header="{{'vacationType.view.vacationTypeData' | translate}}">
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'vacationType.isActive' | translate}}</label>
+          <div class="col-12 md:col-2">
+            <p-checkbox binary="true" [(ngModel)]="vacationType.isActive" name="isActive"></p-checkbox>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'vacationType.description' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="vacationType.description" name="description">
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'vacationType.kind' | translate}}</label>
+          <div class="col-12 sm:col-8">
+        <p-dropdown [(ngModel)]="vacationType.kind" name="kind" 
+                    [options]="vacationTypeKinds" optionValue="value" optionLabel="label"
+                    placeholder="{{'global.selectOption' | translate}}" [showClear]="true" [filter]="true"
+                    emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}">
+        </p-dropdown>
+          </div>
+        </div>
+
+      </p-panel>
+
+    </div>
+
+  </div>
+
+</form>

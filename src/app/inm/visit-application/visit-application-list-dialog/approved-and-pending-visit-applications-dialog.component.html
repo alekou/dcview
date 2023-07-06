@@ -1,0 +1,69 @@
+<form>
+  <div>
+    <div class="col-12 p-fluid padding-bottom-10">
+      
+      <p-table *ngIf="visitApplications.length != 0" [value]="visitApplications" dataKey="id" [(selection)]="selectedVisitApplication" [scrollable]="true" dataKey="id"
+               [scrollable]="true" scrollHeight="25rem" styleClass="p-datatable-gridlines p-datatable-striped" appToitsuPTableCellWidth
+               [selectionMode]="'single'">
+        
+        <ng-template pTemplate="header">
+          
+          <tr>
+            <th [style.width]="'6rem'" [style.justify-content]="'center'">{{'#'}}</th>
+            <th [style.width]="'10rem'" [style.justify-content]="'center'">{{'visitApplication.view.visitorsData' | translate}}</th>
+            <th [style.width]="'10rem'" [style.justify-content]="'center'">{{'visitApplication.approved' | translate}}</th>
+            <th [style.width]="'12rem'" [style.justify-content]="'center'">{{'visitApplication.visitDate' | translate}}</th>
+            <th [style.width]="'10rem'" [style.justify-content]="'center'">{{'visitApplication.applicationDate' | translate}}</th>
+            <th [style.width]="'10rem'" [style.justify-content]="'center'">{{'visitApplication.approvalDate' | translate}}</th>
+          </tr>
+        
+        </ng-template>
+        <ng-template pTemplate="body" let-visitApplication let-index="rowIndex">
+          
+          <tr [pSelectableRow]="visitApplication" [pSelectableRowIndex]="index">
+            <td [style.justify-content]="'center'">{{index + 1}}</td>
+            <td [style.justify-content]="'center'">{{visitApplication.visitorName}}</td>
+            <td [style.justify-content]="'center'">{{visitApplication.approvedLabel}}</td>
+            <td [style.justify-content]="'center'">
+              <div *ngIf="visitApplication.frequent">
+                {{getDateFromDateTimeString(visitApplication.visitDateFrom)}}
+                <span><i class="fa fa-arrow-right no-padding no-margin"></i></span>
+                {{getDateFromDateTimeString(visitApplication.visitDateTo)}}
+                
+              </div>
+              <div *ngIf="!visitApplication.frequent">
+                {{getDateFromDateTimeString(visitApplication.visitDate)}}
+              </div>
+              
+            </td>
+            <td [style.justify-content]="'center'">{{getDateFromDateTimeString(visitApplication.applicationDate)}}</td>
+            <td [style.justify-content]="'center'">{{getDateFromDateTimeString(visitApplication.approvalDate)}}</td>
+          </tr>
+        
+        </ng-template>
+      
+      </p-table>
+    
+    </div>
+  </div>
+  
+  <p></p>
+  <span *ngIf="approvedVisitApplications.length === 0"> <b>{{'visitApplication.select.noApprovedApplications' | translate}} </b> </span>
+  <p></p>
+  <span *ngIf="approvedVisitApplications.length !== 0"> <b>{{'visitApplication.select.approvedApplications' | translate}}</b> : {{approvedVisitApplications.length}} </span>
+  <p></p>
+  <span *ngIf="pendingVisitApplications.length !== 0"><b>{{'visitApplication.select.pendingApplications' | translate}}</b> : {{pendingVisitApplications.length}}</span>
+  <p></p>
+  
+  
+  <div class="grid">
+    <div class="col-12 button-container text-align-end">
+      <button pButton type="button" label="{{'global.confirm' | translate}}" class="p-button-info"
+              icon="fa fa-check" iconPos="left" (click)="confirm()">
+      </button>
+      <button pButton type="button" label="{{'global.cancel' | translate}}" class="p-button-warning"
+              icon="fa fa-times" iconPos="left" (click)="cancel()">
+      </button>
+    </div>
+  </div>
+</form>

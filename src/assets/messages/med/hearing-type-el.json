@@ -1,0 +1,7 @@
+{
+  "hearingType.description": "Περιγραφή",
+  "hearingType.kind": "Είδος",
+  "hearingType.isActive": "Ενεργός",
+ 
+  "hearingType.view.data": "Στοιχεία"
+}

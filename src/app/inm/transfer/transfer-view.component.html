@@ -1,0 +1,440 @@
+<form>
+  
+  <div class="grid">
+    <div class="col-12 button-container flex-container">
+      <div class="flex-container-start">
+        <button pButton type="button" *ngIf="!lockedRecord()"
+                label="{{'global.save' | translate}}" class="p-button-success"
+                icon="fa fa-save" iconPos="left" (click)="saveTransfer()">
+        </button>
+        <button pButton type="button" *ngIf="id && !lockedRecord() && authService.hasPermission('inm_transfer_delete')"
+                label="{{'global.delete' | translate}}" class="p-button-danger"
+                icon="fa fa-trash" iconPos="left" (click)="deleteTransfer()">
+        </button>
+        <button pButton type="button" *ngIf="id"
+                label="{{'global.newRecord' | translate}}" class="p-button-info"
+                icon="fa fa-plus" iconPos="left" (click)="newRecord()">
+        </button>
+        <button pButton type="button"
+                label="{{'global.index' | translate}}" class="p-button-help"
+                icon="fa fa-table" iconPos="left" (click)="goToList()">
+        </button>
+        <app-template-button *ngIf="!!id" [entity]="'TRANSFER'" [entityId]="this.id" [entityIdColName]="'transferId'" [application]="'INM'"></app-template-button>
+        <app-other-dc-name [dcId]="transfer.dcId"></app-other-dc-name>
+      </div>
+      <div class="flex-container-end">
+        <app-documents [entity]="'TRANSFER'" [entityId]="id" [inmateId]="transfer.inmateId"></app-documents>
+        <app-field-revisions *ngIf="id" [entityClass]="'inm.core.domain.Transfer'" [entityId]="id"></app-field-revisions>
+      </div>
+    </div>
+  </div>
+  
+  <div class="grid" appToitsuLockControls [lockCondition]="lockedRecord()">
+    
+    <div class="col-12 md:col-6 p-fluid">
+      
+      <p-panel header="{{'transfer.view.basicData' | translate}}">
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'transfer.inmateId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-select-inmate [(model)]="transfer.inmateId" name="inmateId" (modelChange)="inmateIdChanged()"
+                               [loadOnOpen]="true" [dialogUrl]="inmateDialogUrl">
+            </app-select-inmate>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'transfer.expected' | translate}}</label>
+          <div class="col-12 sm:col-8 display-flex">
+            <p-checkbox binary="true" [(ngModel)]="transfer.expected" name="expected"></p-checkbox>
+            <input type="text" pInputText [(ngModel)]="transfer.expectedInmateName" name="expectedInmateName" class="margin-left-10" *ngIf="transfer.expected" appToitsuCapitalize>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'transfer.transferTypeId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="transfer.transferTypeId" name="transferTypeId" (ngModelChange)="transferTypeIdChanged()"
+                        [options]="transferTypes" optionValue="id" optionLabel="description"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [showClear]="true" [filter]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'transfer.view.fromApplication' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox binary="true" [(ngModel)]="fromApplication" [ngModelOptions]="{standalone: true}" (ngModelChange)="transfer.transferAppInmateId = null;"></p-checkbox>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center" *ngIf="fromApplication">
+          <label class="col-12 sm:col-4">{{'transfer.transferAppInmateId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-inputNumber [(ngModel)]="transfer.transferAppInmateId" name="transferAppInmateId" [useGrouping]="false"></p-inputNumber>
+          </div>
+        </div>
+      
+      </p-panel>
+      
+      <p-panel header="{{'transfer.view.toDcData' | translate}}" *ngIf="toDetentionCenter">
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'transfer.toDcId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="transfer.toDcId" name="toDcId"
+                        [options]="detentionCenters" optionValue="id" optionLabel="name"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [showClear]="true" [filter]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'transfer.toBeReturned' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox binary="true" [(ngModel)]="transfer.toBeReturned" name="toBeReturned"></p-checkbox>
+          </div>
+        </div>
+      
+      </p-panel>
+      
+      <p-panel header="{{'transfer.view.toCourthouseData' | translate}}" *ngIf="toCourthouse">
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'transfer.courtSummonsId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="transfer.courtSummonsId" name="courtSummonsId" (ngModelChange)="courtSummonsIdChanged()"
+                        [options]="courtSummonses" optionValue="id" optionLabel="displayName"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [showClear]="true" [filter]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'transfer.toCourthouseId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-select-courthouse [(model)]="transfer.toCourthouseId" name="toCourthouseId"></app-select-courthouse>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'transfer.orderNo' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="transfer.orderNo" name="orderNo">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'transfer.orderDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="transfer.orderDate" name="orderDate"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'transfer.courtDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="transfer.courtDate" name="courtDate"></app-toitsu-calendar>
+          </div>
+        </div>
+      
+      </p-panel>
+      
+      <p-panel header="{{'transfer.view.toHospitalData' | translate}}" *ngIf="toHospital">
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'transfer.referralId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="transfer.referralId" name="referralId" (ngModelChange)="referralIdChanged()"
+                        [options]="referrals" optionValue="id" optionLabel="displayName"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [showClear]="true" [filter]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'transfer.toHospitalId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="transfer.toHospitalId" name="toHospitalId" (ngModelChange)="toHospitalIdChanged()"
+                        [options]="hospitals" optionValue="id" optionLabel="name"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [showClear]="true" [filter]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'transfer.toHospitalDeptId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="transfer.toHospitalDeptId" name="toHospitalDeptId"
+                        [options]="hospitalDepartments" optionValue="id" optionLabel="name"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [showClear]="true" [filter]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'transfer.disease' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="transfer.disease" name="disease">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'transfer.regularHospitalTransfer' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox binary="true" [(ngModel)]="transfer.regularHospitalTransfer" name="regularHospitalTransfer"></p-checkbox>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'transfer.hospitalExitDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="transfer.hospitalExitDate" name="hospitalExitDate"></app-toitsu-calendar>
+          </div>
+        </div>
+      
+      </p-panel>
+      
+      <p-panel header="{{'transfer.view.toPoliceDeptData' | translate}}" *ngIf="toPoliceDept">
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'transfer.toPoliceDeptId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="transfer.toPoliceDeptId" name="toPoliceDeptId"
+                        [options]="policeDepartments" optionValue="id" optionLabel="name"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [showClear]="true" [filter]="true">
+            </p-dropdown>
+          </div>
+        </div>
+      
+      </p-panel>
+      
+      <p-panel header="{{'transfer.view.protocolData' | translate}}">
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'transfer.protocolNo' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="transfer.protocolNo" name="protocolNo">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'transfer.protocolDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="transfer.protocolDate" name="protocolDate"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'transfer.commandNo' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="transfer.commandNo" name="commandNo">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'transfer.commandDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="transfer.commandDate" name="commandDate"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'transfer.authority' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="transfer.authority" name="authority">
+          </div>
+        </div>
+      
+      </p-panel>
+    
+    </div>
+    
+    <div class="col-12 md:col-6 p-fluid">
+      
+      <p-panel header="{{'transfer.view.additionalData' | translate}}">
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'transfer.moveDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="transfer.moveDate" name="moveDate"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'transfer.means' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="transfer.means" name="means"
+                        [options]="transferMeans" optionValue="value" optionLabel="label"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [showClear]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'transfer.plateNo' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="transfer.plateNo" name="plateNo">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'transfer.reason' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="transfer.reason" name="reason">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'transfer.destination' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="transfer.destination" name="destination">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'transfer.cityId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="transfer.cityId" name="cityId"
+                        [options]="cities" optionValue="id" optionLabel="nameGreek"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [showClear]="true" [filter]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'transfer.comments' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="transfer.comments" name="comments" rows="4"></textarea>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'transfer.result' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="transfer.result" name="result">
+          </div>
+        </div>
+      
+      </p-panel>
+      
+      <p-panel header="{{'transfer.view.progressData' | translate}}">
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'transfer.exited' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox binary="true" [(ngModel)]="transfer.exited" name="exited" (ngModelChange)="exitedChanged()"></p-checkbox>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center" *ngIf="transfer.exited">
+          <label class="col-12 sm:col-4">{{'transfer.exitDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="transfer.exitDate" name="exitDate" [showTime]="true"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center" *ngIf="transfer.received > 0">
+          <label class="col-12 sm:col-4">{{'transfer.received' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="transfer.received" name="received" [disabled]="true"
+                        [options]="transferReceiveds" optionValue="ordinal" optionLabel="label"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center" *ngIf="transfer.received > 0">
+          <label class="col-12 sm:col-4">{{'transfer.receiveDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="transfer.receiveDate" name="receiveDate" [showTime]="true" [disabled]="true"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'transfer.returned' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox binary="true" [(ngModel)]="transfer.returned" name="returned" (ngModelChange)="returnedChanged()"></p-checkbox>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center" *ngIf="transfer.returned">
+          <label class="col-12 sm:col-4">{{'transfer.returnDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="transfer.returnDate" name="returnDate" [showTime]="true"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'transfer.cancelled' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox binary="true" [(ngModel)]="transfer.cancelled" name="cancelled" (ngModelChange)="cancelledChanged()"></p-checkbox>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center" *ngIf="transfer.cancelled">
+          <label class="col-12 sm:col-4">{{'transfer.cancelDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="transfer.cancelDate" name="cancelDate" [showTime]="true"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center" *ngIf="transfer.cancelled">
+          <label class="col-12 sm:col-4">{{'transfer.cancelComments' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="transfer.cancelComments" name="cancelComments" rows="4"></textarea>
+          </div>
+        </div>
+      
+      </p-panel>
+      
+      <p-panel header="{{'transfer.view.escortData' | translate}}">
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'transfer.escortName' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="transfer.escortName" name="escortName">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'transfer.escortStatus' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="transfer.escortStatus" name="escortStatus">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'transfer.escortService' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="transfer.escortService" name="escortService">
+          </div>
+        </div>
+      
+      </p-panel>
+    
+    </div>
+  
+  </div>
+
+</form>

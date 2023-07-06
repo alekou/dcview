@@ -1,0 +1,166 @@
+
+<form>
+  
+  <!--- Εμφάνιση spinner κατά την φόρτωση του dialog απόφασης πειθαρχικών --->
+  <i class="flex align-items-center justify-content-center fa fa-spinner fa-pulse" *ngIf="isDisciplineDecisionDialogLoading"></i>
+  
+  <div class="grid fadein animation-duration-300" *ngIf="!isDisciplineDecisionDialogLoading" appToitsuLockControls [lockCondition]="lockIfDisciplineCouncilOfDisciplineDecisionIsComplete()">
+    
+    <div class="col-12">
+  
+  
+      <div class="col-12">
+    
+        <div class="grid p-fluid">
+      
+          <div class="col-6 grid align-items-center">
+            <label class="col-12 md:col-6 font-bold">{{'disciplineDecision.decisionNo' | translate}}</label>
+            <div class="col-6">
+              <input type="text" pInputText [(ngModel)]="disciplineDecisionCopy.decisionNo" name="decisionNo" appToitsuCapitalize [disabled]="lockIfDisciplineDecisionCreatedDisciplines()">
+            </div>
+          </div>
+      
+          <div class="col-6 grid align-items-center">
+            <label class="col-12 md:col-6 font-bold">{{'disciplineDecision.decisionDate' | translate}}</label>
+            <div class="col-6 ">
+              <app-toitsu-calendar [(model)]="disciplineDecisionCopy.decisionDate" name="decisionDate" [disabled]="lockIfDisciplineDecisionCreatedDisciplines()"></app-toitsu-calendar>
+            </div>
+          </div>
+    
+        </div>
+    
+        <div class="grid p-fluid">
+      
+          <div class="col-6 grid align-items-center">
+            <label class="col-12 md:col-6">{{'disciplineDecision.comments' | translate}}</label>
+            <div class="col-6">
+              <textarea pInputTextarea [(ngModel)]="disciplineDecisionCopy.comments" name="comments" rows="4" [disabled]="lockIfDisciplineDecisionCreatedDisciplines()"></textarea>
+            </div>
+          </div>
+    
+        </div>
+  
+      </div>
+      
+        <!--    ΠΕΙΘΑΡΧΙΚΑ ΠΑΡΑΠΤΩΜΑΤΑ-->
+      <p-table [value]="disciplineDecisionCopy.disciplineOffenses" styleClass="p-datatable-gridlines" appToitsuPTableCellWidth
+               sortMode="single" rowGroupMode="subheader" groupRowsBy="inmateFullName"
+      >
+        
+        <ng-template pTemplate="header">
+          
+          <tr>
+            <th [style.width]="'3rem'"></th>
+            <th [style.width]="'5rem'">{{'disciplineOffense.id' | translate}}</th>
+            <th [style.width]="'10rem'">{{'disciplineOffense.allDisciplineReportNames' | translate}}</th>
+            <th [style.width]="'10rem'">{{'disciplineOffense.offenseTypePid' | translate}}</th>
+            <th [style.width]="'10rem'">{{'disciplineOffense.incidentDate' | translate}}</th>
+            <th [style.width]="'10rem'">{{'disciplineOffense.articles' | translate}}</th>
+            <th [style.width]="'15rem'">{{'disciplineOffense.status' | translate}}</th>
+            <th [style.width]="'15rem'">{{'disciplineOffense.penaltyTypePid' | translate}}</th>
+            <th [style.width]="'10rem'">{{'disciplineOffense.points' | translate}}</th>
+            
+          </tr>
+        
+        </ng-template>
+  
+        <ng-template pTemplate="groupheader" let-disciplineOffense>
+          <tr pRowGroupHeader>
+            <td colspan="11" style="background-color:lightgray;">
+              <span class="font-bold ml-2">{{disciplineOffense.inmateFullName}}
+                  <p-button styleClass="p-button-success"
+                          icon="fa fa-link" iconPos="left"
+                          pTooltip="{{'disciplineDecision.dialog.mergeDisciplineOffenses' | translate}}"
+                          *ngIf="disciplineDecisionCopy.id && !showIfDisciplineDecisionCreatedDisciplines()" (click)="openMergeDisciplineOffensesDialog(disciplineOffense.inmateId)">
+                  </p-button>
+              </span>
+            </td>
+          </tr>
+          
+          
+        </ng-template>
+        
+        <ng-template pTemplate="body" let-disciplineOffense let-index="rowIndex">
+  
+          <!--          ΜΗ ΣΥΓΧΩΝΕΥΤΙΚΑ ΠΕΙΘΑΡΧΙΚΑ ΠΑΡΑΠΤΩΜΑΤΑ-->
+          <tr class="p-fluid" *ngIf="disciplineOffense.merging == false" [style]="getRowStyleClass(disciplineOffense)">
+            <td style="text-align:center" [style.width]="'3rem'" [style.justify-content]="'center'" >{{index + 1}}</td>
+            <td style="text-align:center" [style.width]="'10rem'"> {{disciplineOffense.id}}</td>
+            <td style="text-align:center" [style.width]="'10rem'"> {{disciplineOffense.allDisciplineReportNames}}</td>
+            <td style="text-align:center" [style.width]="'10rem'"> {{disciplineOffense.offenseType}}</td>
+            <td style="text-align:center" [style.width]="'10rem'"> {{disciplineOffense.incidentDate}}</td>
+            <td style="text-align:center" [style.width]="'10rem'"> {{disciplineOffense.articles}}</td>
+            
+            <td>
+              <div class="grid align-items-center">
+                <div class="col-12 md:col-12">
+                  <p-dropdown [(ngModel)]="disciplineDecisionCopy.disciplineOffenses[index].status" name="disciplineOffenseStatusTypes{{index}}.status"
+                              [options]="disciplineOffenseStatusTypes" optionValue="value" optionLabel="label"
+                              placeholder="{{'global.selectOption' | translate}}" emptyMessage="{{'global.noResultsFound' | translate}}"
+                              emptyFilterMessage="{{'global.noResultsFound' | translate}}" appendTo="body"
+                              [disabled]="(disciplineDecisionCopy.disciplineOffenses[index].merged == true) || lockIfDisciplineDecisionCreatedDisciplines()">
+                  </p-dropdown>
+                </div>
+              </div>
+            </td>
+            
+            <td>
+              <app-select-gen-parameter 
+                [type]="disciplineOffensePenaltyTypeParams" [(model)]="disciplineDecisionCopy.disciplineOffenses[index].penaltyTypePid" 
+                name="disciplinePenalty{{index}}.penaltyTypePid"
+                [disabled]="(disciplineDecisionCopy.disciplineOffenses[index].merged == true) || lockIfDisciplineDecisionCreatedDisciplines()">
+              </app-select-gen-parameter>
+            </td>
+            
+            <td>
+              <div class="grid align-items-center">
+                <div class="col-12 md:col-12">
+                  <p-inputNumber [(ngModel)]="disciplineDecisionCopy.disciplineOffenses[index].points" name="disciplineDecision.disciplineOffenses{{index}}.points" [showButtons]="true" buttonLayout="horizontal" inputId="horizontal" spinnerMode="horizontal" [step]="1" [min]="0"
+                                 decrementButtonClass="p-button-danger" incrementButtonClass="p-button-success" incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" [inputStyle]="{'text-align': 'center'}"
+                                 [disabled]="(disciplineDecisionCopy.disciplineOffenses[index].merged == true) || lockIfDisciplineDecisionCreatedDisciplines()">
+                  </p-inputNumber>
+                </div>
+              </div>
+            </td>
+            
+          </tr>
+  
+<!--          ΣΥΓΧΩΝΕΥΤΙΚΑ ΠΕΙΘΑΡΧΙΚΑ ΠΑΡΑΠΤΩΜΑΤΑ-->
+          <tr *ngIf="shouldMergeCells(disciplineOffense) && disciplineOffense.merging === true">
+            <td colspan="10"> {{'disciplineDecision.mergeDisciplineOffenses.mergingDisciplineOffense' | translate}} {{ disciplineOffense.mergingDisplayName }}
+              <p-button styleClass="p-button-warning"
+                        icon="fa fa-chain-broken" iconPos="left"
+                        pTooltip="{{'disciplineDecision.dialog.unmergeDisciplineOffense' | translate}}"
+                        (click)="openUnmergeDisciplineOffensesDialog(disciplineOffense)"
+                        *ngIf="!showIfDisciplineDecisionCreatedDisciplines()"
+                        >
+              </p-button>
+            </td>
+          </tr>
+          
+          
+        </ng-template>
+        
+      </p-table>
+      
+      <!--    ΠΕΙΘΑΡΧΙΚΑ ΠΑΡΑΠΤΩΜΑΤΑ-->
+      
+    </div>
+  
+  </div>
+  
+  <div class="grid" >
+    <div class="col-12 button-container text-align-end m-1">
+      <button pButton type="button" label="{{'global.save' | translate}}" class="p-button-success"
+              icon="fa fa-save" iconPos="left" (click)="saveDisciplineDecision()" *ngIf="!showIfDisciplineDecisionCreatedDisciplines() && !showIfDisciplineCouncilOfDisciplineDecisionIsComplete()">
+      </button>
+      <button pButton type="button" label="{{'global.cancel' | translate}}" class="p-button-warning"
+              icon="fa fa-times" iconPos="left" (click)="cancel()" *ngIf="!showIfDisciplineDecisionCreatedDisciplines() && !showIfDisciplineCouncilOfDisciplineDecisionIsComplete()">
+      </button>
+      <button pButton type="button" label="{{'global.close' | translate}}" class="p-button-warning"
+              icon="fa fa-times" iconPos="left" (click)="cancel()" *ngIf="showIfDisciplineDecisionCreatedDisciplines() || showIfDisciplineCouncilOfDisciplineDecisionIsComplete()">
+      </button>
+    </div>
+  </div>
+
+</form>

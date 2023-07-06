@@ -1,0 +1,32 @@
+<div class="grid">
+  
+  <div class="col-12 p-fluid">
+    {{'judgment.changeCurrent.description' | translate}}
+  </div>
+  
+  <div class="col-12 p-fluid">
+    
+    <div class="grid align-items-center" *ngFor="let judgment of candidateJudgmentsToSetCurrent; let index = index">
+      <label class="col-12 sm:col-4">{{'inmate.folder.judgment' | translate}} {{index + 1}}</label>
+      <div class="col-12 sm:col-6">
+        <input type="text" pInputText value="{{judgment.displayName}}" disabled class="background-color-white">
+      </div>
+      <div class="col-12 sm:col-2">
+        <p-radioButton [value]="judgment.id" [(ngModel)]="newCurrentJudgmentId"></p-radioButton>
+      </div>
+    </div>
+    
+  </div>
+  
+</div>
+
+<div class="grid">
+  <div class="col-12 button-container text-align-end">
+    <button pButton type="button" label="{{'global.confirm' | translate}}" class="p-button-success"
+            icon="fa fa-save" iconPos="left" (click)="confirm()">
+    </button>
+    <button pButton type="button" label="{{'global.cancel' | translate}}" class="p-button-warning"
+            icon="fa fa-times" iconPos="left" (click)="cancel()">
+    </button>
+  </div>
+</div>

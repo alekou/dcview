@@ -1,0 +1,59 @@
+<div class="grid">
+  
+  <div class="col-12 p-fluid color-red" *ngIf="temporaryRecordExistsInDifferentDc">
+    {{'inmateRecord.close.temporaryRecordExistsInDifferentDc' | translate}}
+  </div>
+  
+  <div class="col-12 p-fluid">
+    
+    <p-panel header="{{'inmateRecord.close.data' | translate}}">
+      
+      <div class="grid align-items-center">
+        <label class="col-12 sm:col-4 font-bold">{{'inmateRecord.exitDate' | translate}}</label>
+        <div class="col-12 sm:col-8">
+          <app-toitsu-calendar [(model)]="data.exitDate" name="exitDate"></app-toitsu-calendar>
+        </div>
+      </div>
+      
+      <div class="grid align-items-center">
+        <label class="col-12 sm:col-4">{{'inmateRecord.closingClassificationId' | translate}}</label>
+        <div class="col-12 sm:col-8">
+          <p-dropdown [(ngModel)]="data.closingClassificationId" name="closingClassificationId"
+                      [options]="closingRecordClassifications" optionValue="id" optionLabel="description"
+                      placeholder="{{'global.selectOption' | translate}}"
+                      emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                      [showClear]="true" [filter]="true" appendTo="body">
+          </p-dropdown>
+        </div>
+      </div>
+      
+      <div class="grid align-items-center">
+        <label class="col-12 sm:col-4">{{'inmateRecord.closingComments' | translate}}</label>
+        <div class="col-12 sm:col-8">
+          <textarea pInputTextarea [(ngModel)]="data.closingComments" name="closingComments" rows="4"></textarea>
+        </div>
+      </div>
+      
+      <div class="grid align-items-center">
+        <label class="col-12 sm:col-4">{{'inmateRecord.close.clearInmateArea' | translate}}</label>
+        <div class="col-12 sm:col-8">
+          <p-checkbox binary="true" [(ngModel)]="data.clearInmateArea"></p-checkbox>
+        </div>
+      </div>
+      
+    </p-panel>
+    
+  </div>
+  
+</div>
+
+<div class="grid">
+  <div class="col-12 button-container text-align-end">
+    <button pButton type="button" label="{{'global.confirm' | translate}}" class="p-button-success"
+            icon="fa fa-save" iconPos="left" (click)="confirm()">
+    </button>
+    <button pButton type="button" label="{{'global.cancel' | translate}}" class="p-button-warning"
+            icon="fa fa-times" iconPos="left" (click)="cancel()">
+    </button>
+  </div>
+</div>

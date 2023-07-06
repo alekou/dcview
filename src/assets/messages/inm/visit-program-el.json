@@ -1,0 +1,18 @@
+{
+  "visitProgram.description": "Περιγραφή",
+  "visitProgram.maxSimultaneous": "Μέγιστος Αριθμός Ταυτόχρονων επισκεπτηρίων",
+
+  "visitProgram.view.visitProgramData": "Γενικές Πληροφορίες Προγράμματος",
+  "visitProgram.view.visitProgramDetails": "Λεπτομέρειες Προγράμματος Επισκεπηρίου",
+  "visitProgram.view.visitProgramTimeFrames": "Χρονοδιάγραμμα Προγράμματος Επισκεπτηρίου",
+
+  "visitProgram.addVisitProgramTimeFrame": "Προσθήκη Χρονικού Περιθωρίου",
+  "visitProgram.addVisitProgramDetails": "Προσθήκη Λεπτομέρειας",
+
+  "visitProgram.list.fromTime": "Ώρα (Από)",
+  "visitProgram.list.toTime": "Ώρα (Έως)",
+  "visitProgram.list.fromNameInitials": "Επώνυμο (Από)",
+  "visitProgram.list.toNameInitials": "Επώνυμο (Έως)",
+  "visitProgram.list.visitProgram": "Πρόγραμμα Επισκεπτηρίου"
+  
+}

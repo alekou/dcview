@@ -1,0 +1,19 @@
+{
+  "country.name": "Επωνυμία",
+  "country.isActive": "Ενεργή",
+  "country.countryNameGreek": "Χώρα (Ελληνικά)",
+  "country.countryNameLatin": "Χώρα (Λατινικά)",
+  "country.nationalityNameGreek": "Υπηκοότητα (Ελληνικά)",
+  "country.nationalityNameLatin": "Υπηκοότητα (Λατινικά)",
+  "country.isGreece": "Ελλάδα",
+  "country.twoDigitCode": "Διψήφιος Κωδικός",
+  "country.threeDigitCode": "Τριψήφιος Κωδικός",
+  "country.crCode": "Κωδικός Ποινικού Μητρώου",
+  "country.comments": "Παρατηρήσεις",
+
+  "country.view.data": "Στοιχεία",
+
+  "country.view.tab.cities": "Πόλεις",
+
+  "country.select.dialogTitle": "Επιλογή Χώρας"
+}

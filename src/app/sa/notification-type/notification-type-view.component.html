@@ -1,0 +1,122 @@
+<form>
+  <div class="grid">
+    <div class="col-12 button-container">
+      <button pButton type="button"
+              label="{{'global.save' | translate}}" class="p-button-success"
+              icon="fa fa-save" iconPos="left" (click)="saveNotificationType()">
+      </button>
+      <button pButton type="button" *ngIf="id"
+              label="{{'global.delete' | translate}}" class="p-button-danger"
+              icon="fa fa-trash" iconPos="left">
+      </button>
+      <button pButton type="button" *ngIf="id" label="{{'global.newRecord' | translate}}" class="p-button-info"
+              icon="fa fa-plus" iconPos="left" (click)="newRecord()">
+      </button>
+      <button pButton type="button" label="{{'global.index' | translate}}" class="p-button-help"
+              icon="fa fa-table" iconPos="left" (click)="goToList()">
+      </button>
+    </div>
+  </div>
+  <div class="grid">
+    <div class="col-12 md:col-6 p-fluid">
+      
+      <p-panel header="{{'notificationType.details' | translate}}">
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'notificationType.title' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" [disabled]="!!id" pInputText [(ngModel)]="notificationType.title" name="title">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'notificationType.query' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [disabled]="!!id" [(ngModel)]="notificationType.query" name="query" rows="6"></textarea>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'notificationType.entity' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [disabled]="!!id" [(ngModel)]="notificationType.entity" name="entity"
+                        [options]="entities" optionValue="value" optionLabel="label"
+                        emptyMessage="{{'global.noResultsFound' | translate}}"
+                        emptyFilterMessage="{{'global.noResultsFound' | translate}}" 
+                        placeholder="{{'global.selectOption' | translate}}" [showClear]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'notificationType.active' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox binary="true" [(ngModel)]="notificationType.active" name="active"></p-checkbox>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center" *ngIf="authService.isMinistry()">
+          <label class="col-12 sm:col-4">{{'notificationType.centralNotice' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox binary="true" [(ngModel)]="notificationType.centralNotice" name="centralNotice"></p-checkbox>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'notificationType.withAlert' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox binary="true" [(ngModel)]="notificationType.withAlert" name="withAlert"></p-checkbox>
+          </div>
+        </div>
+      
+      </p-panel>
+  
+  
+    
+      <p-panel header="{{'notificationTypeRecipient.add' | translate}}">
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'notificationTypeRecipient.username' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-multiSelect [(ngModel)]="selectedUsers" [options]="users" [ngModelOptions]="{standalone: true}"
+                           placeholder="{{'global.selectOption' | translate}}"
+                           emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                           display="chip" [showClear]="true">
+            </p-multiSelect>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'notificationTypeRecipient.userGroup' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-multiSelect [(ngModel)]="selectedUserGroups" [options]="userGroups" [ngModelOptions]="{standalone: true}"
+                           placeholder="{{'global.selectOption' | translate}}"
+                           emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                           display="chip" [showClear]="true">
+            </p-multiSelect>
+          </div>
+        </div>
+        
+      </p-panel>
+    
+  
+      <p-panel header="{{'notificationTypeRecipient.details' | translate}}" *ngIf="id">
+        
+        <app-toitsu-table #notificationTypeRecipientTable
+                          [url]="notificationTypeRecipientUrl"
+                          [cols]="notificationTypeRecipientCols"
+                          [args]="notificationTypeRecipientArgs"
+                          [loadOnInit]="true">
+          <ng-template let-rowData let-index #cell1>
+            <button pButton type="button" *ngIf="id" class="p-button-danger" icon="fa fa-times" iconPos="left"
+                    pTooltip="{{'global.delete' | translate}}" tooltipPosition="top" (click)="deleteNotificationRecipient(rowData.id)">
+            </button>
+          </ng-template>
+        </app-toitsu-table>
+      </p-panel>
+
+    </div>
+    
+  </div>
+  
+</form>

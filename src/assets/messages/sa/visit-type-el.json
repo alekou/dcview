@@ -1,0 +1,9 @@
+{
+  "visitType.isActive": "Ενεργός",
+  "visitType.dcId": "Κατάστημα Κράτησης",
+  "visitType.code": "Κωδικός",
+  "visitType.description": "Περιγραφή",
+  "visitType.kind": "Είδος",
+
+  "visitType.view.visitTypeData": "Στοιχεία Τύπου Επισκεπτηρίου"
+}

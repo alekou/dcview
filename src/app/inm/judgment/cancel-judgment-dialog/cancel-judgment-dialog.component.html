@@ -1,0 +1,106 @@
+<div class="grid">
+  
+  <div class="col-12 p-fluid">
+    {{'judgment.cancel.description' | translate}}
+  </div>
+  
+  <div class="col-12 p-fluid">
+    <div class="grid align-items-center">
+      <div class="col-12">
+        <label>{{'judgment.cancelComments' | translate}}</label>
+        <textarea pInputTextarea [(ngModel)]="data.cancelComments" rows="3"></textarea>
+      </div>
+    </div>
+  </div>
+  
+  <div class="col-12" *ngIf="candidateJudgmentsToSetAsRelated.length > 0">
+    
+    <div class="col-12 p-fluid">
+      {{'judgment.cancel.description.selectRelated' | translate}}
+    </div>
+    
+    <div class="col-12 p-fluid">
+      <div class="grid align-items-center" *ngFor="let judgment of candidateJudgmentsToSetAsRelated; let index = index">
+        <label class="col-12 sm:col-4">{{'inmate.folder.judgment' | translate}} {{index + 1}}</label>
+        <div class="col-12 sm:col-6">
+          <input type="text" pInputText value="{{judgment.displayName}}" disabled class="background-color-white">
+        </div>
+        <div class="col-12 sm:col-2">
+          <p-radioButton [value]="judgment.id" [(ngModel)]="data.relatedJudgmentId"></p-radioButton>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+  
+  <div class="col-12" *ngIf="willCancelCurrentJudgment">
+    
+    <div class="col-12 p-fluid color-red">
+      {{'judgment.cancel.description.cancelCurrentJudgmentAction' | translate}}
+    </div>
+    
+    <div class="col-6 col-offset-3 p-fluid">
+      <span>
+        <p-radioButton name="cancelCurrentJudgmentAction" value="SET_NEW_CURRENT" label="{{'judgment.cancel.description.cancelCurrentJudgmentAction.setNewCurrent' | translate}}" [(ngModel)]="data.cancelCurrentJudgmentAction"></p-radioButton>
+      </span>
+      <span>
+        <p-radioButton name="cancelCurrentJudgmentAction" value="CLOSE_INMATE_FOLDER" label="{{'judgment.cancel.description.cancelCurrentJudgmentAction.closeInmateFolder' | translate}}" [(ngModel)]="data.cancelCurrentJudgmentAction"></p-radioButton>
+      </span>
+    </div>
+    
+    <div class="col-12 p-fluid" *ngIf="data.cancelCurrentJudgmentAction === 'SET_NEW_CURRENT'">
+      <div class="grid align-items-center" *ngFor="let judgment of candidateJudgmentsToSetCurrent; let index = index">
+        <label class="col-12 sm:col-4">{{'inmate.folder.judgment' | translate}} {{index + 1}}</label>
+        <div class="col-12 sm:col-6">
+          <input type="text" pInputText value="{{judgment.displayName}}" disabled class="background-color-white">
+        </div>
+        <div class="col-12 sm:col-2">
+          <p-radioButton [value]="judgment.id" [(ngModel)]="data.newCurrentJudgmentId"></p-radioButton>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-12 p-fluid" *ngIf="data.cancelCurrentJudgmentAction === 'CLOSE_INMATE_FOLDER'">
+      
+      <div class="grid align-items-center">
+        <label class="col-12 sm:col-4 font-bold">{{'inmate.folderClosingDate' | translate}}</label>
+        <div class="col-12 sm:col-8">
+          <app-toitsu-calendar [(model)]="data.folderClosingDate" name="folderClosingDate"></app-toitsu-calendar>
+        </div>
+      </div>
+      
+      <div class="grid align-items-center">
+        <label class="col-12 sm:col-4">{{'inmate.folderClosingClassificationId' | translate}}</label>
+        <div class="col-12 sm:col-8">
+          <p-dropdown [(ngModel)]="data.folderClosingClassificationId" name="closingClassificationId"
+                      [options]="closingFolderClassifications" optionValue="id" optionLabel="description"
+                      placeholder="{{'global.selectOption' | translate}}"
+                      emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                      [showClear]="true" [filter]="true" appendTo="body">
+          </p-dropdown>
+        </div>
+      </div>
+      
+      <div class="grid align-items-center">
+        <label class="col-12 sm:col-4">{{'inmate.folderClosingComments' | translate}}</label>
+        <div class="col-12 sm:col-8">
+          <textarea pInputTextarea [(ngModel)]="data.folderClosingComments" name="folderClosingComments" rows="4"></textarea>
+        </div>
+      </div>
+      
+    </div>
+    
+  </div>
+  
+</div>
+
+<div class="grid">
+  <div class="col-12 button-container text-align-end">
+    <button pButton type="button" label="{{'global.confirm' | translate}}" class="p-button-success"
+            icon="fa fa-save" iconPos="left" (click)="confirm()">
+    </button>
+    <button pButton type="button" label="{{'global.cancel' | translate}}" class="p-button-warning"
+            icon="fa fa-times" iconPos="left" (click)="cancel()">
+    </button>
+  </div>
+</div>

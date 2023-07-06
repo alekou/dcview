@@ -1,0 +1,72 @@
+
+<div class="grid">
+  <div class="col-12 button-container">
+    <button pButton type="submit" label="{{'global.search' | translate}}" class="p-button-warning"
+            icon="fa fa-search" iconPos="left" (click)="loadTableData()">
+    </button>
+    <button pButton type="button" label="{{'global.clearArgs' | translate}}" class="p-button-help"
+            icon="fa fa-times" iconPos="left" (click)="clearArgs()">
+    </button>
+  </div>
+</div>
+
+<div class="grid">
+  <div class="col-12 md:col-3">
+    <p-panel header="{{'global.args' | translate}}">
+      
+      <div class="p-fluid">
+        
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'examination.examinationTypeCategory' | translate}}</label>
+            <app-select-gen-parameter [type]="pExaminationTypeCategory" [(model)]="args.examinationTypeCategory" name="examinationTypeCategory" [hideAdd]="true"></app-select-gen-parameter>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'examinationType.description' | translate}}</label>
+            <input type="text" pInputText [(ngModel)]="args.description" name="description">
+          </div>
+        </div>
+        
+      </div>
+    
+    </p-panel>
+    
+    <p-panel header="{{'examination.examinationDate' | translate}}" *ngIf="hearingId">
+      <div class="grid align-items-center">
+        <label class="col-12 sm:col-4">{{'examination.examinationDate' | translate}}</label>
+        <div class="col-12 sm:col-8">
+          <app-toitsu-calendar [(model)]="examination.examinationDate" name="examinationDate" [showTime]="true"></app-toitsu-calendar>
+        </div>
+      </div>
+    </p-panel>
+  </div>
+  
+  <div class="col-12 md:col-9">
+    <app-toitsu-table #table
+                      [url]="url"
+                      [cols]="cols"
+                      [sortField]="sortField"
+                      [sortOrder]="sortOrder"
+                      [args]="args"
+                      [loadOnInit]="false"
+                      [selectionMode]="'multiple'">
+    </app-toitsu-table>
+  </div>
+</div>
+
+<div class="grid">
+  <div class="col-12 button-container text-align-end">
+    <button *ngIf="hearingId" pButton type="button" label="{{'global.save' | translate}}" class="p-button-success"
+            icon="fa fa-save" iconPos="left" (click)="saveExaminations()">
+    </button>
+    <button *ngIf="!hearingId" pButton type="button" label="{{'global.confirm' | translate}}" class="p-button-info"
+            icon="fa fa-check" iconPos="left" (click)="confirm()">
+    </button>
+    <button pButton type="button" label="{{'global.cancel' | translate}}" class="p-button-warning"
+            icon="fa fa-times" iconPos="left" (click)="cancel()">
+    </button>
+  </div>
+</div>

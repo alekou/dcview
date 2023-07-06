@@ -1,0 +1,9 @@
+{
+  "DoctorInmate.details": "Νέα Παρακολούθηση από Ιατρό",
+  "doctorInmate.doctorId": "Ιατρός",
+  "doctorInmate.isActive": "Ενεργός",
+  "doctorInmate.fromDate": "Ημερομηνία Έναρξης",
+  "doctorInmate.toDate": "Ημερομηνία Λήξης",
+  "doctorInmate.doctorSpecialty": "Ειδικότητα",
+  "med.doctorInmateIsActive.checked": "Ορίσατε υπεύθυνο ιατρό. Αν υπάρχουν άλλοι, θα απενεργοποιηθούν."
+}

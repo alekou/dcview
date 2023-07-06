@@ -1,0 +1,53 @@
+<form>
+<div>
+  <div class="col-12 p-fluid padding-bottom-10">
+    
+    <p-table *ngIf="mergingDisciplines.length != 0" [value]="mergingDisciplines" [(selection)]="selectedMergingDisciplines" dataKey="id" [scrollable]="true" scrollHeight="25rem" styleClass="p-datatable-gridlines p-datatable-striped" appToitsuPTableCellWidth>
+
+      <ng-template pTemplate="header">
+        
+        <tr>
+          <th [style.width]="'6rem'" [style.justify-content]="'center'">{{'#'}}</th>
+          <th [style.width]="'10rem'" [style.justify-content]="'center'">{{'discipline.decisionNo' | translate}}</th>
+          <th [style.width]="'10rem'" [style.justify-content]="'center'">{{'discipline.endDate' | translate}}</th>
+          <th [style.width]="'10rem'" [style.justify-content]="'center'">{{'discipline.reason' | translate}}</th>
+          <th [style.width]="'3rem'">
+            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+          </th>
+        </tr>
+      
+      </ng-template>
+      <ng-template pTemplate="body" let-mergingDiscipline let-index="rowIndex">
+        
+        <tr>
+          <td [style.justify-content]="'center'">{{index + 1}}</td>
+          <td [style.justify-content]="'center'">{{mergingDiscipline.decisionNo}}</td>
+          <td [style.justify-content]="'center'">{{mergingDiscipline.endDate}}</td>
+          <td [style.justify-content]="'center'">{{mergingDiscipline.reason}}</td>
+          <td>
+            <p-tableCheckbox [value]="mergingDiscipline"></p-tableCheckbox>
+          </td>
+        </tr>
+      
+      </ng-template>
+
+    </p-table>
+
+  </div>
+</div>
+
+<span *ngIf="mergingDisciplines.length == 0">{{'discipline.disciplinesToMerge.noDisciplinesToMerge' | translate}}</span>
+<p></p>
+
+
+<div class="grid">
+  <div class="col-12 button-container text-align-end">
+    <button pButton type="button" label="{{'global.confirm' | translate}}" class="p-button-info"
+            icon="fa fa-check" iconPos="left" (click)="confirm()">
+    </button>
+    <button pButton type="button" label="{{'global.cancel' | translate}}" class="p-button-warning"
+            icon="fa fa-times" iconPos="left" (click)="cancel()">
+    </button>
+  </div>
+</div>
+</form>

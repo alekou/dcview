@@ -1,0 +1,98 @@
+<div class="grid">
+  <div class="col-12 button-container">
+    <button pButton type="submit" label="{{'global.search' | translate}}" class="p-button-warning"
+            icon="fa fa-search" iconPos="left" (click)="loadTableData()">
+    </button>
+    <button pButton type="button" label="{{'global.clearArgs' | translate}}" class="p-button-help"
+            icon="fa fa-times" iconPos="left" (click)="clearArgs()">
+    </button>
+  </div>
+</div>
+
+<div class="grid">
+  
+  <div class="col-12 md:col-3">
+    
+    <p-panel header="{{'global.args' | translate}}">
+      
+      <div class="p-fluid">
+        
+        <div class="grid align-items-center" *ngIf="origins.length > 0">
+          <div class="col-12">
+            <label>{{'transfer.inProgress.origin' | translate}}</label>
+            <p-dropdown [(ngModel)]="args.origin" [options]="origins" optionValue="value" optionLabel="label"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'transfer.inProgress.otherDcId' | translate}}</label>
+            <p-dropdown [(ngModel)]="args.otherDcId" [options]="detentionCenters" optionValue="id" optionLabel="name"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [showClear]="true" [filter]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+      </div>
+      
+    </p-panel>
+    
+  </div>
+  
+  <div class="col-12 md:col-9">
+    
+    <app-toitsu-table #table
+                      [url]="url"
+                      [cols]="cols"
+                      [first]="paging.first"
+                      [rows]="paging.rows"
+                      [sortField]="paging.sortField"
+                      [sortOrder]="paging.sortOrder"
+                      [args]="args"
+                      [excel]="true"
+                      [exportModel]="exportModel"
+                      [loadOnInit]="false">
+      <ng-template let-rowData #cell1>
+        <div class="col-12 button-container">
+          
+          <!-- Παραλαβή Μεταγωγής-->
+          <button pButton type="button" pRipple *ngIf="rowData.toDcId === authService.getUserDcId() && !rowData.temporary && !rowData.fromTemporary"
+                  class="p-button-rounded p-button-outlined p-button-success" pTooltip="{{'transfer.inProgress.complete.open.tooltip' | translate}}" tooltipPosition="top"
+                  icon="fa fa-check" iconPos="left" (click)="completeTransferInProgressWithOpen(rowData.id, rowData.inmate.id)">
+          </button>
+          
+          <!-- Αδυναμία Κράτησης -->
+          <button pButton type="button" pRipple *ngIf="rowData.toDcId === authService.getUserDcId() && !rowData.temporary && !rowData.fromTemporary"
+                  class="p-button-rounded p-button-outlined p-button-help" pTooltip="{{'transfer.inProgress.complete.inability.tooltip' | translate}}" tooltipPosition="top"
+                  icon="fa fa-bars" iconPos="left" (click)="openCompleteTransferWithInabilityDialog(rowData.id, rowData.inmate.id)">
+          </button>
+          
+          <!-- Παραλαβή Προσωρινής Μεταγωγής -->
+          <button pButton type="button" pRipple *ngIf="rowData.toDcId === authService.getUserDcId() && rowData.temporary"
+                  class="p-button-rounded p-button-outlined p-button-success" pTooltip="{{'transfer.inProgress.complete.temporary.tooltip' | translate}}" tooltipPosition="top"
+                  icon="fa fa-check" iconPos="left" (click)="completeTransferInProgressWithTemporary(rowData.id, rowData.inmate.id)">
+          </button>
+          
+          <!-- Ακύρωση Μεταγωγής -->
+          <button pButton type="button" pRipple *ngIf="rowData.fromDcId === authService.getUserDcId()"
+                  class="p-button-rounded p-button-outlined p-button-danger" pTooltip="{{'transfer.inProgress.cancel.tooltip' | translate}}" tooltipPosition="top"
+                  icon="fa fa-times" iconPos="left" (click)="cancelTransferInProgress(rowData.id, rowData.inmate.id)">
+          </button>
+          
+          <!-- Επιστροφή Κρατουμένου από Προσωρινή Μεταγωγή -->
+          <button pButton type="button" pRipple *ngIf="rowData.toDcId === authService.getUserDcId() && rowData.fromTemporary"
+                  class="p-button-rounded p-button-outlined p-button-success" pTooltip="{{'transfer.inProgress.receiveBackFromTemporary.tooltip' | translate}}" tooltipPosition="top"
+                  icon="fa fa-check" iconPos="left" (click)="receiveBackTransferFromTemporary(rowData.id, rowData.inmate.id)">
+          </button>
+          
+        </div>
+      </ng-template>
+    </app-toitsu-table>
+    
+  </div>
+  
+</div>

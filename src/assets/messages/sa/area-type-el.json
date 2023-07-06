@@ -1,0 +1,8 @@
+{
+  "areaType.code": "Κωδικός",
+  "areaType.description": "Περιγραφή",
+  "areaType.hasPositions": "Περιέχει Θέσεις",
+  "areaType.isSpecialArea": "Ειδικός Χώρος",
+
+  "areaType.info.forbiddenView": " Δεν μπορείτε να επεξεργαστείτε ή να διαγράψετε τύπους περιοχών άλλου καταστήματος κράτησης."
+}

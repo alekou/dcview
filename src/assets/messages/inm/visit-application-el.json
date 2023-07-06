@@ -1,0 +1,45 @@
+{
+  "visitApplication.inmateId": "Κρατούμενος",
+  "visitApplication.visitorName": "Επισκέπτης",
+  "visitApplication.visitTypeId": "Τύπος Επισκεπτηρίου",
+  "visitApplication.applicationNo": "Αριθμός Αιτήματος",
+  "visitApplication.applicationDate": "Ημερομηνία Αιτήματος",
+  "visitApplication.applicationText": "Κείμενο Αιτήματος",
+  "visitApplication.socialWorkerMotion": "Εισήγηση από Κοινωνικό Λειτουργό",
+  "visitApplication.comments": "Παρατηρήσεις",
+  
+  "visitApplication.approved": "Κατάσταση",
+  "visitApplication.approvalDate": "Ημερομηνία Έγκρισης",
+  "visitApplication.approvalNo": "Αριθμός Έγκρισης",
+  "visitApplication.approvalText": "Κείμενο Έγκρισης",
+  
+  "visitApplication.frequent": "Συχνά Επισκεπτήρια",
+  "visitApplication.visitDate": "Ημ. Πραγματοποίησης Επισκεπτηρίου",
+  "visitApplication.visitDateFrom": "Ημ. Έναρξης Πραγματαποίησης Επισκεπτηρίων",
+  "visitApplication.visitDateTo": "Ημ. Λήξης Πραγματαποίησης Επισκεπτηρίων",
+  "visitApplication.frequency": "Συχνότητα",
+
+  "visitApplicationVisitor.visitorId": "Επισκέπτης",
+  "visitApplicationVisitor.statedRelationKind": "Δηλωθέν Είδος Συγγένειας",
+  "visitApplicationVisitor.statedOtherRelationKindPid": "Δηλωθείσα Άλλη Συγγένεια",
+
+  
+  "visitApplication.args.inmateCode" : "Α.Γ.Μ. Κρατουμένου",
+  "visitApplication.args.onVisit" : "Σύνδεση με Επισκεπτήριο",
+  
+  
+  "visitApplication.view.visitorAdd": "Προσθήκη Επισκέπτη",
+  "visitApplication.view.visitData": "Στοιχεία Επισκεπτηρίου",
+  "visitApplication.view.visitorAddToolTip": "Προσθέστε Νέους Επισκέπτες από την Λίστα Επισκεπτών.",
+  "visitApplication.view.visitorsData": "Λίστα Επισκεπτών (Δηλωθέντα Στοιχεία)",
+  
+  "visitApplication.view.stateData": "Στοιχεία Κατάστασης",
+  "visitApplication.view.visitImplementationData": "Στοιχεία Πραγματοποίησης",
+  
+  "visitApplication.select.dialogTitle": "Επιλογή Αίτησης Επισκεπτηρίου",
+  "visitApplication.select.noApprovedApplications": "Δεν υπάρχουν εγκεγκριμένες αιτήσεις επισκεπτηρίου.",
+  "visitApplication.select.approvedApplications": "Εγκεκριμένες Αιτήσεις",
+  "visitApplication.select.pendingApplications": "Αιτήσεις σε Εκκρεμότητα"
+}
+  
+  

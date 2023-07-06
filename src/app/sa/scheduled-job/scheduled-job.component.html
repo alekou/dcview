@@ -1,0 +1,22 @@
+<div class="p-grid">
+  
+  <div class="col-12  xl:col-4">
+    <p-panel header="{{'scheduledJob.panel.generateNotificationsJob' | translate}}">
+      
+      <div class="grid text-align-center">
+        <div class="col-12  button-container">
+          <button *ngIf="!generateNotificationsJobExists" pButton type="button" label="{{'scheduledJob.button.createJob' | translate}}" class="p-button-info"
+                  (click)="createGenerateNotificationsJob()">
+          </button>
+          <button *ngIf="generateNotificationsJobExists" pButton type="button" label="{{'scheduledJob.button.deleteJob' | translate}}" class="p-button-danger"
+                  (click)="deleteGenerateNotificationsJob()">
+          </button>
+          <button pButton type="button" label="{{'scheduledJob.button.execute' | translate}}" class="p-button-warning"
+                  (click)="generateNotifications()">
+          </button>
+        </div>
+      </div>
+    
+    </p-panel>
+  </div>
+</div>

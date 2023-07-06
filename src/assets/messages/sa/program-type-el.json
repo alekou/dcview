@@ -1,0 +1,8 @@
+{
+  "programType.isActive": "Ενεργός",
+  "programType.kind": "Είδος",
+  "programType.categoryPid": "Κατηγορία",
+  "programType.description": "Περιγραφή",
+  
+  "programType.view.data": "Στοιχεία"
+}

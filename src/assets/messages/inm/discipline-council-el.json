@@ -1,0 +1,46 @@
+{
+  "disciplineCouncil.id": "Id Εγγραφής",
+  "disciplineCouncil.dcId": "Κατάστημα Κράτησης",
+  "disciplineCouncil.councilNo": "Αριθμός Συμβουλίου",
+  "disciplineCouncil.councilDate": "Ημερομηνία Συμβουλίου",
+  "disciplineCouncil.completed": "Ολοκληρωμένο",
+  "disciplineCouncil.comments": "Παρατηρήσεις",
+
+  "disciplineCouncil.view.disciplineCouncilData": "Στοιχεία Συμβουλίου",
+  
+  "disciplineCouncil.selectDisciplineReports.dialogTitle": "Επιλογή Αναφορών Πειθαρχικού",
+  
+  "disciplineCouncil.addDisciplineReports": "Προσθήκη Αναφορών",
+  "disciplineCouncil.complete": "Ολοκλήρωση", 
+  
+  "disciplineCouncil.reported.newDecision": "Νέα Απόφαση",
+  "disciplineCouncil.reported.postpone": "Αναβολή",
+
+  "disciplineCouncil.reported.postponeDisciplineOffensesConfirmation": "Τα επιλεγμένα πειθαρχικά παραπτώματα με κατάσταση 'Σε Εκκρεμότητα' θα αναβληθούν. Είστε βέβαιοι ότι θέλετε να προχωρήσετε;",
+  "disciplineCouncil.reported.postponeDisciplineOffensesSuccess": "Τα επιλεγμένα πειθαρχικά παραπτώματα αναβλήθηκαν με επιτυχία",
+  "disciplineCouncil.reported.newDecision.disciplineDecisionData": "Στοιχεία Απόφασης Πειθαρχικού",
+  "disciplineCouncil.reported.hasStatusPostponed": "Κατάσταση: Αναβλήθηκε",
+  "disciplineCouncil.reported.hasStatusGuilty": "Κατάσταση: Ένοχος",
+  "disciplineCouncil.reported.hasStatusInnocent": "Κατάσταση: Αθώος",
+
+  "disciplineCouncil.disciplineDecisions.createDisciplines": "Δημιουργία Πειθαρχικών",
+
+  "disciplineCouncil.reported.postponeDisciplineOffense.selectDisciplineOffenses": "Παρακαλώ επιλέξτε αναφερόμενους για να προχωρήσετε σε νέα αναβολή πειθαρχικών παραπτωμάτων",
+
+  "disciplineCouncil.addDisciplineDecision.dialogTitle": "Στοιχεία Απόφασης Πειθαρχικού",
+  "disciplineCouncil.addDisciplineDecision.selectDisciplineOffenses": "Παρακαλώ επιλέξτε αναφερόμενους για να προχωρήσετε σε νέα απόφαση πειθαρχικών",
+
+  "disciplineCouncil.editDisciplineDecision.dialogTitle": "Στοιχεία Απόφασης Πειθαρχικού",
+
+  "disciplineCouncil.disciplineDecision.createDisciplinesFromDisciplineDecisions.confirmation": "Θα δημιουργηθούν πειθαρχικά για τα παραπτώματα με αποτέλεσμα Ένοχος. Είστε βέβαιοι ότι θέλετε να προχωρήσετε;",
+  "disciplineCouncil.disciplineDecision.createDisciplinesFromDisciplineDecisions.create.success": "Τα πειθαρχικά δημιουργήθηκαν με επιτυχία.",
+  "disciplineCouncil.disciplineDecision.createDisciplinesFromDisciplineDecisions.selectDisciplineDecisions": "Παρακαλώ επιλέξτε μία ή περισσότερες αποφάσεις για τα παραπτώματα των οποίων θα δημιουργηθούν πειθαρχικά.",
+
+  "disciplineCouncil.disciplineDecisions.hasDisciplines": "Έχουν δημιουργηθεί πειθαρχικά για την απόφαση",
+
+  "disciplineCouncil.disciplines.openDiscipline": "Άνοιγμα πειθαρχικού",
+  
+  "disciplineCouncil.completeDisciplineCouncil.confirmation": "Είστε βέβαιοι για την ολοκλήρωση του συμβουλίου;",
+  "disciplineCouncil.completeDisciplineCouncil.success": "Το συμβούλιο ολοκληρώθηκε με επιτυχία"
+
+}

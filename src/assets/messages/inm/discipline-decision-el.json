@@ -1,0 +1,27 @@
+{
+  "disciplineDecision.view.decisions": "Αποφάσεις",
+  "disciplineDecision.decisionNo": "Αριθμός Απόφασης",
+  "disciplineDecision.decisionDate": "Ημερομηνία Απόφασης",
+  "disciplineDecision.comments": "Παρατηρήσεις",
+  
+  "disciplineDecision.view.disciplineDecisionData": "Στοιχεία Απόφασης Πειθαρχικών",
+
+  "disciplineDecision.dialog.mergeDisciplineOffenses": "Συγχώνευση Πειθαρχικών Παραπτωμάτων",
+  "disciplineDecision.dialog.unmergeDisciplineOffense": "Αποσυγχώνευση Πειθαρχικού Παραπτώματος",
+  
+  "disciplineDecision.mergeDisciplineOffenses.dialogTitle": "Συγχώνευση Πειθαρχικών Παραπτωμάτων",
+  "disciplineDecision.mergeDisciplineOffenses.noDisciplineOffensesToMerge": "Ο κρατούμενος δεν έχει πειθαρχικά παραπτώματα που να μπορούν να συγχωνευθούν.",
+  "disciplineDecision.mergeDisciplineOffenses.disciplineOffensesToMergeLowerThanTwo": "Ο κρατούμενος έχει λιγότερα από δύο πειθαρχικά παραπτώματα που να μπορούν να συγχωνευθούν.",
+  "disciplineDecision.mergeDisciplineOffenses.selectAtLeastTwoDisciplineOffensesToMerge": "Παρακαλώ επιλέξτε τουλάχιστον δύο από τα παρακάτω πειθαρχικά παραπτώματα προς συγχώνευση.",
+  "disciplineDecision.mergeDisciplineOffenses.fillOutMergingDisciplineOffenseData": "Παρακαλώ συμπληρώστε τα στοιχεία του συγχωνευτικού πειθαρχικού παραπτώματος.",
+  "disciplineDecision.mergeDisciplineOffenses.mergingDisciplineOffenseData": "Στοιχεία Συγχωνευτικού Πειθαρχικού Παραπτώματος",
+  "disciplineDecision.mergeDisciplineOffenses.disciplineOffense": "Πειθαρχικό Παράπτωμα",
+  "disciplineDecision.mergeDisciplineOffenses.mergingDisciplineOffense": "Συγχωνευτικό Πειθαρχικό Παράπτωμα",
+  "disciplineDecision.mergeDisciplineOffenses.merge": "Συγχώνευση",
+  "disciplineDecision.mergeDisciplineOffenses.merge.success": "Τα πειθαρχικά παραπτώματα συγχωνεύθηκαν με επιτυχία.",
+
+  "disciplineDecision.unmergeDisciplineOffense.dialogTitle": "Αποσυγχώνευση Πειθαρχικού Παραπτώματος",
+  "disciplineDecision.unmergeDisciplineOffense.description": "Θα πραγματοποιηθεί αποσυγχώνευση του επιλεγμένου παραπτώματος και τα αρχικά παραπτώματα θα επανέλθουν.",
+  "disciplineDecision.unmergeDisciplineOffenses.unmerge.success": "Τα πειθαρχικά παραπτώματα αποσυγχωνεύθηκαν με επιτυχία."
+}
+

@@ -1,0 +1,388 @@
+<form>
+  <div class="grid">
+    <div class="col-12 button-container flex-container">
+      <div class="flex-container-start">
+        <button pButton type="button" *ngIf="!lockedRecord()"
+                label="{{'global.save' | translate}}" class="p-button-success"
+                icon="fa fa-save" iconPos="left" (click)="saveVacation()">
+        </button>
+        <button pButton type="button" *ngIf="id && !lockedRecord() && authService.hasPermission('')"
+                label="{{'global.delete' | translate}}" class="p-button-danger"
+                icon="fa fa-trash" iconPos="left" (click)="deleteVacation()">
+        </button>
+        <button pButton type="button" *ngIf="id" 
+                label="{{'global.newRecord' | translate}}" class="p-button-info"
+                icon="fa fa-plus" iconPos="left" (click)="newRecord()">
+        </button>
+        <button pButton type="button" 
+                label="{{'global.index' | translate}}" class="p-button-help"
+                icon="fa fa-table" iconPos="left" (click)="goToList()">
+        </button>
+        <app-template-button *ngIf="!!id" [entity]="'VACATION'" [entityId]="this.id" 
+                             [entityIdColName]="'vacationId'" [application]="'INM'"> 
+        </app-template-button>
+        <app-other-dc-name [dcId]="vacation.dcId" ></app-other-dc-name>
+      </div>
+      <div class="flex-container-end">
+        <app-documents [entity]="'VACATION'" [entityId]="id" [inmateId]="vacation.inmateId"></app-documents>
+        <app-field-revisions *ngIf="id" [entityClass]="'inm.core.domain.Vacation'" [entityId]="id"></app-field-revisions>
+      </div>
+    </div>
+  </div>
+  
+  <div class="grid" appToitsuLockControls [lockCondition]="lockedRecord()">
+    
+    <div class="col-12 xl:col-6 p-fluid">
+      <p-panel header="{{'vacation.view.vacationApplicationData' | translate}}">
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'vacation.vacationTypeId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="vacation.vacationTypeId" name="vacationTypeId" [options]="vacationTypes" optionLabel="description" optionValue="id"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [showClear]="true" [filter]="true">
+            </p-dropdown>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'vacation.inmateFullName' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-select-inmate [(model)]="vacation.inmateId" name="inmateId" [disabled]="vacation.exited" required
+                               [loadOnOpen]="true" [dialogUrl]="inmateDialogUrl"></app-select-inmate>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'vacation.protocolNo' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="vacation.protocolNo" name="protocolNo" required>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'vacation.applicationDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="vacation.applicationDate" name="applicationDate"></app-toitsu-calendar>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'vacation.destination' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="vacation.destination" name="destination">
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'vacation.reason' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="vacation.reason" name="reason" rows="3"></textarea>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'vacation.applicationFromDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="vacation.applicationFromDate" name="applicationFromDate" 
+                                 [showTime]="true"></app-toitsu-calendar>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'vacation.applicationToDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="vacation.applicationToDate" name="applicationToDate" (modelChange)="applicationToDateChanged()" 
+                                 [showTime]="true"></app-toitsu-calendar>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'vacation.applicationDays' | translate}}</label>
+          <div class="col-12 sm:col-4">
+            <p-inputNumber [(ngModel)]="vacation.applicationDays" name="applicationDays" [showButtons]="true" [min]="0"
+                           buttonLayout="horizontal" inputId="horizontal"
+                           spinnerMode="horizontal" [step]="1" placeholder="0" [inputStyle]="{'text-align': 'center'}"
+                           decrementButtonClass="p-button-danger" incrementButtonClass="p-button-success"
+                           incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" (ngModelChange)="applicationDaysChanged(vacation.applicationDays)" [disabled] = "lockApplicationDays()">
+            </p-inputNumber>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'vacation.applicationHours' | translate}}</label>
+          <div class="col-12 sm:col-4">
+            <p-inputNumber [(ngModel)]="vacation.applicationHours" name="applicationHours" [showButtons]="true" [min]="0"
+                           buttonLayout="horizontal" inputId="horizontal"
+                           spinnerMode="horizontal" [step]="1" placeholder="0" [inputStyle]="{'text-align': 'center'}"
+                           decrementButtonClass="p-button-danger" incrementButtonClass="p-button-success"
+                           incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" (ngModelChange)="applicationHoursChanged(vacation.applicationHours)" [disabled] = "lockApplicationHours()">
+            </p-inputNumber>
+          </div>
+        </div>
+      </p-panel>
+
+      <p-panel header="{{'vacation.view.vacationPrincipleData' | translate}}">
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'vacation.recordNo' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="vacation.recordNo" name="recordNo" appToitsuCapitalize>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'vacation.recordDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="vacation.recordDate" name="recordDate"></app-toitsu-calendar>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'vacation.view.fromDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="vacation.fromDate" name="fromDate" [showTime]="true"></app-toitsu-calendar>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'vacation.view.toDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="vacation.toDate" name="toDate" (modelChange)="toDateChanged()" [showTime]="true"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'vacation.vacationDays' | translate}}</label>
+          <div class="col-12 sm:col-4">
+            <p-inputNumber [(ngModel)]="vacation.vacationDays" name="vacationDays" [showButtons]="true" [min]="0"
+                           buttonLayout="horizontal" inputId="horizontal"
+                           spinnerMode="horizontal" [step]="1" placeholder="0" [inputStyle]="{'text-align': 'center'}"
+                           decrementButtonClass="p-button-danger" incrementButtonClass="p-button-success"
+                           incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" (ngModelChange)="vacationDaysChanged(vacation.vacationDays)" 
+                           [disabled] = "lockVacationAndTravelingDays()">
+            </p-inputNumber>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'vacation.vacationHours' | translate}}</label>
+          <div class="col-12 sm:col-4">
+            <p-inputNumber [(ngModel)]="vacation.vacationHours" name="vacationHours" [showButtons]="true" [min]="0"
+                           buttonLayout="horizontal" inputId="horizontal"
+                           spinnerMode="horizontal" [step]="1" placeholder="0" [inputStyle]="{'text-align': 'center'}"
+                           decrementButtonClass="p-button-danger" incrementButtonClass="p-button-success"
+                           incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" (ngModelChange)="vacationHoursChanged(vacation.vacationHours)" 
+                           [disabled] = "lockVacationAndTravelingHours()">
+            </p-inputNumber>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'vacation.travelingDays' | translate}}</label>
+          <div class="col-12 sm:col-4">
+            <p-inputNumber [(ngModel)]="vacation.travelingDays" name="travelingDays" [showButtons]="true" [min]="0"
+                           buttonLayout="horizontal" inputId="horizontal"
+                           spinnerMode="horizontal" [step]="1" placeholder="0" [inputStyle]="{'text-align': 'center'}"
+                           decrementButtonClass="p-button-danger" incrementButtonClass="p-button-success"
+                           incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" (ngModelChange)="travelingDaysChanged(vacation.travelingDays)" 
+                           [disabled] = "lockVacationAndTravelingDays()">
+            </p-inputNumber>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'vacation.travelingHours' | translate}}</label>
+          <div class="col-12 sm:col-4">
+            <p-inputNumber [(ngModel)]="vacation.travelingHours" name="travelingHours" [showButtons]="true" [min]="0"
+                           buttonLayout="horizontal" inputId="horizontal"
+                           spinnerMode="horizontal" [step]="1" placeholder="0" [inputStyle]="{'text-align': 'center'}"
+                           decrementButtonClass="p-button-danger" incrementButtonClass="p-button-success" 
+                           incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" (ngModelChange)="travelingHoursChanged(vacation.travelingHours)" 
+                           [disabled] = "lockVacationAndTravelingHours()">
+            </p-inputNumber>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'vacation.expectedReturnDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="vacation.expectedReturnDate" name="expectedReturnDate" (modelChange)="expectedReturnDateChanged()"
+                                 [disabled]="true" [showTime]="true"></app-toitsu-calendar>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'vacation.localPoliceDeptId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="vacation.localPoliceDeptId" name="localPoliceDeptId" [options]="policeDepartments" optionLabel="name" optionValue="id"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [showClear]="true" [filter]="true">
+            </p-dropdown>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'vacation.destinationPoliceDeptId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="vacation.destinationPoliceDeptId" name="destinationPoliceDeptId" [options]="policeDepartments" optionLabel="name" optionValue="id"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [showClear]="true" [filter]="true">
+            </p-dropdown>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'vacation.presenceFrequency' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="vacation.presenceFrequency" name="presenceFrequency" [options]="presenceFrequencies" optionValue="value" optionLabel="label"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [showClear]="true">
+            </p-dropdown>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'vacation.destinationPoliceDepartmentDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="vacation.destinationPoliceDepartmentDate" name="destinationPoliceDepartmentDate" [showTime]="true"></app-toitsu-calendar>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'vacation.comments' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="vacation.comments" name="comments" rows="3"></textarea>
+          </div>
+        </div>
+      
+      </p-panel>
+    </div>
+  
+    <div class="col-12 xl:col-6 p-fluid">
+      <p-panel header="{{'vacation.view.applicationStatus' | translate}}">
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'vacation.approvalStatus' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="vacation.approvalStatus" name="approvalStatus" [options]="approvalStatuses" optionValue="value" optionLabel="label"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}">
+            </p-dropdown>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'vacation.rejectionComments' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="vacation.rejectionComments" name="rejectionComments" rows="3"></textarea>
+          </div>
+        </div>
+
+      </p-panel>
+  
+      <p-panel header="{{'vacation.view.vacationProgress' | translate}}" *ngIf="id">
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'vacation.exited' | translate}} </label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox name="exited" [binary]="true" [(ngModel)]="vacation.exited" (ngModelChange)="exitedChanged()"></p-checkbox>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'vacation.exitDate' | translate}} </label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="vacation.exitDate" name="exitDate" [disabled]="!vacation.exited" [showTime]="true" ></app-toitsu-calendar>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'vacation.escortName' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="vacation.escortName" name="escortName">
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'vacation.escortStatus' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="vacation.escortStatus" name="escortStatus">
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'vacation.escortService' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="vacation.escortService" name="escortService">
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'vacation.extension' | translate}} </label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox name="extension" [binary]="true" [(ngModel)]="vacation.extension" (ngModelChange)="extensionChanged()"></p-checkbox>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'vacation.extendedToDate' | translate}} </label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="vacation.extendedToDate" name="extendedToDate" [disabled]="!vacation.extension"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'vacation.extensionReason' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="vacation.extensionReason" name="extensionReason" rows="3"></textarea>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'vacation.returned' | translate}} </label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox name="returned" [binary]="true" [(ngModel)]="vacation.returned" (ngModelChange)="returnedChanged()"></p-checkbox>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'vacation.returnDate' | translate}} </label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="vacation.returnDate" name="returnDate" [disabled]="!vacation.returned" [showTime]="true"></app-toitsu-calendar>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'vacation.violationDays' | translate}}</label>
+          <div class="col-12 sm:col-4">
+            <p-inputNumber [(ngModel)]="vacation.violationDays" name="violationDays" [showButtons]="true" [min]="0"
+                           buttonLayout="horizontal" inputId="horizontal" spinnerMode="horizontal" [step]="1" placeholder="0" [inputStyle]="{'text-align': 'center'}"
+                           decrementButtonClass="p-button-danger" incrementButtonClass="p-button-success" incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus">
+            </p-inputNumber>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'vacation.escape' | translate}} </label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox name="escape" [binary]="true" [(ngModel)]="vacation.escape"></p-checkbox>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'vacation.noReturnComments' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="vacation.noReturnComments" name="noReturnComments" rows="7"></textarea>
+          </div>
+        </div>
+        
+      </p-panel>
+    </div>
+  </div>
+
+</form>

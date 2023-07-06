@@ -1,0 +1,27 @@
+{
+  "hearing.hearingDate": "Ημερομηνία",
+  "hearing.inmateId": "Κρατούμενος",
+  "hearing.doctorId": "Ιατρός",
+  "hearing.reviewHearing": "Επανεξέταση",
+  "hearing.reviewDate": "Ένδειξη Ημ/νίας Επεναξέτασης",
+  "hearing.comments": "Παρατηρήσεις",
+  "hearing.details": "Στοιχεία Ακρόασης",
+  "hearing.hearingApplicationExists": "Από Αίτημα Ακρόασης",
+  "hearing.hearingApplicationId": "Αίτημα Ακρόασης",
+  "hearing.hearingTypeId": "Τύπος Ακρόασης",
+  "hearing.medicalHistory": "Λήψη Ιατρικού Ιστορικού",
+  "hearing.isInjury": "Τραυματισμός",
+  "hearing.injuryKind": "Είδος Τραυματισμού",
+  "hearing.injuryComments": "Παρατηρήσεις Τραυματισμού",
+  "hearing.isDeath": "Θάνατος",
+  "hearing.deathDate": "Ημερομηνία Θανάτου",
+  "hearing.deathReason": "Αιτία Θανάτου",
+  "hearing.deathComments": "Παρατηρήσεις Θανάτου",
+  
+  "hearing.disease": "Παθήσεις",
+  "hearing.examination": "Εξετάσεις",
+  "hearing.bloodSampling": "Αιμοληψίες",
+  "hearing.vaccination": "Εμβολιασμοί",
+  "hearing.treatment": "Αγωγές",
+  "med.save.hearing": "Πρέπει πρώτα να αποθηκεύσετε ακρόαση."
+}

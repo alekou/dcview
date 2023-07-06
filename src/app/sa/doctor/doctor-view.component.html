@@ -1,0 +1,110 @@
+<form>
+  <div class="grid">
+    <div class="col-12 button-container">
+      <button pButton type="button"
+              label="{{'global.save' | translate}}" class="p-button-success"
+              icon="fa fa-save" iconPos="left" (click)="saveDoctor()">
+      </button>
+      <button pButton type="button" *ngIf="id"
+              label="{{'global.delete' | translate}}" class="p-button-danger"
+              icon="fa fa-trash" iconPos="left" (click)="deleteDoctor()">
+      </button>
+      <button pButton type="button" *ngIf="id" label="{{'global.newRecord' | translate}}" class="p-button-info"
+              icon="fa fa-plus" iconPos="left" (click)="newRecord()">
+      </button>
+      <button pButton type="button" label="{{'global.index' | translate}}" class="p-button-help"
+              icon="fa fa-table" iconPos="left" (click)="goToList()">
+      </button>
+    </div>
+  </div>
+  <div class="grid">
+    
+    <div class="col-12 md:col-6 p-fluid">
+      
+      <p-panel header="{{'doctor.Details' | translate}}">
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'doctor.username' | translate}}</label>
+          <div class="col-12 sm:col-8">
+<!--            <p-dropdown [(ngModel)]="doctor.username"  name="username"-->
+<!--                        [options]="users" optionValue="id" optionLabel="description"-->
+<!--                        placeholder="{{'global.selectOption' | translate}}"  emptyMessage="{{'global.noResultsFound' | translate}}"-->
+<!--                        emptyFilterMessage="{{'global.noResultsFound' | translate}}" [showClear]="true">-->
+<!--            </p-dropdown>-->
+            <input pInputText [(ngModel)]="doctor.username" name="username">
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'doctor.email' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input pInputText [(ngModel)]="doctor.email" name="email">
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'doctor.lastName' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input pInputText [(ngModel)]="doctor.lastName" name="lastName">
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'doctor.firstName' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input pInputText [(ngModel)]="doctor.firstName" name="firstName">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'doctor.phone' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input pInputText [(ngModel)]="doctor.phone" name="phone">
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{ 'doctor.isActive' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox binary="true" [(ngModel)]="doctor.isActive" name="isActive"></p-checkbox>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{ 'doctor.isExternal' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox binary="true" [(ngModel)]="doctor.isExternal" name="isExternal"></p-checkbox>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{ 'doctor.isExpert' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox binary="true" [(ngModel)]="doctor.isExpert" name="isExpert"></p-checkbox>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'doctor.specialtyPid' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-select-gen-parameter [type]="pSpecialty" [(model)]="doctor.specialtyPid" name="specialtyPid"></app-select-gen-parameter>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'doctor.doctorType' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="doctor.doctorType" name="doctorType"
+                        [options]="doctorTypes" optionValue="value" optionLabel="label"
+                        placeholder="{{'global.selectOption' | translate}}" 
+                        emptyMessage="{{'global.noResultsFound' | translate}}"
+                        emptyFilterMessage="{{'global.noResultsFound' | translate}}" [showClear]="true">
+            </p-dropdown>
+          </div>
+        </div>
+      
+      </p-panel>
+    </div>
+  </div>
+
+</form>

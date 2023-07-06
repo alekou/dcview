@@ -1,0 +1,152 @@
+<div class="grid">
+  <div class="col-12 button-container">
+    <button pButton type="button"
+            label="{{'global.save' | translate}}" class="p-button-success"
+            icon="fa fa-save" iconPos="left" (click)="massCreate()">
+    </button>
+    <button pButton type="button" label="{{'global.index' | translate}}" class="p-button-help"
+            icon="fa fa-table" iconPos="left" (click)="goToList()">
+    </button>
+  </div>
+</div>
+
+<div class="grid">
+  <div class="col-12">
+
+    <p-panel header="{{'inmateLaborApplication.massCreate' | translate}}">
+      <p-tabView>
+        <p-tabPanel header="{{'inmateLaborApplication.view.basicData' | translate}}">
+
+          <div class="grid">
+            <div class="col-12 button-container">
+              <button pButton type="button" label="{{'global.add' | translate}}" class="p-button-info"
+                      icon="fa fa-plus" iconPos="left" (click)="addRecord()">
+              </button>
+            </div>
+          </div>
+
+          <div class="grid">
+            <div class="col-12">
+
+              <!--- Μήνυμα προτροπής για τον χρήστη --->
+              <div class="info-message animation-duration-200 flip" *ngIf="inmateLaborApplicationsToSave.length === 0">
+                {{'inmateLaborApplication.massCreate.info.add' | translate}}
+              </div>
+
+              <!--- Πίνακας μαζικής καταχώρισης Αιτημάτων Εργασίας --->
+              <p-table *ngIf="inmateLaborApplicationsToSave.length > 0"
+                       [value]="inmateLaborApplicationsToSave" [scrollable]="true" scrollHeight="50rem"
+                       styleClass="p-datatable-gridlines p-datatable-striped" appToitsuPTableCellWidth>
+
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th [style.width]="'3rem'" [style.justify-content]="'center'"></th>
+                    <th [style.width]="'10rem'" [style.justify-content]="'center'">{{'inmateLaborApplication.protocolNo' | translate}}</th>
+                    <th [style.width]="'10rem'" [style.justify-content]="'center'">{{'inmateLaborApplication.protocolDate' | translate}}</th>
+                    <th [style.width]="'25rem'" [style.justify-content]="'center'">{{'inmateLaborApplication.inmateId' | translate}}</th>
+                    <th [style.width]="'20rem'" [style.justify-content]="'center'">{{'inmateLaborApplication.requestedProfession' | translate}}</th>
+                    <th [style.width]="'12rem'" [style.justify-content]="'center'">{{'inmateLaborApplication.comments' | translate}}</th>
+                    <th [style.width]="'10rem'" [style.justify-content]="'center'">{{'inmateLaborApplication.renewal' | translate}}</th>
+                    <th [style.width]="'10rem'" [style.justify-content]="'center'">{{'inmateLaborApplication.reportNo' | translate}}</th>
+                    <th [style.width]="'10rem'" [style.justify-content]="'center'">{{'inmateLaborApplication.reportPerson' | translate}}</th>
+                    <th [style.width]="'3rem'" [style.justify-content]="'center'"></th>
+                  </tr>
+                </ng-template>
+
+                <ng-template pTemplate="body" let-inmateLaborApplication let-index="rowIndex">
+                  <tr class="p-fluid animation-duration-200 flip">
+                    <td [style.justify-content]="'center'">{{index + 1}}</td>
+                    <td>
+                      <input
+                        type="text" class="form-control p-inputtext" [(ngModel)]="inmateLaborApplication.protocolNo"
+                        name="inmateLaborApplicationsToSave{{index}}.protocolNo" (ngModelChange)="enableProtocolDate(index)">
+                    </td>
+                    <td [style.justify-content]="'center'">
+                      <app-toitsu-calendar
+                        [(model)]="inmateLaborApplication.protocolDate" name="inmateLaborApplicationsToSave{{index}}.protocolDate">
+                      </app-toitsu-calendar>
+                    </td>
+                    <td [style.justify-content]="'center'">
+                      <app-select-inmate
+                        class="width-100percent" name="inmateLaborApplicationsToSave{{index}}.inmateId"
+                        [(model)]="inmateLaborApplication.inmateId"
+                        [loadOnOpen]="true" [dialogUrl]="inmateDialogUrl"
+                        (modelChange)=restartRenewalStatus(index)>
+                      </app-select-inmate>
+                    </td>
+                    <td [style.justify-content]="'center'">
+                      <p-dropdown [(ngModel)]="inmateLaborApplication.requestedProfessionId" name="inmateLaborApplicationsToSave{{index}}.requestedProfessionId"
+                                  [options]="professions" optionValue="id" optionLabel="name" appendTo="body"
+                                  placeholder="{{'global.selectOption' | translate}}" [showClear]="true" [filter]="true"
+                                  emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}">
+                      </p-dropdown>
+                    </td>
+                    <td [style.justify-content]="'center'">
+                        <textarea pInputTextarea [autoResize]="true" [rows]="1"
+                                  name="inmateLaborApplicationsToSave{{index}}.comments"
+                                  [(ngModel)]="inmateLaborApplication.comments">
+                        </textarea>
+                    </td>
+                    <td [style.justify-content]="'center'">
+                      <p-checkbox
+                        binary="true" name="inmateLaborApplicationsToSave{{index}}.renewal"
+                        [(ngModel)]="inmateLaborApplication.renewal"
+                        (ngModelChange)="getLastInmateProfession(index)">
+                      </p-checkbox>
+                    </td>
+                    <td [style.justify-content]="'center'">
+                      <input *ngIf="inmateLaborApplication.renewal && !loading"
+                             type="text" class="form-control p-inputtext animation-duration-200 flipleft"
+                             name="inmateLaborApplicationsToSave{{index}}.reportNo"
+                             [(ngModel)]="inmateLaborApplication.reportNo"
+                      >
+                    </td>
+                    <td [style.justify-content]="'center'">
+                      <input *ngIf="inmateLaborApplication.renewal && !loading"
+                             type="text" class="form-control p-inputtext animation-duration-200 flipleft"
+                             name="inmateLaborApplicationsToSave{{index}}.reportPerson"
+                             [(ngModel)]="inmateLaborApplication.reportPerson"
+                      >
+                    </td>
+                    <td [style.justify-content]="'center'">
+                      <button pButton type="button" class="p-button-danger" icon="fa fa-minus" iconPos="left"
+                              pTooltip="{{'global.remove' | translate}}" tooltipPosition="top"
+                              (click)="removeRecord(index)">
+                      </button>
+                    </td>
+                  </tr>
+                </ng-template>
+
+                <ng-template pTemplate="summary">
+                  <div class="flex align-items-center justify-content-between font-light font-italic">
+                    <div class="flex-order-1">
+                      <button pButton type="button" class="p-button-danger" icon="fa fa-ravelry" iconPos="left" label="{{'global.removeAll' | translate}}"
+                              pTooltip="{{'inmateLaborApplication.massCreate.tooltip.removeAll' | translate}}" tooltipPosition="right"
+                              (click)="removeAllRecords()">
+                      </button>
+                    </div>
+                    <div class="flex-order-2">
+                      <p *ngIf="inmateLaborApplicationsToSave.length === 1">
+                        {{inmateLaborApplicationsToSave.length}}&nbsp;{{'inmateLaborApplication.massCreate.recordToSave' | translate}}
+                      </p>
+                      <p *ngIf="inmateLaborApplicationsToSave.length > 1">
+                        {{inmateLaborApplicationsToSave.length}}&nbsp;{{'inmateLaborApplication.massCreate.recordsToSave' | translate}}
+                      </p>
+                    </div>
+                  </div>
+                </ng-template>
+
+              </p-table>
+
+            </div>
+          </div>
+
+        </p-tabPanel>
+      </p-tabView>
+    </p-panel>
+
+  </div>
+</div>
+
+
+

@@ -1,0 +1,15 @@
+{
+  "hearingApplication.inmateId": "Κρατούμενος",
+  "hearingApplication.sn": "Α/Α",
+  "hearingApplication.serialNumber": "Αύξων Αριθμός",
+  "hearingApplication.applicationDate": "Ημερομηνία Αιτήματος",
+  "hearingApplication.receiverPid": "Παραλήπτης",
+  "hearingApplication.hearingTypeId": "Τύπος Ακρόασης",
+  "hearingApplication.emergency": "Έκτακτη",
+  "hearingApplication.comments": "Παρατηρήσεις",
+  "hearingApplication.absence": "Δεν Προσήλθε",
+  "hearingApplication.absenceDate": "Ημερομηνία Καταχώρισης Απουσίας",
+  "hearingApplication.absenceComments": "Παρατηρήσεις Απουσίας",
+ 
+  "hearingApplication.view.data": "Στοιχεία"
+}

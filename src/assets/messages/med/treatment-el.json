@@ -1,0 +1,22 @@
+{
+  "treatment.treatmentDate": "Ημερομηνία",
+  "treatment.inmateId": "Κρατούμενος",
+  "treatment.doctorId": "Ιατρός",
+  "treatment.active": "Ενεργή",
+  "treatment.fromDate": "Από Ημ/νία",
+  "treatment.toDate": "Έως Ημ/νία",
+  "treatment.treatmentStatus": "Κατάσταση Αγωγής",
+  "treatment.medicineType": "Φάρμακα",
+  "treatment.medicineId": "Φάρμακο",
+  "treatment.details": "Στοιχεία Αγωγής",
+  "treatment.serialNo": "Αριθμός",
+  "treatment.hearingId": "Ακρόαση",
+  "treatment.isMedPsychiatric": "Ψυχιατρικά Φάρμακα",
+  "treatment.description": "Περιγραφή",
+  "treatment.stop": "Διακοπή Αγωγής",
+  
+  "treatment.dialog.title": "Αγωγή",
+  
+  "med.stop.confirmation": "Είστε σίγουροι για τη διακοπή της αγωγής;",
+  "med.stop.success": "Η αγωγή διακόπηκε με επιτυχία"
+}

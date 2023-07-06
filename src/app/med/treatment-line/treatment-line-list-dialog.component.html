@@ -1,0 +1,76 @@
+
+<div class="grid">
+  <div class="col-12 button-container">
+    <button pButton type="submit" label="{{'global.search' | translate}}" class="p-button-warning"
+            icon="fa fa-search" iconPos="left" (click)="loadTableData()">
+    </button>
+    <button pButton type="button" label="{{'global.clearArgs' | translate}}" class="p-button-help"
+            icon="fa fa-times" iconPos="left" (click)="clearArgs()">
+    </button>
+  </div>
+</div>
+
+<div class="grid">
+  <div class="col-12 md:col-3">
+    <p-panel header="{{'global.args' | translate}}">
+      
+      <div class="p-fluid">
+        
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'treatmentLine.medicineTypeOption' | translate}}</label>
+            <p-dropdown [disabled]="isPsychiatric" [(ngModel)]="args.medicineTypeOption" [options]="medicineTypeOptions" 
+                        optionValue="value" optionLabel="label" name="medicineTypeOption"
+                         placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}"
+                        emptyFilterMessage="{{'global.noResultsFound' | translate}}" [filter]="true" [showClear]="true">
+            </p-dropdown>
+          </div>
+        </div>
+      
+      </div>
+    
+    </p-panel>
+    
+    <p-panel header="{{'prescription.totalDays' | translate}}">
+  
+      <div class="p-fluid">
+  
+        <div class="grid align-items-center">
+          <div class="col-12 no-padding-bottom">
+            <div class="grid field-group">
+              <app-toitsu-calendar class="col-6" [(model)]="fromDate" name="fromDate" [noIcon]="true"></app-toitsu-calendar>
+              <span><i class="fa fa-arrow-right no-padding no-margin"></i></span>
+              <app-toitsu-calendar class="col-6" [(model)]="toDate" name="toDate" [noIcon]="true"></app-toitsu-calendar>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+      
+    </p-panel>
+  </div>
+  
+  <div class="col-12 md:col-9">
+    <app-toitsu-table #table
+                      [url]="url"
+                      [cols]="cols"
+                      [sortField]="sortField"
+                      [sortOrder]="sortOrder"
+                      [args]="args"
+                      [loadOnInit]="false"
+                      [selectionMode]="'multiple'">
+    </app-toitsu-table>
+  </div>
+</div>
+
+<div class="grid">
+  <div class="col-12 button-container text-align-end">
+    <button pButton type="button" label="{{'med.dialog.createPrescriptionLine' | translate}}" class="p-button-info"
+            icon="fa fa-check" iconPos="left" (click)="generatePrescriptionLines()">
+    </button>
+    <button pButton type="button" label="{{'global.cancel' | translate}}" class="p-button-warning"
+            icon="fa fa-times" iconPos="left" (click)="cancel()">
+    </button>
+  </div>
+</div>

@@ -1,0 +1,29 @@
+.synopsis {
+  padding-top: 0.4rem;
+  padding-bottom: 0.4rem
+}
+
+.synopsis > .judgments-synopsis {
+  background-color: steelblue;
+  color: white;
+  padding: 0.4rem 0.8rem;
+  border-radius: 1rem;
+  margin-right: 0.2rem;
+}
+
+.synopsis > .inmate-records-synopsis {
+  background-color: darkorange;
+  color: white;
+  padding: 0.4rem 0.8rem;
+  border-radius: 1rem;
+}
+
+.judgments-title {
+  color: steelblue;
+  border-bottom: 1px solid;
+}
+
+.inmate-records-title {
+  color: darkorange;
+  border-bottom: 1px solid;
+}

@@ -1,0 +1,17 @@
+<div class="grid">
+  <div class="col-12">
+    <app-toitsu-table #genParameterTypeTable
+                      [url]="url"
+                      [cols]="cols"
+                      [sortField]="genParameterTypeSortField"
+                      [sortOrder]="genParameterTypeSortOrder"
+                      [loadOnInit]="true">
+      <ng-template let-rowData #cell1>
+        <button pButton type="button" class="p-button-info"
+                icon="fa fa-edit" iconPos="left" pTooltip="{{'global.edit' | translate}}" tooltipPosition="top"
+                (click)="openGenParameterTypeDialogForEdit(rowData)">
+        </button>
+      </ng-template>
+    </app-toitsu-table>
+  </div>
+</div>

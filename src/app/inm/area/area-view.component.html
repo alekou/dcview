@@ -1,0 +1,104 @@
+<form>
+
+  <div class="grid">
+    <div class="col-12 md:col-6 button-container flex-container">
+      <div class="flex-container-start">
+        <button pButton type="button" *ngIf="!lockedRecord()"
+                label="{{'global.save' | translate}}" class="p-button-success"
+                icon="fa fa-save" iconPos="left" (click)="saveArea()">
+        </button>
+        <button pButton type="button" *ngIf="id && !lockedRecord() && authService.hasPermission('')"
+                label="{{'global.delete' | translate}}" class="p-button-danger"
+                icon="fa fa-trash" iconPos="left" (click)="deleteArea()">
+        </button>
+        <button pButton type="button" *ngIf="id && !authService.isMinistry()"
+                label="{{'global.newRecord' | translate}}" class="p-button-info"
+                icon="fa fa-plus" iconPos="left" (click)="newRecord()">
+        </button>
+        <button pButton type="button"
+                label="{{'global.index' | translate}}" class="p-button-help"
+                icon="fa fa-fw fa-table" iconPos="left" (click)="goToList()">
+        </button>
+        <app-other-dc-name [dcId]="area.dcId"></app-other-dc-name>
+      </div>
+      <div class="flex-container-end">
+        <app-documents [entity]="'AREA'" [entityId]="id"></app-documents>
+        <app-field-revisions *ngIf="id" [entityClass]="'inm.core.domain.Area'" [entityId]="id"></app-field-revisions>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="grid" appToitsuLockControls [lockCondition]="lockedRecord()">
+
+    <div class="col-12 md:col-6 p-fluid">
+      <p-panel header="{{'area.view.basicData' | translate}}">
+
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'area.areaTypeId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="area.areaTypeId" name="areaTypeId" [options]="areaTypes" optionValue="id" optionLabel="description"
+                        placeholder="{{'global.selectOption' | translate}}" [showClear]="false" [filter]="true"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        (ngModelChange)="areaTypeChanged()">
+            </p-dropdown>
+          </div>
+        </div>
+
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'area.parentAreaId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="area.parentAreaId" name="parentAreaId" [options]="parentAreas" optionValue="id" optionLabel="fullDescription" optionDisabled="inactive"
+                        placeholder="{{'global.selectOption' | translate}}" [showClear]="true" [filter]="true"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        (ngModelChange)="parentAreaChanged()">
+              <ng-template pTemplate="header">
+                <p class="info-message" *ngIf="!area.areaTypeId">
+                  {{'area.info.noSelectedAreaType' | translate}}
+                </p>
+              </ng-template>
+            </p-dropdown>
+
+          </div>
+        </div>
+
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'area.code' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" class="form-control p-inputtext" [(ngModel)]="area.code" name="code">
+          </div>
+        </div>
+
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'area.description' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" class="form-control p-inputtext" [(ngModel)]="area.description" name="description">
+          </div>
+        </div>
+
+        <div class="grid align-items-center" *ngIf="inputPositions">
+          <label class="col-12 sm:col-4">{{'area.positions' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-inputNumber [(ngModel)]="area.positions" [showButtons]="true" [min]="0" [allowEmpty]="false" buttonLayout="horizontal"
+                           decrementButtonClass="p-button-danger" incrementButtonClass="p-button-success"
+                           incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" name="positions"
+                           [inputStyle]="{'text-align': 'center'}"
+                           [disabled] = !inputPositions>
+            </p-inputNumber>
+          </div>
+        </div>
+
+      </p-panel>
+
+      <div *ngIf="lockedRecord()">
+        <p class="info-message">
+          {{'area.info.forbiddenView' | translate}}
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+
+</form>
+

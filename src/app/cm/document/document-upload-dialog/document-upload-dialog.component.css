@@ -1,0 +1,13 @@
+.upload-icon-container {
+  display: flex;
+  justify-content: center;
+}
+
+.upload-icon {
+  font-size: 70px;
+}
+
+.upload-icon:hover {
+  opacity: 0.6;
+  cursor: pointer;
+}

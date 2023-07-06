@@ -1,0 +1,109 @@
+<form>
+  <div class="grid">
+    <div class="col-12 button-container">
+      <button pButton type="button"
+              label="{{'global.save' | translate}}" class="p-button-success"
+              icon="fa fa-save" iconPos="left" (click)="saveVaccination()">
+      </button>
+      <button pButton type="button" *ngIf="id"
+              label="{{'global.delete' | translate}}" class="p-button-danger"
+              icon="fa fa-trash" iconPos="left" (click)="deleteVaccination()">
+      </button>
+      <button pButton type="button" *ngIf="id" label="{{'global.newRecord' | translate}}" class="p-button-info"
+              icon="fa fa-plus" iconPos="left" (click)="newRecord()">
+      </button>
+      <button pButton type="button" label="{{'global.index' | translate}}" class="p-button-help"
+              icon="fa fa-table" iconPos="left" (click)="goToList()">
+      </button>
+      <button pButton type="button" *ngIf="id" label="{{'vaccination.nextDose' | translate}}" class="p-button-info"
+              icon="fa fa-plus-square-o" iconPos="left" (click)="nextDose()">
+      </button>
+      <app-other-dc-name [dcId]="vaccination.dcId"></app-other-dc-name>
+    </div>
+  </div>
+  <div class="grid" appToitsuLockControls [lockCondition]="lockedRecord()">
+    
+    <div class="col-12 md:col-6 p-fluid">
+      
+      <p-panel header="{{'vaccination.details' | translate}}">
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'vaccination.inmate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-select-inmate [disabled]="!!id" [loadOnOpen]="true" [dialogUrl]="inmateDialogUrl" [(model)]="vaccination.inmateId" name="inmateId"></app-select-inmate>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'vaccination.vaccine' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="vaccination.vaccineId"  name="vaccineId"
+                        [options]="vaccines" optionValue="id" optionLabel="description"
+                        placeholder="{{'global.selectOption' | translate}}" emptyMessage="{{'global.noResultsFound' | translate}}"
+                        emptyFilterMessage="{{'global.noResultsFound' | translate}}" [showClear]="true">
+            </p-dropdown>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'vaccination.currentDose' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-inputNumber [disabled]="!!id" [showButtons]="true" [(ngModel)]="vaccination.currentDose" name="currentDose"
+                           decrementButtonClass="p-button-danger"
+                           incrementButtonClass="p-button-success" incrementButtonIcon="pi pi-plus"
+                           decrementButtonIcon="pi pi-minus" buttonLayout="horizontal" [useGrouping]="false">
+            </p-inputNumber>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'vaccination.scheduledDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="vaccination.scheduledDate" name="scheduledDate"></app-toitsu-calendar>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'vaccination.vaccinationStatus' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="vaccination.vaccinationStatus"  name="vaccinationStatus"
+                        [options]="vaccinationStatuses" optionValue="value" optionLabel="label"
+                        placeholder="{{'global.selectOption' | translate}}" emptyMessage="{{'global.noResultsFound' | translate}}"
+                        emptyFilterMessage="{{'global.noResultsFound' | translate}}" [showClear]="true">
+            </p-dropdown>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center" *ngIf="vaccination.vaccinationStatus === 'VACCINATED'">
+          <label class="col-12 sm:col-4">{{'vaccination.vaccinationDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="vaccination.vaccinationDate" name="vaccinationDate"></app-toitsu-calendar>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center" *ngIf="vaccination.vaccinationStatus === 'CANCELLED'">
+          <label class="col-12 sm:col-4">{{'vaccination.cancelDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="vaccination.cancelDate" name="cancelDate"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center" *ngIf="vaccination.vaccinationStatus === 'CANCELLED'">
+          <label class="col-12 sm:col-4">{{'vaccination.cancelReason' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="vaccination.cancelReason" name="cancelReason" rows="5"></textarea>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'vaccination.comments' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="vaccination.comments" name="comments" rows="5"></textarea>
+          </div>
+        </div>
+      
+      </p-panel>
+    </div>
+  </div>
+
+</form>

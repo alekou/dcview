@@ -1,0 +1,13 @@
+{
+  "document.details": "Επισύναψη Αρχείων",
+  "document.multipartFile": "Επισυναπτόμενο Αρχείο",
+  "actions": "Ενέργειες",
+  "document.submissionDate": "Ημερομηνία Υποβολής",
+  "examination.comments": "Παρατηρήσεις",
+  "document.preview": "Προεπισκόπηση",
+  "document.download": "Κατέβασμα Αρχείου",
+  "global.upload": "Επισυναπτόμενα Αρχεία",
+  "global.preview": "Προεπισκόπηση",
+  "dragAndDropFiles": "Σύρετε Αρχεία",
+  "document.chooseFile": "Επιλέξτε Αρχεία"
+}

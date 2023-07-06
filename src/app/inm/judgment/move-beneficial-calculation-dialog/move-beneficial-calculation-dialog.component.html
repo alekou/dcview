@@ -1,0 +1,60 @@
+<div class="grid">
+  
+  <div class="col-12 p-fluid" *ngIf="candidateJudgmentsToMove.length === 0">
+    {{'judgment.moveBeneficialCalculation.noMoveCandidateJudgmentsExist' | translate}}
+  </div>
+  
+  <div class="col-12 p-fluid" *ngIf="candidateJudgmentsToMove.length > 0">
+    {{'judgment.moveBeneficialCalculation.selectDestinationJudgmentDescription' | translate}}
+  </div>
+  
+  <div class="col-12 p-fluid" *ngIf="candidateJudgmentsToMove.length > 0">
+    <div class="grid align-items-center" *ngFor="let judgment of candidateJudgmentsToMove; let index = index">
+      <label class="col-12 sm:col-4">{{'inmate.folder.judgment' | translate}} {{index + 1}}</label>
+      <div class="col-12 sm:col-6">
+        <input type="text" pInputText value="{{judgment.displayName}}" disabled class="background-color-white">
+      </div>
+      <div class="col-12 sm:col-2">
+        <p-radioButton [value]="judgment.id" [(ngModel)]="data.destinationJudgmentId"></p-radioButton>
+      </div>
+    </div>
+  </div>
+  
+  <div class="col-12 p-fluid" *ngIf="candidateJudgmentsToMove.length > 0">
+    {{'judgment.moveBeneficialCalculation.beneficialCalculationDescription' | translate:({beneficialCalculationText: originJudgmentBeneficialCalculationText})}}
+  </div>
+  
+  <div class="col-12 p-fluid" *ngIf="candidateJudgmentsToMove.length > 0">
+    
+    <div class="grid align-items-center margin-bottom-1rem">
+      <label class="col-12 sm:col-4">{{'judgment.moveBeneficialCalculation.moveAll' | translate}}</label>
+      <div class="col-12 sm:col-1">
+        <p-checkbox binary="true" [(ngModel)]="data.moveAll"></p-checkbox>
+      </div>
+      <div class="col-12 sm:col-5" *ngIf="!data.moveAll">
+        <div class="grid field-group margin-bottom-minus-0-5rem">
+          <p-inputNumber [(ngModel)]="integerPart" [useGrouping]="false" inputStyleClass="text-align-center margin-right-0-5rem"></p-inputNumber>
+          <p-inputNumber [(ngModel)]="numeratorPart" [useGrouping]="false"
+                         [showButtons]="true" buttonLayout="horizontal" spinnerMode="horizontal"
+                         incrementButtonClass="p-button-success" decrementButtonClass="p-button-danger" 
+                         incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus"
+                         [min]="0" [max]="3" [step]="1" [suffix]="'/4'" inputStyleClass="text-align-center">
+          </p-inputNumber>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+  
+</div>
+
+<div class="grid">
+  <div class="col-12 button-container text-align-end">
+    <button pButton type="button" label="{{'global.confirm' | translate}}" class="p-button-success"
+            icon="fa fa-save" iconPos="left" (click)="confirm()">
+    </button>
+    <button pButton type="button" label="{{'global.cancel' | translate}}" class="p-button-warning"
+            icon="fa fa-times" iconPos="left" (click)="cancel()">
+    </button>
+  </div>
+</div>

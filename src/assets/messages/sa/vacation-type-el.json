@@ -1,0 +1,8 @@
+{
+  "vacationType.isActive": "Ενεργή",
+  "vacationType.dcId": "Κατάστημα Κράτησης",
+  "vacationType.description": "Περιγραφή",
+  "vacationType.kind": "Είδος",
+
+  "vacationType.view.vacationTypeData": "Στοιχεία Τύπου Άδειας"
+}

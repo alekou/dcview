@@ -1,0 +1,222 @@
+<form>
+  
+  <div class="grid">
+    <div class="col-12 button-container flex-container">
+      <div class="flex-container-start">
+        <button pButton type="button" *ngIf="!laborDaysExist()"
+                label="{{'laborProtocol.view.button.getLaborDaysForProtocol' | translate}}" class="p-button-warning"
+                icon="fa fa-search" iconPos="left" (click)="getLaborDaysForProtocol()">
+        </button>
+        <button pButton type="button" *ngIf="laborDaysExist() && !lockedRecord()"
+                label="{{'global.save' | translate}}" class="p-button-success"
+                icon="fa fa-save" iconPos="left" (click)="saveLaborProtocol()">
+        </button>
+        <button pButton type="button" *ngIf="id && laborDaysExist() && !laborProtocol.approved && !lockedRecord()"
+                label="{{'laborProtocol.view.approve.button' | translate}}" class="p-button-warning"
+                icon="fa fa-check" iconPos="left" (click)="approveLaborProtocol()">
+        </button>
+        <button pButton type="button" *ngIf="id && !lockedRecord() && !laborProtocol.approved && authService.hasPermission('inm_laborprotocol_delete')"
+                label="{{'global.delete' | translate}}" class="p-button-danger"
+                icon="fa fa-trash" iconPos="left" (click)="deleteLaborProtocol()">
+        </button>
+        <button pButton type="button" *ngIf="id"
+                label="{{'global.newRecord' | translate}}" class="p-button-info"
+                icon="fa fa-plus" iconPos="left" (click)="newRecord()">
+        </button>
+        <button pButton type="button"
+                label="{{'global.index' | translate}}" class="p-button-help"
+                icon="fa fa-table" iconPos="left" (click)="goToList()">
+        </button>
+        <app-other-dc-name [dcId]="laborProtocol.dcId"></app-other-dc-name>
+      </div>
+      <div class="flex-container-end">
+        <app-documents [entity]="'LABOR_PROTOCOL'" [entityId]="id"></app-documents>
+        <app-field-revisions [entityClass]="'inm.core.domain.LaborProtocol'" [entityId]="id"></app-field-revisions>
+      </div>
+    </div>
+  </div>
+  
+  <div class="grid" appToitsuLockControls [lockCondition]="lockedRecord()">
+    
+    <div class="col-12 md:col-6 p-fluid">
+      
+      <p-panel header="{{'laborProtocol.view.protocolData' | translate}}">
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'laborProtocol.protocolNo' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="laborProtocol.protocolNo" name="protocolNo">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'laborProtocol.protocolDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="laborProtocol.protocolDate" name="protocolDate" [disabled]="!!laborDaysExist()"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'laborProtocol.startDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="laborProtocol.startDate" name="startDate" [disabled]="!!laborDaysExist()"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'laborProtocol.endDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="laborProtocol.endDate" name="endDate" [disabled]="!!laborDaysExist()"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'laborProtocol.type' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="laborProtocol.type" name="type" [disabled]="!!laborDaysExist()"
+                        [options]="laborProtocolTypes" optionValue="value" optionLabel="label"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [showClear]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'laborProtocol.professionCategoryPid' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-select-gen-parameter [type]="pProfessionCategory" [(model)]="laborProtocol.professionCategoryPid" name="professionCategoryPid"
+                                      [disabled]="!!laborDaysExist()">
+            </app-select-gen-parameter>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'laborProtocol.comments' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="laborProtocol.comments" name="comments" rows="4"></textarea>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center" *ngIf="id">
+          <label class="col-12 sm:col-4">{{'laborProtocol.approved' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText value="{{ (laborProtocol.approved ? 'global.yes' : 'global.no') | translate}}" disabled>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center" *ngIf="laborProtocol.approved">
+          <label class="col-12 sm:col-4">{{'laborProtocol.approvalDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="laborProtocol.approvalDate" name="approvalDate"></app-toitsu-calendar>
+          </div>
+        </div>
+      
+      </p-panel>
+    
+    </div>
+    
+    <div class="col-12 md:col-6 p-fluid" *ngIf="!id">
+      
+      <p-panel header="{{'laborProtocol.view.argsInmates' | translate}}">
+        
+        <div class="display-inline-flex padding-bottom-10">
+          <button pButton type="button" [disabled]="laborDaysExist()"
+                  label="{{'global.add' | translate}}" class="p-button-info"
+                  icon="fa fa-plus" iconPos="left" (click)="addNewInmateIdToArgs()">
+          </button>
+        </div>
+        
+        <p-table [value]="selectedInmates" [scrollable]="true" scrollHeight="25rem" styleClass="p-datatable-gridlines p-datatable-striped">
+          <ng-template pTemplate="body" let-selectedInmate let-index="rowIndex">
+            <tr class="p-fluid no-header">
+              
+              <td [style.width]="'80%'">
+                <app-select-inmate [(model)]="selectedInmate.id" class="width-100percent" name="selectedInmateId{{index}}"
+                                   [inmates]="inmates" [dialogUrl]="inmateDialogUrl" [disabled]="laborDaysExist()">
+                </app-select-inmate>
+              </td>
+              
+              <td [style.width]="'20%'" [style.justify-content]="'center'">
+                <button pButton type="button" [disabled]="laborDaysExist()"
+                        class="p-button-danger" icon="fa fa-minus" iconPos="left"
+                        pTooltip="{{'global.remove' | translate}}" tooltipPosition="top"
+                        (click)="removeInmateIdFromArgs(index)">
+                </button>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      
+      </p-panel>
+    
+    </div>
+  
+  </div>
+  
+  <div class="grid" *ngIf="laborDaysExist()">
+    <div class="col-12 p-fluid">
+      <p-panel header="{{'laborProtocol.view.laborDays' | translate}}">
+        
+        <div class="display-inline-flex padding-bottom-10">
+          <button pButton type="button" *ngIf="!id && laborProtocol.laborDayIds.length > 0"
+                  label="{{'global.clear' | translate}}" class="p-button-warning"
+                  icon="fa fa-trash" iconPos="left" (click)="clearLaborDays()">
+          </button>
+        </div>
+        
+        <p-table [value]="laborProtocol.groupedLaborDays" styleClass="p-datatable-gridlines p-datatable-striped" appToitsuPTableCellWidth>
+          <ng-template pTemplate="header">
+            <tr>
+              <th [style.width]="'3%'" [style.justify-content]="'center'">{{'laborProtocol.view.groupedLaborDays.index' | translate}}</th>
+              <th [style.width]="'22%'" [style.justify-content]="'center'">{{'laborProtocol.view.groupedLaborDays.inmateFullName' | translate}}</th>
+              <th [style.width]="'18%'" [style.justify-content]="'center'">{{'laborProtocol.view.groupedLaborDays.professionName' | translate}}</th>
+              <th [style.width]="'10%'" [style.justify-content]="'center'">{{'laborProtocol.view.groupedLaborDays.inmateLaborStartDate' | translate}}</th>
+              <th [style.width]="'10%'" [style.justify-content]="'center'">{{'laborProtocol.view.groupedLaborDays.inmateLaborActualEndDate' | translate}}</th>
+              <th [style.width]="'13%'" [style.justify-content]="'center'">{{'laborProtocol.view.groupedLaborDays.workDays' | translate}}</th>
+              <th [style.width]="'12%'" [style.justify-content]="'center'">{{'laborProtocol.view.groupedLaborDays.factor' | translate}}</th>
+              <th [style.width]="'12%'" [style.justify-content]="'center'">{{'laborProtocol.view.groupedLaborDays.beneficialCalculation' | translate}}</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-groupedlaborDay let-index="rowIndex">
+            <tr class="p-fluid">
+              
+              <td [style.text-align]="'center'">{{index + 1}}</td>
+              
+              <td>
+                {{groupedlaborDay.inmateFullName}}
+              </td>
+              
+              <td>
+                {{groupedlaborDay.professionName}}
+              </td>
+              
+              <td [style.text-align]="'center'">
+                {{groupedlaborDay.inmateLaborStartDate}}
+              </td>
+              
+              <td [style.text-align]="'center'">
+                {{groupedlaborDay.inmateLaborActualEndDate}}
+              </td>
+              
+              <td [style.text-align]="'center'">
+                {{groupedlaborDay.workDays}}
+              </td>
+              
+              <td [style.text-align]="'center'">
+                {{groupedlaborDay.factorString}}
+              </td>
+              
+              <td [style.text-align]="'center'">
+                {{groupedlaborDay.beneficialCalculation}}
+              </td>
+            
+            </tr>
+          </ng-template>
+        </p-table>
+      
+      </p-panel>
+    </div>
+  </div>
+
+</form>

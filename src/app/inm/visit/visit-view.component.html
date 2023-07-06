@@ -1,0 +1,532 @@
+<form>
+  
+  <div class="grid">
+    <div class="col-12 button-container">
+      <button pButton type="button"
+              label="{{'global.save' | translate}}" class="p-button-success"
+              icon="fa fa-save" iconPos="left" (click)="saveVisit()" *ngIf="!lockedRecord()">
+      </button>
+      <button pButton type="button" *ngIf="id  && !lockedRecord() && authService.hasPermission('inm_visitor_delete')"
+              label="{{'global.delete' | translate}}" class="p-button-danger"
+              icon="fa fa-trash" iconPos="left" (click)="deleteVisit()">
+      </button>
+      <button pButton type="button" label="{{'global.newRecord' | translate}}" class="p-button-info"
+              icon="fa fa-plus" iconPos="left" (click)="newRecord()" *ngIf="id">
+      </button>
+      <button pButton type="button" label="{{'global.index' | translate}}" class="p-button-help"
+              icon="fa fa-table" iconPos="left" (click)="goToList()">
+      </button>
+      <app-other-dc-name [dcId]="visit.dcId"></app-other-dc-name>
+    </div>
+  </div>
+  
+  <div class="grid" appToitsuLockControls [lockCondition]="lockedRecord()">
+    
+    <div class="col-12 xl:col-6 p-fluid">
+      <!--- Στοιχεία Επισκεπτηρίου--->
+      <p-panel header="{{'visit.view.visitData' | translate}}">
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'visit.inmateId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-select-inmate [(model)]="visit.inmateId" [disabled]="!!id" name="inmateId" (modelChange)="inmateIdOrVisitTypeIdChanged()" required
+                               [loadOnOpen]="true" [dialogUrl]="inmateDialogUrl"></app-select-inmate>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center" *ngIf="id">
+          <label class="col-12 sm:col-4">{{'visit.inmateAreaId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="visit.inmateAreaFullDescription" name="inmateAreaFullDescription" disabled>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center" *ngIf="!visit.visitApplicationId">
+          <label class="col-12 sm:col-4 font-bold">{{'visit.visitTypeId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [options]="visitTypes"
+                        optionValue="id"
+                        optionLabel="description"
+                        name="visitTypeId"
+                        [(ngModel)]="visit.visitTypeId"
+                        [showClear]="true"
+                        [filter]="true"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        (ngModelChange)="inmateIdOrVisitTypeIdChanged()"
+                        [disabled]="!!id"
+                        emptyMessage="{{'global.noResultsFound' | translate}}"
+                        emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+            >
+            </p-dropdown>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center" *ngIf="visit.visitApplicationId">
+          <label class="col-12 sm:col-4 font-bold">{{'visit.visitTypeId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [options]="visitTypesFromVisitApplication"
+                        optionValue="id"
+                        optionLabel="description"
+                        name="visitTypeId"
+                        [(ngModel)]="visit.visitTypeId"
+                        [showClear]="true"
+                        [filter]="true"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        (ngModelChange)="inmateIdOrVisitTypeIdChanged()"
+                        [disabled]="!!id"
+                        emptyMessage="{{'global.noResultsFound' | translate}}"
+                        emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+            >
+              [filter]="true"
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'visit.view.fromVisitApplication' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox [binary]="true" [(ngModel)]="fromVisitApplication" [ngModelOptions]="{standalone: true}" (ngModelChange)="visit.visitApplicationId = null"></p-checkbox>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center" *ngIf="fromVisitApplication">
+          <label class="col-12 sm:col-4">{{'visit.visitApplicationId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-select-visit-application [(model)]="visit.visitApplicationId" [inmateId]="visit.inmateId" [visitTypeId]="visit.visitTypeId" name="visitApplicationId" (modelChangeVisitApplication)="visitApplicationIdChanged($event)"></app-select-visit-application>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'visit.visitDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="visit.visitDate" name="visitDate" [showTime]="true"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'visit.comments' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="visit.comments" name="comments" rows="5"></textarea>
+          </div>
+        </div>
+      </p-panel>
+  
+      <!--- Επισκέπτες--->
+      <p-panel header="{{'inm.visitor' | translate}}">
+        <div class="col-12 xl:col-12 p-fluid">
+          <div class="grid align-items-center" *ngIf="!visit.visitApplicationId">
+            
+            <label class="col-12 sm:col-4">{{'visit.view.existingVisitor' | translate}}</label>
+            <div class="col-12 sm:col-5">
+              <p-dropdown [options]="existingVisitors"
+                          optionValue="id"
+                          optionLabel="fullName"
+                          [showClear]="true"
+                          [filter]="true"
+                          name="visitorId"
+                          placeholder="{{'global.selectOption' | translate}}"
+                          emptyMessage="{{'global.noResultsFound' | translate}}"
+                          emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                          [disabled]="!this.visit.inmateId || !this.visit.visitTypeId"
+                          #existingVisitorsInmateRelationsDropDown
+              > </p-dropdown>
+            </div>
+            
+            <div class="col-12 sm:col-2">
+              <p-button (onClick)="addVisitorToCurrentVisitors(getVisitorFromExistingVisitorsById(existingVisitorsInmateRelationsDropDown.value))" label="Προσθήκη" [disabled]="!this.visit.inmateId || !this.visit.visitTypeId"></p-button>
+            </div>
+          
+          </div>
+  
+          <div class="grid align-items-center" *ngIf="visit.visitApplicationId">
+    
+            <label class="col-12 sm:col-4">{{'Επισκέπτες Από Αίτημα Επισκεπτηρίου' | translate}}</label>
+            <div class="col-12 sm:col-5">
+              <p-dropdown [options]="visitorsFromApplication"
+                          optionValue="id"
+                          optionLabel="fullName"
+                          [showClear]="true"
+                          [filter]="true"
+                          name="visitorId"
+                          placeholder="{{'global.selectOption' | translate}}"
+                          emptyMessage="{{'global.noResultsFound' | translate}}"
+                          emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                          [disabled]="!this.visit.inmateId || !this.visit.visitTypeId || !this.visit.visitApplicationId"
+                          #visitorsFromApplicationDropDown
+              >
+                <ng-template let-visitor pTemplate="item">
+                  <div>
+                    <label [ngStyle]="{'color': visitor.relationKind === null && getVisitTypeKindByVisitTypeId(this.visit.visitTypeId) === 'RELATION'? '#e03838' : 'inherit'}" >{{ visitor.fullName }}</label>
+                  </div>
+                </ng-template>
+                
+              </p-dropdown>
+            </div>
+    
+            <div class="col-12 sm:col-2">
+              <p-button (onClick)="addVisitorToCurrentOrDisplayVisitorForEdit(getVisitorFromVisitorsFromApplicationById(visitorsFromApplicationDropDown.value))" label="Προσθήκη" [disabled]="!this.visit.inmateId || !this.visit.visitTypeId"></p-button>
+            </div>
+  
+          </div>
+          
+          <div class="grid align-items-center" *ngIf="!visit.visitApplicationId">
+            <label class="col-12 sm:col-4">{{'global.search' | translate}}</label>
+            <div class="col-12 sm:col-2">
+              <p-button (onClick)="openExistingVisitorWithNoRelationDialog()" icon="fa fa-search" [disabled]="!this.visit.inmateId || !this.visit.visitTypeId"></p-button>
+            </div>
+          
+          </div>
+          
+          <div class="grid align-items-center" *ngIf="!visit.visitApplicationId">
+            <label class="col-12 sm:col-4">{{'inm.visitor.new' | translate}}</label>
+            <div class="col-12 sm:col-2">
+              <button pButton type="button"
+                      label="{{'global.create' | translate}}"
+                      (click)="createNewVisitorWithNoRelation()" [disabled]="!this.visit.inmateId || !this.visit.visitTypeId">
+              </button>
+            </div>
+          
+          </div>
+          
+          <div class="grid align-items-center">
+            
+            <div class="col-12 sm:col-11">
+              <div class="col-12 sm:col-12">
+                <label class="col-12 sm:col-1">{{'visit.view.currentVisitors' | translate}}</label>
+                <div class="col-12 sm:col-12">
+                  <p-table [value]="this.visit.visitVisitors" styleClass="p-datatable-gridlines"  appToitsuPTableCellWidth>
+                    <ng-template pTemplate="header">
+                      <tr>
+                        <th [style.width]="'3rem'"></th>
+                        <th [style.width]="'3rem'"></th>
+                        <th [style.width]="'10rem'">{{'visitor.lastName' | translate}}</th>
+                        <th [style.width]="'10rem'">{{'visitor.firstName' | translate}}</th>
+                        <th [style.width]="'10rem'">{{'visitor.adt' | translate}}</th>
+                        <th [style.width]="'15rem'"  *ngIf="getVisitTypeKindByVisitTypeId(visit.visitTypeId) === 'RELATION'">Συγγένεια</th>
+                        <th [style.width]="'10rem'"></th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-visitVisitor let-index="rowIndex">
+                      <tr class="p-fluid">
+                        <td style="text-align:center" [style.width]="'3rem'" [style.justify-content]="'center'">{{index + 1}}</td>
+                        <td style="text-align:center" [style.width]="'3rem'" [style.justify-content]="'center'">
+                          <p-button icon="fa fa-external-link" iconPos="center" pTooltip="{{'visitor.view.visitorData' | translate}}" (click)="displayEditVisitor(getVisitorFromCurrentVisitorsById(visitVisitor.visitorId))"></p-button>
+
+                        </td>
+                        <td style="text-align:center" [style.width]="'10rem'"> {{visitVisitor.visitor.lastName}}</td>
+                        <td style="text-align:center" [style.width]="'10rem'"> {{visitVisitor.visitor.firstName}}</td>
+                        <td style="text-align:center" [style.width]="'10rem'"> {{visitVisitor.visitor.adt}}</td>
+                        <td style="text-align:center" [style.width]="'15rem'" *ngIf="getVisitTypeKindByVisitTypeId(visit.visitTypeId) === 'RELATION'">
+                          {{getLastInmateRelationKindLabelFromVisitorByInmateId(visitVisitor.visitor, visit.inmateId)}}
+                        </td>
+                        
+                        <td style="text-align:center" [style.width]="'10rem'">
+                          <button pButton type="button"
+                                  class="p-button-danger"
+                                  icon="{{(visitVisitor.id ? 'fa fa-times' : 'fa fa-minus')}}" iconPos="left"
+                                  pTooltip="{{(visitVisitor.id ? 'global.delete' : 'global.remove') | translate}}" (click)="deleteVisitVisitor(index, visitVisitor.id)">
+                          </button>
+                        </td>
+                      
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                
+                </div>
+              
+              </div>
+            
+            </div>
+          
+          </div>
+        
+        
+        </div>
+      </p-panel>
+    </div>
+    
+    <div class="col-12 xl:col-6 p-fluid">
+  
+      <!--- Στοιχεία Επισκέπτη--->
+      <p-panel header="{{'visitor.view.visitorData' | translate}}" *ngIf="visitor">
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'visitor.lastName' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="visitor.lastName" name="lastName">
+          </div>
+        </div>
+        
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'visitor.firstName' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="visitor.firstName" name="firstName">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'visitor.fatherName' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="visitor.fatherName" name="fatherName">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'visitor.motherName' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="visitor.motherName" name="motherName">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'visitor.birthDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="visitor.birthDate" name="birthDate"></app-toitsu-calendar>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'visitor.birthCountryId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="visitor.birthCountryId" name="birthCountryId"
+                        [options]="this.allCountries" optionValue="id" optionLabel="countryNameGreek"
+                        placeholder="{{'global.selectOption' | translate}}" emptyMessage="{{'global.noResultsFound' | translate}}"
+                        emptyFilterMessage="{{'global.noResultsFound' | translate}}" [showClear]="true" [filter]="true">
+            </p-dropdown>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'visitor.nationalityId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="visitor.nationalityId" name="nationalityId"
+                        [options]="this.allCountries" optionValue="id" optionLabel="nationalityNameGreek"
+                        placeholder="{{'global.selectOption' | translate}}" emptyMessage="{{'global.noResultsFound' | translate}}"
+                        emptyFilterMessage="{{'global.noResultsFound' | translate}}" [showClear]="true" [filter]="true">
+            </p-dropdown>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'visitor.homeCountryId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="visitor.homeCountryId" name="homeCountryId" (ngModelChange)="this.homeCountryIdChanged()"
+                        [options]="this.allCountries" optionValue="id" optionLabel="countryNameGreek"
+                        placeholder="{{'global.selectOption' | translate}}" emptyMessage="{{'global.noResultsFound' | translate}}"
+                        emptyFilterMessage="{{'global.noResultsFound' | translate}}" [showClear]="true" [filter]="true">
+            </p-dropdown>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'visitor.homeCityId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="visitor.homeCityId" name="homeCityId"
+                        [options]="this.cities" optionValue="id" optionLabel="nameGreek"
+                        placeholder="{{'global.selectOption' | translate}}" emptyMessage="{{'global.noResultsFound' | translate}}"
+                        emptyFilterMessage="{{'global.noResultsFound' | translate}}" [showClear]="true" [filter]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'visitor.address' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="visitor.address" name="address">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'visitor.postalCode' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="visitor.postalCode" name="postalCode">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'visitor.phone' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="visitor.phone" name="phone">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'visitor.visitorCategoryPid' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="visitor.visitorCategoryPid" name="visitorCategoryPid"
+                        [options]="visitorCategories" optionValue="id" optionLabel="description"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [showClear]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'visitor.adt' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="visitor.adt" name="adt">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'visitor.adtDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="visitor.adtDate" name="adtDate"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'visitor.adtAuthority' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="visitor.adtAuthority" name="adtAuthority">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'visitor.passportNo' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="visitor.passportNo" name="passportNo">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'visitor.driverLicense' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="visitor.driverLicense" name="driverLicense">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'visitor.residencePermit' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="visitor.residencePermit" name="residencePermit">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'visitor.afm' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="visitor.afm" name="afm">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'visitor.amka' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="visitor.amka" name="amka">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'visitor.isLawyer' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox binary="true" [(ngModel)]="visitor.isLawyer" name="isLawyer"></p-checkbox>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'visitor.lawyerAm' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="visitor.lawyerAm" name="lawyerAm">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'visitor.lawyerClubPid' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="visitor.lawyerClubPid" name="lawyerClubPid"
+                        [options]="lawyerClubs" optionValue="id" optionLabel="description"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}"
+                        emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [showClear]="true" [filter]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'visitor.comments' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="visitor.comments" name="visitor" rows="8"></textarea>
+          </div>
+        </div>
+        
+        
+        
+        
+        
+        <div class="grid align-items-center" *ngIf="this.inmateRelation">
+          <label class="col-12 sm:col-4 font-bold">{{'inmateRelation.relationKind' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="inmateRelation.relationKind" name="inmateRelation.relationKind"
+                        [options]="relationKinds" optionValue="value" optionLabel="label"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [showClear]="true" appendTo="body">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        
+        
+        <div class="grid align-items-center" *ngIf="this.inmateRelation">
+          <label class="col-12 sm:col-4">{{'inmateRelation.otherRelationKindPid' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-select-gen-parameter [type]="pOtherRelationKind" [(model)]="inmateRelation.otherRelationKindPid"></app-select-gen-parameter>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center" *ngIf="this.inmateRelation">
+          <label class="col-12 sm:col-4">{{'inmateRelation.isClosestRelative' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox binary="true" [(ngModel)]="inmateRelation.isClosestRelative" name="inmateRelation.isClosestRelative"></p-checkbox>
+          </div>
+        </div>
+        
+        
+        
+        <div class="grid align-items-center" *ngIf="this.inmateLawyer">
+          <label class="col-12 sm:col-4">{{'inmateLawyer.isAuthorizedLawyer' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox binary="true" [(ngModel)]="inmateLawyer.isAuthorizedLawyer" name="inmateLawyer.isAuthorizedLawyer"></p-checkbox>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center" *ngIf="this.inmateLawyer">
+          <label class="col-12 sm:col-4">{{'inmateLawyer.authorizationStartDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="inmateLawyer.authorizationStartDate" name="inmateLawyer.authorizationStartDate"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center" *ngIf="this.inmateLawyer">
+          <label class="col-12 sm:col-4">{{'inmateLawyer.authorizationEndDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="inmateLawyer.authorizationEndDate" name="inmateLawyer.authorizationEndDate"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center" *ngIf="this.inmateLawyer">
+          <label class="col-12 sm:col-4">{{'inmateLawyer.authorizationFile' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="inmateLawyer.authorizationFile" name="inmateLawyer.authorizationFile">
+          </div>
+        </div>
+        
+        
+        <div class="grid align-items-center" class="col-2 sm:col-3 col-offset-6">
+          <button pButton type="button"
+                  label="{{'visit.view.visitorAdd' | translate}}"
+                  class="p-button-success"
+                  icon="fa fa-save" iconPos="left" (click)="saveVisitor()">
+          </button>
+        </div>
+      
+      </p-panel>
+    </div>
+  
+  </div>
+
+</form>

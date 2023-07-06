@@ -1,0 +1,8 @@
+{
+  "diseaseType.code": "Κωδικός",
+  "diseaseType.categoryPid": "Κατηγορία", 
+  "diseaseType.description": "Περιγραφή", 
+  "diseaseType.isContagious": "Μεταδοτική",
+  "diseaseType.comments": "Παρατηρήσεις",
+  "diseaseType.details": "Τύπος Πάθησης"
+}

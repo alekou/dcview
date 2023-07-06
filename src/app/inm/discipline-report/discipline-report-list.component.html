@@ -1,0 +1,88 @@
+<div class="grid">
+  <div class="col-12 button-container">
+    <button pButton type="submit" label="{{'global.search' | translate}}" class="p-button-warning"
+            icon="fa fa-search" iconPos="left" (click)="loadTableData()">
+    </button>
+    <button pButton type="button" label="{{'global.clearArgs' | translate}}" class="p-button-help"
+            icon="fa fa-times" iconPos="left" (click)="clearArgs()">
+    </button>
+    <button pButton type="button" label="{{'global.newRecord' | translate}}" class="p-button-info"
+            icon="fa fa-plus" iconPos="left" (click)="newRecord()">
+    </button>
+  </div>
+</div>
+
+
+<div class="grid">
+  
+  <div class="col-12 md:col-3">
+    
+    <p-panel header="{{'global.args' | translate}}">
+  
+      <app-record-dc-origin [(dcId)]="args.dcId"></app-record-dc-origin>
+  
+      <div class="p-fluid">
+        
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'disciplineReport.reporterType' | translate}}</label>
+            <p-dropdown [(ngModel)]="args.reporterType" name="reporterType" [options]="reporterTypes" optionValue="value" optionLabel="label"
+                        placeholder="{{'global.selectOption' | translate}}" emptyMessage="{{'global.noResultsFound' | translate}}"
+                        emptyFilterMessage="{{'global.noResultsFound' | translate}}" [showClear]="true">
+            </p-dropdown>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'disciplineReport.reportNo' | translate}}</label>
+            <input type="text" pInputText [(ngModel)]="args.reportNo">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <div class="col-12 no-padding-bottom">
+            <label>{{'disciplineReport.reportDate' | translate}}</label>
+            <div class="grid field-group">
+              <app-toitsu-calendar class="col-6" [(model)]="args.reportDateAfter" [noIcon]="true"></app-toitsu-calendar>
+              <span><i class="fa fa-arrow-right no-padding no-margin"></i></span>
+              <app-toitsu-calendar class="col-6" [(model)]="args.reportDateBefore" [noIcon]="true"></app-toitsu-calendar>
+            </div>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'disciplineOffense.ReportedInmate' | translate}}</label>
+            <app-select-inmate [(model)]="args.inmateId"
+                               [inmates]="reportedInmates" [dialogUrl]="reportedInmateDialogUrl">
+            </app-select-inmate>
+          </div>
+        </div>
+      
+      </div>
+    
+    </p-panel>
+  
+  </div>
+  
+  <div class="col-12 md:col-9">
+    
+    <app-toitsu-table #table
+                      [url]="url"
+                      [cols]="cols"
+                      [first]="paging.first"
+                      [rows]="paging.rows"
+                      [sortField]="paging.sortField"
+                      [sortOrder]="paging.sortOrder"
+                      [args]="args"
+                      [viewLink]="viewLink"
+                      [excel]="true"
+                      [exportModel]="exportModel"
+                      [loadOnInit]="false"
+                      (loadComplete)="loadComplete()">
+    </app-toitsu-table>
+  
+  </div>
+
+</div>

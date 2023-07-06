@@ -1,0 +1,58 @@
+<div class="flipleft animation-duration-200">
+
+  <!--- Κουμπιά Ευρετηρίου --->
+  <div class="grid">
+    <div class="col-12 button-container">
+      <button pButton type="submit" label="{{'global.search' | translate}}" class="p-button-warning"
+              icon="fa fa-search" iconPos="left" (click)="loadTableData()">
+      </button>
+      <button pButton type="button" label="{{'global.clearArgs' | translate}}" class="p-button-help"
+              icon="fa fa-times" iconPos="left" (click)="clearArgs()">
+      </button>
+    </div>
+  </div>
+
+  <div class="grid">
+
+    <!--- Κριτήρια Ευρετηρίου --->
+    <div class="col-12 md:col-3">
+
+      <p-panel header="{{'global.args' | translate}}">
+
+        <div class="p-fluid">
+
+          <!--- Εύρος Ημερομηνιών --->
+          <div class="grid align-items-center">
+            <div class="col-12 no-padding-bottom">
+              <label>{{'laborCatalog.calendar.dateRange' | translate}}</label>
+              <div class="grid field-group">
+                <app-toitsu-calendar class="col-6" [(model)]="args.dateAfter" [noIcon]="true"></app-toitsu-calendar>
+                <span><i class="fa fa-arrow-right no-padding no-margin"></i></span>
+                <app-toitsu-calendar class="col-6" [(model)]="args.dateBefore" [noIcon]="true"></app-toitsu-calendar>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </p-panel>
+    </div>
+
+    <!--- Ευρετήριο Ημερολογίου Κρατουμένου --->
+    <div class="col-12 md:col-9">
+      <app-toitsu-table #table
+                        [url]="url"
+                        [cols]="cols"
+                        [first]="paging.first"
+                        [rows]="paging.rows"
+                        [sortField]="paging.sortField"
+                        [sortOrder]="paging.sortOrder"
+                        [args]="args"
+                        [loadOnInit]="false"
+      >
+      </app-toitsu-table>
+    </div>
+
+  </div>
+
+</div>

@@ -1,0 +1,46 @@
+
+/* InmateAreaManage ------------------------------------------------------------------------------------------------- */
+
+/*
+  Πίνακας: Στοιχεία Περιοχής & Πίνακας: Σύνοψη Θέσεων Κρατουμένων
+ */
+.table-wrap {
+  height: 16.500rem;
+  overflow-y: auto;
+}
+.table {
+  width: 100%;
+  background: #fff;
+}
+.table tbody tr {
+  margin-bottom: 0.625rem;
+}
+.table tbody th, .table tbody td {
+  border: none;
+  border-bottom: 0.230rem solid #f8f9fd;
+}
+.row-header-end {
+  font-weight: bold;
+  text-align: end;
+  padding-right: 3rem;
+}
+.row-header-start {
+  font-weight: bold;
+  text-align: start;
+  padding-right: 15rem;
+}
+
+/*
+  p-card: Στοιχεία Κενής Περιοχής
+ */
+.no-selected-area-card {
+  margin-top: 4.375rem;
+}
+
+/*
+  Σελίδα Διαχείρισης & Dialogs
+ */
+.span-margin-0_200rem {
+  margin: 0.200rem;
+}
+

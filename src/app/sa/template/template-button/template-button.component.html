@@ -1,0 +1,12 @@
+<i  *ngIf="iconMode;else buttonMode"
+    class="fa fa-file-o cursor-pointer" pTooltip="{{'global.prints' | translate}}" tooltipPosition="top"
+    (click)="openTemplateListDialog()">
+</i>
+
+
+<ng-template #buttonMode>
+  <button pButton type="button"
+          label="{{'global.prints' | translate}}" class="p-button-info"
+          icon="fa fa-file-o" iconPos="left" (click)="openTemplateListDialog()">
+  </button>
+</ng-template>

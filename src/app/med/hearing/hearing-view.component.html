@@ -1,0 +1,378 @@
+<form>
+  <div class="grid">
+    <div class="col-12 button-container">
+      <button pButton type="button"
+              label="{{'global.save' | translate}}" class="p-button-success"
+              icon="fa fa-save" iconPos="left" (click)="saveHearing()">
+      </button>
+      <button pButton type="button" *ngIf="hearing.id"
+              label="{{'global.delete' | translate}}" class="p-button-danger"
+              icon="fa fa-trash" iconPos="left" (click)="deleteHearing()">
+      </button>
+      <button pButton type="button" *ngIf="hearing.id" label="{{'global.newRecord' | translate}}" class="p-button-info"
+              icon="fa fa-plus" iconPos="left" (click)="newRecord()">
+      </button>
+      <button pButton type="button" label="{{'global.index' | translate}}" class="p-button-help"
+              icon="fa fa-table" iconPos="left" (click)="goToList()">
+      </button>
+      <app-template-button *ngIf="!!id" [entity]="'HEARING'" [entityId]="this.id" 
+                           [entityIdColName]="'hearingId'" [application]="'MED'"> 
+      </app-template-button>
+      <app-other-dc-name [dcId]="hearing.dcId"></app-other-dc-name>
+    </div>
+  </div>
+  <div class="grid" appToitsuLockControls [lockCondition]="lockedRecord()">
+    
+    <div class="col-12 md:col-6 p-fluid">
+      
+      <p-panel header="{{'hearing.details' | translate}}">
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'hearing.hearingDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="hearing.hearingDate" name="hearingDate"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'hearing.doctorId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="hearing.doctorId" [options]="activeDoctors" name="doctorId"
+                        optionValue="id" optionLabel="fullName"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}"
+                        emptyFilterMessage="{{'global.noResultsFound' | translate}}" [showClear]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'hearing.inmateId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-select-inmate [(model)]="hearing.inmateId" [loadOnOpen]="true" [dialogUrl]="inmateDialogUrl" name="inmateId"></app-select-inmate>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{ 'hearing.hearingApplicationExists' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox binary="true" [(ngModel)]="hearing.hearingApplicationExists" (ngModelChange)="hearingApplicationChanged()" name="hearingApplicationExists"></p-checkbox>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center" *ngIf="hearing.hearingApplicationExists">
+          <label class="col-12 sm:col-4 font-bold">{{'hearing.hearingApplicationId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="hearing.hearingApplicationId" [options]="hearingApplications" name="hearingApplicationId"
+                        optionValue="id" optionLabel="fullDescription"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}"
+                        emptyFilterMessage="{{'global.noResultsFound' | translate}}" [showClear]="true">
+            </p-dropdown>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'hearing.hearingTypeId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="hearing.hearingTypeId" [options]="hearingTypes" name="hearingTypeId"
+                        optionValue="id" optionLabel="description"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}"
+                        emptyFilterMessage="{{'global.noResultsFound' | translate}}" [showClear]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'hearing.comments' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="hearing.comments" name="comments" rows="5"></textarea>
+          </div>
+        </div>
+      
+      </p-panel>
+    </div>
+    
+    <div class="col-12 md:col-6 p-fluid">
+      <p-panel>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{ 'hearing.medicalHistory' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox binary="true" [(ngModel)]="hearing.medicalHistory" name="medicalHistory"></p-checkbox>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{ 'hearing.isInjury' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox binary="true" [(ngModel)]="hearing.isInjury" name="isInjury"></p-checkbox>
+          </div>
+        </div>
+    
+        <div class="grid align-items-center" *ngIf="hearing.isInjury">
+          <label class="col-12 sm:col-4 font-bold">{{'hearing.injuryKind' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="hearing.injuryKind" [options]="injuryReasons" name="injuryReason"
+                        optionValue="value" optionLabel="label"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}"
+                        emptyFilterMessage="{{'global.noResultsFound' | translate}}" [showClear]="true">
+            </p-dropdown>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center" *ngIf="hearing.isInjury">
+          <label class="col-12 sm:col-4">{{'hearing.injuryComments' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="hearing.injuryComments" name="injuryComments" rows="5" appToitsuTextareaAutoResize></textarea>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{ 'hearing.isDeath' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox binary="true" [(ngModel)]="hearing.isDeath" name="isDeath"></p-checkbox>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center" *ngIf="hearing.isDeath">
+          <label class="col-12 sm:col-4 font-bold">{{'hearing.deathDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="hearing.deathDate" name="deathDate" [showTime]="true"></app-toitsu-calendar>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center" *ngIf="hearing.isDeath">
+          <label class="col-12 sm:col-4">{{'hearing.deathReason' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="hearing.deathReason" name="deathReason" rows="5" appToitsuTextareaAutoResize></textarea>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center" *ngIf="hearing.isDeath">
+          <label class="col-12 sm:col-4">{{'hearing.deathComments' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="hearing.deathComments" name="deathComments" rows="5" appToitsuTextareaAutoResize></textarea>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{ 'hearing.reviewHearing' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox binary="true" [(ngModel)]="hearing.reviewHearing" name="reviewHearing"></p-checkbox>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center" *ngIf="hearing.reviewHearing">
+          <label class="col-12 sm:col-4">{{'hearing.reviewDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="hearing.reviewDate" name="reviewDate"></app-toitsu-calendar>
+          </div>
+        </div>
+  
+      </p-panel>
+    </div>
+  </div>
+  
+  <div class="grid" appToitsuLockControls [lockCondition]="lockedRecord()">
+    <div class="col-12">
+      <p-tabView>
+       
+        <p-tabPanel header="hearing.disease">
+          <ng-template pTemplate="header">
+            <span class="color-steelblue">
+              <i class="fa fa-heartbeat fa-2x"></i>
+              <span>{{'hearing.disease' | translate}}</span>
+              <i class="fa fa-plus" (click)="openDiseaseDialogForCreate()" pTooltip="{{'global.add' | translate}}" tooltipPosition="top"></i>
+            </span>
+          </ng-template>
+          <div class="grid" *ngIf="hearing.id">
+            <div class="col-12">
+              <app-toitsu-table #diseaseTable
+                                [url]="diseaseUrl"
+                                [cols]="diseaseCols"
+                                [sortField]="diseaseSortField"
+                                [sortOrder]="diseaseSortOrder"
+                                [args]="diseaseArgs"
+                                [loadOnInit]="true">
+                <ng-template let-rowData #cell1>
+                  <button pButton type="button" *ngIf="hearing.id" class="p-button-info"
+                          icon="fa fa-edit" iconPos="left" pTooltip="{{'global.edit' | translate}}" tooltipPosition="top"
+                          (click)="openDiseaseDialogForEdit(rowData)">
+                  </button>
+                </ng-template>
+                <ng-template let-rowData let-index #cell2>
+                  <button pButton type="button" *ngIf="hearing.id" class="p-button-danger" icon="fa fa-times" iconPos="left"
+                          pTooltip="{{'global.delete' | translate}}" tooltipPosition="top" (click)="deleteDisease(rowData.id)">
+                  </button>
+                </ng-template>
+              </app-toitsu-table>
+            </div>
+          </div>
+        </p-tabPanel>
+        
+        <p-tabPanel header="hearing.examination">
+          <ng-template pTemplate="header">
+            <span class="color-green">
+              <i class="fa fa-clipboard" aria-hidden="true"></i>
+              <span>{{'hearing.examination' | translate}}</span>
+              <i class="fa fa-plus" (click)="openExaminationDialogForCreate()" pTooltip="{{'global.add' | translate}}" tooltipPosition="top"></i>
+              <i class="fa fa-list" (click)="openExaminationTypeListDialog()" pTooltip="{{'global.add' | translate}}" tooltipPosition="top"></i>
+            </span>
+          </ng-template>
+          
+          <div class="grid" *ngIf="hearing.id">
+            <div class="col-12">
+              <app-toitsu-table #examinationTable
+                                [url]="examinationUrl"
+                                [cols]="examinationCols"
+                                [sortField]="examinationSortField"
+                                [sortOrder]="examinationSortOrder"
+                                [args]="examinationArgs"
+                                [loadOnInit]="true">
+                <ng-template let-rowData #cell1>
+                  <button pButton type="button" *ngIf="hearing.id" class="p-button-info"
+                          icon="fa fa-edit" iconPos="left" pTooltip="{{'global.edit' | translate}}" tooltipPosition="top"
+                          (click)="openExaminationDialogForEdit(rowData)">
+                  </button>
+                </ng-template>
+                <ng-template let-rowData let-index #cell2>
+                  <button pButton type="button" *ngIf="hearing.id" class="p-button-danger" icon="fa fa-times" iconPos="left"
+                          pTooltip="{{'global.delete' | translate}}" tooltipPosition="top" (click)="deleteExamination(rowData.id)">
+                  </button>
+                </ng-template>
+              </app-toitsu-table>
+            </div>
+          </div>
+        </p-tabPanel>
+        
+        <p-tabPanel header="hearing.bloodSampling">
+          <ng-template pTemplate="header">
+           <span class="color-red">
+             <i class="fa fa-tint"></i>
+             <span>{{'hearing.bloodSampling' | translate}}</span>
+             <i class="fa fa-plus" aria-hidden="true" (click)="openBloodSamplingViewDialogDialogForCreate()"
+               pTooltip="{{'global.add' | translate}}" tooltipPosition="top"></i>
+           </span>
+          </ng-template>
+          <div class="grid" *ngIf="hearing.id">
+            <div class="col-12">
+              <app-toitsu-table #bloodSamplingTable
+                                [url]="bloodSamplingUrl"
+                                [cols]="bloodSamplingCols"
+                                [sortField]="bloodSamplingSortField"
+                                [sortOrder]="bloodSamplingSortOrder"
+                                [args]="bloodSamplingArgs"
+                                [loadOnInit]="true">
+                <ng-template let-rowData #cell1>
+                  <button pButton type="button" *ngIf="hearing.id" class="p-button-info"
+                          icon="fa fa-edit" iconPos="left" pTooltip="{{'global.edit' | translate}}" tooltipPosition="top"
+                          (click)="openBloodSamplingViewDialogDialogForEdit(rowData)">
+                  </button>
+                </ng-template>
+                <ng-template let-rowData let-index #cell2>
+                  <button pButton type="button" *ngIf="hearing.id" class="p-button-danger" icon="fa fa-times" iconPos="left"
+                          pTooltip="{{'global.delete' | translate}}" tooltipPosition="top" (click)="deleteBloodSampling(rowData.id)">
+                  </button>
+                </ng-template>
+              </app-toitsu-table>
+            </div>
+          </div>
+        </p-tabPanel>
+    
+        <p-tabPanel header="hearing.vaccination">
+          <ng-template pTemplate="header">
+            <span class="color-purple">
+              <i class="fa fa-eyedropper" ></i>
+              <span>{{'hearing.vaccination' | translate}}</span>
+              <i class="fa fa-plus" aria-hidden="true" (click)="openVaccinationViewDialogDialogForCreate()"
+               pTooltip="{{'global.add' | translate}}" tooltipPosition="top"></i>
+            </span>
+          </ng-template>
+          
+          <div class="grid" *ngIf="hearing.id">
+            <div class="col-12">
+              <app-toitsu-table #vaccinationTable
+                                [url]="vaccinationUrl"
+                                [cols]="vaccinationCols"
+                                [sortField]="vaccinationSortField"
+                                [sortOrder]="vaccinationSortOrder"
+                                [args]="vaccinationArgs"
+                                [loadOnInit]="true">
+                <ng-template let-rowData #cell1>
+                  <button pButton type="button" *ngIf="hearing.id" class="p-button-info"
+                          icon="fa fa-edit" iconPos="left" pTooltip="{{'global.edit' | translate}}" tooltipPosition="top"
+                          (click)="openVaccinationViewDialogDialogForEdit(rowData)">
+                  </button>
+                </ng-template>
+                <ng-template let-rowData let-index #cell2>
+                  <button pButton type="button" *ngIf="hearing.id" class="p-button-danger" icon="fa fa-times" iconPos="left"
+                          pTooltip="{{'global.delete' | translate}}" tooltipPosition="top" (click)="deleteVaccination(rowData.id)">
+                  </button>
+                </ng-template>
+              </app-toitsu-table>
+            </div>
+          </div>
+        </p-tabPanel>
+    
+        <p-tabPanel header="hearing.treatment">
+          <ng-template pTemplate="header">
+            <i class="fa fa-medkit"></i>
+            <span>{{'hearing.treatment' | translate}}</span>
+            <i class="fa fa-plus" aria-hidden="true" (click)="openTreatmentViewDialogDialogForCreate()" 
+               pTooltip="{{'global.add' | translate}}" tooltipPosition="top"></i>
+          </ng-template>
+  
+          <div class="grid" *ngIf="hearing.id">
+            <div class="col-12">
+              <app-toitsu-table #treatmentTable
+                                [url]="treatmentUrl"
+                                [cols]="treatmentCols"
+                                [sortField]="treatmentSortField"
+                                [sortOrder]="treatmentSortOrder"
+                                [args]="treatmentArgs"
+                                [loadOnInit]="true">
+                <ng-template let-rowData #cell1>
+                  <button pButton type="button" *ngIf="hearing.id" class="p-button-info"
+                          icon="fa fa-edit" iconPos="left" pTooltip="{{'global.edit' | translate}}" tooltipPosition="top"
+                          (click)="openTreatmentViewDialogDialogForEdit(rowData)">
+                  </button>
+                </ng-template>
+                <ng-template let-rowData let-index #cell2>
+                  <button pButton type="button" *ngIf="hearing.id" class="p-button-danger" icon="fa fa-times" iconPos="left"
+                          pTooltip="{{'global.delete' | translate}}" tooltipPosition="top" (click)="deleteTreatment(rowData.id)">
+                  </button>
+                </ng-template>
+              </app-toitsu-table>
+            </div>
+          </div>
+        </p-tabPanel>
+    
+        <p-tabPanel header="med.hearing">
+          <ng-template pTemplate="header">
+            <span class="color-orange">
+              <i class="fa fa-stethoscope" aria-hidden="true"></i>
+              <span>{{'med.hearing' | translate}}</span>
+            </span>
+          </ng-template>
+  
+          <div class="grid" *ngIf="hearing.id">
+            <div class="col-12">
+              <app-toitsu-table #hearingTable
+                                [url]="hearingUrl"
+                                [cols]="hearingCols"
+                                [sortField]="hearingSortField"
+                                [sortOrder]="hearingSortOrder"
+                                [args]="hearingArgs"
+                                [loadOnInit]="true">
+              </app-toitsu-table>
+            </div>
+          </div>
+        </p-tabPanel>
+      </p-tabView>
+    </div>
+  </div>
+
+</form>

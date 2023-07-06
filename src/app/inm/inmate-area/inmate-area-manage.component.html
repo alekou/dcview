@@ -1,0 +1,286 @@
+<!--- Κουμπί: Εμφάνιση Σύνοψης Θέσεων Κρατουμένων --->
+<div class="grid">
+  <div class="col-12 button-container">
+    <button pButton type="button" class="p-button-help" label="{{'inmateArea.manage.sumUp' | translate}}"
+            icon="fa fa-users" iconPos="left"
+            [loading]="loadingInmateAreaSumUp" loadingIcon="fa fa-spinner fa-pulse"
+            (click)="showInmateAreaSumUp($event)"
+            pTooltip="{{'inmateArea.manage.showSumUp' | translate}}" tooltipPosition="top">
+    </button>
+  </div>
+</div>
+
+<!--- OverlayPanel: Σύνοψη Θέσεων Κρατουμένων --->
+<p-overlayPanel #sumUpOverlayPanel [showCloseIcon]="true">
+  <p-card>
+    <ng-template pTemplate="header">
+      <label class="font-bold">{{'inmateArea.manage.sumUp' | translate}}</label>
+    </ng-template>
+    <div class="col-12">
+      <table class="table scalein animation-duration-1000">
+        <tbody>
+        <tr>
+          <th scope="row" class="row-header-start">{{'inmateArea.inmates.power' | translate}}:</th>
+          <td>{{inmateAreaSumUp.totalPower}}</td>
+        </tr>
+        <tr>
+          <th scope="row" class="row-header-start">{{'inmateArea.inmates.absences' | translate}}:</th>
+          <td>{{inmateAreaSumUp.totalAbsences}}</td>
+        </tr>
+        <tr>
+          <th scope="row" class="row-header-start">{{'inmateArea.inmates.present' | translate}}:</th>
+          <td>{{inmateAreaSumUp.totalPresent}}</td>
+        </tr>
+        <tr>
+          <th scope="row" class="row-header-start">{{'inmateArea.inmates.expected' | translate}}:</th>
+          <td>{{inmateAreaSumUp.totalExpected}}</td>
+        </tr>
+        <tr>
+          <th scope="row" class="row-header-start">{{'inmateArea.inmates.havePosition' | translate}}:</th>
+          <td>{{inmateAreaSumUp.totalWithPosition}}</td>
+        </tr>
+        <tr>
+          <th scope="row" class="row-header-start">{{'inmateArea.inmates.haveNotPosition' | translate}}:</th>
+          <td>{{inmateAreaSumUp.totalWithoutPosition}}</td>
+        </tr>
+        <tr>
+          <th scope="row" class="row-header-start">{{'area.reservedPositions' | translate}}:</th>
+          <td>{{inmateAreaSumUp.totalReservedPositions}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </p-card>
+</p-overlayPanel>
+
+<!--- Χωροταξική Δομή Περιοχών Κράτησης --->
+<div class="grid">
+
+  <div class="col-12 md:col-6">
+
+    <!--- Panel: Χωροταξική Δομή Περιοχών Κράτησης --->
+    <p-panel header="{{'inmateArea.manage.structure' | translate}}" #treePanel>
+
+      <!--- Custom αναζήτηση περιοχής βάσει κωδικού(code) --->
+      <div class="padding-bottom-10">
+        <div class="display-flex align-items-start" (keydown.enter)="searchByAreaCode()">
+          <input type="text" class="form-control p-inputtext width-100percent"
+                 placeholder="{{'global.search' | translate}}"
+                 [(ngModel)]="areaCode" name="code">
+          <span class="span-margin-0_200rem"></span>
+          <button pButton type="button" class="p-button-info"
+                  icon="fa fa-search" iconPos="left"
+                  pTooltip="{{'global.search' | translate}}" tooltipPosition="top"
+                  enterkeyhint="go"
+                  [loading]="loadingSearchAreasTree" loadingIcon="fa fa-search-plus fa-zoom"
+                  (click)="searchByAreaCode()">
+          </button>
+          <span class="span-margin-0_200rem"></span>
+          <button pButton type="button" class="p-button-secondary"
+                  icon="fa fa-refresh" iconPos="left"
+                  pTooltip="{{'inmateArea.manage.showAllAreas' | translate}}" tooltipPosition="top"
+                  (click)="refreshSearchFields()">
+          </button>
+        </div>
+      </div>
+
+      <p-tree #areaStructureTree *ngIf="!enableSearch || !areaCode"
+              [value]="allAreasHierarchy"
+              [filter]="false"
+              [virtualScroll]="true"
+              [virtualScrollItemSize]="46"
+              scrollHeight="17.020rem"
+              selectionMode="single"
+              [(selection)]="selectedAreaNode"
+              (onNodeSelect)="nodeSelect()"
+              (onNodeExpand)="nodeExpand($event)"
+              emptyMessage="{{'global.noResultsFound' | translate}}"
+              filterPlaceholder="{{'global.search' | translate}}"
+              [loading]="loadingAreasTree">
+      </p-tree>
+
+      <p-tree #searchAreaResultsTree *ngIf="enableSearch && areaCode"
+              [value]="searchResultsTree"
+              [filter]="false"
+              [virtualScroll]="true"
+              [virtualScrollItemSize]="46"
+              scrollHeight="17.020rem"
+              selectionMode="single"
+              [(selection)]="selectedAreaNode"
+              (onNodeSelect)="nodeSelect()"
+              (onNodeExpand)="nodeExpand($event)"
+              emptyMessage="{{'global.noResultsFound' | translate}}"
+              filterPlaceholder="{{'global.search' | translate}}"
+              [loading]="loadingSearchAreasTree"
+              loadingIcon="fa fa-search">
+      </p-tree>
+
+    </p-panel>
+
+  </div>
+
+  <div class="col-12 md:col-6">
+
+    <!--- Panel: Στοιχεία Επιλεγμένης Περιοχής Κράτησης --->
+    <p-panel header="{{'inmateArea.manage.areaInformation' | translate}}" #areaDetailsPanel>
+
+      <p-card>
+        <div class="col-12">
+          <div class="table-wrap">
+            <p-card class=" no-selected-area-card flex align-items-center justify-content-center scalein animation-duration-1000"
+                    *ngIf="!selectedAreaNode">
+              <div class="flex align-items-center justify-content-center">
+                <i class="fa fa-map-marker" aria-hidden="true"></i>
+                <p class="font-italic">{{'inmateArea.manage.noSelectedArea' | translate}}</p>
+              </div>
+            </p-card>
+            <table class="table scalein animation-duration-1000" *ngIf="selectedAreaNode">
+              <tbody>
+              <tr>
+                <th scope="row" class="row-header-end">{{'area.code' | translate}}:</th>
+                <td>{{selectedAreaNode.data.code}}</td>
+              </tr>
+              <tr>
+                <th scope="row" class="row-header-end">{{'area.description' | translate}}:</th>
+                <td>{{selectedAreaNode.label}}</td>
+              </tr>
+              <tr>
+                <th scope="row" class="row-header-end">{{'area.areaTypeId' | translate}}:</th>
+                <td>{{selectedAreaNode.data.areaTypeDescription}}</td>
+              </tr>
+              <tr>
+                <th scope="row" class="row-header-end">{{'area.parentAreaId' | translate}}:</th>
+                <td>{{selectedAreaNode.data.parent}}</td>
+              </tr>
+              <tr>
+                <th scope="row" class="row-header-end">{{'inmateArea.inmates' | translate}}:</th>
+                <td *ngIf="selectedAreaNode.data.positionsSum">
+                  {{selectedAreaNode.data.inmates}}
+                </td>
+                <td *ngIf="!selectedAreaNode.data.positionsSum">
+                  {{selectedAreaNode.data.inmates}}
+                </td>
+              </tr>
+              <tr>
+                <th scope="row" class="row-header-end">{{'inmateArea.inmates.expected' | translate}}:</th>
+                <td>*Αριθμός Αναμενόμενων Κρατούμενων περιοχής</td>
+              </tr>
+              <tr>
+                <th scope="row" class="row-header-end">{{'area.positions' | translate}}:</th>
+                <td *ngIf="selectedAreaNode.data.positionsSum">
+                  {{selectedAreaNode.data.positionsSum}}
+                </td>
+                <td *ngIf="!selectedAreaNode.data.positionsSum">
+                  {{selectedAreaNode.data.positions}}
+                </td>
+              </tr>
+              <tr>
+                <th scope="row" class="row-header-end">{{'area.availablePositions' | translate}}:</th>
+                <td *ngIf="selectedAreaNode.data.availablePositionsSum">
+                  {{selectedAreaNode.data.availablePositionsSum}}
+                </td>
+                <td *ngIf="!selectedAreaNode.data.availablePositionsSum">
+                  {{selectedAreaNode.data.availablePositions}}
+                </td>
+              </tr>
+              <tr>
+                <th scope="row" class="row-header-end">{{'area.reservedPositions' | translate}}:</th>
+                <td *ngIf="selectedAreaNode.data.reservedPositionsSum">
+                  {{selectedAreaNode.data.reservedPositionsSum}}
+                </td>
+                <td *ngIf="!selectedAreaNode.data.reservedPositionsSum">
+                  {{selectedAreaNode.data.reservedPositions}}
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </p-card>
+
+    </p-panel>
+
+  </div>
+</div>
+
+
+<!--- Ευρετήριο και Διαχείριση Θέσεων Κρατουμένων --->
+<div class="grid">
+  <div class="col-12">
+
+    <p-panel header="{{'inmateArea.manage.inmates' | translate}}" #tablePanel>
+
+      <div class="grid p-fluid">
+
+        <div class="col-12">
+          <label>{{'inmateArea.inmateId' | translate}}</label>
+          <app-select-inmate [(model)]="args.inmateId" name="args.inmateId"
+                             [loadOnOpen]="true" [dialogUrl]="inmateDialogUrl"
+                             (modelChange)="loadTableData()"
+          >
+          </app-select-inmate>
+        </div>
+      </div>
+
+      <!--- Table: Εμφάνιση Κρατουμένων ανά Περιοχή Κράτησης --->
+      <app-toitsu-table #table
+                        [url]="url"
+                        [cols]="cols"
+                        [first]="paging.first"
+                        [rows]="paging.rows"
+                        [sortField]="paging.sortField"
+                        [sortOrder]="paging.sortOrder"
+                        [args]="args"
+                        [loadOnInit]="false"
+                        (rowSelected)="onSelectInmateArea()"
+                        (rowUnselected)="onUnselectInmateArea()">
+
+        <ng-template #cell1 let-rowData>
+          <!-- Ένδειξη Κρατημένης Θέσης -->
+          <i class="fa fa-exclamation-circle color-orange" *ngIf="rowData.reserved"
+             pTooltip="{{'inmateArea.reserved' | translate}}: {{rowData.areaFullDescription}} ({{rowData.reservationDate}})"
+             tooltipPosition="top">
+          </i>
+          <i class="fa fa-exclamation-circle color-steelblue" *ngIf="!rowData.reserved && getReservedInmateAreaByInmate(rowData)"
+             pTooltip="{{'inmateArea.thereIsReserved' | translate}}: {{rowData.reservedAreaFullDescription}}"
+             tooltipPosition="top">
+          </i>
+        </ng-template>
+
+      </app-toitsu-table>
+
+      <!--- Toolbar: Κουμπιά λειτουργιών για τον επιλεγμένο κρατούμενο --->
+      <p-toolbar>
+        <div class="p-toolbar-group-start">
+          <p-divider></p-divider>
+        </div>
+        <div class="p-toolbar-group-center scalein" *ngIf="selectedInmateAreaRecord">
+          <button pButton type="button" label="{{'inmateArea.manage.editPlacement' | translate}}"
+                  class="p-button-warning" icon="fa fa-pencil-square-o" iconPos="left"
+                  (click)="openEditInmateAreaDialog()">
+          </button>
+          <p-divider layout="vertical"></p-divider>
+          <button pButton type="button" label="{{'inmatePhoto.showPhoto' | translate}}"
+                  class="p-button-info" icon="fa fa-camera" iconPos="left"
+                  (click)="inmatePhotoService.openInmatePhotoDisplayDialog(selectedInmateAreaRecord.inmate.id)">
+          </button>
+          <p-divider layout="vertical"></p-divider>
+          <button pButton type="button" label="{{'inmateArea.manage.moveInmate' | translate}}"
+                  class="p-button-success" icon="fa fa-exchange" iconPos="left"
+                  (click)="openMoveInmateAreaDialog()">
+          </button>
+        </div>
+        <div class="p-toolbar-group-end">
+          <p-divider></p-divider>
+        </div>
+      </p-toolbar>
+
+    </p-panel>
+
+  </div>
+</div>
+
+
+
+
+

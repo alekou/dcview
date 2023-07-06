@@ -1,0 +1,76 @@
+<form>
+  <div class="grid">
+    <div class="col-12 md:col-3 p-fluid">
+      <p-fileUpload [customUpload]="true" [auto]="true" [multiple]="true" (uploadHandler)="onDocumentUpload($event)"
+                    chooseIcon="fa fa-paperclip" chooseLabel="{{'document.chooseFile' | translate}}" #fileUpload>
+        <ng-template pTemplate="content">
+          <span class="upload-icon-container">
+            <i class="fa fa-folder-open upload-icon" (click)="openFileSelection()"></i>
+          </span>
+        </ng-template>
+        <ng-template pTemplate="file">
+        </ng-template>
+      </p-fileUpload>
+    </div>
+    
+    <div class="col-12 md:col-9 p-fluid">
+      <p-panel header="{{'document.details' | translate}}">
+  
+        <p-table [value]="documentDtoList" [scrollable]="true" scrollHeight="25rem" styleClass="p-datatable-gridlines p-datatable-striped" appToitsuPTableCellWidth>
+          <ng-template pTemplate="header">
+            <tr>
+              <th [style.width]="'5rem'" [style.justify-content]="'center'">#</th>
+              <th [style.width]="'5rem'" [style.justify-content]="'center'">{{'actions' | translate}}</th>
+              <th [style.width]="'12rem'" [style.justify-content]="'center'">{{'document.multipartFile' | translate}}</th>
+              <th [style.width]="'12rem'" [style.justify-content]="'center'">{{'document.submissionDate' | translate}}</th>
+              <th [style.width]="'22rem'" [style.justify-content]="'center'">{{'examination.comments' | translate}}</th>
+              <th [style.width]="'8rem'"></th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-document let-index="rowIndex">
+            <tr class="p-fluid">
+              <td [style.justify-content]="'center'">{{index + 1}}</td>
+              <td [style.justify-content]="'center'">
+                <button pButton type="button" pRipple class="p-button-rounded p-button-outlined p-button-help mr-1"
+                        pTooltip="{{'document.preview' | translate}}" tooltipPosition="top"
+                        icon="fa fa-eye" iconPos="left" (click)="previewDocument(document)">
+                </button>
+                <button *ngIf="document.id" pButton type="button" pRipple class="p-button-rounded p-button-outlined p-button-success"
+                        pTooltip="{{'document.download' | translate}}" tooltipPosition="top"
+                        icon="fa fa-download" iconPos="left" (click)="downloadDocument(document.id, document)">
+                </button>
+              </td>
+              <td>
+                {{document.fileName}}
+              </td>
+              <td [style.justify-content]="'center'">
+                {{document.submissionDate}}
+              </td>
+              <td>
+                <textarea type="text" pInputText [(ngModel)]="document.comments" class="width-100percent" name="document{{index}}.comments" rows="1" appToitsuTextareaAutoResize></textarea>
+              </td>
+              <td [style.justify-content]="'center'">
+                <button pButton type="button" pRipple class="p-button-rounded p-button-outlined p-button-danger"
+                        pTooltip="{{(document.id ? 'global.delete' : 'global.remove') | translate}}" tooltipPosition="top"
+                        icon="{{(document.id ? 'fa fa-times' : 'fa fa-minus')}}" iconPos="left" (click)="deleteDocument(index, document.id)">
+                </button>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+        
+      </p-panel>
+    </div>
+  </div>
+  
+  <div class="grid">
+    <div class="col-12 button-container text-align-end m-1">
+      <button pButton type="button" label="{{'global.save' | translate}}" class="p-button-success"
+              icon="fa fa-save" iconPos="left" (click)="saveDocuments()">
+      </button>
+      <button pButton type="button" label="{{'global.cancel' | translate}}" class="p-button-warning"
+              icon="fa fa-times" iconPos="left" (click)="cancel()">
+      </button>
+    </div>
+  </div>
+</form>

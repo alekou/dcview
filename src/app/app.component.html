@@ -1,0 +1,47 @@
+<p-toast>
+  <ng-template let-message pTemplate="message">
+      <div innerHtml="{{message.detail}}"></div>
+  </ng-template>
+</p-toast>
+<p-blockUI [blocked]="toitsuBlockUiService.getUiBlocked()"></p-blockUI>
+<p-confirmDialog #confirmDialog header="&nbsp;">
+  <ng-template pTemplate="footer">
+    <button pButton type="button" label="{{'global.yes' | translate}}" class="p-button-info"
+            icon="fa fa-check" iconPos="left" (click)="confirmDialog.accept()">
+    </button>
+    <button pButton type="button" label="{{'global.no' | translate}}" class="p-button-warning"
+            icon="fa fa-times" iconPos="left" (click)="confirmDialog.reject()">
+    </button>
+  </ng-template>
+</p-confirmDialog>
+<div class="layout-wrapper" (click)="onLayoutClick()"
+     [ngClass]="{'layout-wrapper-overlay-sidebar': isOverlay(),
+                 'layout-wrapper-slim-sidebar': isSlim(),
+                 'layout-wrapper-horizontal-sidebar': isHorizontal(),
+                 'layout-wrapper-overlay-sidebar-active': overlayMenuActive,
+                 'layout-wrapper-sidebar-inactive': staticMenuDesktopInactive,
+                 'layout-wrapper-sidebar-mobile-active': staticMenuMobileActive,
+                 'p-ripple-disabled': !ripple}">
+    <app-toitsu-header></app-toitsu-header>
+  
+  <div class="layout-sidebar" (click)="onMenuClick($event)"
+       [ngClass]="{'layout-sidebar-dark': menuScheme !== 'light',
+         'layout-sidebar-gradient':  menuScheme === 'gradient'}">
+    <div class="sidebar-scroll-content">
+      <app-toitsu-nav-subsystem *ngIf="authService.isLoggedIn()"></app-toitsu-nav-subsystem>
+      <app-toitsu-nav></app-toitsu-nav>
+    </div>
+  </div>
+  
+  <div class="layout-main">
+    <app-toitsu-breadcrumb></app-toitsu-breadcrumb>
+    
+    <p-progressSpinner *ngIf="routeLoading"></p-progressSpinner>
+    
+    <div class="layout-main-content" [ngClass]="{'hidden': routeLoading}">
+      <router-outlet></router-outlet>
+    </div>
+    
+    <app-toitsu-footer></app-toitsu-footer>
+  </div>
+</div>

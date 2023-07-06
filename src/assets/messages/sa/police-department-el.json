@@ -1,0 +1,13 @@
+{
+  "policeDepartment.isActive": "Ενεργό",
+  "policeDepartment.typePid": "Τύπος",
+  "policeDepartment.name": "Ονομασία",
+  "policeDepartment.city": "Πόλη",
+  "policeDepartment.address": "Διεύθυνση",
+  "policeDepartment.telephone": "Τηλέφωνο",
+  "policeDepartment.telephone2": "Τηλέφωνο 2",
+  "policeDepartment.fax1": "FAX 1",
+  "policeDepartment.fax2": "FAX 2",
+
+  "policeDepartment.view.policeDepartmentData": "Στοιχεία Αστυνομικού Τμήματος"
+}

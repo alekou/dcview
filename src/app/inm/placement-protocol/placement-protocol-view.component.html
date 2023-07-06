@@ -1,0 +1,273 @@
+<form>
+
+  <div class="grid">
+    <div class="col-12 button-container flex-container">
+      <div class="flex-container-start">
+        <button pButton type="button" *ngIf="!lockedRecord()"
+                label="{{'global.save' | translate}}" class="p-button-success"
+                icon="fa fa-save" iconPos="left" (click)="savePlacementProtocol()">
+        </button>
+        <button *ngIf="!!id && !this.placementProtocol.approved && !lockedRecord()"
+                pButton type="button" label="{{'placementProtocol.approve' | translate}}" class="p-button-warning"
+                icon="fa fa-check" iconPos="left" [loading]="loading" (click)="approvePlacementProtocol()">
+        </button>
+        <button pButton type="button" *ngIf="id && !lockedRecord() && authService.hasPermission('')"
+                label="{{'global.delete' | translate}}" class="p-button-danger"
+                icon="fa fa-trash" iconPos="left" (click)="deletePlacementProtocol()">
+        </button>
+        <button pButton type="button" *ngIf="!lockedRecord() && !lockedApproved()"
+                label="{{'placementProtocol.addInmateLaborApplications' | translate}}" class="p-button-info"
+                icon="fa fa-plus-square-o" iconPos="left" (click)="openInmateLaborApplicationListDialog()">
+        </button>
+        <button pButton type="button" *ngIf="!lockedRecord() && lockedApproved()"
+                label="{{'placementProtocol.createInmateLabor' | translate}}" class="p-button-warning"
+                icon="fa fa-newspaper-o" iconPos="left" [loading]="loading" loadingIcon="fa fa-cog fa-spin"
+                (click)="createInmateLaborsByInmateLaborApplications()">
+        </button>
+        <button pButton type="button" *ngIf="id && !authService.isMinistry()"
+                label="{{'global.newRecord' | translate}}" class="p-button-info"
+                icon="fa fa-plus" iconPos="left" (click)="newRecord()">
+        </button>
+        <button pButton type="button"
+                label="{{'global.index' | translate}}" class="p-button-help"
+                icon="fa fa-fw fa-table" iconPos="left" (click)="goToList()">
+        </button>
+        <app-other-dc-name [dcId]="placementProtocol.dcId"></app-other-dc-name>
+      </div>
+      <div class="flex-container-end">
+        <app-field-revisions *ngIf="id" [entityClass]="'inm.core.domain.PlacementProtocol'" [entityId]="id" ></app-field-revisions>
+      </div>
+    </div>
+  </div>
+
+  <!--- Καρτέλα Πρακτικού Τοποθέτησης --->
+  <div class="grid" appToitsuLockControls [lockCondition]="lockedRecord()">
+
+    <div class="col-12 md:col-6 p-fluid">
+      <p-panel header="{{'placementProtocol.view.basicData' | translate}}">
+
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'placementProtocol.areaId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="placementProtocol.areaId" name="areaId" [options]="areas" optionValue="id" optionLabel="fullDescription"
+                        placeholder="{{'global.selectOption' | translate}}" [showClear]="true" [filter]="true"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}">
+            </p-dropdown>
+          </div>
+        </div>
+
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'placementProtocol.locationPid' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-select-gen-parameter
+              [type]="pLocations" [(model)]="placementProtocol.locationPid" name="locationPid" [hideAdd]="false">
+            </app-select-gen-parameter>
+          </div>
+        </div>
+
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'placementProtocol.compositionDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar
+              [(model)]="placementProtocol.compositionDate" name="compositionDate">
+            </app-toitsu-calendar>
+          </div>
+        </div>
+
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'placementProtocol.placementFromDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar
+              [(model)]="placementProtocol.placementFromDate" name="placementFromDate" [disabled]="lockedApproved()">
+            </app-toitsu-calendar>
+          </div>
+        </div>
+
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'placementProtocol.placementToDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar
+              [(model)]="placementProtocol.placementToDate" name="placementToDate" [disabled]="lockedApproved()">
+            </app-toitsu-calendar>
+          </div>
+        </div>
+
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'placementProtocol.comments' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea
+                      name="comments" rows="5"
+                      [(ngModel)]="placementProtocol.comments">
+              </textarea>
+          </div>
+        </div>
+
+        <!--- Στοιχεία εγκεκριμένου πρακτικού τοποθέτησης --->
+        <div *ngIf="id && placementProtocol.approved && !loading">
+
+          <div class="grid align-items-center" *ngIf="id">
+            <label class="col-12 sm:col-4">{{'placementProtocol.approved' | translate}}</label>
+            <div class="col-12 sm:col-8">
+              <div class="flex align-items-center flex-wrap">
+                <div class="flex align-items-center justify-content-center">
+                  <p-checkbox
+                    binary="true" name="approved"
+                    [(ngModel)]="placementProtocol.approved"
+                    [disabled]="lockedApproved()"
+                    (ngModelChange)="enableApproveDate()">
+                  </p-checkbox>
+                </div>
+                <span>&nbsp;</span>
+                <div class="flex align-items-center justify-content-center">
+                  <small class="info-message">
+                    {{'placementProtocol.approve.info' | translate}}
+                  </small>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid align-items-center animation-duration-200 flip" *ngIf="placementProtocol.approved">
+            <label class="col-12 sm:col-4">{{'placementProtocol.protocolNo' | translate}}</label>
+            <div class="col-12 sm:col-8">
+              <input
+                type="text" class="form-control p-inputtext"
+                [(ngModel)]="placementProtocol.protocolNo" name="protocolNo"
+              >
+            </div>
+          </div>
+
+          <div class="grid align-items-center animation-duration-200 flip" *ngIf="placementProtocol.approved">
+            <label class="col-12 sm:col-4">{{'placementProtocol.protocolDate' | translate}}</label>
+            <div class="col-12 sm:col-8">
+              <app-toitsu-calendar
+                [(model)]="placementProtocol.protocolDate" name="protocolDate">
+              </app-toitsu-calendar>
+            </div>
+          </div>
+
+          <div class="grid align-items-center animation-duration-200 flip" *ngIf="placementProtocol.approved">
+            <label class="col-12 sm:col-4">{{'placementProtocol.approvalComments' | translate}}</label>
+            <div class="col-12 sm:col-8">
+              <textarea pInputTextarea
+                        name="approvalComments" rows="5"
+                        [(ngModel)]="placementProtocol.approvalComments">
+              </textarea>
+            </div>
+          </div>
+
+        </div>
+
+      </p-panel>
+
+    </div>
+
+  </div>
+
+
+  <!--- Προβολή/επεξεργασία επιλεγμένων αιτημάτων εργασίας --->
+  <div class="grid">
+
+    <div class="col-12">
+
+      <p-panel header="{{'placementProtocol.inmateLaborApplications.view' | translate}}">
+        <p-tabView>
+
+          <p-tabPanel header="{{'placementProtocol.view.tab.inmateLaborApplications.basicData' | translate}}">
+
+            <div class="grid">
+
+              <div class="col-12">
+
+                <!--- Μήνυμα προτροπής για τον χρήστη --->
+                <div class="info-message animation-duration-200 flip" *ngIf="placementProtocol.inmateLaborApplications.length === 0">
+                  {{'placementProtocol.inmateLaborApplications.add.info' | translate}}
+                </div>
+
+                <p-table *ngIf="placementProtocol.inmateLaborApplications.length > 0"
+                         [value]="placementProtocol.inmateLaborApplications" [scrollable]="true" scrollHeight="25rem"
+                         styleClass="p-datatable-gridlines p-datatable-striped" appToitsuPTableCellWidth>
+
+                  <ng-template pTemplate="header">
+                    <tr>
+                      <th [style.width]="'3rem'" [style.justify-content]="'center'"></th>
+                      <th [style.width]="'25rem'" [style.justify-content]="'center'">{{'inmateLaborApplication.inmateId' | translate}}</th>
+                      <th [style.width]="'10rem'" [style.justify-content]="'center'">{{'inmateLaborApplication.requestDate' | translate}}</th>
+                      <th [style.width]="'20rem'" [style.justify-content]="'center'">{{'inmateLaborApplication.requestedProfession' | translate}}</th>
+                      <th [style.width]="'20rem'" [style.justify-content]="'center'">{{'inmateLaborApplication.finalProfession' | translate}}</th>
+                      <th [style.width]="'10rem'" [style.justify-content]="'center'">{{'inmateLaborApplication.reject' | translate}}</th>
+                      <th [style.width]="'8rem'"></th>
+                    </tr>
+                  </ng-template>
+
+                  <ng-template pTemplate="body" let-inmateLaborApplication let-index="rowIndex">
+                    <tr class="p-fluid animation-duration-200 flip"
+                        [ngClass]="{'background-color-lightred': inmateLaborApplication.detachFromPlacementProtocol}">
+
+                      <td [style.justify-content]="'center'"> {{index + 1}} </td>
+                      <td [style.justify-content]="'center'"> {{inmateLaborApplication.inmateFullName}} </td>
+                      <td [style.justify-content]="'center'"> {{inmateLaborApplication.protocolDate}} </td>
+                      <td [style.justify-content]="'center'">
+                        <p-dropdown name="inmateLaborApplications{{index}}.requestedProfessionId" [disabled]="true"
+                                    [options]="professions" optionValue="id" optionLabel="name" appendTo="body"
+                                    [(ngModel)]="inmateLaborApplication.requestedProfessionId"
+                                    placeholder="{{'global.selectOption' | translate}}" [showClear]="true" [filter]="true"
+                                    emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}">
+                        </p-dropdown>
+                      </td>
+                      <td [style.justify-content]="'center'">
+                        <p-dropdown name="inmateLaborApplications{{index}}.finalProfessionId" [disabled]="lockedApproved()"
+                                    [options]="professions" optionValue="id" optionLabel="name" appendTo="body"
+                                    [(ngModel)]="inmateLaborApplication.finalProfessionId"
+                                    placeholder="{{'global.selectOption' | translate}}" [showClear]="true" [filter]="true"
+                                    emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}">
+                        </p-dropdown>
+                      </td>
+                      <td [style.justify-content]="'center'">
+                        <p-checkbox
+                          name="inmateLaborApplications{{index}}.rejected" [binary]="true"
+                          [(ngModel)]="inmateLaborApplication.rejected"
+                          [disabled]="lockedApproved()"
+                          (ngModelChange)="enableRejectionDate(index)"
+                        >
+                        </p-checkbox>
+                        <a role="button" pTooltip="{{'inmateLaborApplication.rejectionDetails.basicData' | translate}}"
+                           class="cursor-pointer" (click)="openInmateLaborApplicationRejectionDetailsDialog(index)">
+                          <i *ngIf="!inmateLaborApplication.rejected" class="fa fa-user color-noir"></i>
+                          <i *ngIf="inmateLaborApplication.rejected" class="fa fa-user-times color-red"></i>
+                        </a>
+                      </td>
+                      <td [style.justify-content]="'center'">
+                        <button pButton type="button" class="p-button-danger"
+                                pTooltip="{{(inmateLaborApplication.placementProtocolId ? 'global.delete' : 'global.remove') | translate}}"
+                                icon="{{(inmateLaborApplication.placementProtocolId ? 'fa fa-times' : 'fa fa-minus') | translate}}" iconPos="left"
+                                [disabled]="lockedApproved()" (click)="removeInmateLaborApplication(index)">
+                        </button>
+                      </td>
+
+                    </tr>
+                  </ng-template>
+
+                </p-table>
+
+              </div>
+
+            </div>
+
+          </p-tabPanel>
+
+        </p-tabView>
+      </p-panel>
+
+      <!--- Μήνυμα ενημέρωσης για κλειδωμένες εγγραφές --->
+      <div *ngIf="lockedRecord()">
+        <p class="info-message">
+          {{'placementProtocol.info.forbiddenView' | translate}}
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+
+</form>

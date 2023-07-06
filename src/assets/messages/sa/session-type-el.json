@@ -1,0 +1,7 @@
+{
+  "sessionType.doctorType": "Τύπος Ιατρού",
+  "sessionType.description": "Περιγραφή",
+  "sessionType.comments": "Παρατηρήσεις",
+  
+  "sessionType.view.data": "Στοιχεία"
+}

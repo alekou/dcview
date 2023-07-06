@@ -1,0 +1,58 @@
+<form>
+  <div class="grid">
+    <div class="col-12 button-container">
+      <button pButton type="button"
+              label="{{'global.save' | translate}}" class="p-button-success"
+              icon="fa fa-save" iconPos="left" (click)="saveVaccine()">
+      </button>
+      <button pButton type="button" *ngIf="id"
+              label="{{'global.delete' | translate}}" class="p-button-danger"
+              icon="fa fa-trash" iconPos="left" (click)="deleteVaccine()">
+      </button>
+      <button pButton type="button" *ngIf="id" label="{{'global.newRecord' | translate}}" class="p-button-info"
+              icon="fa fa-plus" iconPos="left" (click)="newRecord()">
+      </button>
+      <button pButton type="button" label="{{'global.index' | translate}}" class="p-button-help"
+              icon="fa fa-table" iconPos="left" (click)="goToList()">
+      </button>
+    </div>
+  </div>
+  <div class="grid">
+    
+    <div class="col-12 md:col-6 p-fluid">
+      
+      <p-panel header="{{'vaccination.details' | translate}}">
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'vaccine.itemId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="vaccine.itemId"  name="itemId"
+                        [options]="medicineVaccines" optionValue="id" optionLabel="medicineName"
+                        placeholder="{{'global.selectOption' | translate}}" emptyMessage="{{'global.noResultsFound' | translate}}"
+                        emptyFilterMessage="{{'global.noResultsFound' | translate}}" [showClear]="true">
+            </p-dropdown>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'vaccine.description' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="vaccine.description" name="description" rows="5"></textarea>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'vaccine.totalDoses' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-inputNumber [disabled]="!!id" [showButtons]="true" [(ngModel)]="vaccine.totalDoses" name="totalDoses" decrementButtonClass="p-button-danger"
+                           incrementButtonClass="p-button-success" incrementButtonIcon="pi pi-plus"
+                           decrementButtonIcon="pi pi-minus" buttonLayout="horizontal" [useGrouping]="false">
+            </p-inputNumber>
+          </div>
+        </div>
+        
+      </p-panel>
+    </div>
+  </div>
+
+</form>

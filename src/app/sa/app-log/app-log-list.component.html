@@ -1,0 +1,115 @@
+<div class="grid">
+  <div class="col-12 button-container">
+    <button pButton type="submit" label="{{'global.search' | translate}}" class="p-button-warning"
+            icon="fa fa-search" iconPos="left" (click)="loadTableData()">
+    </button>
+    <button pButton type="button" label="{{'global.clearArgs' | translate}}" class="p-button-help"
+            icon="fa fa-times" iconPos="left" (click)="clearArgs()">
+    </button>
+  </div>
+</div>
+
+<div class="grid">
+  
+  <div class="col-12 md:col-3">
+    
+    <p-panel header="{{'global.args' | translate}}">
+      
+      <div class="p-fluid">
+        
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'appLog.level' | translate}}</label>
+            <p-dropdown [(ngModel)]="args.level" [options]="levels"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [showClear]="true" [filter]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <div class="col-12 no-padding-bottom">
+            <label>{{'appLog.date' | translate}}</label>
+            <div class="grid field-group">
+              <app-toitsu-calendar class="col-6" [(model)]="args.dateFrom" [noIcon]="true"></app-toitsu-calendar>
+              <span><i class="fa fa-arrow-right no-padding no-margin"></i></span>
+              <app-toitsu-calendar class="col-6" [(model)]="args.dateTo" [noIcon]="true"></app-toitsu-calendar>
+            </div>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'appLog.loggerName' | translate}}</label>
+            <input type="text" pInputText [(ngModel)]="args.loggerName">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'appLog.message' | translate}}</label>
+            <input type="text" pInputText [(ngModel)]="args.message">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'appLog.args.thrownClassName' | translate}}</label>
+            <input type="text" pInputText [(ngModel)]="args.thrownClassName">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'appLog.args.thrownMethodName' | translate}}</label>
+            <input type="text" pInputText [(ngModel)]="args.thrownMethodName">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'appLog.args.contextMapUser' | translate}}</label>
+            <input type="text" pInputText [(ngModel)]="args.contextMapUser">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'appLog.args.contextMapUrl' | translate}}</label>
+            <input type="text" pInputText [(ngModel)]="args.contextMapUrl">
+          </div>
+        </div>
+        
+      </div>
+      
+    </p-panel>
+    
+  </div>
+  
+  <div class="col-12 md:col-9">
+    
+    <app-toitsu-table #table
+                      [url]="url"
+                      [cols]="cols"
+                      [sortField]="sortField"
+                      [sortOrder]="sortOrder"
+                      [args]="args"
+                      [loadOnInit]="false">
+      <ng-template let-rowData #cell1>
+        <button pButton type="button" pRipple *ngIf="rowData['thrown'] && rowData['thrown'] != '{ }'"
+                class="p-button-rounded p-button-outlined p-button-danger" pTooltip="{{'global.display' | translate}}" tooltipPosition="top"
+                icon="fa fa-eye" iconPos="left" (click)="openViewFormattedJsonDialog('Thrown', rowData['thrown'])">
+        </button>
+      </ng-template>
+      <ng-template let-rowData #cell2>
+        <button pButton type="button" pRipple *ngIf="rowData['contextMap'] && rowData['contextMap'] != '{ }'"
+                class="p-button-rounded p-button-outlined p-button-info" pTooltip="{{'global.display' | translate}}" tooltipPosition="top"
+                icon="fa fa-eye" iconPos="left" (click)="openViewFormattedJsonDialog('Context Map', rowData['contextMap'])">
+        </button>
+      </ng-template>
+    </app-toitsu-table>
+    
+  </div>
+  
+</div>

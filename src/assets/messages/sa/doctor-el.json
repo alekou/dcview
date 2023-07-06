@@ -1,0 +1,14 @@
+{
+  "doctor.fullName": "Ονοματεπώνυμο",
+  "doctor.phone": "Τηλέφωνο",
+  "doctor.specialtyPid": "Ειδικότητα",
+  "doctor.isActive": "Ενεργός",
+  "doctor.isExpert": "Πραγματογνώμονας",
+  "doctor.isExternal": "Εξωτερικός",
+  "doctor.Details": "Στοιχεία Χρήστη",
+  "doctor.username": "Χρήστης",
+  "doctor.email": "E-mail",
+  "doctor.lastName": "Επώνυμο",
+  "doctor.firstName": "Όνομα",
+  "doctor.doctorType": "Τύπος"
+}

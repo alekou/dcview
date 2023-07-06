@@ -1,0 +1,18 @@
+{
+  "vehicle.plateNumber": "Αριθμός Πινακίδας",
+  "vehicle.manufacturer": "Μάρκα Οχήματος",
+  "vehicle.carModel": "Μοντέλο Οχήματος",
+  "vehicle.color": "Χρώμα Οχήματος",
+  "vehicle.comments": "Παρατηρήσεις",
+  "vehicle.data": "Στοιχεία Οχήματος",
+
+  "vehicleDriver.visitor": "Επισκέπτης",
+  "vehicleDriver.isActive": "Ενεργός",
+  "vehicleDriver.fromDate": "Έναρξη Ισχύος",
+  "vehicleDriver.toDate": "Λήξη Ισχύος",
+
+  "vehicle.addDriver": "Προσθήκη Νέου Οδηγού",
+  "vehicle.view.tab.drivers": "Οδηγοί",
+
+  "vehicle.select.dialogTitle": "Επιλογή Οχήματος"
+}

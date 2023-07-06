@@ -1,0 +1,102 @@
+<div class="flipleft animation-duration-200">
+
+  <!--- Κουμπιά Ευρετηρίου --->
+  <div class="grid">
+    <div class="col-12 button-container">
+      <button pButton type="submit" label="{{'global.search' | translate}}" class="p-button-warning"
+              icon="fa fa-search" iconPos="left" (click)="loadTableData()">
+      </button>
+      <button pButton type="button" label="{{'global.clearArgs' | translate}}" class="p-button-help"
+              icon="fa fa-times" iconPos="left" (click)="clearArgs()">
+      </button>
+    </div>
+  </div>
+
+  <div class="grid">
+
+    <!--- Κριτήρια Ευρετηρίου --->
+    <div class="col-12 md:col-3">
+
+      <p-panel header="{{'global.args' | translate}}">
+
+          <div class="p-fluid">
+
+            <!--- Κατάστημα Κράτησης Εγγραφής --->
+            <app-record-dc-origin [(recordDcOrigin)]="args.recordDcOrigin" [(dcId)]="args.dcId"></app-record-dc-origin>
+
+            <!--- Κατηγορία --->
+            <div class="grid align-items-center">
+              <div class="col-12">
+                <label>{{'inmateLabors.list.category' | translate}}</label>
+                <p-dropdown [(ngModel)]="args.inmateLaborCategory" [options]="inmateLaborCategories" optionValue="value" optionLabel="label"
+                            placeholder="{{'global.selectOption' | translate}}"
+                            emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                            [showClear]="true">
+                </p-dropdown>
+              </div>
+            </div>
+
+            <!--- Θέση Εργασίας --->
+            <div class="grid align-items-center">
+              <div class="col-12">
+                <label>{{'inmateLabor.professionId' | translate}}</label>
+                <p-dropdown [(ngModel)]="args.professionId"
+                            [options]="professions" optionValue="id" optionLabel="displayName"
+                            placeholder="{{'global.selectOption' | translate}}"
+                            emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                            [showClear]="true" [filter]="true">
+                </p-dropdown>
+              </div>
+            </div>
+
+            <!--- Ημερομηνία Έναρξης --->
+            <div class="grid align-items-center">
+              <div class="col-12 no-padding-bottom">
+                <label>{{'inmateLabor.args.startDate' | translate}}</label>
+                <div class="grid field-group">
+                  <app-toitsu-calendar class="col-6" [(model)]="args.startDateAfter" [noIcon]="true"></app-toitsu-calendar>
+                  <span><i class="fa fa-arrow-right no-padding no-margin"></i></span>
+                  <app-toitsu-calendar class="col-6" [(model)]="args.startDateBefore" [noIcon]="true"></app-toitsu-calendar>
+                </div>
+              </div>
+            </div>
+
+            <!--- Ημερομηνία Λήξης --->
+            <div class="grid align-items-center">
+              <div class="col-12 no-padding-bottom">
+                <label>{{'inmateLabor.args.actualEndDate' | translate}}</label>
+                <div class="grid field-group">
+                  <app-toitsu-calendar class="col-6" [(model)]="args.actualEndDateAfter" [noIcon]="true"></app-toitsu-calendar>
+                  <span><i class="fa fa-arrow-right no-padding no-margin"></i></span>
+                  <app-toitsu-calendar class="col-6" [(model)]="args.actualEndDateBefore" [noIcon]="true"></app-toitsu-calendar>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+      </p-panel>
+
+    </div>
+
+    <!--- Ευρετήριο Ημερομισθίων Κρατουμένου --->
+    <div class="col-12 md:col-9">
+      <app-toitsu-table #table
+                        [url]="url"
+                        [cols]="cols"
+                        [first]="paging.first"
+                        [rows]="paging.rows"
+                        [sortField]="paging.sortField"
+                        [sortOrder]="paging.sortOrder"
+                        [args]="args"
+                        [viewLink]="viewLink"
+                        [excel]="true"
+                        [exportModel]="exportModel"
+                        [loadOnInit]="false"
+      >
+      </app-toitsu-table>
+    </div>
+
+  </div>
+
+</div>

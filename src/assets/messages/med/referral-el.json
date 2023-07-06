@@ -1,0 +1,16 @@
+{
+  "referral.inmateId": "Κρατούμενος",
+  "referral.doctorId": "Ιατρός",
+  "referral.incident": "Γνωμάτευση",
+  "referral.hospitalId": "Νοσοκομείο",
+  "referral.hospitalDepartmentId": "Τμήμα Νοσοκομείου",
+  "referral.transferDate": "Ημερομηνία Μεταγωγής",
+  "referral.returnDate": "Ημερομηνία Επιστροφής",
+  "referral.rejectedTransfer": "Άρνηση Μεταγωγής",
+  "referral.frequency": "Τακτική Μεταγωγή",
+  "referral.comments": "Παρατηρήσεις",
+  "referral.reason": "Αιτιολογία Μεταγωγής",
+  
+  "referral.basicDetails": "Βασικά Στοιχεία",
+  "referral.restDetails": "Λοιπά Στοιχεία"
+}

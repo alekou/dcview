@@ -1,0 +1,89 @@
+.layout-topbar .logo img {
+  height: 26px;
+}
+
+.layout-topbar #menu-button {
+  height: 45px;
+  line-height: 45px;
+}
+
+.usermenu.usermenu-active {
+  top: 45px;
+}
+
+@media screen and (max-width: 1024px) {
+  .layout-topbar {
+      height: 45px;
+  }
+}
+
+.layout-topbar #topbar-menu-button {
+  display: initial;
+  position: initial;
+  right: initial;
+}
+
+.layout-topbar #topbar-menu-button img {
+  margin-right: 9px;
+}
+
+.layout-topbar .item-container {
+  position: absolute;
+  right: 50px;
+}
+
+.layout-topbar .item-container > * {
+  padding-left: 15px;
+}
+
+.layout-topbar .login-button {
+  height: 45px;
+  line-height: 45px;
+  color: #ffffff;
+  vertical-align: middle;
+}
+
+.layout-topbar .login-button span:hover {
+  text-decoration: underline;
+}
+
+.login-button i {
+  margin-right: 9px;
+  vertical-align: middle;
+}
+
+.login-button span {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.layout-topbar .topbar-orgname {
+  height: 45px;
+  line-height: 45px;
+  color: #ffffff;
+  vertical-align: middle;
+}
+
+.layout-topbar .topbar-language {
+  height: 45px;
+  line-height: 45px;
+  color: #ffffff;
+  vertical-align: middle;
+}
+
+.layout-topbar .topbar-language a {
+  cursor: pointer;
+}
+
+p-overlayPanel a {
+  cursor: pointer;
+}
+
+@media screen and (max-width: 1024px) {
+  .layout-topbar .topbar-orgname {
+    display: none;
+  }
+  .layout-topbar .topbar-language {
+    right: 115px;
+  }
+}

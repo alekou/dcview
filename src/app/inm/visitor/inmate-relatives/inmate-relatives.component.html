@@ -1,0 +1,139 @@
+<p-panel header="{{'inmate.view.familyData.relatives' | translate}}" >
+  
+  <div class="grid">
+    
+    <div class="col-12">
+      
+      <div class="col-2">
+        
+        <button pButton type="button" label="{{'global.add' | translate}}" class="p-button-info"
+                icon="fa fa-plus" iconPos="left"
+                (click)="openInmateRelativeListDialog()">
+        </button>
+      </div>
+      
+      <p-table [value]="relatives" [scrollable]="true" scrollHeight="25rem"
+               styleClass="p-datatable-gridlines p-datatable-striped" appToitsuPTableCellWidth>
+        
+        <ng-template pTemplate="header">
+          
+          <tr>
+            <th [style.width]="'2rem'" [style.justify-content]="'center'">#</th>
+            <th [style.width]="'4rem'" [style.justify-content]="'center'"></th>
+            <th [style.width]="'8rem'" [style.justify-content]="'center'">{{'inmateRelation.relationKind' | translate}} </th>
+            <th [style.width]="'6rem'" [style.justify-content]="'center'">{{'inmateRelation.isClosestRelative' | translate}}</th>
+            <th [style.width]="'10rem'" [style.justify-content]="'center'">{{'visitor.lastName' | translate}}</th>
+            <th [style.width]="'10rem'" [style.justify-content]="'center'">{{'visitor.firstName' | translate}}</th>
+            <th [style.width]="'10rem'" [style.justify-content]="'center'">{{'visitor.address' | translate}}</th>
+            <th [style.width]="'10rem'" [style.justify-content]="'center'">{{'visitor.phone' | translate}}</th>
+            <th [style.width]="'10rem'" [style.justify-content]="'center'">{{'visitor.adt' | translate}}</th>
+            <th [style.width]="'10rem'" [style.justify-content]="'center'">{{'visitor.passportNo' | translate}}</th>
+            <th [style.width]="'7rem'"></th>
+          </tr>
+        
+        </ng-template>
+        
+        <ng-template pTemplate="body" let-relative let-index="rowIndex">
+          <tr *ngFor="let relation of getRelationsForInmate(relative, inmateId)">
+            <td [style.justify-content]="'center'">{{index + 1}}</td>
+            <td [style.width]="'10%'" [style.justify-content]="'center'" class="button-container">
+              <a role="button"   *ngIf="relative.id"  (click)="openInmateRelativeDialogForUpdate(relative)"
+                 pTooltip="{{'global.edit' | translate}}"  tooltipPosition="top" class="cursor-pointer">
+                <i class="fa fa-edit"></i>
+              </a>
+            </td>
+            <td [style.justify-content]="'center'">{{relation.relationKindLabel}}</td>
+            <td [style.justify-content]="'center'"><i [ngClass]="{'fa': true, 'fa-check color-green': getFirstIsCloseRelative(relative, inmateId), 'fa-ban color-dimgrey': !getFirstIsCloseRelative(relative, inmateId)}"></i></td>
+            <td [style.justify-content]="'center'">{{relative.lastName}}</td>
+            <td [style.justify-content]="'center'">{{relative.firstName}}</td>
+            <td [style.justify-content]="'center'">{{relative.address}}</td>
+            <td [style.justify-content]="'center'">{{relative.phone}}</td>
+            <td [style.justify-content]="'center'">{{relative.adt}}</td>
+            <td [style.justify-content]="'center'">{{relative.passportNo}}</td>
+            <td [style.width]="'10%'" [style.justify-content]="'center'" class="button-container">
+              <app-field-revisions *ngIf="relative.id" [entityClass]="'inm.core.domain.Visitor'"
+                                   [entityId]="relative.id" [tableMode]="true"></app-field-revisions>
+              <button pButton type="button" pTooltip="{{('global.delete') | translate}}" class="p-button-danger"
+                      icon="fa fa-times" iconPos="left"
+                      (click)="deleteInmateRelation(relation.id, relative)">
+              </button>
+            </td>
+          </tr>
+        </ng-template>
+      
+      </p-table>
+    </div>
+  </div>
+</p-panel>
+
+<p-panel header="{{'inmate.view.familyData.otherRelatives' | translate}}">
+  
+  <div class="grid">
+    
+    <div class="col-12">
+      
+      <div class="col-2">
+        
+        <button pButton type="button" label="{{'global.add' | translate}}" class="p-button-info"
+                icon="fa fa-plus" iconPos="left"
+                (click)="openInmateRelativeListDialog('OTHER')">
+        </button>
+      </div>
+      
+      <p-table [value]="otherRelatives" [scrollable]="true" scrollHeight="25rem"
+               styleClass="p-datatable-gridlines p-datatable-striped" appToitsuPTableCellWidth>
+        
+        <ng-template pTemplate="header">
+          
+          <tr>
+            <th [style.width]="'2rem'" [style.justify-content]="'center'">#</th>
+            <th [style.width]="'4rem'" [style.justify-content]="'center'"></th>
+            <th [style.width]="'6rem'" [style.justify-content]="'center'">{{'inmateRelation.isClosestRelative' | translate}}</th>
+            <th [style.width]="'10rem'" [style.justify-content]="'center'">{{'inmateRelation.otherRelationKindPid' | translate}}</th>
+            <th [style.width]="'10rem'" [style.justify-content]="'center'">{{'visitor.lastName' | translate}}</th>
+            <th [style.width]="'10rem'" [style.justify-content]="'center'">{{'visitor.firstName' | translate}}</th>
+            <th [style.width]="'10rem'" [style.justify-content]="'center'">{{'visitor.address' | translate}}</th>
+            <th [style.width]="'10rem'" [style.justify-content]="'center'">{{'visitor.phone' | translate}}</th>
+            <th [style.width]="'10rem'" [style.justify-content]="'center'">{{'visitor.adt' | translate}}</th>
+            <th [style.width]="'10rem'" [style.justify-content]="'center'">{{'visitor.passportNo' | translate}}</th>
+            <th [style.width]="'7rem'"></th>
+          </tr>
+        
+        </ng-template>
+        
+        <ng-template pTemplate="body" let-otherRelative let-index="rowIndex">
+          
+          <tr class="p-fluid" *ngFor="let relation of getRelationsForInmate(otherRelative, inmateId)">
+            
+            <td [style.justify-content]="'center'">{{index + 1}}</td>
+            <td [style.width]="'10%'" [style.justify-content]="'center'" class="button-container">
+              <a role="button"   *ngIf="otherRelative.id"  (click)="openInmateRelativeDialogForUpdate(otherRelative)"
+                 pTooltip="{{'global.edit' | translate}}"  tooltipPosition="top" class="cursor-pointer">
+                <i class="fa fa-edit"></i>
+              </a>
+            </td>
+            <td [style.justify-content]="'center'"><i [ngClass]="{'fa': true, 'fa-check color-green': getFirstIsCloseRelative(otherRelative, inmateId), 'fa-ban color-dimgrey': !getFirstIsCloseRelative(otherRelative, inmateId)}"></i></td>
+            <td>{{getOtherRelationKindDescription(relation.otherRelationKindPid)}}</td>
+            <td [style.justify-content]="'center'">{{otherRelative.lastName}}</td>
+            <td [style.justify-content]="'center'">{{otherRelative.firstName}}</td>
+            <td [style.justify-content]="'center'">{{otherRelative.address}}</td>
+            <td [style.justify-content]="'center'">{{otherRelative.phone}}</td>
+            <td [style.justify-content]="'center'">{{otherRelative.adt}}</td>
+            <td [style.justify-content]="'center'">{{otherRelative.passportNo}}</td>
+            <td [style.width]="'10%'" [style.justify-content]="'center'" class="button-container">
+              <app-field-revisions *ngIf="otherRelative.id" [entityClass]="'inm.core.domain.Visitor'"
+                                   [entityId]="otherRelative.id" [tableMode]="true"></app-field-revisions>
+              <button pButton type="button" pTooltip="{{('global.delete') | translate}}" class="p-button-danger"
+                      icon="fa fa-times" iconPos="left"
+                      (click)="deleteInmateRelation(otherRelative, index)">
+              </button>
+            </td>
+          </tr>
+        
+        </ng-template>
+      
+      </p-table>
+    </div>
+  </div>
+
+</p-panel>

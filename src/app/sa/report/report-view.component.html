@@ -1,0 +1,132 @@
+<form>
+  
+  <div class="grid">
+    <div class="col-12 md:col-6 button-container flex-container">
+      <div class="flex-container-start">
+        <button pButton type="button"
+                label="{{'global.save' | translate}}" class="p-button-success"
+                icon="fa fa-save" iconPos="left" (click)="saveReport()">
+        </button>
+        <button pButton type="button" *ngIf="report.templateId"
+                label="{{'global.recreate' | translate}}" class="p-button-info"
+                icon="fa fa-refresh" iconPos="left" (click)="recreateReport()">
+        </button>
+      </div>
+      <div class="flex-container-end">
+        <app-field-revisions *ngIf="id" [entityClass]="'tr.core.domain.Report'" [entityId]="id"></app-field-revisions>
+      </div>
+    </div>
+  </div>
+  
+  <div class="grid">
+    
+    <div class="col-12 md:col-6 p-fluid">
+      
+      <p-panel header="{{'report.view.reportData' | translate}}">
+        
+        <!-- Τίτλος -->
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'report.title' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="report.title" name="title">
+          </div>
+        </div>
+        
+        <!-- Αρ. Πρωτοκόλλου -->
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'report.protocolNo' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="report.protocolNo" name="protocolNo">
+          </div>
+        </div>
+        
+        <!-- Ημ/νία Πρωτοκόλλου -->
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'report.protocolDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="report.protocolDate" name="protocolDate"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <!-- Αιτών -->
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'report.applicant' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="report.applicant" name="applicant">
+          </div>
+        </div>
+        
+        <!-- Παρατηρήσεις -->
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'report.comments' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="report.comments" name="comments" rows="8"></textarea>
+          </div>
+        </div>
+      
+      </p-panel>
+    </div>
+    
+    <div class="col-12 md:col-6 p-fluid">
+      
+      <p-panel *ngIf="report.grammarList.length > 0 " header="{{'report.view.grammarData' | translate}}">
+        
+        <p-table [value]="report.grammarList" [scrollable]="true" scrollHeight="25rem" styleClass="p-datatable-gridlines p-datatable-striped" appToitsuPTableCellWidth>
+          
+          <ng-template pTemplate="header">
+            
+            <tr>
+              <th [style.width]="'5rem'" [style.justify-content]="'center'">#</th>
+              <th [style.width]="'15rem'" [style.justify-content]="'center'">{{'report.grammar.nominative' | translate}}</th>
+              <th [style.width]="'15rem'" [style.justify-content]="'center'">{{'report.grammar.genitive' | translate}}</th>
+              <th [style.width]="'15rem'" [style.justify-content]="'center'">{{'report.grammar.accusative' | translate}}</th>
+            </tr>
+          
+          </ng-template>
+          
+          <ng-template pTemplate="body" let-grammar let-index="rowIndex">
+            
+            <tr class="p-fluid">
+              
+              <td [style.justify-content]="'center'">{{index + 1}}</td>
+              
+              <td [style.justify-content]="'center'">
+                {{grammar['nominative']}}
+              </td>
+              
+              <td [style.justify-content]="'center'">
+                <input type="text" pInputText [(ngModel)]="grammar['genitive']" name="grammar{{index}}.genitive">
+              </td>
+              
+              <td [style.justify-content]="'center'">
+                <input type="text" pInputText [(ngModel)]="grammar['accusative']" name="grammar{{index}}.accusative">
+              </td>
+            
+            </tr>
+          
+          </ng-template>
+        
+        </p-table>
+        
+        <div class="grid align-items-center">
+          <div class="col-12 sm:col-4">
+            <button pButton type="button"
+                    label="{{'global.save' | translate}}" class="p-button-success"
+                    icon="fa fa-save" iconPos="left" (click)="saveGrammar()">
+            </button>
+          </div>
+        </div>
+      
+      </p-panel>
+    
+    </div>
+  
+  </div>
+  
+  <div class="grid" *ngIf="report.id">
+    <div class="col-12">
+      <app-toitsu-ckeditor [(model)]="report.content" [editorOptions]="editorOptions"></app-toitsu-ckeditor>
+    </div>
+  </div>
+
+</form>

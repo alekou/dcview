@@ -1,0 +1,66 @@
+<form>
+  
+  <div class="grid">
+    <div class="col-12 button-container">
+      <button pButton type="button"
+              label="{{'global.save' | translate}}" class="p-button-success"
+              icon="fa fa-save" iconPos="left" (click)="saveLexicographies()">
+      </button>
+      <button pButton type="button" label="{{'global.newRecord' | translate}}" class="p-button-info"
+              icon="fa fa-plus" iconPos="left" (click)="addLexicography()">
+      </button>
+    </div>
+  </div>
+  
+  <div class="grid">
+    
+    <div class="col-12">
+      
+      <p-table [value]="lexicographies" [scrollable]="true" *ngIf="showLexicographiesTable"
+               styleClass="p-datatable-gridlines p-datatable-striped" appToitsuPTableCellWidth>
+        
+        <ng-template pTemplate="header">
+          
+          <tr>
+            <th [style.width]="'5rem'" [style.justify-content]="'center'">#</th>
+            <th [style.width]="'10rem'" class="font-bold">{{'lexicography.letters' | translate}}</th>
+            <th [style.width]="'10rem'" class="font-bold">{{'lexicography.lexicographic' | translate}}</th>
+            <th [style.width]="'10rem'">{{'lexicography.excludeChars' | translate}}</th>
+            <th [style.width]="'8rem'"></th>
+          </tr>
+        
+        </ng-template>
+        
+        <ng-template pTemplate="body" let-lexicography let-index="rowIndex">
+          
+          <tr class="p-fluid">
+            <td [style.justify-content]="'center'">{{index + 1}}</td>
+            <td><input type="text" pInputText [(ngModel)]="lexicography.letters" name="lexicography{{index}}.letters">
+            </td>
+            <td>
+              <input type="text" pInputText [(ngModel)]="lexicography.lexicographic" name="lexicography{{index}}.lexicographic">
+            </td>
+            <td>
+              <input type="text" pInputText [(ngModel)]="lexicography.excludeChars" name="lexicography{{index}}.excludeChars">
+            </td>
+            <td [style.width]="'10%'" [style.justify-content]="'center'" class="button-container">
+              <app-field-revisions *ngIf="lexicography.id" [entityClass]="'cm.core.domain.Lexicography'"
+                                   [entityId]="lexicography.id" [tableMode]="true"></app-field-revisions>
+              <button pButton type="button" class="p-button-danger" icon="{{(lexicography.id ? 'fa fa-times' : 'fa fa-minus')}}"
+                      iconPos="left" pTooltip="{{(lexicography.id ? 'global.delete' : 'global.remove') | translate}}"
+                      tooltipPosition="top" (click)="deleteLexicography(index, lexicography.id)">
+              </button>
+            </td>
+          
+          </tr>
+        
+        </ng-template>
+      
+      </p-table>
+    
+    </div>
+  
+  </div>
+
+</form>
+

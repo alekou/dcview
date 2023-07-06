@@ -1,0 +1,34 @@
+{
+  "postLetter.type": "Είδος Επιστολής",
+  "postLetter.receiveDate": "Ημερομηνία Παραλαβής",
+  "postLetter.inmateId": "Κρατούμενος",
+  "postLetter.employeeId": "Υπάλληλος",
+  "postLetter.reCode": "Κωδικός RE",
+  "postLetter.courierCode": "Κωδικός Μεταφορέα",
+  "postLetter.isPackage": "Δέμα",
+  "postLetter.containsMoney": "Περιέχει Χρηματικό Ποσό",
+
+
+  "postLetter.amountOfMoney": "Χρηματικό Ποσό",
+
+  "postLetter.received": "Παραλαβή",
+  "postLetter.notReceiveDate": "Ημερομηνία Μη Παραλαβής",
+  "postLetter.notReceiveReason": "Αιτιολογία Μη Παραλαβής",
+  "postLetter.returned": "Έχει επιστραφεί",
+  "postLetter.returnDate": "Ημερομηνία Επιστροφής",
+  "postLetter.comments": "Παρατηρήσεις",
+  "postLetter.senderLastName": "Επίθετο Αποστολέα",
+  "postLetter.senderFirstName": "Όνομα Αποστολέα",
+  "postLetter.senderCity": "Πόλη Αποστολέα",
+  "postLetter.senderAddress": "Διεύθυνση Αποστολέα",
+  "postLetter.senderPostalCode": "Τ.Κ. Αποστολέα",
+  "postLetter.senderPhone": "Τηλέφωνο Αποστολέα",
+  
+  "postLetter.args.inmateCode":"Α.Γ.Μ. Κρατουμένου",
+  "postLetter.args.senderFullName": "Ονοματεπώνυμο Αποστολέα",
+  
+  "postLetter.list.sender": "Αποστολέας",
+  
+  "postLetter.view.postLetterData": "Στοιχεία Επιστολής",
+  "postLetter.view.senderData": "Στοιχεία Αποστολέα"
+}

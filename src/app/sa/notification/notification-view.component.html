@@ -1,0 +1,46 @@
+<form>
+  <div class="grid">
+    <div class="col-12 button-container">
+      <button pButton type="button" *ngIf="!lockedRecord()"
+              label="{{'global.save' | translate}}" class="p-button-success"
+              icon="fa fa-save" iconPos="left" (click)="saveNotification()">
+      </button>
+      <button pButton type="button" *ngIf="id" label="{{'global.newRecord' | translate}}" class="p-button-info"
+              icon="fa fa-plus" iconPos="left" (click)="newRecord()">
+      </button>
+      <button pButton type="button" label="{{'global.index' | translate}}" class="p-button-help"
+              icon="fa fa-table" iconPos="left" (click)="goToList()">
+      </button>
+    </div>
+  </div>
+  <div class="grid">
+    <div class="col-12 md:col-6 p-fluid">
+      
+      <p-panel header="{{'notification.details' | translate}}" appToitsuLockControls [lockCondition]="lockedRecord()">
+  
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'notification.notificationTypeId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [disabled]="!!id" [(ngModel)]="notification.notificationTypeId" name="notificationTypeId"
+                        [options]="notificationTypes" optionValue="id" optionLabel="title"
+                        emptyMessage="{{'global.noResultsFound' | translate}}"
+                        emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        placeholder="{{'global.selectOption' | translate}}" [showClear]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'notification.notificationMessage' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [disabled]="!!id" [(ngModel)]="notification.notificationMessage" name="notificationMessage" rows="5"></textarea>
+          </div>
+        </div>
+        
+      </p-panel>
+      
+    </div>
+  
+  </div>
+
+</form>

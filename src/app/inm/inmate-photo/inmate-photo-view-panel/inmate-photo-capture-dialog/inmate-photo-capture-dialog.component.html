@@ -1,0 +1,175 @@
+<!--- Dialog: Λήψη φωτογραφιών κρατουμένου μέσω κάμερας --->
+
+<div class="panel-container">
+
+  <div class="panel-content">
+
+    <p-panel>
+
+      <ng-template pTemplate="header">
+        <div class="font-bold">
+          {{'inmatePhoto.captureNewPhoto' | translate}}
+        </div>
+      </ng-template>
+
+      <div class="grid">
+        <div class="col-12 button-container" *ngIf="!turnedOnCamera">
+          <button pButton type="button" label="{{'inmatePhoto.enableCamera' | translate}}" class="p-button-info"
+                  icon="fa fa-video-camera" iconPos="left" [loading]="loading" (click)="turnOnCamera()">
+          </button>
+        </div>
+      </div>
+
+      <!--- Περιεχόμενο Σελίδας (p-cards) --->
+      <div class="card-container">
+        <!--- Λήψη Φωτογραφίας --->
+        <p-card class="card-element padding-right-10 padding-bottom-10 animation-duration-500 flipup" [hidden]="!turnedOnCamera"
+                header="{{'inmatePhoto.camera' | translate}}" subheader="{{'inmatePhoto.cameraView' | translate}}">
+          <div class="image-container">
+            <!--- Προεπισκόπηση Κάμερας --->
+            <video #video
+                   [class.show]="!isCaptured"
+                   [class.hide]="isCaptured"
+                   [width]="490"
+                   [height]="370"
+                   autoplay
+            ></video>
+            <!--- Κουμπί για λήψη στιγμιοτύπου κάμερας --->
+            <span class="bottom-right padding-right-10 padding-bottom-10">
+            <button pButton type="button" pTooltip="{{'inmatePhoto.capturePhoto' | translate}}" class="p-button-rounded"
+                    icon="pi pi-camera" iconPos="bottom" [loading]="loading" loadingIcon="fa fa-eercast fa-pulse" (click)="capture()">
+            </button>
+          </span>
+          </div>
+        </p-card>
+
+        <!--- Προβολή Φωτογραφιών Κάμερας --->
+        <p-card class="card-element padding-right-10 padding-bottom-10 animation-duration-500 flipup" [hidden]="!isCaptured"
+                header="{{'inmatePhoto.capturedPhotos' | translate}}" subheader="{{'inmatePhoto.cameraView' | translate}}">
+          <div>
+            <!--- Προβολή μηνύματος αν δεν υπάρχουν λήψεις κάμερας --->
+            <div class="flex align-items-center justify-content-center" *ngIf="captures.length === 0">
+              <i class="fa fa-picture-o upload-icon fa-align-center"></i>
+              {{'inmatePhoto.info.noCapturedPhotos' | translate}}
+            </div>
+            <!--- Προβολή τελευταίας λήψης --->
+            <div class="animation-duration-1000 zoomin" *ngIf="captures.length > 0">
+              <p-image
+                [preview]="true" src="{{this.selectedInmatePhotoSrc}}" alt="{{'inmatePhoto.photo' | translate}}"
+                width="320" height="240">
+              </p-image>
+            </div>
+            <!--- Gallery φωτογραφιών που τραβήχτηκαν --->
+            <div [hidden]="captures.length === 0">
+              <p-divider align="center">
+                <div class="inline-flex align-items-center">
+                  <i class="fa fa-picture-o mr-2"></i>
+                  <b>{{'inmatePhoto.capturedPhotos' | translate}}</b>
+                </div>
+              </p-divider>
+              <div class="camera-thumbnails-row">
+                <div *ngFor="let file of captures; let i = index">
+                  <div class="camera-thumbnails-column flipright">
+                    <div class="image-container">
+                      <img class="p-link" src="{{file}}" width="50" alt="{{'inmatePhoto.thumbnail' | translate}}" (click)="selectedPhotoChanged(i)"/>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </p-card>
+
+        <!--- Προβολή επιλεγμένων φωτογραφιών για Αποθήκευση --->
+        <p-card class="card-element padding-bottom-10 animation-duration-1000 flipup" [hidden]="!isCaptured"
+                header="{{'inmatePhoto.sumUp' | translate}}" subheader="{{'inmatePhoto.savePhotoList' | translate}}">
+          <!--- Μηνύματα για τον χρήστη --->
+          <div *ngIf="isCaptured">
+            <div class="py-3 flex align-items-center justify-content-center" *ngIf="inmatePhotos.length === 0">
+              <i class="fa fa-folder-o"></i>
+              {{'inmatePhoto.info.NoFilesToSave' | translate}}
+            </div>
+            <div class="py-3" *ngIf="inmatePhotos.length === 1">
+              {{'inmatePhoto.haveUpload' | translate}}&nbsp;{{imageFiles.length}}&nbsp;{{'inmatePhoto.file' | translate}}
+            </div>
+            <div class="py-3" *ngIf="inmatePhotos.length > 1">
+              {{'inmatePhoto.haveUpload' | translate}}&nbsp;{{imageFiles.length}}&nbsp;{{'inmatePhoto.files' | translate}}
+            </div>
+            <small class="info-message" *ngIf="currentInmatePhotoCount() === 0 && imageFiles.length > 0">
+              {{'inmatePhoto.info.setCurrent' | translate}}
+            </small>
+            <small class="error-message" *ngIf="currentInmatePhotoCount() > 1 && imageFiles.length > 0">
+              {{'inmatePhoto.info.moreThanOneCurrent' | translate}}
+            </small>
+          </div>
+          <!--- Προβολή ανεβασμένων αρχείων --->
+          <div *ngIf="captures.length">
+            <div *ngFor="let file of imageFiles; let i = index">
+              <hr>
+              <div class="grid">
+                <div class="col-12 md:col-4">
+                  <div>{{i+1}}.&nbsp;</div>
+                  <div>
+                    <img src="{{captures[i]}}" width="40">&nbsp;
+                    <br>
+                    {{file.name}}
+                    <br>
+                    {{getFormatFileSize(file.size)}}
+                  </div>
+                </div>
+                <div class="col-12 md:col-6">
+                  <br><br>
+                  <label>{{'inmatePhoto.current' | translate}}:&nbsp;</label>
+                  <p-checkbox
+                    binary="true" [(ngModel)]="inmatePhotos[i].current" name="inmatePhotos{{i}}.current"
+                    pTooltip="{{'inmatePhoto.tooltip.setAsCurrentInmatePhoto' | translate}}">
+                  </p-checkbox>
+                  <br>
+                  <label>{{'inmatePhoto.comments' | translate}}:&nbsp;</label>
+                  <textarea
+                    pInputTextarea appToitsuTextareaAutoResize name="inmatePhotos{{i}}.comments"
+                    [(ngModel)]="inmatePhotos[i].comments">
+                </textarea>
+                </div>
+                <div class="col-12 md:col-2">
+                  <br><br><br>
+                  <a pTooltip="{{'inmatePhoto.tooltip.removeFile' | translate}}" tooltipPosition="right" (click)="removeCapturedFile(i)">
+                    <i class="fa fa-times color-red p-link"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </p-card>
+      </div>
+
+      <!--- Δημιουργία στιγμιότυπου κάμερας [hidden] --->
+      <canvas #canvas
+              [hidden]="true"
+              [width]="WIDTH"
+              [height]="HEIGHT">
+      </canvas>
+
+    </p-panel>
+
+  </div>
+
+  <div class="panel-button-set">
+    <!--- Κουμπιά --->
+    <div class="grid">
+      <div class="col-12 button-container text-align-end">
+        <button pButton type="button" label="{{'global.save' | translate}}" class="p-button-success"
+                icon="fa fa-save" iconPos="left" [disabled]="imageFiles.length === 0 || inmatePhotos.length === 0"
+                (click)="saveInmatePhotos()">
+        </button>
+        <button pButton type="button" label="{{'global.cancel' | translate}}" class="p-button-warning"
+                icon="fa fa-times" iconPos="left" (click)="cancel()">
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+

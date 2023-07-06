@@ -1,0 +1,28 @@
+
+{
+  "shift.details": "Στοιχεία",
+  "shift.isActive": "Ενεργή",
+  "shift.view.name1": "Όνομα Πρώτης Βάρδιας",
+  "shift.view.used1": "Χρήση Πρώτης Βάρδιας",
+  "shift.view.name2": "Όνομα Δεύτερης Βάρδιας",
+  "shift.view.used2": "Χρήση Δεύτερης Βάρδιας",
+  "shift.view.name3": "Όνομα Τρίτης Βάρδιας",
+  "shift.view.used3": "Χρήση Τρίτης Βάρδιας",
+  "shift.view.name4": "Όνομα Τέταρτης Βάρδιας",
+  "shift.view.used4": "Χρήση Τέταρτης Βάρδιας",
+  "shift.view.name5": "Όνομα Πέμπτης Βάρδιας",
+  "shift.view.used5": "Χρήση Πέμπτης Βάρδιας",
+  
+  
+  "shift.list.isActive": "Ενεργή",
+  "shift.list.name1": "Όνομα 1ης Βάρδιας",
+  "shift.list.used1": "Χρήση 1ης",
+  "shift.list.name2": "Όνομα 2ης Βάρδιας",
+  "shift.list.used2": "Χρήση 2ης",
+  "shift.list.name3": "Όνομα 3ης Βάρδιας",
+  "shift.list.used3": "Χρήση 3ης",
+  "shift.list.name4": "Όνομα 4ης Βάρδιας",
+  "shift.list.used4": "Χρήση 4ης",
+  "shift.list.name5": "Όνομα 5ης Βάρδιας",
+  "shift.list.used5": "Χρήση 5ης"
+}

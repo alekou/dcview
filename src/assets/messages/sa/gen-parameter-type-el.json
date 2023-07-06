@@ -1,0 +1,11 @@
+{
+  "genParameterType.dialog.title.create": "Προσθήκη Κατηγορίας Παραμετρικού",
+  "genParameterType.dialog.title.edit": "Επεξεργασία Κατηγορίας Παραμετρικού",
+  "genParameterType.details": "Στοιχεία",
+  "genParameterType.category": "Ονομασία Κατηγορίας",
+  "genParameterType.description": "Περιγραφή",
+  "genParameterType.isEditableLabel": "Επεξεργάσιμη Κατηγορία",
+  "genParameterType.isEditable": "Επεξεργάσιμη Κατηγορία",
+  "genParameterType.isHierarchical": "Ιεραρχική Δομή",
+  "genParameterType.isBigList": "Μεγάλη Κατηγορία"
+}

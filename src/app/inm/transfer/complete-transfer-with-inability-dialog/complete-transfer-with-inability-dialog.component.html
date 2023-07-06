@@ -1,0 +1,34 @@
+<div class="grid">
+  
+  <div class="col-12 p-fluid">
+    
+    <p-panel header="{{'transfer.inProgress.complete.inability.data' | translate}}">
+      
+      <div class="grid align-items-center">
+        <label class="col-12 sm:col-4 font-bold">{{'transfer.inProgress.complete.inability.inabilityReasonPid' | translate}}</label>
+        <div class="col-12 sm:col-8">
+          <p-dropdown [(ngModel)]="inabilityReasonPid" name="inabilityReasonPid"
+                      [options]="detentionInabilityEntryReasons" optionValue="id" optionLabel="description"
+                      placeholder="{{'global.selectOption' | translate}}"
+                      emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                      [showClear]="true" [filter]="true" appendTo="body">
+          </p-dropdown>
+        </div>
+      </div>
+      
+    </p-panel>
+    
+  </div>
+  
+</div>
+
+<div class="grid">
+  <div class="col-12 button-container text-align-end">
+    <button pButton type="button" label="{{'global.confirm' | translate}}" class="p-button-success"
+            icon="fa fa-save" iconPos="left" (click)="confirm()">
+    </button>
+    <button pButton type="button" label="{{'global.cancel' | translate}}" class="p-button-warning"
+            icon="fa fa-times" iconPos="left" (click)="cancel()">
+    </button>
+  </div>
+</div>

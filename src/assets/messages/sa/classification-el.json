@@ -1,0 +1,14 @@
+{
+  "classification.isActive": "Ενεργή",
+  "classification.description": "Περιγραφή",
+  "classification.isClosingRecord": "Κλείσιμο Κράτησης",
+  "classification.isClosingFolder": "Κλείσιμο Φακέλου",
+  "classification.isCrime": "Αδίκημα",
+  "classification.isTransfer": "Μεταγωγή",
+  "classification.isDeath": "Θάνατος",
+  "classification.isEscape": "Απόδραση",
+  "classification.isRelease": "Αποφυλάκιση",
+  "classification.elstatCode": "Κωδικός ΕΛΣΤΑΤ",
+
+  "classification.view.classificationData": "Στοιχεία Κατάταξης"
+}

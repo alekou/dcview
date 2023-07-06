@@ -1,0 +1,38 @@
+{
+  "disciplineOffense.id": "Id Εγγραφής",
+  "disciplineOffense.dcId": "Κατάστημα Κράτησης",
+  "disciplineOffense.inmateId": "Κρατούμενος",
+  "disciplineOffense.inmateRecordId": "Κράτηση",
+  "disciplineOffense.merging": "Συγχωνευτικό",
+  "disciplineOffense.merged": "Συγχωνευμένο",
+  "disciplineOffense.relatedDiscOffenseId": "Σχετικό Πειθαρχικό Παράπτωμα",
+  "disciplineOffense.incidentDate": "Ημερομηνία Συμβάντος",
+  "disciplineOffense.offenseTypePid": "Τύπος Πειθαρχικού Παραπτώματος",
+  "disciplineOffense.articles": "Άρθρα",
+  "disciplineOffense.comments": "Παρατηρήσεις",
+  "disciplineOffense.status": "Κατάσταση",
+  "disciplineOffense.disciplineDecisionId": "Απόφαση Πειθαρχικού",
+  "disciplineOffense.points": "Βαθμοί",
+  "disciplineOffense.apology": "Απολογία",
+  "disciplineOffense.InmateApology": "Απολογία Κρατουμένου",
+  "disciplineOffense.disciplineId": "Πειθαρχικό",
+  "disciplineOffense.penaltyTypePid": "Είδος Ποινής",
+  "disciplineOffense.ReportedInmate": "Αναφερόμενος",
+  "disciplineOffense.allDisciplineReportNames": "Αναφορές",
+  "disciplineOffense.decisionName": "Απόφαση",
+
+  "disciplineOffense.view.reported": "Αναφερόμενοι",
+  "disciplineOffense.view.reportedData": "Στοιχεία Αναφερόμενου",
+  "disciplineOffense.view.disciplineOffenseData": "Στοιχεία Αναφερόμενου",
+  "disciplineOffense.view.relatedDisciplineReports": "Συνδεδεμένες Αναφορές Πειθαρχικού",
+  "disciplineOffense.view.openRelatedDisciplineReport": "Άνοιγμα Συνδεδεμένης Αναφοράς Πειθαρχικού",
+
+  "disciplineOffense.add.reportedAlreadyListed": "Ο αναφερόμενος έχει ήδη καταχωρηθεί",
+
+  "disciplineOffense.selectDisciplineOffensesToRelate.dialogTitle": "Επιλογή Πειθαρχικών Παραπτωμάτων προς Σύνδεση",
+
+  "disciplineOffense.dialog.view.availableDisciplineOffensesToRelate": "Βρέθηκε καταχωρημένο το ίδιο πειθαρχικό παράπτωμα για τον κρατούμενο την ίδια ημερομηνία. Θέλετε να το συνδέσετε;",
+  "disciplineOffense.dialog.title": "Αναφερόμενοι"
+}
+
+

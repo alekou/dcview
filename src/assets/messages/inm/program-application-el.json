@@ -1,0 +1,34 @@
+{
+  "programApplication.protocolId": "Πρακτικό Συμμετοχής",
+  "programApplication.inmateId": "Κρατούμενος",
+  "programApplication.protocolNo": "Αριθμός Πρωτοκόλλου",
+  "programApplication.applicationDate": "Ημερομηνία Αιτήματος",
+  "programApplication.programId": "Επιμορφωτικό Πρόγραμμα",
+  "programApplication.professionId": "Θέση Εργασίας",
+  "programApplication.comments": "Παρατηρήσεις",
+  "programApplication.startDate": "Ημερομηνία Συμμετοχής (Από)",
+  "programApplication.endDate": "Ημερομηνία Συμμετοχής (Έως)",
+  "programApplication.lateEntry": "Εκπρόθεσμη Έναρξη",
+  "programApplication.graduate": "Αποφοίτηση",
+  "programApplication.certification": "Πιστοποίηση",
+  "programApplication.rejected": "Απορρίφθηκε",
+  "programApplication.rejectedDate": "Ημερομηνία Απόρριψης",
+  "programApplication.rejectedComments": "Παρατηρήσεις Απόρριψης",
+  "programApplication.withdrawal": "Αποχώρηση",
+  "programApplication.withdrawalReasonPid": "Αιτία Αποχώρησης",
+  "programApplication.withdrawalComments": "Παρατηρήσεις Αποχώρησης",
+  
+  "programApplication.args.inmateCode": "Α.Γ.Μ. Κρατουμένου",
+  
+  "programApplication.view.data": "Στοιχεία",
+  "programApplication.view.rejectionData": "Στοιχεία Απόρριψης",
+  "programApplication.view.withdrawalData": "Στοιχεία Αποχώρησης",
+
+  "programApplication.withdrawalDate": "Ημερομηνία Αποχώρησης",
+  "programApplication.rejectionDetails": "Στοιχεία Απόρριψης",
+  "programApplication.withdrawalDetails": "Στοιχεία Αποχώρησης",
+  "programApplication.select.dialogTitle": "Επιλογή Αιτημάτων Συμμετοχής",
+
+  "programApplication.info.forbiddenView.otherDc": "Δεν μπορείτε να επεξεργαστείτε ή να διαγράψετε αιτήματα συμμετοχής άλλου καταστήματος κράτησης.",
+  "programApplication.info.forbiddenView.attachedToProgramProtocol": "Δεν μπορείτε να επεξεργαστείτε ή να διαγράψετε αιτήματα συμμετοχής που έχουν συσχετιστεί με κάποιο πρακτικό συμμετοχής."
+}

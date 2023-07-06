@@ -1,0 +1,22 @@
+{
+  "vacationApplication.changeInMotion.complete.success": "Η αλλαγή σε εισήγηση ολοκληρώθηκε με επιτυχία.",
+  
+  "vacationApplication.view.vacationApplicationData": "Στοιχεία Αίτησης Άδειας",
+  
+  "vacationApplication.protocolNo": "Αριθμός Πρωτοκόλλου",
+  "vacationApplication.inmateFullName": "Κρατούμενος",
+  "vacationApplication.vacationTypeId": "Τύπος Άδειας",
+  "vacationApplication.applicationDate": "Ημερομηνία Αίτησης",
+  "vacationApplication.destination": "Προορισμός",
+  "vacationApplication.reason": "Αιτία",
+  "vacationApplication.applicationFromDate": "Αιτηθείσα Ημερομηνία Έναρξης",
+  "vacationApplication.applicationToDate": "Αιτηθείσα Ημερομηνία Λήξης",
+  "vacationApplication.applicationDays": "Ημέρες",
+  "vacationApplication.applicationHours": "Ώρες",
+  
+  "vacationApplication.applicationStatus": "Κατάσταση Αίτησης",
+  "vacationApplication.approvalStatus": "Κατάσταση Έγκρισης",
+  
+  "vacationApplication.changeToMotion": "Αλλαγή σε Εισήγηση",
+  "vacationApplication.changeApplicationStatus.confirmation": "Είστε σίγουροι ότι θέλετε να προχωρήσετε σε αλλαγή κατάστασης της άδειας;"
+}

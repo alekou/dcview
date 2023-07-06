@@ -1,0 +1,9 @@
+{
+  "scheduledJob.panel.generateNotificationsJob": "Παραγωγή Ειδοποιήσεων",
+  "scheduledJob.button.createJob": "Δημιουργία",
+  "scheduledJob.button.deleteJob": "Διαγραφή",
+  "scheduledJob.button.execute": "Εκτέλεση",
+  "scheduledJob.create.success": "Η διαδικασία δημιουργήθηκε με επιτυχία.",
+  "scheduledJob.delete.success": "Η διαδικασία διαγράφηκε με επιτυχία.",
+  "scheduledJob.start.success": "Η διαδικασία ξεκίνησε με επιτυχία."
+}

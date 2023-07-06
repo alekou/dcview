@@ -1,0 +1,78 @@
+{
+  "inm.inmatePhoto": "Φωτογραφίες Κρατουμένων",
+  "inm.inmatePhoto.list": "Ευρετήριο Φωτογραφιών",
+  "inm.inmate.list": "Ευρετήριο Κρατουμένων",
+
+  "inmatePhoto.currentInmateStatus": "Τρέχουσα Κατάσταση Κρατουμένου",
+  "inmatePhoto.inmateId": "Κρατούμενος",
+  "inmatePhoto.photoDate": "Ημερομηνία Φωτογραφίας",
+  "inmatePhoto.current": "Τρέχουσα",
+  "inmatePhoto.currentInmatePhoto": "Τρέχουσα Φωτογραφία",
+  "inmatePhoto.comments": "Παρατηρήσεις",
+
+  "inmatePhoto.showPhoto": "Προβολή Φωτογραφίας",
+  "inmatePhoto.showPhotoHeader": "Φωτογραφία Κρατουμένου",
+  "inmatePhoto.thereIsNoPhoto": "Δεν υπάρχει τρέχουσα φωτογραφία για τον επιλεγμένο κρατούμενο.",
+  "inmatePhoto.thereAreNoPhotos": "Δεν υπάρχουν φωτογραφίες για τον κρατούμενο",
+
+  "inmatePhoto.add": "Μεταφόρτωση ή λήψη νέας φωτογραφίας",
+  "inmatePhoto.uploadPhotos": "Ανέβασμα Φωτογραφιών",
+  "inmatePhoto.selectPhotos": "Επιλογή Φωτογραφιών",
+  "inmatePhoto.clear": "Καθαρισμός",
+  "inmatePhoto.enableCamera": "Άνοιγμα Κάμερας",
+  "inmatePhoto.haveUpload": "Έχετε ανεβάσει",
+  "inmatePhoto.UploadFilesMessage": "Επιλέξτε ή σύρετε τα αρχεία σας εδώ",
+  "inmatePhoto.file": "αρχείο",
+  "inmatePhoto.files": "αρχεία",
+  "inmatePhoto.photo": "Φωτογραφία",
+  "inmatePhoto.photos": "Φωτογραφίες",
+  "inmatePhoto.thumbnail": "Μικρογραφία Φωτογραφίας",
+  "inmatePhoto.info": "Πληροφορίες Φωτογραφίας",
+  "inmatePhoto.selectedInfo": "Πληροφορίες Επιλεγμένης Φωτογραφίας",
+  "inmatePhoto.selectedUtils": "Λειτουργίες Επιλεγμένης Φωτογραφίας",
+  "inmatePhoto.inmateInfo": "Πληροφορίες Κρατουμένου",
+
+  "inmatePhoto.swapCurrentInmatePhoto": "Αλλαγή τρέχουσας φωτογραφίας κρατουμένου",
+  "inmatePhoto.total": "Σύνολο φωτογραφιών κρατουμένου",
+
+  "inmatePhoto.newPhoto": "Νέα Φωτογραφία",
+  "inmatePhoto.capturePhoto": "Λήψη Φωτογραφίας",
+  "inmatePhoto.captureNewPhoto": "Λήψη Νέας Φωτογραφίας",
+  "inmatePhoto.camera": "Κάμερα",
+  "inmatePhoto.cameraView": "Προεπισκόπηση",
+  "inmatePhoto.capturedPhotos": "Φωτογραφίες Κάμερας",
+  "inmatePhoto.sumUp": "Σύνοψη Φωτογραφιών",
+  "inmatePhoto.savePhotoList": "Λίστα φωτογραφιών για αποθήκευση",
+
+  "inmatePhoto.tooltip.currentInmatePhoto": "Αυτή είναι η τρέχουσα φωτογραφία του κρατουμένου",
+  "inmatePhoto.tooltip.notCurrentInmatePhoto": "Αυτή είναι μια παλιότερη φωτογραφία του κρατουμένου",
+  "inmatePhoto.tooltip.mostRecentInmatePhoto": "Δεν βρέθηκε τρέχουσα φωτογραφία. Αυτή είναι η πιο πρόσφατη φωτογραφία του κρατουμένου.",
+  "inmatePhoto.tooltip.setAsCurrentInmatePhoto": "Ορισμός επιλεγμένης φωτογραφίας ως τρέχουσα",
+  "inmatePhoto.tooltip.delete": "Διαγραφή επιλεγμένης φωτογραφίας",
+  "inmatePhoto.tooltip.download": "Λήψη επιλεγμένης φωτογραφίας σε πλήρη ανάλυση",
+
+  "inmatePhoto.tooltip.removeFile": "Αφαίρεση Αρχείου",
+
+  "inmatePhoto.tooltip.addToSave": "Προσθήκη στις φωτογραφίες για αποθήκευση",
+
+  "inmatePhoto.tooltip.hideInmateCurrentStatusDetails": "Απόκρυψη πληροφοριών τρέχουσας κατάστασης κρατουμένου",
+  "inmatePhoto.tooltip.showInmateCurrentStatusDetails": "Εμφάνιση πληροφοριών τρέχουσας κατάστασης κρατουμένου",
+  "inmatePhoto.tooltip.hideInmatePhotoDetails": "Απόκρυψη πληροφοριών τρέχουσας φωτογραφίας κρατουμένου",
+  "inmatePhoto.tooltip.showInmatePhotoDetails": "Εμφάνιση πληροφοριών τρέχουσας φωτογραφίας κρατουμένου",
+
+  "inmatePhoto.swapCurrent.confirmation": "Είστε βέβαιοι για την αλλαγή της τρέχουσας φωτογραφίας του κρατουμένου;",
+  "inmatePhoto.save.success": "Η αποθήκευση της φωτογραφίας ολοκληρώθηκε με επιτυχία.",
+  "inmatePhoto.delete.success": "Η διαγραφή της φωτογραφίας ολοκληρώθηκε με επιτυχία.",
+  "inmatePhoto.swapCurrent.success": "Η αλλαγή της τρέχουσας φωτογραφίας ολοκληρώθηκε με επιτυχία.",
+  "inmatePhoto.download.success": "Επιτυχής λήψη της φωτογραφίας κρατουμένου.",
+
+  "inmatePhoto.download.error": "Σφάλμα κατά την λήψη της φωτογραφίας κρατουμένου.",
+
+  "inmatePhoto.info.setCurrent": "Παρακαλώ, επιλέξτε μια φωτογραφία ως τρέχουσα.",
+  "inmatePhoto.info.moreThanOneCurrent": "Δεν μπορείτε να ορίσετε πάνω από μια τρέχουσα φωτογραφία.",
+  "inmatePhoto.info.noCapturedPhotos": "Δεν υπάρχουν λήψεις.",
+  "inmatePhoto.info.NoFilesToSave": "Δεν υπάρχουν φωτογραφίες για αποθήκευση.",
+
+  "inmatePhoto.error.cameraNotFound": "Δεν βρέθηκε συνδεμένη κάμερα.",
+  "inmatePhoto.error.cameraAccessDenied": "Η εφαρμογή δεν έχει πρόσβαση στην κάμερα σας."
+}

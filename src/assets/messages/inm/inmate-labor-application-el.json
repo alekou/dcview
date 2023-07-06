@@ -1,0 +1,60 @@
+{
+  "inmateLaborApplication.protocolNo": "Αριθμός Πρωτοκόλλου",
+  "inmateLaborApplication.inmateId": "Κρατούμενος",
+  "inmateLaborApplication.requestDate": "Ημερομηνία Αιτήματος",
+  "inmateLaborApplication.protocolDate": "Ημερομηνία Πρωτοκόλλου",
+  "inmateLaborApplication.requestedProfession": "Αιτούμενη Θέση Εργασίας",
+  "inmateLaborApplication.finalProfession": "Τελική Θέση Εργασίας",
+  "inmateLaborApplication.comments": "Παρατηρήσεις",
+  "inmateLaborApplication.renewal": "Επανατοποθέτηση",
+  "inmateLaborApplication.reject": "Απόρριψη",
+  "inmateLaborApplication.rejected": "Απορρίφθηκε",
+  "inmateLaborApplication.rejectionDate": "Ημερομηνία Απόρριψης",
+  "inmateLaborApplication.rejectionComments": "Παρατηρήσεις Απόρριψης",
+  "inmateLaborApplication.reportNo": "Αριθμός Αναφοράς",
+  "inmateLaborApplication.reportPerson": "Πρόσωπο Αναφοράς",
+  "inmateLaborApplication.employment": "Σύνδεση με εργασία",
+  "inmateLaborApplication.status": "Κατάσταση",
+  "inmateLaborApplication.placementProtocolId": "Πρακτικό Τοποθέτησης",
+
+  "inmateLaborApplication.view.basicData": "Στοιχεία Αιτήματος Εργασίας",
+
+  "inmateLaborApplication.rejectionDialog.header": "Απόρριψη Αιτήματος Εργασίας",
+  "inmateLaborApplication.rejectionDetails.basicData": "Στοιχεία Απόρριψης",
+  "inmateLaborApplication.approvedRejectionDetails.header": "Στοιχεία Απόρριψης Εγκεκριμένου Πρακτικού Τοποθέτησης",
+
+  "inmateLaborApplication.massCreate": "Μαζική Καταχώριση Αιτημάτων Εργασίας",
+  "inmateLaborApplication.massCreate.recordToSave": "αίτημα εργασίας προς αποθήκευση",
+  "inmateLaborApplication.massCreate.recordsToSave": "αιτήματα εργασίας προς αποθήκευση",
+
+  "inmateLaborApplication.massCreate.removeAll.confirmation": "Είστε βέβαιοι για την αφαίρεση όλων των αιτημάτων εργασίας προς μαζική καταχώριση;",
+  "inmateLaborApplication.massCreate.tooltip.removeAll": "Αφαίρεση όλων των καταχωρισμένων αιτημάτων εργασίας",
+
+  "inmateLaborApplication.massCreate.save.success": "Η μαζική καταχώριση αιτημάτων εργασίας ολοκληρώθηκε με επιτυχία.",
+  "inmateLaborApplication.massCreate.removeAll.success": "Η αφαίρεση όλων των αιτημάτων εργασίας ολοκληρώθηκε με επιτυχία.",
+  "inmateLaborApplication.addSelected.success": "Η εισαγωγή των επιλεγμένων αιτημάτων εργασίας ολοκληρώθηκε με επιτυχία.",
+  "inmateLaborApplication.addAll.success": "Η εισαγωγή όλων των αιτημάτων εργασίας ολοκληρώθηκε με επιτυχία.",
+  "inmateLaborApplication.addAll.loading.message": "Ανάκτηση όλων των αιτημάτων εργασίας...",
+
+  "inmateLaborApplication.getLastInmateProfession.success" : "Η προηγούμενη θέση εργασίας του κρατουμένου φορτώθηκε με επιτυχία.",
+  "inmateLaborApplication.getLastInmateProfession.info": "Παρακαλώ επιλέξτε κρατούμενο για να κάνετε επανατοποθέτηση στην προηγούμενη θέση εργασίας του, εάν υπάρχει.",
+  "inmateLaborApplication.addSelected.error": "Δεν έχει επιλεγεί κανένα αίτημα εργασίας.",
+  "inmateLaborApplication.addAll.error": "Δεν υπάρχει κανένα αίτημα εργασίας.",
+
+  "inmateLaborApplication.selectApplications": "Επιλογή Αιτημάτων Εργασίας",
+  "inmateLaborApplication.addAll": "Εισαγωγή Όλων",
+  "inmateLaborApplication.addSelected": "Εισαγωγή Επιλεγμένων",
+
+  "inmateLaborApplication.massCreate.info.add": "Κάντε κλικ στο κουμπί \"Προσθήκη\" για να καταχωρήσετε αιτήματα εργασίας",
+  "inmateLaborApplication.info.forbiddenView.otherDc": "Δεν μπορείτε να επεξεργαστείτε ή να διαγράψετε αιτήματα εργασίας άλλου καταστήματος κράτησης.",
+  "inmateLaborApplication.info.forbiddenView.attachedToPlacementProtocol": "Δεν μπορείτε να επεξεργαστείτε ή να διαγράψετε αιτήματα εργασίας που έχουν συσχετιστεί με κάποιο πρακτικό τοποθέτησης.",
+
+  "inmateLaborApplication.infoMessage.notRejected": "Το επιλεγμένο αίτημα εργασίας δεν έχει απορριφθεί. Δεν υπάρχουν στοιχεία απόρριψης.",
+
+  "inmateLaborApplication.infoMessage.rejected": "Το επιλεγμένο αίτημα εργασίας απορρίφθηκε στις:",
+
+  "inmateLaborApplication.tooltip.rejected": "Το αίτημα εργασίας έχει απορριφθεί",
+
+  "inmateLaborApplication.title.abbreviation": "Αίτημα"
+
+}

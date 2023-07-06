@@ -1,0 +1,634 @@
+<form>
+  
+  <div class="grid">
+    <div class="col-12 button-container flex-container">
+      <div class="flex-container-start">
+        <button pButton type="button" *ngIf="!lockedEducationNeed()"
+                label="{{'global.save' | translate}}" class="p-button-success"
+                icon="fa fa-save" iconPos="left" (click)="saveEducationNeed()">
+        </button>
+        <button pButton type="button" *ngIf="id && !lockedRecord()"
+                label="{{'global.delete' | translate}}" class="p-button-danger"
+                icon="fa fa-trash" iconPos="left" (click)="deleteEducationNeed()">
+        </button>
+        <button pButton type="button" label="{{'global.newRecord' | translate}}" class="p-button-info" *ngIf="id"
+                icon="fa fa-plus" iconPos="left" (click)="newRecord()">
+        </button>
+        <button pButton type="button" label="{{'global.index' | translate}}" class="p-button-help"
+                icon="fa fa-table" iconPos="left" (click)="goToList()">
+        </button>
+        <app-other-dc-name [dcId]="educationNeed.dcId"></app-other-dc-name>
+      </div>
+      <div class="flex-container-end">
+        <app-field-revisions *ngIf="id" [entityClass]="'inm.core.domain.EducationNeed'" [entityId]="id"></app-field-revisions>
+      </div>
+    </div>
+  </div>
+  
+  <div class="grid" appToitsuLockControls [lockCondition]="lockedEducationNeed()">
+    <div class="col-12 md:col-6 p-fluid">
+      
+      <p-panel header="{{'educationNeed.view.inmateData' | translate}}">
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'educationNeed.inmateId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-select-inmate [disabled]="!!id" [(model)]="educationNeed.inmateId" name="inmateId"
+                               [inmates]="inmates" [dialogUrl]="inmateDialogUrl"
+                               (modelChange)="inmateChanged()">
+            </app-select-inmate>
+          </div>
+        </div>
+        
+        <div *ngIf="educationNeed.inmateId && educationNeed.inmate" appToitsuLockControls lockCondition="true">
+          
+          <div class="grid align-items-center">
+            <label class="col-12 sm:col-4 ">{{'inmate.lastName' | translate}}</label>
+            <div class="col-12 sm:col-8">
+              <textarea pInputTextarea [(ngModel)]="educationNeed.inmate.lastName" name="lastName" rows="1" appToitsuTextareaAutoResize appToitsuCapitalize></textarea>
+            </div>
+          </div>
+          
+          <div class="grid align-items-center">
+            <label class="col-12 sm:col-4 ">{{'inmate.firstName' | translate}}</label>
+            <div class="col-12 sm:col-8">
+              <textarea pInputTextarea [(ngModel)]="educationNeed.inmate.firstName" name="firstName" rows="1" appToitsuTextareaAutoResize appToitsuCapitalize></textarea>
+            </div>
+          </div>
+          
+          <div class="grid align-items-center">
+            <label class="col-12 sm:col-4">{{'inmate.birthDate' | translate}}</label>
+            <div class="col-12 sm:col-8">
+              <app-toitsu-calendar [(model)]="educationNeed.inmate.birthDate" name="birthDate"></app-toitsu-calendar>
+            </div>
+          </div>
+          
+          <div class="grid align-items-center">
+            <label class="col-12 sm:col-4">{{'inmate.ageCategory' | translate}}</label>
+            <div class="col-12 sm:col-8">
+              <p-dropdown [(ngModel)]="educationNeed.inmate.ageCategory" name="ageCategory" [options]="ageCategories" optionValue="value" optionLabel="label"
+                          placeholder="{{'global.selectOption' | translate}}"
+                          emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                          [showClear]="true">
+              </p-dropdown>
+            </div>
+          </div>
+          
+          
+          <div class="grid align-items-center">
+            <label class="col-12 sm:col-4">{{'inmate.fatherName' | translate}}</label>
+            <div class="col-12 sm:col-8">
+              <input type="text" pInputText [(ngModel)]="educationNeed.inmate.fatherName" name="fatherName" appToitsuCapitalize>
+            </div>
+          </div>
+          
+          <div class="grid align-items-center">
+            <label class="col-12 sm:col-4">{{'inmate.motherName' | translate}}</label>
+            <div class="col-12 sm:col-8">
+              <input type="text" pInputText [(ngModel)]="educationNeed.inmate.motherName" name="motherName" appToitsuCapitalize>
+            </div>
+          </div>
+          
+          <div class="grid align-items-center">
+            <label class="col-12 sm:col-4">{{'inmate.nationalityMainId' | translate}}</label>
+            <div class="col-12 sm:col-8">
+              <p-dropdown [(ngModel)]="this.educationNeed.inmate.nationalityMainId" name="nationalityMainId"
+                          [options]="countries" optionValue="id" optionLabel="nationalityNameGreek"
+                          emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                          [showClear]="true" [filter]="true">
+              </p-dropdown>
+            </div>
+          </div>
+          
+          <div class="grid align-items-center">
+            <label class="col-12 sm:col-4">{{'inmate.birthCountryId' | translate}}</label>
+            <div class="col-12 sm:col-8">
+              <p-inputNumber [(ngModel)]="educationNeed.inmate.birthCountryId" name="birthCountryId" [useGrouping]="false"></p-inputNumber>
+            </div>
+          </div>
+          
+          <div class="grid align-items-center">
+            <label class="col-12 sm:col-4">{{'inmate.gender' | translate}}</label>
+            <div class="col-12 sm:col-8">
+              <p-dropdown [(ngModel)]="educationNeed.inmate.gender" name="gender" [options]="genders" optionValue="value" optionLabel="label"
+                          emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                          [showClear]="true">
+              </p-dropdown>
+            </div>
+          </div>
+        
+        </div>
+      
+      </p-panel>
+    
+    </div>
+    <div class="col-12 xl:col-6 p-fluid" *ngIf="this.educationNeed.inmateId && educationNeed.inmate">
+      
+      <p-panel header="{{'educationNeed.view.inmateEducationData' | translate}}">
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmate.educationPid' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-select-gen-parameter [type]="pEducations" [(model)]="educationNeed.inmate.educationPid"></app-select-gen-parameter>
+          </div>
+        </div>
+        
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmate.foreignLanguagePid' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-select-gen-parameter [type]="pForeignLanguages" [(model)]="educationNeed.inmate.foreignLanguagePid"></app-select-gen-parameter>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmate.verbalSkillGreekPid' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-select-gen-parameter [type]="pVerbalSkillsGreek" [(model)]="educationNeed.inmate.verbalSkillGreekPid"></app-select-gen-parameter>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmate.writtenSkillGreekPid' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-select-gen-parameter [type]="pWrittenSkillsGreek" [(model)]="educationNeed.inmate.writtenSkillGreekPid"></app-select-gen-parameter>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmate.professionPid' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-select-gen-parameter [type]="pProfessions" [(model)]="educationNeed.inmate.professionPid"></app-select-gen-parameter>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmate.otherEducation' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="educationNeed.inmate.otherEducation" name="otherEducation" appToitsuCapitalize>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmate.newEducationInsidePid' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-select-gen-parameter [type]="pNewEducationsInside" [(model)]="educationNeed.inmate.newEducationInsidePid"></app-select-gen-parameter>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmate.newEducationOutsidePid' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-select-gen-parameter [type]="pNewEducationsOutside" [(model)]="educationNeed.inmate.newEducationOutsidePid"></app-select-gen-parameter>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmate.otherNewEducation' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="educationNeed.inmate.otherNewEducation" name="otherNewEducation" appToitsuCapitalize>
+          </div>
+        </div>
+      
+      </p-panel>
+    
+    </div>
+  
+  </div>
+  
+  <div class="grid" appToitsuLockControls [lockCondition]="lockedEducationNeed()">
+    
+    <div class="col-12 md:col-6 p-fluid">
+      <p-panel header="{{'educationNeed.view.inmateVocationalTrainingNeedsImpression' | translate}}">
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'educationNeed.submitDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [disabled]="!!this.id" [(model)]="educationNeed.submitDate" name="submitDate"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'educationNeed.userId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-inputNumber [disabled]="!!this.id" [(ngModel)]="educationNeed.userId" name="userId"></p-inputNumber>
+          </div>
+        </div>
+        
+        <div *ngIf="educationNeed.educationUnitInterest">
+          <p-panel header="{{educationNeed.educationUnitInterest['headline']}}">
+            
+            <div *ngFor="let question of (educationNeed.educationUnitInterest['questions'] | objectToArray); let index = index">
+              
+              <div class="grid align-items-center">
+                
+                <div *ngFor="let questionField of (question | keyvalue : unsorted) trackBy:trackByFn let index2 = index">
+                  
+                  <div *ngIf="questionField.key.startsWith('d')">
+                    <label class="col-12 sm:col-3 ">{{questionField.value}}</label>
+                  </div>
+                  
+                  <div class="col-12 sm:col-12" *ngIf="questionField.key.startsWith('i')">
+                    <textarea pInputTextarea [(ngModel)]="question[questionField.key]" name="educationNeed.educationUnitInterest.questions{{index}}.questionField.key{{index2}}" appToitsuTextareaAutoResize></textarea>
+                  </div>
+                  
+                  <div id="checkbox" class="col-1" *ngIf="questionField.key == 'selected'">
+                    <p-checkbox [(ngModel)]="question[questionField.key]" name="educationNeed.educationUnitInterest.questions{{index}}.questionField.key" [binary]="true"></p-checkbox>
+                  </div>
+                
+                </div>
+              </div>
+            </div>
+          </p-panel>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'educationNeed.individualTeachingInterest' | translate}}</label>
+          <div class="col-12 md:col-2">
+            <p-checkbox [(ngModel)]="educationNeed.individualTeachingInterest" name="individualTeachingInterest" [binary]="true"></p-checkbox>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'educationNeed.tertiaryEducationInterest' | translate}}</label>
+          <div class="col-12 md:col-2">
+            <p-checkbox [(ngModel)]="educationNeed.tertiaryEducationInterest" name="tertiaryEducationInterest" [binary]="true"></p-checkbox>
+          </div>
+        </div>
+        
+        <div *ngIf="educationNeed.programInterest">
+          <p-panel header="{{educationNeed.programInterest['headline']}}">
+            <div *ngFor="let question of (educationNeed.programInterest['questions'] | objectToArray); let index = index">
+              <div class="grid align-items-center">
+                
+                <div *ngFor="let questionField of (question | keyvalue : unsorted) trackBy:trackByFn let index2 = index">
+                  
+                  <div *ngIf="questionField.key.startsWith('d')">
+                    <label class="col-12 sm:col-3">{{questionField.value}}</label>
+                  </div>
+                  
+                  <div class="col-12 sm:col-12" *ngIf="questionField.key.startsWith('i')">
+                    <textarea pInputTextarea [(ngModel)]="question[questionField.key]" name="educationNeed.programInterest.questions{{index}}.questionField.key{{index2}}" appToitsuTextareaAutoResize></textarea>
+                  </div>
+                  
+                  <div class="col-1" *ngIf="questionField.key == 'selected'">
+                    <p-checkbox [(ngModel)]="question[questionField.key]" name="educationNeed.programInterest.questions{{index}}.questionField.key" [binary]="true"></p-checkbox>
+                  </div>
+                
+                </div>
+              </div>
+            </div>
+          </p-panel>
+        </div>
+      
+      </p-panel>
+    
+    </div>
+    
+    <div class="col-12 md:col-6 p-fluid">
+      
+      <p-panel header="{{'educationNeed.view.inmateVocationalTrainingNeedsRegistration' | translate}}">
+        
+        <div *ngIf="educationNeed.formerProfession">
+          <p-panel header="{{educationNeed.formerProfession['headline']}}">
+            <div *ngFor="let question of (educationNeed.formerProfession['questions'] | objectToArray); let index = index">
+              <div class="grid align-items-center ">
+                
+                <div *ngFor="let questionField of (question | keyvalue : unsorted) trackBy:trackByFn let index2 = index">
+                  
+                  <div *ngIf="questionField.key.startsWith('d')">
+                    <label class="col-12 sm:col-3">{{questionField.value}}</label>
+                  </div>
+                  
+                  <div class="col-12 sm:col-12 " *ngIf="questionField.key.startsWith('i_')">
+                    <textarea pInputTextarea [(ngModel)]="question[questionField.key]" name="educationNeed.formerProfession.questions{{index}}.questionField.key{{index2}}" appToitsuTextareaAutoResize></textarea>
+                  </div>
+                  
+                  <div class="col-1" *ngIf="questionField.key == 'selected'">
+                    <p-checkbox [(ngModel)]="question[questionField.key]" name="educationNeed.formerProfession.questions{{index}}.questionField.key" [binary]="true"></p-checkbox>
+                  </div>
+                
+                </div>
+              </div>
+            </div>
+          </p-panel>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'educationNeed.priorTraining' | translate}}</label>
+          <div class="col-12 md:col-2">
+            <p-checkbox [(ngModel)]="educationNeed.priorTraining" name="priorTraining" [binary]="true"></p-checkbox>
+          </div>
+        </div>
+        
+        <div *ngIf="educationNeed.priorTrainingDetails">
+          <p-panel header="{{educationNeed.priorTrainingDetails['headline']}}">
+            <div *ngFor="let question of (educationNeed.priorTrainingDetails['questions'] | objectToArray); let index = index">
+              <div class="grid align-items-center">
+                
+                <div *ngFor="let questionField of (question | keyvalue : unsorted) trackBy:trackByFn let index2 = index">
+                  
+                  <div *ngIf="questionField.key.startsWith('d')">
+                    <label class="col-12 sm:col-3">{{questionField.value}}</label>
+                  </div>
+                  
+                  <div class="col-12 sm:col-12" *ngIf="questionField.key.startsWith('i')">
+                    <textarea pInputTextarea [(ngModel)]="question[questionField.key]" name="educationNeed.priorTrainingDetails.questions{{index}}.questionField.key{{index2}}" appToitsuTextareaAutoResize></textarea>
+                  </div>
+                  
+                  <div class="col-1" *ngIf="questionField.key == 'selected'">
+                    <p-checkbox [(ngModel)]="question[questionField.key]" name="educationNeed.priorTrainingDetails.questions{{index}}.questionField.key" [binary]="true"></p-checkbox>
+                  </div>
+                
+                </div>
+              </div>
+            </div>
+          </p-panel>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'educationNeed.work' | translate}}</label>
+          <div class="col-12 md:col-2">
+            <p-checkbox [(ngModel)]="educationNeed.work" name="work" [binary]="true"></p-checkbox>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'educationNeed.professionId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-inputNumber [(ngModel)]="educationNeed.professionId" name="professionId"></p-inputNumber>
+          </div>
+        </div>
+        
+        <div *ngIf="educationNeed.reintegrationSupport">
+          <p-panel header="{{educationNeed.reintegrationSupport['headline']}}">
+            <div *ngFor="let question of (educationNeed.reintegrationSupport['questions'] | objectToArray); let index = index">
+              <div class="grid align-items-center">
+                
+                <div *ngFor="let questionField of (question | keyvalue : unsorted) trackBy:trackByFn let index2 = index">
+                  
+                  <div *ngIf="questionField.key.startsWith('d')">
+                    <label class="col-12 sm:col-3">{{questionField.value}}</label>
+                  </div>
+                  
+                  <div class="col-12 sm:col-12" *ngIf="questionField.key.startsWith('i')">
+                    <textarea pInputTextarea [(ngModel)]="question[questionField.key]" name="educationNeed.reintegrationSupport.questions{{index}}.questionField.key{{index2}}" appToitsuTextareaAutoResize></textarea>
+                  </div>
+                  
+                  <div class="col-1" *ngIf="questionField.key == 'selected'">
+                    <p-checkbox [(ngModel)]="question[questionField.key]" name="educationNeed.reintegrationSupport.questions{{index}}.questionField.key" [binary]="true"></p-checkbox>
+                  </div>
+                
+                </div>
+              </div>
+            </div>
+          </p-panel>
+        </div>
+      
+      </p-panel>
+    
+    </div>
+  
+  </div>
+  
+  <p-tabView>
+    
+    <p-tabPanel header="{{'educationNeed.view.tab.educationNeedFeedbacks' | translate}}">
+      
+      <div class="grid">
+        <div class="col-12">
+          <button pButton type="button" label="{{'global.add' | translate}}" class="p-button-info"
+                  icon="fa fa-plus" iconPos="left" (click)="addEducationNeedFeedback()">
+          </button>
+        </div>
+      </div>
+      
+      <div class="grid">
+        <div class="col-12 xl:col-12">
+          <p-accordion [activeIndex]="educationNeedFeedbacksActiveIndex">
+            
+            <p-accordionTab *ngFor="let educationNeedFeedback of educationNeed.educationNeedFeedbacks; let index = index">
+              
+              <p-header>
+                <div class="display-flex">
+                  <span>{{index + 1}}. &nbsp;</span>
+                  <span>{{educationNeedFeedback.submitDate}} &nbsp;  </span>
+                  <span class="vertical-align-middle"><app-other-dc-name [dcId]="educationNeedFeedback.dcId"></app-other-dc-name></span>
+                  <span class="accordion-header-icons">
+                    <app-field-revisions *ngIf="educationNeedFeedback.id" [entityClass]="'inm.core.domain.EducationNeedFeedback'"
+                                         [entityId]="educationNeedFeedback.id" [iconMode]="true"></app-field-revisions>
+                  </span>
+                </div>
+              </p-header>
+              
+              <div class="grid" appToitsuLockControls [lockCondition]="lockedFeedback(index)">
+                
+                <div class="col-12 p-fluid">
+                  
+                  <div class="grid align-items-center">
+                    <label class="col-12 sm:col-4 font-bold">{{'educationNeedFeedback.submitDate' | translate}}</label>
+                    <div class="col-12 sm:col-8">
+                      <app-toitsu-calendar [disabled]="!!this.educationNeedFeedback.id" [(model)]="educationNeedFeedback.submitDate" name="educationNeedFeedback{{index}}.submitDate"></app-toitsu-calendar>
+                    </div>
+                  </div>
+                  
+                  <div class="grid align-items-center">
+                    <label class="col-12 sm:col-4 font-bold">{{'educationNeedFeedback.userId' | translate}}</label>
+                    <div class="col-12 sm:col-8">
+                      <p-inputNumber [disabled]="!!educationNeedFeedback.id" [(ngModel)]="educationNeedFeedback.userId" name="educationNeedFeedback{{index}}.userId"></p-inputNumber>
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <p-panel header="{{educationNeedFeedback.jobPosition['headline']}}">
+                      <div *ngFor="let question of (educationNeedFeedback.jobPosition['questions'] | objectToArray); let index = index">
+                        <div class="grid align-items-center ">
+                          
+                          <div *ngFor="let questionField of (question | keyvalue : unsorted) trackBy:trackByFn let index2 = index">
+                            
+                            <div *ngIf="questionField.key.startsWith('d')">
+                              <label class="col-12 sm:col-3">{{questionField.value}}</label>
+                            </div>
+                            
+                            <div class="col-12 sm:col-12 " *ngIf="questionField.key.startsWith('i_')">
+                              <textarea pInputTextarea [(ngModel)]="question[questionField.key]" name="educationNeedFeedback.jobPosition.questions{{index}}.questionField.key{{index2}}" appToitsuTextareaAutoResize></textarea>
+                            </div>
+                            
+                            <div class="col-1" *ngIf="questionField.key == 'selected'">
+                              <p-checkbox [(ngModel)]="question[questionField.key]" name="educationNeedFeedback.jobPosition.questions{{index}}.questionField.key" [binary]="true"></p-checkbox>
+                            </div>
+                          
+                          </div>
+                        </div>
+                      </div>
+                    </p-panel>
+                  </div>
+                  
+                  <div class="grid align-items-center">
+                    <label class="col-12 sm:col-4">{{'educationNeedFeedback.participatedSchool' | translate}}</label>
+                    <div class="col-12 md:col-2">
+                      <p-checkbox [(ngModel)]="educationNeedFeedback.participatedSchool" name="educationNeedFeedback{{index}}.participatedSchool" [binary]="true"></p-checkbox>
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <p-panel header="{{educationNeedFeedback.participatedSchoolDetails['headline']}}">
+                      <div *ngFor="let question of (educationNeedFeedback.participatedSchoolDetails['questions'] | objectToArray); let index = index">
+                        <div class="grid align-items-center ">
+                          
+                          <div *ngFor="let questionField of (question | keyvalue : unsorted) trackBy:trackByFn let index2 = index">
+                            
+                            <div *ngIf="questionField.key.startsWith('d')">
+                              <label class="col-12 sm:col-3">{{questionField.value}}</label>
+                            </div>
+                            
+                            <div class="col-12 sm:col-12 " *ngIf="questionField.key.startsWith('i_')">
+                              <textarea pInputTextarea [(ngModel)]="question[questionField.key]" name="educationNeedFeedback.participatedSchoolDetails.questions{{index}}.questionField.key{{index2}}" appToitsuTextareaAutoResize></textarea>
+                            </div>
+                            
+                            <div class="col-1" *ngIf="questionField.key == 'selected'">
+                              <p-checkbox [(ngModel)]="question[questionField.key]" name="educationNeedFeedback.participatedSchoolDetails.questions{{index}}.questionField.key" [binary]="true"></p-checkbox>
+                            </div>
+                          
+                          </div>
+                        </div>
+                      </div>
+                    </p-panel>
+                  </div>
+                  
+                  <div class="grid align-items-center">
+                    <label class="col-12 sm:col-4">{{'educationNeedFeedback.participatedCourse' | translate}}</label>
+                    <div class="col-12 md:col-2">
+                      <p-checkbox [(ngModel)]="educationNeedFeedback.participatedCourse" name="educationNeedFeedback{{index}}.participatedCourse" [binary]="true"></p-checkbox>
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <p-panel header="{{educationNeedFeedback.participatedCourseDetails['headline']}}">
+                      <div *ngFor="let question of (educationNeedFeedback.participatedCourseDetails['questions'] | objectToArray); let index = index">
+                        <div class="grid align-items-center ">
+                          
+                          <div *ngFor="let questionField of (question | keyvalue : unsorted) trackBy:trackByFn let index2 = index">
+                            
+                            <div *ngIf="questionField.key.startsWith('d')">
+                              <label class="col-12 sm:col-3">{{questionField.value}}</label>
+                            </div>
+                            
+                            <div class="col-12 sm:col-12 " *ngIf="questionField.key.startsWith('i_')">
+                              <textarea pInputTextarea [(ngModel)]="question[questionField.key]" name="educationNeedFeedback.participatedCourseDetails.questions{{index}}.questionField.key{{index2}}" appToitsuTextareaAutoResize></textarea>
+                            </div>
+                            
+                            <div class="col-1" *ngIf="questionField.key == 'selected'">
+                              <p-checkbox [(ngModel)]="question[questionField.key]" name="educationNeedFeedback.participatedCourseDetails.questions{{index}}.questionField.key" [binary]="true"></p-checkbox>
+                            </div>
+                          
+                          </div>
+                        </div>
+                      </div>
+                    </p-panel>
+                  </div>
+                  
+                  <div class="grid align-items-center">
+                    <label class="col-12 sm:col-4">{{'educationNeedFeedback.satisfactionPid' | translate}}</label>
+                    <div class="col-12 sm:col-8">
+                      <app-select-gen-parameter [type]="pSatisfactionDegrees" [(model)]="educationNeedFeedback.satisfactionDegreePid"></app-select-gen-parameter>
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <p-panel header="{{educationNeedFeedback.schoolEffectiveness['headline']}}">
+                      <div *ngFor="let question of (educationNeedFeedback.schoolEffectiveness['questions'] | objectToArray); let index = index">
+                        <div class="grid align-items-center ">
+                          
+                          <div *ngFor="let questionField of (question | keyvalue : unsorted) trackBy:trackByFn let index2 = index">
+                            
+                            <div *ngIf="questionField.key.startsWith('d')">
+                              <label class="col-12 sm:col-3">{{questionField.value}}</label>
+                            </div>
+                            
+                            <div class="col-12 sm:col-12 " *ngIf="questionField.key.startsWith('i_')">
+                              <textarea pInputTextarea [(ngModel)]="question[questionField.key]" name="educationNeedFeedback.schoolEffectiveness.questions{{index}}.questionField.key{{index2}}" appToitsuTextareaAutoResize></textarea>
+                            </div>
+                            
+                            <div class="col-1" *ngIf="questionField.key == 'selected'">
+                              <p-checkbox [(ngModel)]="question[questionField.key]" name="educationNeedFeedback.schoolEffectiveness.questions{{index}}.questionField.key" [binary]="true"></p-checkbox>
+                            </div>
+                          
+                          </div>
+                        </div>
+                      </div>
+                    </p-panel>
+                  </div>
+                  
+                  <div>
+                    <p-panel header="{{educationNeedFeedback.problems['headline']}}">
+                      <div *ngFor="let question of (educationNeedFeedback.problems['questions'] | objectToArray); let index = index">
+                        <div class="grid align-items-center ">
+                          
+                          <div *ngFor="let questionField of (question | keyvalue : unsorted) trackBy:trackByFn let index2 = index">
+                            
+                            <div *ngIf="questionField.key.startsWith('d')">
+                              <label class="col-12 sm:col-3">{{questionField.value}}</label>
+                            </div>
+                            
+                            <div class="col-12 sm:col-12 " *ngIf="questionField.key.startsWith('i_')">
+                              <textarea pInputTextarea [(ngModel)]="question[questionField.key]" name="educationNeedFeedback.problems.questions{{index}}.questionField.key{{index2}}" appToitsuTextareaAutoResize></textarea>
+                            </div>
+                            
+                            <div class="col-1" *ngIf="questionField.key == 'selected'">
+                              <p-checkbox [(ngModel)]="question[questionField.key]" name="educationNeedFeedback.problems.questions{{index}}.questionField.key" [binary]="true"></p-checkbox>
+                            </div>
+                          
+                          </div>
+                        </div>
+                      </div>
+                    </p-panel>
+                  </div>
+                  
+                  <div class="grid align-items-center">
+                    <label class="col-12 sm:col-4">{{'educationNeedFeedback.suggestions' | translate}}</label>
+                    <div class="col-12 sm:col-8">
+                      <textarea pInputTextarea [(ngModel)]="educationNeedFeedback.suggestions" name="educationNeedFeedback{{index}}.suggestions" rows="2"></textarea>
+                    </div>
+                  </div>
+                  
+                  <div class="grid align-items-center">
+                    <label class="col-12 sm:col-4">{{'educationNeedFeedback.repeatParticipation' | translate}}</label>
+                    <div class="col-12 md:col-2">
+                      <p-checkbox [(ngModel)]="educationNeedFeedback.repeatParticipation" name="educationNeedFeedback{{index}}.repeatParticipation" [binary]="true"></p-checkbox>
+                    </div>
+                  </div>
+                  
+                  <div class="grid align-items-center">
+                    <label class="col-12 sm:col-4">{{'educationNeedFeedback.repeatParticipationDetails' | translate}}</label>
+                    <div class="col-12 sm:col-8">
+                      <textarea pInputTextarea [(ngModel)]="educationNeedFeedback.repeatParticipationDetails" name="educationNeedFeedback{{index}}.repeatParticipationDetails" rows="2"></textarea>
+                    </div>
+                  </div>
+                
+                </div>
+              
+              </div>
+              
+              <div class="grid">
+                <div class="col-12 text-align-center">
+                  <button pButton type="button"
+                          label="{{(educationNeedFeedback.id ? 'global.delete' : 'global.remove') | translate}}" class="p-button-danger"
+                          icon="{{(educationNeedFeedback.id ? 'fa fa-times' : 'fa fa-minus') | translate}}" iconPos="left" (click)="deleteEducationNeedFeedback(index, educationNeedFeedback.id)">
+                  </button>
+                </div>
+              </div>
+            
+            </p-accordionTab>
+          
+          </p-accordion>
+        
+        </div>
+      
+      </div>
+    
+    </p-tabPanel>
+  
+  </p-tabView>
+
+</form>

@@ -1,0 +1,14 @@
+{
+  "genParameter.category": "Κατηγορία Παραμετρικού",
+  "genParameter.description": "Περιγραφή Παραμετρικού",
+  "genParameter.order": "Αριθμός Ταξινόμησης",
+  "genParameter.dialog.title.create": "Προσθήκη Παραμετρικού",
+  "genParameter.dialog.title.edit": "Επεξεργασία Παραμετρικού",
+  "genParameter.details": "Στοιχεία",
+  "genParameter.code": "Κωδικός",
+  "genParameter.isActive": "Ενεργό",
+  "genParameter.list.dialog.title": "Ευρετήριο Παραμετρικών",
+  "genParameter.parentCategory": "Ανωτεροβάθμιο Παραμετρικό",
+  "genParameter.isNotSelectable": "Μη Επιλέξιμο",
+  "error.genParameterNotSelectable": "Το Παραμετρικό Δεν Είναι Επιλέξιμο"
+}

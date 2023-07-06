@@ -1,0 +1,220 @@
+<form>
+  
+  <div class="grid">
+    <div class="col-12 button-container flex-container">
+      <div class="flex-container-start">
+        <button pButton type="button" *ngIf="!lockedRecord()"
+                label="{{'global.save' | translate}}" class="p-button-success"
+                icon="fa fa-save" iconPos="left" (click)="saveProgramProtocol()">
+        </button>
+        <button pButton type="button" *ngIf="id  && !lockedRecord() && !this.programProtocol.approved"
+                label="{{'global.delete' | translate}}" class="p-button-danger"
+                icon="fa fa-trash" iconPos="left" (click)="deleteProgramProtocol()">
+        </button>
+        
+        <button pButton type="button" label="{{'global.newRecord' | translate}}" class="p-button-info" *ngIf="id"
+                icon="fa fa-plus" iconPos="left" (click)="newRecord()">
+        </button>
+        <button pButton type="button" label="{{'global.index' | translate}}" class="p-button-help"
+                icon="fa fa-table" iconPos="left" (click)="goToList()">
+        </button>
+        <button pButton type="button" *ngIf="programProtocol.approved && selectedProgram && selectedProgram.professionId" [loading]="loading" loadingIcon="fa fa-cog fa-spin"
+                label="{{'placementProtocol.createInmateLabor' | translate}}" class="p-button-warning"
+                icon="fa fa-newspaper-o" iconPos="left" (click)="createInmateLabors()">
+        </button>
+        <button pButton type="button" label="{{'programProtocol.addApplications' | translate}}" class="p-button-info"
+                *ngIf="!programProtocol.approved && !lockedRecord()"
+                icon="fa fa-plus-square-o" iconPos="left" (click)="openProgramApplicationsListDialog()">
+        </button>
+        <app-other-dc-name [dcId]="programProtocol.dcId"></app-other-dc-name>
+      </div>
+      <div class="flex-container-end">
+        <app-field-revisions *ngIf="id" [entityClass]="'inm.core.domain.ProgramProtocol'" [entityId]="id"></app-field-revisions>
+      </div>
+    </div>
+  </div>
+  
+  <div class="grid" appToitsuLockControls [lockCondition]="lockedRecord()">
+    
+    <div class="col-12 md:col-6 p-fluid">
+      
+      <p-panel header="{{'programProtocol.view.data' | translate}}">
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'programProtocol.programId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [options]="programs"
+                        [(ngModel)]="programProtocol.programId"
+                        name="programId"
+                        [disabled]="this.programProtocol.approved || this.programProtocol.programApplications.length != 0 "
+                        optionValue="id" optionLabel="fullDescription"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        [showClear]="true" [filter]="true"
+                        (ngModelChange)="programChanged()"
+                        emptyMessage="{{'global.noResultsFound' | translate}}"
+                        emptyFilterMessage="{{'global.noResultsFound' | translate}}">
+            
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'programProtocol.protocolDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="programProtocol.protocolDate" name="protocolDate"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 ">{{'programProtocol.comments' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="programProtocol.comments" name="comments" rows="8"></textarea>
+          </div>
+          <div class="col-4 col-offset-4" *ngIf="!!id && !this.programProtocol.approved && this.programProtocol.programApplications.length>0">
+            <button pButton type="button" label="{{'programProtocol.approve' | translate}}" class="p-button-success"
+                    icon="fa fa-save" iconPos="left" (click)="approveProtocol()">
+            </button>
+          </div>
+        </div>
+        
+        <!--- Στοιχεία εγκεκριμένου πρακτικού --->
+        <div *ngIf="id && programProtocol.approved && !loading">
+          
+          <div class="grid align-items-center ">
+            <label class="col-12 sm:col-4">{{'programProtocol.approved' | translate}}</label>
+            <div class="col-12 md:col-2">
+              <p-checkbox [disabled]="true" [(ngModel)]="programProtocol.approved" name="approved" [binary]="true" (ngModelChange)="approvalChanged()"></p-checkbox>
+            </div>
+          </div>
+          
+          <div class="grid align-items-center animation-duration-200 flip">
+            <label class="col-12 sm:col-4">{{'programProtocol.protocolNo' | translate}}</label>
+            <div class="col-12 sm:col-8">
+              <input type="text" pInputText [(ngModel)]="programProtocol.protocolNo" name="subsidizer">
+            </div>
+          </div>
+          
+          <div class="grid align-items-center animation-duration-200 flip">
+            <label class="col-12 sm:col-4">{{'programProtocol.approvalDate' | translate}}</label>
+            <div class="col-12 sm:col-8">
+              <app-toitsu-calendar [(model)]="programProtocol.approvalDate" name="approvalDate"></app-toitsu-calendar>
+            </div>
+          </div>
+          
+          <div class="grid align-items-center animation-duration-200 flip">
+            <label class="col-12 sm:col-4 ">{{'programProtocol.approvalComments' | translate}}</label>
+            <div class="col-12 sm:col-8">
+              <textarea pInputTextarea [(ngModel)]="programProtocol.approvalComments" name="approvalComments" rows="8"></textarea>
+            </div>
+          </div>
+        
+        </div>
+      
+      </p-panel>
+    
+    </div>
+  
+  </div>
+  
+  <div class="grid">
+    
+    <div class="col-12">
+      
+      <p-tabView>
+        
+        <p-tabPanel header="{{'programProtocol.view.tab.programApplications' | translate}}">
+          
+          <div class="grid">
+            
+            <div class="col-12">
+              
+              <!--- Μήνυμα προτροπής για τον χρήστη --->
+              <div class="info-message animation-duration-200 flip" *ngIf="programProtocol.programApplications.length === 0">
+                {{'programProtocol.programApplications.add.info' | translate}}
+              </div>
+              
+              <p-table *ngIf="programProtocol.programApplications.length > 0"
+                       [value]="programProtocol.programApplications" [scrollable]="true" scrollHeight="25rem"
+                       styleClass="p-datatable-gridlines p-datatable-striped" appToitsuPTableCellWidth>
+                
+                <ng-template pTemplate="header">
+                  
+                  <tr>
+                    <th [style.width]="'5rem'" [style.justify-content]="'center'">#</th>
+                    <th [style.width]="'15rem'" [style.justify-content]="'center'">{{'programApplication.protocolNo' | translate}}</th>
+                    <th [style.width]="'15rem'" [style.justify-content]="'center'">{{'programApplication.inmateId' | translate}}</th>
+                    <th [style.width]="'15rem'" [style.justify-content]="'center'">{{'programApplication.applicationDate' | translate}}</th>
+                    <th [style.width]="'15rem'" [style.justify-content]="'center'">{{'programApplication.startDate' | translate}}</th>
+                    <th [style.width]="'15rem'" [style.justify-content]="'center'">{{'programApplication.endDate' | translate}}</th>
+                    <th [style.width]="'22rem'" *ngIf="selectedProgram && selectedProgram.professionId" [style.justify-content]="'center'">{{'programApplication.professionId' | translate}}</th>
+                    <th [style.width]="'10rem'" [style.justify-content]="'center'">{{'programProtocol.programApplication.rejected' | translate}}</th>
+                    <th [style.width]="'8rem'"></th>
+                  </tr>
+                
+                </ng-template>
+                
+                <ng-template pTemplate="body" let-programApplication let-index="rowIndex">
+                  
+                  <tr class="p-fluid">
+                    
+                    <td [style.justify-content]="'center'">{{index + 1}}</td>
+                    
+                    <td [style.justify-content]="'center'"> {{programApplication.protocolNo}} </td>
+                    
+                    <td [style.justify-content]="'center'"> {{programApplication.inmateFullName}} </td>
+                    
+                    <td [style.justify-content]="'center'"> {{programApplication.applicationDate}} </td>
+                    
+                    <td [style.justify-content]="'center'"> {{programApplication.startDate}} </td>
+                    
+                    <td [style.justify-content]="'center'"> {{programApplication.endDate}} </td>
+                    
+                    <td [style.justify-content]="'center'" *ngIf="selectedProgram && selectedProgram.professionId">
+                      <p-dropdown [disabled]="lockedApplications()" [(ngModel)]="programApplication.professionId"
+                                  name="programApplication{{index}}.professionId" [options]="professions" optionValue="id" optionLabel="name"
+                                  placeholder="{{'global.selectOption' | translate}}" [showClear]="true" [filter]="true" appendTo="body"
+                                  emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}">
+                      </p-dropdown>
+                    
+                    
+                    </td>
+                    
+                    <td [style.justify-content]="'center'">
+                      <p-checkbox [disabled]="lockedApplications()" [(ngModel)]="programApplication.rejected" name="programApplication{{index}}.rejected" [binary]="true"></p-checkbox>
+                      
+                      <a role="button" (click)="openProgramApplicationRejectionDetailsDialog(index)" pTooltip="{{'programApplication.rejectionDetails' | translate}}"
+                         class="cursor-pointer">
+                        <i *ngIf="!programApplication.rejected" class="fa fa-user"></i>
+                        <i *ngIf="programApplication.rejected" class="fa fa-user-times color-red"></i>
+                      </a>
+                    </td>
+                    
+                    <td [style.width]="'10%'" [style.justify-content]="'center'" class="button-container">
+                      <app-field-revisions *ngIf="programApplication.id" [entityClass]="'inm.core.domain.ProgramApplication'"
+                                           [entityId]="programApplication.id" [tableMode]="true"></app-field-revisions>
+                      <button pButton type="button" [disabled]="lockedApplications()" pTooltip="{{(programApplication.protocolId ? 'global.delete' : 'global.remove') | translate}}" class="p-button-danger"
+                              icon="{{(programApplication.protocolId ? 'fa fa-times' : 'fa fa-minus') | translate}}" iconPos="left"
+                              (click)="removeProgramApplication(index, programApplication.id)">
+                      </button>
+                    </td>
+                  
+                  </tr>
+                
+                </ng-template>
+              
+              </p-table>
+            
+            </div>
+          
+          </div>
+        
+        </p-tabPanel>
+      
+      </p-tabView>
+    
+    </div>
+  
+  </div>
+
+</form>
+

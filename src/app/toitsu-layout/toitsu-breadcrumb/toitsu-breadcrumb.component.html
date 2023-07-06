@@ -1,0 +1,11 @@
+<div class="route-bar">
+  <div class="route-bar-breadcrumb">
+    <i class="fa fa-home"></i>
+    <span>/ </span>
+    <ng-template ngFor let-item let-last="last" [ngForOf]="items">
+      <a [routerLink]="item.routerLink" *ngIf="item.routerLink">{{item.label | translate}}</a>
+      <ng-container *ngIf="!item.routerLink">{{item.label | translate}}</ng-container>
+      <span *ngIf="!last">/</span>
+    </ng-template>
+  </div>
+</div>

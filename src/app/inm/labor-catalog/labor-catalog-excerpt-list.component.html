@@ -1,0 +1,113 @@
+<div class="flipleft animation-duration-200">
+
+  <!--- Κουμπιά Ευρετηρίου --->
+  <div class="grid">
+    <div class="col-12 button-container">
+      <button pButton type="submit" label="{{'global.search' | translate}}" class="p-button-warning"
+              icon="fa fa-search" iconPos="left" (click)="loadTableData()">
+      </button>
+      <button pButton type="button" label="{{'global.clearArgs' | translate}}" class="p-button-help"
+              icon="fa fa-times" iconPos="left" (click)="clearArgs()">
+      </button>
+    </div>
+  </div>
+
+  <div class="grid">
+
+    <!--- Κριτήρια Ευρετηρίου --->
+    <div class="col-12 md:col-3">
+
+      <p-panel header="{{'global.args' | translate}}">
+
+        <div class="p-fluid">
+
+          <app-record-dc-origin [(dcId)]="args.dcId"></app-record-dc-origin>
+
+          <!--- Εύρος Ημερομηνιών --->
+          <div class="grid align-items-center">
+            <div class="col-12 no-padding-bottom">
+              <label>{{'laborCatalog.calendar.dateRange' | translate}}</label>
+              <div class="grid field-group">
+                <app-toitsu-calendar class="col-6" [(model)]="args.dateAfter" [noIcon]="true"></app-toitsu-calendar>
+                <span><i class="fa fa-arrow-right no-padding no-margin"></i></span>
+                <app-toitsu-calendar class="col-6" [(model)]="args.dateBefore" [noIcon]="true"></app-toitsu-calendar>
+              </div>
+            </div>
+          </div>
+
+          <!--- Έγκριση --->
+          <div class="grid align-items-center">
+            <div class="col-12">
+              <label>{{'laborCatalog.excerpt.approved' | translate}}</label>
+              <p-dropdown [(ngModel)]="args.approved" [options]="yesNoEnums" optionValue="value" optionLabel="label"
+                          placeholder="{{'global.selectOption' | translate}}"
+                          emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                          [showClear]="true">
+              </p-dropdown>
+            </div>
+          </div>
+
+        </div>
+
+      </p-panel>
+    </div>
+
+    <div class="col-12 md:col-9">
+      <!--- Panel: Απόσπασμα Κρατουμένου --->
+      <p-panel header="{{'inm.laborCatalog.inmateExcerpt' | translate}}">
+
+        <!--- Ευρετήριο Αποσπάσματος Κρατουμένου --->
+        <app-toitsu-table #table
+                          [url]="url"
+                          [cols]="cols"
+                          [first]="paging.first"
+                          [rows]="paging.rows"
+                          [sortField]="paging.sortField"
+                          [sortOrder]="paging.sortOrder"
+                          [args]="args"
+                          [excel]="true"
+                          [exportModel]="exportModel"
+                          [loadOnInit]="false"
+                          (rowSelected)="onSelectRecord()"
+                          (rowUnselected)="onUnselectRecord()">
+
+          <ng-template #cell1 let-rowData>
+            <!--- Κατάστημα Εγγραφής --->
+            <i class="fa fa-building color-noir" pTooltip="{{rowData.dcName}}" tooltipPosition="right"
+               *ngIf="rowData.dcId && (rowData.dcId !== authService.getUserDcId()) && rowData.protocolNo !== 'Από Μεταφορά'">
+            </i>
+          </ng-template>
+
+        </app-toitsu-table>
+      </p-panel>
+
+      <!--- Panel: Ιστορικό Αποσπάσματος Κρατουμένου --->
+      <p-panel header="{{'inm.laborCatalog.inmateExcerptHistory' | translate}}">
+
+        <!--- Ευρετήριο Ιστορικού Αποσπάσματος Κρατουμένου --->
+        <app-toitsu-table #historyTable
+                          [url]="historyUrl"
+                          [cols]="cols"
+                          [first]="paging.first"
+                          [rows]="paging.rows"
+                          [sortField]="paging.sortField"
+                          [sortOrder]="paging.sortOrder"
+                          [args]="args"
+                          [excel]="true"
+                          [exportModel]="exportHistoryModel"
+                          [loadOnInit]="false">
+
+          <ng-template #cell1 let-rowData>
+            <!--- Κατάστημα Εγγραφής --->
+            <i class="fa fa-building color-noir" pTooltip="{{rowData.dcName}}" tooltipPosition="right"
+               *ngIf="rowData.dcId && (rowData.dcId !== authService.getUserDcId()) && rowData.protocolNo !== 'Από Μεταφορά'">
+            </i>
+          </ng-template>
+
+        </app-toitsu-table>
+      </p-panel>
+    </div>
+
+  </div>
+
+</div>

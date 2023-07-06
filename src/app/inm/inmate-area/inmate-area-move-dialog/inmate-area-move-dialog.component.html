@@ -1,0 +1,116 @@
+<!--- Dialog: Μεταφορά επιλεγμένου κρατουμένου --->
+<form>
+  <div>
+    <div class="col-12 p-fluid">
+      <p-panel header="{{'inmateArea.manage.basicData' | translate}}">
+
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmateArea.inmateId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+              <textarea pInputTextarea disabled
+                        name="fullname" rows="2"
+                        [(ngModel)]="selectedInmateAreaRecord.inmate.fullName">
+              </textarea>
+          </div>
+        </div>
+
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmateArea.currentArea' | translate}}</label>
+          <div class="col-12 sm:col-8">
+              <textarea pInputTextarea disabled
+                        name="currentInmateArea" rows="2"
+                        [(ngModel)]="selectedInmateAreaRecord.areaFullDescription">
+              </textarea>
+          </div>
+        </div>
+
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'inmateArea.newArea' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [options]="areas" optionLabel="label" optionValue="id"
+                        placeholder="{{'global.selectOption' | translate}}" [showClear]="true" [filter]="true"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        name="newInmateArea"[(ngModel)]="newInmateArea.areaId" (ngModelChange)="areaChanged()">
+            </p-dropdown>
+            <small class="error-message" *ngIf="lastInmateArea.areaId === newInmateArea.areaId && lastInmateArea.id != -33">
+              {{'inmateArea.error.sameAreaId' | translate}}
+            </small>
+            <small class="warning-message" *ngIf="!areaChanged() && newInmateArea.areaId">
+              {{'inmateArea.warning.selectedArea.NoAvailablePositions' | translate}}
+            </small>
+          </div>
+        </div>
+
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'inmateArea.date' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar
+              name="entryDate"
+              [(model)]="newInmateArea.entryDate">
+            </app-toitsu-calendar>
+          </div>
+        </div>
+
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmateArea.reason' | translate}}</label>
+          <div class="col-12 sm:col-8">
+              <textarea pInputTextarea
+                        name="reason" rows="5"
+                        [(ngModel)]="newInmateArea.reason">
+              </textarea>
+          </div>
+        </div>
+
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmateArea.comments' | translate}}</label>
+          <div class="col-12 sm:col-8">
+              <textarea pInputTextarea
+                        name="comments" rows="5"
+                        [(ngModel)]="newInmateArea.comments">
+              </textarea>
+          </div>
+        </div>
+
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmateArea.currentAreaReservation' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <div class="flex align-items-center flex-wrap">
+              <div class="flex align-items-center justify-content-center">
+                <p-checkbox binary="true" name="reserved" [disabled]="lastInmateArea.id === -33"
+                            [(ngModel)]="lastInmateArea.reserved" (click)="enableReservedDate()">
+                </p-checkbox>
+              </div>
+              <span class="span-margin-0_200rem"></span>
+              <div class="flex align-items-center justify-content-center">
+                <app-toitsu-calendar
+                  name="reservationDate" [disabled]="!lastInmateArea.reserved"
+                  [(model)]="lastInmateArea.reservationDate">
+                </app-toitsu-calendar>
+              </div>
+            </div>
+            <small class="info-message" *ngIf="lastInmateArea.id === -33">
+              {{'inmateArea.info.noLastInmateAreaToReserve' | translate}}
+            </small>
+            <small class="info-message" *ngIf="alreadyReserved">
+              {{'inmateArea.info.inmateAreaAlreadyReserved' | translate}} {{alreadyReservedDate}}
+            </small>
+          </div>
+        </div>
+
+      </p-panel>
+    </div>
+  </div>
+
+  <!--- Κουμπιά --->
+  <div class="grid">
+    <div class="col-12 button-container text-align-end">
+      <button pButton type="button" label="{{'global.save' | translate}}" class="p-button-success"
+              icon="fa fa-check" iconPos="left" (click)="moveInmate()">
+      </button>
+      <button pButton type="button" label="{{'global.cancel' | translate}}" class="p-button-warning"
+              icon="fa fa-times" iconPos="left" (click)="cancel()">
+      </button>
+    </div>
+  </div>
+</form>
+

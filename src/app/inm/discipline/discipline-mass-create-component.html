@@ -1,0 +1,147 @@
+<form>
+  
+  <div class="grid">
+    <div class="col-12 button-container">
+      <button pButton type="button"
+              label="{{'global.save' | translate}}" class="p-button-success"
+              icon="fa fa-save" iconPos="left" (click)="massDisciplineCreate()">
+      </button>
+      <button pButton type="button" label="{{'global.index' | translate}}" class="p-button-help"
+              icon="fa fa-table" iconPos="left" (click)="goToList()">
+      </button>
+    </div>
+  </div>
+  
+  
+  <div class="grid">
+    <div class="col-12">
+      
+      <p-panel header="{{'discipline.sharedData' | translate}}">
+        
+        <div class="grid p-fluid">
+          <div class="col-12 xl:col-6">
+            
+            <div class="grid align-items-center">
+              <label class="col-12 sm:col-4 font-bold">{{'discipline.disciplineTypePid' | translate}}</label>
+              <div class="col-12 md:col-8">
+                <app-select-gen-parameter [type]="disciplineTypeParams" [(model)]="discipline.disciplineTypePid" name="disciplineTypePid"></app-select-gen-parameter>
+              </div>
+            </div>
+  
+            <div class="grid align-items-center">
+              <label class="col-12 sm:col-4 font-bold">{{'discipline.decisionNo' | translate}}</label>
+              <div class="col-12 sm:col-8">
+                <input type="text" pInputText [(ngModel)]="discipline.decisionNo" name="decisionNo" appToitsuCapitalize>
+              </div>
+            </div>
+            
+            <div class="grid align-items-center">
+              <label class="col-12 sm:col-4 font-bold">{{'discipline.decisionDate' | translate}}</label>
+              <div class="col-12 sm:col-8">
+                <app-toitsu-calendar [(model)]="discipline.decisionDate" name="decisionDate"></app-toitsu-calendar>
+              </div>
+            </div>
+  
+            <div class="grid align-items-center">
+              <label class="col-12 sm:col-4">{{'discipline.decisionAuthorityPid' | translate}}</label>
+              <div class="col-12 md:col-8">
+                <app-select-gen-parameter [type]="disciplineDecisionAuthorityParams" [(model)]="discipline.decisionAuthorityPid" name="decisionAuthorityPid" ></app-select-gen-parameter>
+              </div>
+            </div>
+          
+          </div>
+        </div>
+      
+      </p-panel>
+    
+    </div>
+  </div>
+  
+  <div class="grid">
+  
+    <div class="col-12">
+      <p-tabView>
+        <p-tabPanel header="{{'discipline.disciplineVariables' | translate}}">
+          <div class="grid">
+            <div class="col-12 button-container">
+              <button pButton type="button" label="{{'global.add' | translate}}" class="p-button-info"
+                      icon="fa fa-plus" iconPos="left" (click)="newRecord()">
+              </button>
+            </div>
+          </div>
+  
+  
+          
+          <div class="grid">
+            <div class="col-12">
+  
+              <p-table [value]="disciplinesToSave" [scrollable]="true" scrollHeight="25rem" styleClass="p-datatable-gridlines p-datatable-striped" appToitsuPTableCellWidth>
+  
+                <ng-template pTemplate="header">
+  
+                  <tr>
+                    <th [style.width]="'5rem'"></th>
+                    <th [style.width]="'25rem'" [style.justify-content]="'center'">{{'discipline.inmateId' | translate}}*</th>
+                    <th [style.width]="'10rem'" [style.justify-content]="'center'">{{'discipline.endDate' | translate}}*</th>
+                    <th [style.width]="'10rem'" [style.justify-content]="'center'">{{'discipline.points' | translate}}</th>
+                    <th [style.width]="'15rem'" [style.justify-content]="'center'">{{'discipline.visitDenied' | translate}}</th>
+                    <th [style.width]="'25rem'" [style.justify-content]="'center'">{{'discipline.reason' | translate}}*</th>
+                    <th [style.width]="'20rem'" [style.justify-content]="'center'">{{'disciplinePenalty.penaltyTypePid' | translate}}*</th>
+                    <th [style.width]="'6rem'"></th>
+                  </tr>
+
+                </ng-template>
+  
+                <ng-template pTemplate="body" let-discipline let-index="rowIndex" let-expanded="expanded">
+                  
+                  <tr class="p-fluid">
+                    <td [style.justify-content]="'center'">{{index + 1}}</td>
+                    <td>
+                      <app-select-inmate [(model)]="discipline.inmateId" [inmates]="inmates" [dialogUrl]="inmateDialogUrl" class="width-100percent" name="discipline{{index}}.inmateId"></app-select-inmate>
+                    </td>
+                    <td>
+                      <app-toitsu-calendar [(model)]="discipline.endDate" name="discipline{{index}}.endDate"></app-toitsu-calendar>
+                    </td>
+                    <td>
+                      <p-inputNumber [(ngModel)]="discipline.points" name="discipline{{index}}.points" [showButtons]="true" buttonLayout="horizontal" inputId="horizontal" [step]="1" [min]="0"
+                                     decrementButtonClass="p-button-danger" incrementButtonClass="p-button-success" incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" [inputStyle]="{'text-align': 'center'}">
+                      </p-inputNumber>
+                    </td>
+                    <td [style.justify-content]="'center'">
+                      <p-checkbox [(ngModel)]="discipline.visitDenied" name="discipline{{index}}.visitDenied" [binary]="true"></p-checkbox>
+                    </td>
+                    <td [style.justify-content]="'center'">
+                    <textarea pInputTextarea [(ngModel)]="discipline.reason" name="discipline{{index}}.reason" rows="4"></textarea>
+                    </td>
+  
+                    <td>
+                      <app-select-gen-parameter
+                        [type]="disciplinePenaltyParams" [(model)]="discipline.disciplinePenalties[0].penaltyTypePid" name="discipline{{index}}.disciplinePenalties{{0}}.penaltyTypePid">
+                      </app-select-gen-parameter>
+                    </td>
+                    
+                    <td [style.justify-content]="'center'">
+                      <button pButton type="button" class="p-button-danger" icon="fa fa-minus" iconPos="left"
+                              pTooltip="{{'global.remove' | translate}}" tooltipPosition="top"
+                              (click)="removeDisciplineFromList(index)">
+                      </button>
+                    </td>
+                  </tr>
+
+                </ng-template>
+                
+              </p-table>
+              
+            </div>
+          </div>
+          
+
+          
+        </p-tabPanel>
+      </p-tabView>
+    </div>
+    
+  </div>
+
+</form>
+

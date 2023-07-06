@@ -1,0 +1,144 @@
+<div class="grid">
+  <div class="col-12 button-container">
+    <button pButton type="submit" label="{{'global.search' | translate}}" class="p-button-warning"
+            icon="fa fa-search" iconPos="left" (click)="loadTableData()">
+    </button>
+    <button pButton type="button" label="{{'global.clearArgs' | translate}}" class="p-button-help"
+            icon="fa fa-times" iconPos="left" (click)="clearArgs()">
+    </button>
+    <button pButton type="button" label="{{'global.newRecord' | translate}}" class="p-button-info"
+            icon="fa fa-plus" iconPos="left" (click)="newRecord()">
+    </button>
+  </div>
+</div>
+
+<div class="grid">
+  
+  <div class="col-12 md:col-3">
+    
+    <p-panel header="{{'global.args' | translate}}">
+      
+      <div class="p-fluid">
+        
+        <app-record-dc-origin [(recordDcOrigin)]="args.recordDcOrigin" [(dcId)]="args.dcId"></app-record-dc-origin>
+        
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'laborDay.inmateId' | translate}}</label>
+            <app-select-inmate [(model)]="args.inmateId" [loadOnOpen]="true" [dialogUrl]="inmateDialogUrl">
+            </app-select-inmate>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'laborDay.args.inmateCode' | translate}}</label>
+            <input type="text" pInputText [(ngModel)]="args.inmateCode">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <div class="col-12 no-padding-bottom">
+            <label>{{'laborDay.args.laborDate' | translate}}</label>
+            <div class="grid field-group">
+              <app-toitsu-calendar class="col-6" [(model)]="args.laborDateAfter" [noIcon]="true"></app-toitsu-calendar>
+              <span><i class="fa fa-arrow-right no-padding no-margin"></i></span>
+              <app-toitsu-calendar class="col-6" [(model)]="args.laborDateBefore" [noIcon]="true"></app-toitsu-calendar>
+            </div>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <div class="col-12 no-padding-bottom">
+            <label>{{'laborDay.args.laborDateTo' | translate}}</label>
+            <div class="grid field-group">
+              <app-toitsu-calendar class="col-6" [(model)]="args.laborDateToAfter" [noIcon]="true"></app-toitsu-calendar>
+              <span><i class="fa fa-arrow-right no-padding no-margin"></i></span>
+              <app-toitsu-calendar class="col-6" [(model)]="args.laborDateToBefore" [noIcon]="true"></app-toitsu-calendar>
+            </div>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'laborDay.args.category' | translate}}</label>
+            <p-dropdown [(ngModel)]="args.category" [options]="laborDayCategories" optionValue="value" optionLabel="label"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [showClear]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'laborDay.professionId' | translate}}</label>
+            <p-dropdown [(ngModel)]="args.professionId"
+                        [options]="professions" optionValue="id" optionLabel="displayName"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [showClear]="true" [filter]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'laborDay.presence' | translate}}</label>
+            <p-dropdown [(ngModel)]="args.presence" [options]="yesNoEnums" optionValue="value" optionLabel="label"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [showClear]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'laborDay.args.linkedToProtocol' | translate}}</label>
+            <p-dropdown [(ngModel)]="args.linkedToProtocol" [options]="yesNoEnums" optionValue="value" optionLabel="label"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [showClear]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'laborDay.approved' | translate}}</label>
+            <p-dropdown [(ngModel)]="args.approved" [options]="yesNoEnums" optionValue="value" optionLabel="label"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [showClear]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+      </div>
+      
+    </p-panel>
+    
+  </div>
+  
+  <div class="col-12 md:col-9">
+    
+    <app-toitsu-table #table
+                      [url]="url"
+                      [footerUrl]="footerUrl"
+                      [cols]="cols"
+                      [first]="paging.first"
+                      [rows]="paging.rows"
+                      [sortField]="paging.sortField"
+                      [sortOrder]="paging.sortOrder"
+                      [args]="args"
+                      [viewLink]="viewLink"
+                      [excel]="true"
+                      [exportModel]="exportModel"
+                      [loadOnInit]="false"
+                      (loadComplete)="loadComplete()">
+    </app-toitsu-table>
+    
+  </div>
+  
+</div>

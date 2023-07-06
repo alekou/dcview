@@ -1,0 +1,17 @@
+{
+  "courthouse.name": "Επωνυμία",
+  "courthouse.isActive": "Ενεργό",
+  "courthouse.number": "Αριθμός",
+  "courthouse.categoryPid": "Κατηγορία",
+  "courthouse.specialTypePid": "Ειδικός Τύπος",
+  "courthouse.kindPid": "Είδος",
+  "courthouse.typePid": "Τύπος",
+  "courthouse.specialCasePid": "Ειδική Περίπτωση",
+  "courthouse.cityId": "Πόλη",
+  "courthouse.address": "Διεύθυνση",
+  "courthouse.telephone": "Τηλέφωνο",
+
+  "courthouse.view.data": "Στοιχεία",
+  
+  "courthouse.select.dialogTitle": "Επιλογή Δικαστηρίου"
+}

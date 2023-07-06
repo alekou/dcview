@@ -1,0 +1,26 @@
+{
+  "treatmentLine.medicineId": "Φάρμακο",
+  "unit": "Μον.Μέτρησης",
+  "treatmentLine.usedQuantity": "Δοσολογία",
+  "treatmentLine.totalDays": "Ημέρες",
+  "treatmentLine.fromDate": "Από",
+  "treatmentLine.toDate": "Έως",
+  "treatmentLine.forLife": "Έφ'όρου Ζωής",
+  "treatmentLine.steDays": "Ανά Ημέρες",
+  "treatmentLine.comments": "Παρατηρήσεις",
+  "treatmentLine.view.tab.treatments": "Ανάλυση",
+  "treatmentLineList.dialogTitle": "Επιλογή Αγωγών",
+  
+  "treatmentLine.medicineTypeOption": "Φάρμακα",
+  "prescription.totalDays": "Διάστημα Προμήθειας Φαρμάκων",
+  "med.dialog.createPrescriptionLine": "Δημιουργία Συνταγολογίου",
+  "treatment.dialog.medicineFullDescription": "Κωδικός/Αντικείμενο",
+  "treatment.dialog.usedQuantity": "Δοσολογία",
+  "treatment.dialog.name1": "Πρωί",
+  "treatment.dialog.name2": "Μεσημέρι",
+  "treatment.dialog.name3": "Απόγευμα",
+  "treatment.dialog.name4": "Βράδυ",
+  "treatment.dialog.name5": "Ημέρα",
+  
+  "med.prescriptionLines.Created": "Η δημιουργία γραμμών ολοκληρώθηκε με επιτυχία"
+}

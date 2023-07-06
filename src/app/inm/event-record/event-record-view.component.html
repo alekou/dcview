@@ -1,0 +1,436 @@
+<form>
+  
+  <div class="grid">
+    <div class="col-12 button-container flex-container">
+      <div class="flex-container-start">
+        <button pButton type="button"
+                label="{{'global.save' | translate}}" class="p-button-success"
+                icon="fa fa-save" iconPos="left" (click)="saveEventRecord()">
+        </button>
+        <button pButton type="button" *ngIf="id && authService.hasPermission('')"
+                label="{{'global.delete' | translate}}" class="p-button-danger"
+                icon="fa fa-trash" iconPos="left" (click)="deleteEventRecord()">
+        </button>
+        <button pButton type="button" *ngIf="id"
+                label="{{'global.newRecord' | translate}}" class="p-button-info"
+                icon="fa fa-plus" iconPos="left" (click)="newRecord()">
+        </button>
+        <button pButton type="button"
+                label="{{'global.index' | translate}}" class="p-button-help"
+                icon="fa fa-table" iconPos="left" (click)="goToList()">
+        </button>
+        <app-other-dc-name [dcId]="eventRecord.dcId"></app-other-dc-name>
+      </div>
+      <div class="flex-container-end">
+        <app-field-revisions *ngIf="id" [entityClass]="'inm.core.domain.EventRecord'" [entityId]="id"></app-field-revisions>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Στοιχεία Συμβάντος -->
+  <div class="grid">
+    
+    <div class="col-12 md:col-6 p-fluid">
+      
+      <p-panel header="{{'eventRecord.view.eventData' | translate}}">
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'eventRecord.eventTypePid' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-select-gen-parameter [type]="pEventType" [(model)]="eventRecord.eventTypePid" name="eventTypePid"></app-select-gen-parameter>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'eventRecord.eventPlacePid' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-select-gen-parameter [type]="pEventPlace" [(model)]="eventRecord.eventPlacePid" name="eventPlacePid"></app-select-gen-parameter>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'eventRecord.eventStartDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="eventRecord.eventStartDate" showTime="true" name="eventStartDate"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'eventRecord.eventEndDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="eventRecord.eventEndDate" showTime="true" name="eventEndDate"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'eventRecord.description' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="eventRecord.description" name="description" rows="6"></textarea>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'eventRecord.hasDisciplinaryControl' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox binary="true" [(ngModel)]="eventRecord.hasDisciplinaryControl" name="hasDisciplinaryControl"></p-checkbox>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'eventRecord.comments' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="eventRecord.comments" name="comments" rows="6"></textarea>
+          </div>
+        </div>
+      
+      </p-panel>
+    </div>
+    
+    <!-- Ενημέρωση Εισαγγελέα -->
+    <div class="col-12 md:col-6 p-fluid">
+      
+      <p-panel header="{{'eventRecord.view.daNotice' | translate}}">
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'eventRecord.daProtocolNo' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="eventRecord.daProtocolNo" name="daProtocolNo">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'eventRecord.daProtocolDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="eventRecord.daProtocolDate" name="daProtocolDate"></app-toitsu-calendar>
+          </div>
+        </div>
+      
+      </p-panel>
+    
+    </div>
+    
+    <!-- Θύματα / Θύτες -->
+    <div class="col-12">
+      
+      <p-tabView>
+        
+        <!------------------------------------------ Θύματα -------------------------------------------->
+        <p-tabPanel header="{{'eventRecord.view.tab.eventVictims' | translate}}">
+          
+          <div class="grid">
+            <div class="col-12">
+              <button pButton type="button" label="{{'global.add' | translate}}" class="p-button-info"
+                      icon="fa fa-plus" iconPos="left" (click)="addEventVictim()">
+              </button>
+            </div>
+          </div>
+          
+          <div class="grid">
+            <div class="col-12 xl:col-6">
+              <p-accordion [activeIndex]="eventVictimsActiveIndex" (onOpen)="onEventVictimOpen($event)" (onClose)="onEventVictimClose()">
+                
+                <p-accordionTab *ngFor="let victim of eventRecord.victimParticipants; let index = index">
+                  <p-header>
+                    <div class="display-flex">
+                      
+                      <span> {{index + 1}}. {{showParticipantFullName(victim)}}</span>
+                      <span class="accordion-header-icons">
+                        <app-field-revisions *ngIf="victim.id" [entityClass]="'inm.core.domain.EventParticipant'"
+                                             [entityId]="victim.id" [iconMode]="true"></app-field-revisions>
+                     </span>
+                    </div>
+                  </p-header>
+                  
+                  <div class="grid">
+                    
+                    <div class="col-12 p-fluid">
+                      
+                      <div class="grid align-items-center">
+                        <label class="col-12 sm:col-4 font-bold">{{'eventParticipant.eventTypePid' | translate}}</label>
+                        <div class="col-12 sm:col-8">
+                          <app-select-gen-parameter [type]="pEventType" [(model)]="victim.eventTypePid" name="victim{{index}}.eventTypePid"></app-select-gen-parameter>
+                        </div>
+                      </div>
+                      
+                      <div class="grid align-items-center">
+                        <label class="col-12 sm:col-4 font-bold">{{'eventRecord.eventPlacePid' | translate}}</label>
+                        <div class="col-12 sm:col-8">
+                          <app-select-gen-parameter [type]="pEventPlace" [(model)]="victim.eventPlacePid" name="victim{{index}}.eventPlacePid"></app-select-gen-parameter>
+                        </div>
+                      </div>
+                      
+                      <div class="grid align-items-center">
+                        <label class="col-12 sm:col-4 font-bold">{{'eventParticipant.participantType' | translate}}</label>
+                        <div class="col-12 sm:col-8">
+                          <p-dropdown [(ngModel)]="victim.participantType" name="victim{{index}}.participantType"
+                                      [options]="participantTypes" optionValue="value" optionLabel="label"
+                                      placeholder="{{'global.selectOption' | translate}}" [showClear]="true" [filter]="true"
+                                      emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                                      (ngModelChange)="victimParticipantTypeChanged(victim)">
+                          </p-dropdown>
+                        </div>
+                      </div>
+                      
+                      <div class="grid align-items-center" *ngIf="victim.participantType == 'INMATE'">
+                        <label class="col-12 sm:col-4 font-bold">{{'eventParticipant.inmateId' | translate}}</label>
+                        <div class="col-12 sm:col-8">
+                          <app-select-inmate [(model)]="victim.inmateId" name="victim{{index}}.inmateId"
+                                             [inmates]="inmates" [dialogUrl]="inmateDialogUrl" #victimInmates
+                                             (modelChange)="victimInmateIdChanged(victim)">
+                          </app-select-inmate>
+                        </div>
+                      </div>
+                      
+                      <!--                      <div class="grid align-items-center" *ngIf="victim.participantType === 'EMPLOYEE'">-->
+                      <!--                        <label class="col-12 sm:col-4 font-bold">{{'eventParticipant.employeeId' | translate}}</label>-->
+                      <!--                        <div class="col-12 sm:col-8">-->
+                      <!--                          <app-select-employee [(model)]="victim.employeeId" name="victim{{index}}.employeeId"-->
+                      <!--                                               [employees]="employees" [dialogUrl]="employeeDialogUrl" #victimEmployees-->
+                      <!--                                               (modelChange)="victimEmployeeIdChanged(victim)">-->
+                      <!--                          </app-select-employee>-->
+                      <!--                        </div>-->
+                      <!--                      </div>-->
+                      
+                      <div class="grid align-items-center">
+                        <label class="col-12 sm:col-4 font-bold">{{'eventParticipant.lastName' | translate}}</label>
+                        <div class="col-12 sm:col-8">
+                          <input type="text" pInputText [(ngModel)]="victim.lastName" name="victim{{index}}.lastName"
+                                 [disabled]="victim.participantType == 'INMATE' || victim.participantType == 'EMPLOYEE'">
+                        </div>
+                      </div>
+                      
+                      <div class="grid align-items-center">
+                        <label class="col-12 sm:col-4 font-bold">{{'eventParticipant.firstName' | translate}}</label>
+                        <div class="col-12 sm:col-8">
+                          <input type="text" pInputText [(ngModel)]="victim.firstName" name="victim{{index}}.firstName"
+                                 [disabled]="victim.participantType == 'INMATE' || victim.participantType == 'EMPLOYEE'">
+                        </div>
+                      </div>
+                      
+                      <div class="grid align-items-center">
+                        <label class="col-12 sm:col-4">{{'eventParticipant.nationalityId' | translate}}</label>
+                        <div class="col-12 sm:col-8">
+                          <p-dropdown [(ngModel)]="victim.nationalityId" name="victim{{index}}.nationalityId"
+                                      [options]="countries" optionValue="id" optionLabel="nationalityNameGreek"
+                                      [disabled]="victim.participantType == 'INMATE' || victim.participantType == 'EMPLOYEE'"
+                                      placeholder="{{'global.selectOption' | translate}}" [showClear]="true" [filter]="true"
+                                      emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}">
+                          </p-dropdown>
+                        </div>
+                      </div>
+                      
+                      <div class="grid align-items-center">
+                        <label class="col-12 sm:col-4">{{'eventParticipant.externalTreatment' | translate}}</label>
+                        <div class="col-12 sm:col-8">
+                          <textarea pInputTextarea [(ngModel)]="victim.externalTreatment" name="victim{{index}}.externalTreatment" rows="2"></textarea>
+                        </div>
+                      </div>
+                      
+                      <div class="grid align-items-center">
+                        <label class="col-12 sm:col-4">{{'eventParticipant.protectionMeasures' | translate}}</label>
+                        <div class="col-12 sm:col-8">
+                          <textarea pInputTextarea [(ngModel)]="victim.protectionMeasures" name="victim{{index}}.protectionMeasures" rows="2"></textarea>
+                        </div>
+                      </div>
+                      
+                      <div class="grid align-items-center" *ngIf="victim.participantType === 'INMATE'">
+                        <label class="col-12 sm:col-4">{{'eventParticipant.isNewcomer' | translate}}</label>
+                        <div class="col-12 sm:col-8">
+                          <p-checkbox binary="true" [(ngModel)]="victim.isNewcomer" name="victim{{index}}.isNewcomer"></p-checkbox>
+                        </div>
+                      </div>
+                      
+                      <div class="grid align-items-center">
+                        <label class="col-12 sm:col-4">{{'eventParticipant.hasEventReport' | translate}}</label>
+                        <div class="col-12 sm:col-8">
+                          <p-checkbox binary="true" [(ngModel)]="victim.hasEventReport" name="victim{{index}}.hasEventReport"></p-checkbox>
+                        </div>
+                      </div>
+                      
+                      <div class="grid align-items-center">
+                        <label class="col-12 sm:col-4">{{'eventParticipant.hasForensicReport' | translate}}</label>
+                        <div class="col-12 sm:col-8">
+                          <p-checkbox binary="true" [(ngModel)]="victim.hasForensicReport" name="victim{{index}}.hasForensicReport"></p-checkbox>
+                        </div>
+                      </div>
+                      
+                      <div class="grid align-items-center">
+                        <label class="col-12 sm:col-4">{{'eventParticipant.hasForensicEvaluation' | translate}}</label>
+                        <div class="col-12 sm:col-8">
+                          <p-checkbox binary="true" [(ngModel)]="victim.hasForensicEvaluation" name="victim{{index}}.hasForensicEvaluation"></p-checkbox>
+                        </div>
+                      </div>
+                    
+                    </div>
+                  </div>
+                  
+                  <div class="grid">
+                    <div class="col-12 text-align-center">
+                      <button pButton type="button" (click)="deleteEventVictim(index, victim.id)"
+                              label="{{(victim.id ? 'global.delete' : 'global.remove') | translate}}" class="p-button-danger"
+                              icon="{{(victim.id ? 'fa fa-times' : 'fa fa-minus') | translate}}" iconPos="left">
+                      </button>
+                    </div>
+                  </div>
+                
+                </p-accordionTab>
+              
+              </p-accordion>
+            
+            </div>
+          
+          </div>
+        
+        </p-tabPanel>
+        
+        <!-------------------------------------------- Θύτες -------------------------------------------->
+        <p-tabPanel header="{{'eventRecord.view.tab.eventCulprits' | translate}}">
+          
+          <div class="grid">
+            <div class="col-12">
+              <button pButton type="button" label="{{'global.add' | translate}}" class="p-button-info"
+                      icon="fa fa-plus" iconPos="left" (click)="addEventCulprit()">
+              </button>
+            </div>
+          </div>
+          
+          <div class="grid">
+            
+            <div class="col-12 xl:col-6">
+              
+              <p-accordion [activeIndex]="eventCulpritsActiveIndex" (onOpen)="onEventCulpritOpen($event)" (onClose)="onEventCulpritClose()">
+                
+                <p-accordionTab *ngFor="let culprit of eventRecord.culpritParticipants; let index = index">
+                  <p-header>
+                    <div class="display-flex">
+                      
+                      <span>{{index + 1}}. {{showParticipantFullName(culprit)}}</span>
+                      <span class="accordion-header-icons">
+                         <app-field-revisions *ngIf="culprit.id" [entityClass]="'inm.core.domain.EventParticipant'"
+                                              [entityId]="culprit.id" [iconMode]="true"></app-field-revisions>
+                        </span>
+                    </div>
+                  </p-header>
+                  
+                  <div class="grid">
+                    
+                    <div class="col-12 p-fluid">
+                      
+                      <div class="grid align-items-center">
+                        <label class="col-12 sm:col-4 font-bold">{{'eventParticipant.eventTypePid' | translate}}</label>
+                        <div class="col-12 sm:col-8">
+                          <app-select-gen-parameter [type]="pEventType" [(model)]="culprit.eventTypePid" name="culprit{{index}}.eventTypePid"></app-select-gen-parameter>
+                        </div>
+                      </div>
+                      
+                      <div class="grid align-items-center">
+                        <label class="col-12 sm:col-4 font-bold">{{'eventRecord.eventPlacePid' | translate}}</label>
+                        <div class="col-12 sm:col-8">
+                          <app-select-gen-parameter [type]="pEventPlace" [(model)]="culprit.eventPlacePid" name="culprit{{index}}.eventPlacePid"></app-select-gen-parameter>
+                        </div>
+                      </div>
+                      
+                      <div class="grid align-items-center">
+                        <label class="col-12 sm:col-4 font-bold">{{'eventParticipant.participantType' | translate}}</label>
+                        <div class="col-12 sm:col-8">
+                          <p-dropdown [(ngModel)]="culprit.participantType" name="culprit{{index}}.participantType"
+                                      [options]="participantTypes" optionValue="value" optionLabel="label"
+                                      placeholder="{{'global.selectOption' | translate}}" [showClear]="true" [filter]="true"
+                                      emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                                      (ngModelChange)="culpritParticipantTypeChanged(culprit)">
+                          </p-dropdown>
+                        </div>
+                      </div>
+                      
+                      <div class="grid align-items-center" *ngIf="culprit.participantType == 'INMATE'">
+                        <label class="col-12 sm:col-4 font-bold">{{'eventParticipant.inmateId' | translate}}</label>
+                        <div class="col-12 sm:col-8">
+                          <app-select-inmate [(model)]="culprit.inmateId" name="culprit{{index}}.inmateId"
+                                             [inmates]="inmates" [dialogUrl]="inmateDialogUrl" #culpritInmates
+                                             (modelChange)="culpritInmateIdChanged(culprit)">
+                          </app-select-inmate>
+                        </div>
+                      </div>
+                      
+                      <!--                      <div class="grid align-items-center" *ngIf="culprit.participantType == 'EMPLOYEE'">-->
+                      <!--                        <label class="col-12 sm:col-4 font-bold">{{'eventParticipant.employeeId' | translate}}</label>-->
+                      <!--                        <div class="col-12 sm:col-8">-->
+                      <!--                          <app-select-employee [(model)]="culprit.employeeId" name="culprit{{index}}.employeeId"-->
+                      <!--                                               (modelChange)="culpritEmployeeIdChanged(culprit)"-->
+                      <!--                                               [employees]="employees" [dialogUrl]="employeeDialogUrl" #culpritEmployees>-->
+                      <!--                          </app-select-employee>-->
+                      <!--                        </div>-->
+                      <!--                      </div>-->
+                      
+                      <div class="grid align-items-center">
+                        <label class="col-12 sm:col-4 font-bold">{{'eventParticipant.lastName' | translate}}</label>
+                        <div class="col-12 sm:col-8">
+                          <input type="text" pInputText [(ngModel)]="culprit.lastName" name="culprit{{index}}.lastName"
+                                 [disabled]="culprit.participantType == 'INMATE' || culprit.participantType == 'EMPLOYEE'">
+                        </div>
+                      </div>
+                      
+                      <div class="grid align-items-center">
+                        <label class="col-12 sm:col-4 font-bold">{{'eventParticipant.firstName' | translate}}</label>
+                        <div class="col-12 sm:col-8">
+                          <input type="text" pInputText [(ngModel)]="culprit.firstName" name="culprit{{index}}.firstName"
+                                 [disabled]="culprit.participantType == 'INMATE' || culprit.participantType == 'EMPLOYEE'">
+                        </div>
+                      </div>
+                      
+                      <div class="grid align-items-center">
+                        <label class="col-12 sm:col-4">{{'eventParticipant.nationalityId' | translate}}</label>
+                        <div class="col-12 sm:col-8">
+                          <p-dropdown [(ngModel)]="culprit.nationalityId" name="culprit{{index}}.nationalityId"
+                                      [options]="countries" optionValue="id" optionLabel="nationalityNameGreek"
+                                      [disabled]="culprit.participantType == 'INMATE' || culprit.participantType == 'EMPLOYEE'"
+                                      placeholder="{{'global.selectOption' | translate}}" [showClear]="false" [filter]="true"
+                                      emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}">
+                          </p-dropdown>
+                        </div>
+                      </div>
+                      
+                      <div class="grid align-items-center" *ngIf="culprit.participantType == 'INMATE'">
+                        <label class="col-12 sm:col-4">{{'eventParticipant.isNewcomer' | translate}}</label>
+                        <div class="col-12 sm:col-8">
+                          <p-checkbox binary="true" [(ngModel)]="culprit.isNewcomer" name="culprit{{index}}.isNewcomer"></p-checkbox>
+                        </div>
+                      </div>
+                      
+                      <div class="grid align-items-center">
+                        <label class="col-12 sm:col-4">{{'eventParticipant.hasProsecution' | translate}}</label>
+                        <div class="col-12 sm:col-8">
+                          <p-checkbox binary="true" [(ngModel)]="culprit.hasProsecution" name="culprit{{index}}.hasProsecution"></p-checkbox>
+                        </div>
+                      </div>
+                    
+                    </div>
+                  
+                  </div>
+                  
+                  <div class="grid">
+                    <div class="col-12 text-align-center">
+                      <button pButton type="button" (click)="deleteEventCulprit(index, culprit.id)"
+                              label="{{(culprit.id ? 'global.delete' : 'global.remove') | translate}}" class="p-button-danger"
+                              icon="{{(culprit.id ? 'fa fa-times' : 'fa fa-minus') | translate}}" iconPos="left">
+                      </button>
+                    </div>
+                  </div>
+                
+                </p-accordionTab>
+              
+              </p-accordion>
+            
+            </div>
+          
+          </div>
+        
+        </p-tabPanel>
+      
+      </p-tabView>
+    
+    </div>
+  
+  </div>
+
+</form>

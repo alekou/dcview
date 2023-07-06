@@ -1,0 +1,106 @@
+<div class="grid">
+  
+  <div class="col-12 p-fluid">
+    {{'judgment.merge.description' | translate}}
+  </div>
+  
+  <div class="col-12 p-fluid">
+    
+    <div class="grid align-items-center" *ngFor="let judgment of candidateJudgmentsToMerge; let index = index">
+      <label class="col-12 sm:col-4">{{'inmate.folder.judgment' | translate}} {{index + 1}}</label>
+      <div class="col-12 sm:col-6">
+        <input type="text" pInputText value="{{judgment.displayName}}" disabled class="background-color-white">
+      </div>
+      <div class="col-12 sm:col-2">
+        <p-checkbox [value]="judgment.id" [(ngModel)]="data.judgmentIdsToMerge"></p-checkbox>
+      </div>
+    </div>
+    
+  </div>
+  
+  <div class="col-12 p-fluid">
+    <p-panel header="{{'judgment.merge.mergingData' | translate}}">
+      
+      <div class="grid align-items-center">
+        <label class="col-12 sm:col-4">{{'judgment.sortField' | translate}}</label>
+        <div class="col-12 sm:col-8">
+          <input type="text" pInputText [(ngModel)]="data.sortField" name="sortField">
+        </div>
+      </div>
+      
+      <div class="grid align-items-center">
+        <label class="col-12 sm:col-4">{{'judgment.orderNo' | translate}}</label>
+        <div class="col-12 sm:col-8">
+          <input type="text" pInputText [(ngModel)]="data.orderNo" name="orderNo">
+        </div>
+      </div>
+      
+      <div class="grid align-items-center">
+        <label class="col-12 sm:col-4">{{'judgment.orderDate' | translate}}</label>
+        <div class="col-12 sm:col-8">
+          <app-toitsu-calendar [(model)]="data.orderDate" name="orderDate"></app-toitsu-calendar>
+        </div>
+      </div>
+      
+      <div class="grid align-items-center">
+        <label class="col-12 sm:col-4">{{'judgment.type' | translate}}</label>
+        <div class="col-12 sm:col-8">
+          <p-dropdown [(ngModel)]="data.type" name="type"
+                      [options]="judgmentTypes" optionValue="value" optionLabel="label"
+                      placeholder="{{'global.selectOption' | translate}}"
+                      emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                      [showClear]="true" appendTo="body">
+          </p-dropdown>
+        </div>
+      </div>
+      
+      <div class="grid align-items-center">
+        <label class="col-12 sm:col-4">{{'judgment.judgmentNo' | translate}}</label>
+        <div class="col-12 sm:col-8">
+          <input type="text" pInputText [(ngModel)]="data.judgmentNo" name="judgmentNo">
+        </div>
+      </div>
+      
+      <div class="grid align-items-center">
+        <label class="col-12 sm:col-4">{{'judgment.judgmentDate' | translate}}</label>
+        <div class="col-12 sm:col-8">
+          <app-toitsu-calendar [(model)]="data.judgmentDate" name="judgmentDate"></app-toitsu-calendar>
+        </div>
+      </div>
+      
+      <div class="grid align-items-center">
+        <label class="col-12 sm:col-4">{{'judgment.categoryPid' | translate}}</label>
+        <div class="col-12 sm:col-8">
+          <app-select-gen-parameter [type]="pJudgmentCategory" [(model)]="data.categoryPid" name="categoryPid"></app-select-gen-parameter>
+        </div>
+      </div>
+      
+      <div class="grid align-items-center">
+        <label class="col-12 sm:col-4 font-bold">{{'judgment.fact' | translate}}</label>
+        <div class="col-12 sm:col-8">
+          <app-select-gen-parameter [type]="pFact" [(model)]="data.factPid" name="factPid"></app-select-gen-parameter>
+        </div>
+      </div>
+      
+      <div class="grid align-items-center">
+        <label class="col-12 sm:col-4">{{'judgment.sentencePid' | translate}}</label>
+        <div class="col-12 sm:col-8">
+          <app-select-gen-parameter [type]="pSentence" [(model)]="data.sentencePid" name="sentencePid"></app-select-gen-parameter>
+        </div>
+      </div>
+      
+    </p-panel>
+  </div>
+  
+</div>
+
+<div class="grid">
+  <div class="col-12 button-container text-align-end">
+    <button pButton type="button" label="{{'global.confirm' | translate}}" class="p-button-success"
+            icon="fa fa-save" iconPos="left" (click)="confirm()">
+    </button>
+    <button pButton type="button" label="{{'global.cancel' | translate}}" class="p-button-warning"
+            icon="fa fa-times" iconPos="left" (click)="cancel()">
+    </button>
+  </div>
+</div>

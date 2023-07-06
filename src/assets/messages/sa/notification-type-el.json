@@ -1,0 +1,14 @@
+{
+  "notificationType.title": "Τίτλος",
+  "notificationType.query": "Ερώτημα",
+  "notificationType.entity": "Οντότητα",
+  "notificationType.active": "Ενεργός",
+  "notificationType.details": "Στοιχεία",
+  "notificationType.centralNotice": "Κεντρική Ειδοποίηση Χρηστών",
+  "notificationType.withAlert": "Με Μήνυμα Ειδοποίησης",
+  "notificationTypeRecipient.add": "Προσθήκη Παραληπτών",
+  "notificationTypeRecipient.userGroup": "Προσθήκη Ομάδων Χρηστών",
+  "notificationTypeRecipient.username": "Προσθήκη Χρηστών",
+  "notificationTypeRecipient.details": "Παραλήπτες Τύπου Υπενθύμισης",
+  "notificationTypeRecipient.recipient": "Παραλήπτης"
+}

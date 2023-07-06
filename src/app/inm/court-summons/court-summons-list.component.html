@@ -1,0 +1,100 @@
+<div class="grid">
+  <div class="col-12 button-container">
+    <button pButton type="submit" label="{{'global.search' | translate}}" class="p-button-warning"
+            icon="fa fa-search" iconPos="left" (click)="loadTableData()">
+    </button>
+    <button pButton type="button" label="{{'global.clearArgs' | translate}}" class="p-button-help"
+            icon="fa fa-times" iconPos="left" (click)="clearArgs()">
+    </button>
+    <button pButton type="button" label="{{'global.newRecord' | translate}}" class="p-button-info"
+            icon="fa fa-plus" iconPos="left" (click)="newRecord()">
+    </button>
+  </div>
+</div>
+
+<div class="grid">
+  
+  <div class="col-12 md:col-3">
+    
+    <p-panel header="{{'global.args' | translate}}">
+      
+      <div class="p-fluid">
+  
+        <app-record-dc-origin [(recordDcOrigin)]="args.recordDcOrigin" [(dcId)]="args.dcId"></app-record-dc-origin>
+        
+          <div class="grid align-items-center">
+            <div class="col-12">
+              <label>{{'courtSummons.summonsNo' | translate}}</label>
+              <input type="text" pInputText [(ngModel)]="args.summonsNo">
+            </div>
+          </div>
+          
+          <div class="grid align-items-center">
+            <div class="col-12 no-padding-bottom">
+            <label>{{'courtSummons.summonsDate' | translate}}</label>
+            <div class="grid field-group">
+              <app-toitsu-calendar class="col-6" [(model)]="args.summonsDateAfter" [noIcon]="true"></app-toitsu-calendar>
+              <span><i class="fa fa-arrow-right no-padding no-margin"></i></span>
+              <app-toitsu-calendar class="col-6" [(model)]="args.summonsDateBefore" [noIcon]="true"></app-toitsu-calendar>
+            </div>
+            </div>
+          </div>
+  
+          <div class="grid align-items-center">
+            <div class="col-12 no-padding-bottom">
+            <label>{{'courtSummons.courtDate' | translate}}</label>
+            <div class="grid field-group">
+              <app-toitsu-calendar class="col-6" [(model)]="args.courtDateAfter" [noIcon]="true"></app-toitsu-calendar>
+              <span><i class="fa fa-arrow-right no-padding no-margin"></i></span>
+              <app-toitsu-calendar class="col-6" [(model)]="args.courtDateBefore" [noIcon]="true"></app-toitsu-calendar>
+            </div>
+          </div>
+        </div>
+          
+          <div class="grid align-items-center">
+            <div class="col-12">
+            <label>{{'courtSummons.inmateId' | translate}}</label>
+              <app-select-inmate [(model)]="args.inmateId" [dialogUrl]="inmatesUrl" [loadOnOpen]="true" name="inmateId"></app-select-inmate>
+            </div>
+          </div>
+          
+          <div class="grid align-items-center">
+            <div class="col-12">
+            <label>{{'courtSummons.args.inmateCode' | translate}}</label>
+              <input type="text" pInputText [(ngModel)]="args.inmateCode">
+            </div>
+          </div>
+          
+          <div class="grid align-items-center">
+            <div class="col-12">
+            <label>{{'courtSummons.courthouseId' | translate}}</label>
+              <app-select-courthouse [(model)]="args.courthouseId" name="courthouseId" ></app-select-courthouse>
+            </div>
+          </div>
+        
+        </div>
+      
+    </p-panel>
+    
+</div>
+  
+  <div class="col-12 md:col-9">
+    
+    <app-toitsu-table #table
+                      [url]="url"
+                      [cols]="cols"
+                      [first]="paging.first"
+                      [rows]="paging.rows"
+                      [sortField]="paging.sortField"
+                      [sortOrder]="paging.sortOrder"
+                      [args]="args"
+                      [viewLink]="viewLink"
+                      [excel]="true"
+                      [exportModel]="exportModel"
+                      [loadOnInit]="false"
+                      (loadComplete)="loadComplete()">
+    </app-toitsu-table>
+    
+  </div>
+  
+</div>

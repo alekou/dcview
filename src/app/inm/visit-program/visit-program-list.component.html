@@ -1,0 +1,109 @@
+<div class="grid">
+  <div class="col-12 button-container">
+    <button pButton type="submit" label="{{'global.search' | translate}}" class="p-button-warning"
+            icon="fa fa-search" iconPos="left" (click)="loadTableData()">
+    </button>
+    <button pButton type="button" label="{{'global.clearArgs' | translate}}" class="p-button-help"
+            icon="fa fa-times" iconPos="left" (click)="clearArgs()">
+    </button>
+    <button pButton type="button" label="{{'global.newRecord' | translate}}" class="p-button-info"
+            icon="fa fa-plus" iconPos="left" (click)="newRecord()">
+    </button>
+  </div>
+</div>
+
+<div class="grid">
+  
+  <div class="col-12 md:col-3">
+    
+    <p-panel header="{{'global.args' | translate}}">
+      
+      <div class="p-fluid">
+  
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <app-record-dc-origin [(dcId)]="args.dcId"></app-record-dc-origin>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'visitProgram.list.visitProgram' | translate}}</label>
+            <p-dropdown optionValue="value" optionLabel="label"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [showClear]="true">
+            </p-dropdown>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'visitProgramTimeFrame.day' | translate}}</label>
+            <p-dropdown [(ngModel)]="args.day" optionValue="value" optionLabel="label"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [showClear]="true">
+            </p-dropdown>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <div class="col-12  no-padding-bottom">
+            <label>{{'visitProgramTimeFrame.fromTime' | translate}}</label>
+            <div class="grid field-group">
+              <p-calendar [(ngModel)]="args.afterFromdatetime" timeOnly="true" appendTo="body" class="col-6"></p-calendar>
+              <span><i class="fa fa-arrow-right"></i></span>
+              <p-calendar [(ngModel)]="args.beforeFromdatetime" timeOnly="true" appendTo="body" class="col-6"></p-calendar>
+            </div>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <div class="col-12  no-padding-bottom">
+            <label>{{'visitProgramTimeFrame.toTime' | translate}}</label>
+            <div class="grid field-group">
+              <p-calendar [(ngModel)]="args.afterTodatetime" timeOnly="true" appendTo="body" class="col-6"></p-calendar>
+              <span><i class="fa fa-arrow-right"></i></span>
+              <p-calendar [(ngModel)]="args.beforeTodatetime" timeOnly="true" appendTo="body" class="col-6"></p-calendar>
+            </div>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'visitProgramTimeFrame.areaId' | translate}}</label>
+            <p-dropdown [(ngModel)]="args.area" optionValue="value" optionLabel="label"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [showClear]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+      </div>
+      
+    </p-panel>
+    
+  </div>
+  
+  <div class="col-12 md:col-9">
+    
+    <app-toitsu-table #table
+                      [url]="url"
+                      [cols]="cols"
+                      [first]="paging.first"
+                      [rows]="paging.rows"
+                      [sortField]="paging.sortField"
+                      [sortOrder]="paging.sortOrder"
+                      [args]="args"
+                      [viewLink]="viewLink"
+                      [excel]="true"
+                      [exportModel]="exportModel"
+                      [loadOnInit]="false"
+                      (loadComplete)="loadComplete()">
+    </app-toitsu-table>
+    
+  </div>
+  
+</div>

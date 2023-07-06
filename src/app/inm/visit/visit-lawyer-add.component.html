@@ -1,0 +1,158 @@
+<form>
+  
+  <div class="grid">
+    <div class="col-12 button-container">
+      <button pButton type="button"
+              label="{{'global.save' | translate}}" class="p-button-success"
+              icon="fa fa-save" iconPos="left" (click)="saveLawyerVisits()">
+      </button>
+      <button pButton type="button" label="{{'global.index' | translate}}" class="p-button-help"
+              icon="fa fa-table" iconPos="left" (click)="goToList()">
+      </button>
+      <button pButton type="button" label="{{'visitLawyerAdd.view.addInmateWithLawyer' | translate}}" icon="fa fa-plus-square-o" iconPos="left" class="p-button-info"
+              style="margin-left: 0.5rem" (click)="addInmateWithLawyerVisitor()" [disabled]="!selectedLawyerVisitorId">
+      </button>
+      <button pButton type="button" label="{{'visitLawyerAdd.view.addOtherInmate' | translate}}" icon="fa fa-plus-square-o" iconPos="left" class="p-button-info"
+              (click)="addInmateWithNoLawyerVisitor()">
+      </button>
+    </div>
+  </div>
+  
+  <div class="grid">
+    
+    <div class="col-12 xl:col-6 p-fluid">
+      <p-panel header="{{'visitLawyerAdd.visitorId' | translate}}">
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'visitLawyerAdd.visitorId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-select-visitor [(model)]="this.selectedLawyerVisitorId" [canCreate]="true" name="visitorId" [searchLawyer]="true" (modelChange)="this.lawyeredVisitorIdChanged(this.selectedLawyerVisitorId)">
+            </app-select-visitor>
+          </div>
+        </div>
+      
+      </p-panel>
+      
+      <p-panel header="{{'visitLawyerAdd.view.incomingGateMovementData' | translate}}">
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'visitLawyerAdd.view.incomingGateMovementCreation' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox binary="true" name="isLawyer" [(ngModel)]="this.gateMovementCreation" #gateMovementCreationCheckBox (ngModelChange)="this.gateMovementCreationCheckboxChanged(gateMovementCreationCheckBox.model)"></p-checkbox>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center" *ngIf="this.gateMovementCreation">
+          <label class="col-12 sm:col-4" [ngClass]="{'font-bold': this.gateMovementCreation}">{{'Τύπος Κίνησης' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown name="movementTypeId"
+                        [options]="displayedGateMovementTypes" optionValue="id" optionLabel="description"
+                        [(ngModel)]="this.gateMovementTypeId"
+                        placeholder="{{'global.selectOption' | translate}}" emptyMessage="{{'global.noResultsFound' | translate}}"
+                        emptyFilterMessage="{{'global.noResultsFound' | translate}}" [showClear]="true" [filter]="true" [disabled] = "!this.gateMovementCreation"
+            >
+            </p-dropdown>
+          </div>
+        </div>
+      
+      </p-panel>
+      
+      <p-panel header="{{'visitLawyerAdd.view.visitData' | translate}}">
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{"visit.visitTypeId" | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [options]="lawyerVisitTypes"
+                        optionValue="id"
+                        optionLabel="description"
+                        name="visitTypeId"
+                        [(ngModel)]="visitTypeId"
+                        [showClear]="true"
+                        [filter]="true"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}"
+                        emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        filter="true"
+            >
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'visitLawyerAdd.visitDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="visitDate" name="visitDate" [showTime]="true"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'visitLawyerAdd.visitComments' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="comments" name="comments" rows="5"></textarea>
+          </div>
+        </div>
+      </p-panel>
+    </div>
+    
+    <div class="col-12 xl:col-6 p-fluid">
+      <p-panel header="{{'visitLawyerAdd.view.inmates' | translate}}">
+        
+        <p-table [value]="this.lawyerVisits" styleClass="p-datatable-gridlines" appToitsuPTableCellWidth>
+          <ng-template pTemplate="header">
+            <tr hidden="hidden">
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-visit let-index="rowIndex">
+            <tr class="p-fluid">
+              <td style="text-align:center" [style.width]="'3rem'" [style.justify-content]="'center'">{{index + 1}}</td>
+              <td [style.width]="'10rem'">
+                <!-- To drop down αυτό εμφανίζεται όταν γίνεται προσθήκη κρατούμενου με δικηγόρο -->
+                <p-dropdown [options]="this.lawyerVisitorInmates"
+                            optionValue="id"
+                            optionLabel="fullName"
+                            [showClear]="true"
+                            [filter]="true"
+                            appendTo="body"
+                            [(ngModel)]="visit.inmateId"
+                            name="lawyerVisitorInmates{{index}}"
+                            placeholder="{{'global.selectOption' | translate}}"
+                            emptyMessage="{{'global.noResultsFound' | translate}}"
+                            emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                            *ngIf="!isInmateFromOtherInmates[index]"
+                ></p-dropdown>
+                
+                <!-- To drop down αυτό εμφανίζεται όταν γίνεται προσθήκη άλλου κρατουμένου που δεν έχει σχέση με δικηγόρο -->
+                <p-dropdown [options]="this.lawyerVisitorOtherInmates"
+                            optionValue="id"
+                            optionLabel="fullName"
+                            [disabled]="true"
+                            appendTo="body"
+                            [(ngModel)]="visit.inmateId"
+                            name="lawyerVisitorOtherInmates{{index}}"
+                            placeholder="{{'global.selectOption' | translate}}"
+                            emptyMessage="{{'global.noResultsFound' | translate}}"
+                            emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                            *ngIf="isInmateFromOtherInmates[index]"
+                ></p-dropdown>
+              
+              </td>
+              <td style="text-align:center" [style.width]="'5rem'">
+                <button pButton type="button"
+                        class="p-button-danger"
+                        icon="fa fa-minus" iconPos="left"
+                        pTooltip="{{'global.remove' | translate}}"
+                        (click)="deleteVisit(index)"
+                >
+                </button>
+              </td>
+            
+            </tr>
+          </ng-template>
+        </p-table>
+      
+      </p-panel>
+    </div>
+  
+  </div>
+
+</form>

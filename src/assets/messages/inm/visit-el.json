@@ -1,0 +1,21 @@
+{
+  "visit.dcId" : "Κατάστημα Κράτησης",
+  "visit.inmateId": "Κρατούμενος",
+  "visit.inmateAreaId": "Περιοχή",
+  "visit.visitTypeId": "Τύπος Επισκεπτηρίου",
+  "visit.visitApplicationId": "Αίτημα Επισκεπτηρίου",
+  "visit.visitDate": "Ημερομηνία/Ώρα",
+  "visit.comments": "Παρατηρήσεις",
+
+  "visit.args.inmateCode" : "Α.Γ.Μ. Κρατουμένου",
+  
+  "visit.view.fromVisitApplication": "Από Αίτημα",
+  "visit.view.visitData": "Στοιχεία Επισκεπτηρίου",
+  "visit.view.existingVisitor": "Υπάρχων Επισκέπτης",
+  "visit.view.currentVisitors": "Τρέχοντες Επισκέπτες",
+  "visit.view.visitorAdd": "Αποθήκευση Επισκέπτη",
+  
+  "visit.list.visitTypeDescription" : "Περιγραφή Είδους",
+  "visit.list.visitor" : "Επισκέπτης",
+  "visit.list.inmateRelation" : "Συγγένεια"
+}

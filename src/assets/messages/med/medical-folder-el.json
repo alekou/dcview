@@ -1,0 +1,11 @@
+{
+  "global.print": "Εκτυπώσεις",
+  "global.save.form": "Αποθηκ. Φόρμα",
+  "inmate.details": "Στοιχεία Κρατούμενου",
+  "medicalFolder.doctors": "Ιατροί",
+  "medicalFolder.activeTreatments": "Ενεργές Αγωγές",
+  "med.medicalFolder.displayPicture": "Προβολή Φωτογραφίας",
+  "doctorInmate.dialog.title": "Νέα παρακολούθηση από Ιατρό",
+  "medFolder.responsibleDoctor": "Υπεύθυνος  Ιατρός"
+  
+}

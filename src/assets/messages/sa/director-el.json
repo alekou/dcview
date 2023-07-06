@@ -1,0 +1,14 @@
+{
+  "director.dcName": "Κατάστημα Κράτησης",
+  "director.isActive": "Ενεργός",
+  "director.type": "Τύπος",
+  "director.userId": "Χρήστης",
+  "director.firstName": "Όνομα",
+  "director.lastName": "Επώνυμο",
+  "director.fatherName": "Πατρώνυμο",
+  "director.startDate": "Ημερομηνία Έναρξης",
+  "director.endDate": "Ημερομηνία Λήξης",
+  "director.comments": "Παρατηρήσεις",
+
+  "director.view.directorData": "Στοιχεία Διαχειριστή - Διευθυντή"
+}

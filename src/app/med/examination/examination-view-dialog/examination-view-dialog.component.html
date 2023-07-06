@@ -1,0 +1,72 @@
+<form>
+  <div class="grid" appToitsuLockControls [lockCondition]="lockedRecord()">
+    <div class="col-12 p-fluid">
+      <p-panel header="{{'examination.details' | translate}}">
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'examination.inmateId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-select-inmate [disabled]="true" [(model)]="examination.inmateId" [loadOnOpen]="true" [dialogUrl]="inmateDialogUrl" name="inmateId"></app-select-inmate>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'examination.examinationTypeId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="examination.examinationTypeId" [options]="examinationTypes" name="examinationTypeId"
+                        optionValue="id" optionLabel="fullDescription" placeholder="{{'global.selectOption' | translate}}" 
+                        emptyMessage="{{'global.noResultsFound' | translate}}"
+                        emptyFilterMessage="{{'global.noResultsFound' | translate}}" [showClear]="true" [filter]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'examination.examinationDate' | translate}}</label>
+          <div class="col-12 sm:col-8 inline-flex align-items-center">
+            <app-toitsu-calendar class="flex-grow" [(model)]="examination.examinationDate" name="examinationDate"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'examination.resultsDate' | translate}}</label>
+          <div class="col-12 sm:col-8 inline-flex align-items-center">
+            <app-toitsu-calendar class="flex-grow" [(model)]="examination.resultsDate" name="resultsDate"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'examination.results' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="examination.results" name="results" rows="5"></textarea>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'examination.comments' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="examination.comments" name="comments" rows="5"></textarea>
+          </div>
+        </div>
+      
+      </p-panel>
+    </div>
+  </div>
+  
+  <div class="grid">
+    <div class="col-12 button-container text-align-end m-1">
+      <button pButton type="button" label="{{'global.save' | translate}}" class="p-button-success"
+              icon="fa fa-save" iconPos="left" (click)="saveExamination()">
+      </button>
+      <button pButton type="button" *ngIf="examination.id" label="{{'global.delete' | translate}}" class="p-button-danger"
+              icon="fa fa-trash" iconPos="left" (click)="deleteExamination()">
+      </button>
+      <button pButton type="button" label="{{'global.cancel' | translate}}" class="p-button-warning"
+              icon="fa fa-times" iconPos="left" (click)="cancel()">
+      </button>
+    </div>
+  </div>
+</form>
+
+
+ 

@@ -1,0 +1,3 @@
+textarea[disabled]:not(.locked) {
+  background-color: transparent;
+}

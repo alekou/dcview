@@ -1,0 +1,110 @@
+<!--- Dialog: Επεξεργασία τοποθέτησης για τον επιλεγμένο κρατούμενο --->
+<form *ngIf="inmateAreaToEdit.id != -33">
+  <div>
+    <div class="col-12 p-fluid">
+      <p-panel header="{{'inmateArea.manage.basicData' | translate}}">
+
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmateArea.manage.editPlacement.reason' | translate}}</label>
+          <div class="col-12 sm:col-8">
+              <textarea pInputTextarea
+                        name="reason" rows="5"
+                        [(ngModel)]="inmateAreaToEdit.reason">
+              </textarea>
+          </div>
+        </div>
+
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmateArea.manage.editPlacement.comments' | translate}}</label>
+          <div class="col-12 sm:col-8">
+              <textarea pInputTextarea
+                        name="comments" rows="5"
+                        [(ngModel)]="inmateAreaToEdit.comments">
+              </textarea>
+          </div>
+        </div>
+
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmateArea.manage.editPlacement.closePosition' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <div class="flex align-items-center flex-wrap">
+              <div class="flex align-items-center justify-content-center">
+                <p-checkbox binary="true" name="inactive"
+                            [trueValue]="getInactiveStatus()" [falseValue]="getActiveStatus()"
+                            [(ngModel)]="inmateAreaToEdit.active" (click)="enableInactiveDate()">
+                </p-checkbox>
+              </div>
+              <span class="span-margin-0_200rem"></span>
+              <div class="flex align-items-center justify-content-center">
+                <app-toitsu-calendar
+                  name="exitDate" [disabled]="inmateAreaToEdit.active"
+                  [(model)]="inmateAreaToEdit.exitDate">
+                </app-toitsu-calendar>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmateArea.manage.editPlacement.reservePosition' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <div class="flex align-items-center flex-wrap">
+              <div class="flex align-items-center justify-content-center">
+                <p-checkbox binary="true" name="reserved"
+                            [(ngModel)]="inmateAreaToEdit.reserved" (click)="enableReservedDate()">
+                </p-checkbox>
+              </div>
+              <span class="span-margin-0_200rem"></span>
+              <div class="flex align-items-center justify-content-center">
+                <app-toitsu-calendar
+                  name="reservationDate" [disabled]="!inmateAreaToEdit.reserved"
+                  [(model)]="inmateAreaToEdit.reservationDate">
+                </app-toitsu-calendar>
+              </div>
+            </div>
+            <small class="info-message" *ngIf="alreadyReserved">
+              {{'inmateArea.info.inmateAreaAlreadyReserved' | translate}} {{alreadyReservedDate}}
+            </small>
+          </div>
+        </div>
+
+      </p-panel>
+    </div>
+  </div>
+
+  <!--- Κουμπιά --->
+  <div class="grid">
+    <div class="col-12 button-container flex-container">
+      <div class="flex-container-start">
+        <app-field-revisions *ngIf="inmateAreaToEdit.id" [entityClass]="'inm.core.domain.InmateArea'" [entityId]="inmateAreaToEdit.id" ></app-field-revisions>
+      </div>
+      <div class="flex-container-end">
+        <button pButton type="button" label="{{'global.save' | translate}}" class="p-button-success"
+                icon="fa fa-check" iconPos="left" (click)="editPlacement()">
+        </button>
+        <button pButton type="button" label="{{'global.cancel' | translate}}" class="p-button-warning"
+                icon="fa fa-times" iconPos="left" (click)="cancel()">
+        </button>
+      </div>
+    </div>
+  </div>
+
+</form>
+
+
+<!--- Μήνυμα λάθος επιλεγμένης εγγραφής --->
+<div *ngIf="inmateAreaToEdit.id == -33 || null || undefined">
+  <div class="flex align-items-center justify-content-center">
+    <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+    <p class="font-italic">{{'inmateArea.warningMessage.selectInvalidRecord' | translate}}</p>
+  </div>
+  <p-divider></p-divider>
+  <!--- Κουμπιά --->
+  <div class="grid">
+    <div class="col-12 button-container text-align-end">
+      <button pButton type="button" label="{{'global.close' | translate}}" class="p-button-warning"
+              icon="fa fa-times" iconPos="left" (click)="closeWarningMessage()">
+      </button>
+    </div>
+  </div>
+</div>

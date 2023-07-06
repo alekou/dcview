@@ -1,0 +1,40 @@
+<form>
+  
+  <div class="grid" appToitsuLockControls [lockCondition]="lockedForm()">
+    
+    <div class="col-12 p-fluid">
+      <p-panel header="{{'programApplication.view.data' | translate}}">
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'vacationCouncilApplication.rejected' | translate}}</label>
+          <div class="col-12 md:col-2">
+            <p-checkbox [(ngModel)]="checked" [binary]="true" [ngModelOptions]="{standalone: true}" inputId="binary" [disabled]="true"></p-checkbox>
+          </div>
+        </div>
+        
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'vacationCouncilApplication.rejectionComments' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="vacation.rejectionComments" name="rejectionComments" rows="8"></textarea>
+          </div>
+        </div>
+      
+      </p-panel>
+    
+    </div>
+  
+  </div>
+
+</form>
+
+<div class="grid">
+  <div class="col-12 button-container text-align-center">
+    <button pButton type="button" label="{{'global.confirm' | translate}}" class="p-button-success"
+            icon="fa fa-check" iconPos="left" (click)="confirm()" *ngIf="!lockedForm()">
+    </button>
+    <button pButton type="button" label="{{'global.cancel' | translate}}" class="p-button-warning"
+            icon="fa fa-times" iconPos="left" (click)="cancel()">
+    </button>
+  </div>
+</div>

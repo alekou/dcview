@@ -1,0 +1,84 @@
+<!--- Dialog: Επιλογή Αιτημάτων Εργασίας --->
+
+<div class="grid">
+  <div class="col-12 button-container">
+    <button pButton type="submit" label="{{'global.search' | translate}}" class="p-button-warning"
+            icon="fa fa-search" iconPos="left" (click)="loadTableData()">
+    </button>
+    <button pButton type="button" label="{{'global.clearArgs' | translate}}" class="p-button-help"
+            icon="fa fa-times" iconPos="left" (click)="clearArgs()">
+    </button>
+  </div>
+</div>
+
+<div class="grid">
+
+  <div class="col-12 md:col-3">
+
+    <p-panel header="{{'global.args' | translate}}">
+
+      <div class="p-fluid">
+
+        <div class="grid align-items-center">
+          <div class="col-12 no-padding-bottom">
+            <label>{{'inmateLaborApplication.requestDate' | translate}}</label>
+            <div class="grid field-group">
+              <app-toitsu-calendar class="col-6" [(model)]="args.requestDateAfter" [noIcon]="true"></app-toitsu-calendar>
+              <span><i class="fa fa-arrow-right no-padding no-margin"></i></span>
+              <app-toitsu-calendar class="col-6" [(model)]="args.requestDateBefore" [noIcon]="true"></app-toitsu-calendar>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'placementProtocol.areaId' | translate}}</label>
+            <p-dropdown [(ngModel)]="args.areaId" name="areaId" [options]="areas" optionValue="id" optionLabel="fullDescription"
+                        placeholder="{{'global.selectOption' | translate}}" [showClear]="true" [filter]="true" appendTo="body"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}">
+            </p-dropdown>
+          </div>
+        </div>
+
+      </div>
+
+    </p-panel>
+  </div>
+
+  <div class="col-12 md:col-9">
+
+    <!--- Εμφάνιση spinner κατά την φόρτωση όλων των αιτημάτων εργασίας από την βάση δεδομένων --->
+    <a *ngIf="loading">
+      <i class="flex align-items-center justify-content-center fa fa-spinner fa-pulse"></i>'
+      <p class="flex align-items-center justify-content-center">{{'inmateLaborApplication.addAll.loading.message' | translate}}</p>
+    </a>
+
+    <app-toitsu-table #table *ngIf="!loading"
+                      [url]="url"
+                      [cols]="cols"
+                      [sortField]="sortField"
+                      [sortOrder]="sortOrder"
+                      [args]="args"
+                      [selectionMode]="selectionMode"
+                      [scrollHeight]="scrollHeight"
+                      [loadOnInit]="true"
+    >
+    </app-toitsu-table>
+
+  </div>
+
+</div>
+
+<div class="grid">
+  <div class="col-12 button-container text-align-end">
+    <button pButton type="button" label="{{'inmateLaborApplication.addAll' | translate}}" class="p-button-info"
+            icon="fa fa-plus-square" iconPos="left" [loading]="loading" (click)="addAll()">
+    </button>
+    <button pButton type="button" label="{{'inmateLaborApplication.addSelected' | translate}}" class="p-button-info"
+            icon="fa fa-plus-square-o" iconPos="left" (click)="addSelected()">
+    </button>
+    <button pButton type="button" label="{{'global.cancel' | translate}}" class="p-button-warning"
+            icon="fa fa-times" iconPos="left" (click)="cancel()">
+    </button>
+  </div>
+</div>

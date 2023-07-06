@@ -1,0 +1,38 @@
+{
+  "programProtocol.programId": "Επιμορφωτικό Πρόγραμμα",
+  "programProtocol.protocolDate": "Ημερομηνία Σύνταξης",
+  "programProtocol.comments": "Παρατηρήσεις",
+  "programProtocol.approved": "Έγκριση",
+  "programProtocol.protocolNo": "Αριθμός Πρακτικού",
+  "programProtocol.approvalDate": "Ημερομηνία Πρακτικού",
+  "programProtocol.approvalComments": "Παρατηρήσεις Έγκρισης",
+  "programProtocol.professionId": "Θέση Εργασίας",
+  
+  "programProtocol.programApplication.rejected": "Απόρριψη",
+  "programProtocol.programApplication.withdrawal": "Αποχώρηση",
+  "programProtocol.view.tab.programApplications": "Αιτήματα Συμμετοχής",
+  "programProtocol.addApplications": "Προσθήκη Αιτημάτων Συμμετοχής",
+  
+  "programProtocol.index.startDate": "Ημερομηνία Έναρξης Προγράμματος",
+  "programProtocol.index.endDate": "Ημερομηνία Λήξης Προγράμματος",
+  
+  "programProtocol.programIdNull": "Παρακαλώ επιλέξτε επιμορφωτικό πρόγραμμα",
+  
+  "programProtocol.view.data": "Στοιχεία",
+
+  "programProtocol.approve": "Έγκριση Πρακτικού",
+  "programProtocol.approve.confirmation": "Είστε βέβαιοι για την οριστική έγκριση του πρακτικού ?",
+  
+  "programProtocol.approve.success": "Το πρακτικό εγκρίθηκε με επιτυχία.",
+
+  "programProtocol.createInmateLabors.confirmation": "Είστε βέβαιοι για τη δημιουργία εργασιών κρατουμένων από τα συσχετισμένα αιτήματα;",
+  "programProtocol.createInmateLabors.created": "Δημιουργήθηκαν",
+  "programProtocol.createInmateLabors.success": "εργασίες για τα συσχετισμένα αιτήματα εργασίας που δεν έχουν απορριφθεί.",
+  "programProtocol.createInmateLabors.allInmateLaborsCreated.success": "Δημιουργήθηκαν εργασίες για όλα τα αιτήματα εργασίας που συσχετίζονται με το πρακτικό τοποθέτησης.",
+  "programProtocol.createInmateLabors.notCreatedInmateLabors": "Δεν δημιουργήθηκαν εργασίες από τα παρακάτω αιτήματα, γιατί ο κρατούμενος έχει ήδη κανονική εργασία σε αυτό το διάστημα.",
+  "programProtocol.createInmateLabors.programApplication": "Αίτημα Συμμετοχής",
+  "programProtocol.createInmateLabors.info.applicationsRejected": "Συσχετισμένα αιτήματα που έχουν απορριφθεί",
+  "programProtocol.createInmateLabors.info.allApplicationsRejected": "Δεν δημιουργήθηκαν εργασίες, γιατί όλα τα συσχετισμένα αιτήματα έχουν απορριφθεί.",
+
+  "programProtocol.programApplications.add.info": "Κάντε κλικ στο κουμπί \"Προσθήκη Αιτημάτων Συμμετοχής\" για να καταχωρίσετε αιτήματα εργασίας στο πρακτικό συμμετοχής"
+}

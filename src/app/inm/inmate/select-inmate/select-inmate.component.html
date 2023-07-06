@@ -1,0 +1,23 @@
+<div class="display-flex align-items-start" *ngIf="showDropdown">
+  <p-dropdown [(ngModel)]="model" (ngModelChange)="emitModelChange()" name="{{name}}" [options]="inmates" optionValue="id" optionLabel="fullName"
+              [disabled]="disabled" class="width-100percent"
+              placeholder="{{'global.selectOption' | translate}}" emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+              [showClear]="true" [filter]="true" appendTo="body" (onClick)="dropdownClicked()">
+    <ng-template pTemplate="empty">
+      <span *ngIf="!listLoading">
+        {{'global.noResultsFound' | translate}}
+      </span>
+      <p-progressSpinner class="display-flex" styleClass="w-4rem h-4rem" *ngIf="listLoading">
+      </p-progressSpinner>
+    </ng-template>
+  </p-dropdown>
+  <button pButton type="button" *ngIf="!disabled && model"
+          class="p-button-success" icon="fa fa-camera"
+          pTooltip="{{'inmatePhoto.showPhoto' | translate}}"
+          (click)="inmatePhotoService.openInmatePhotoDisplayDialog(this.model)">
+  </button>
+  <button pButton type="button" *ngIf="!disabled"
+          class="p-button-info" icon="fa fa-search"
+          pTooltip="{{'global.search' | translate}}" (click)="openDialog()">
+  </button>
+</div>

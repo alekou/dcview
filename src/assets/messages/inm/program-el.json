@@ -1,0 +1,21 @@
+{
+  "program.programTypeId": "Τύπος Προγράμματος",
+  "program.certification": "Πιστοποίηση",
+  "program.description": "Περιγραφή",
+  "program.goal": "Στόχος",
+  "program.subsidizer": "Χρηματοδότης",
+  "program.startDate": "Ημερομηνία Έναρξης",
+  "program.endDate": "Ημερομηνία Λήξης",
+  "program.totalHours": "Συνολικές Ώρες",
+  "program.status": "Κατάσταση",
+  "program.professionId": "Θέση Εργασίας",
+  "program.conduct.list.completed": "Ολοκληρώθηκε",
+  
+  "program.complete": "Ολοκλήρωση Προγράμματος",
+  
+  "program.view.data": "Στοιχεία Προγράμματος",
+  
+  "program.view.applications": "Αιτήματα Συμμετοχής",
+  "program.view.inmateLabors": "Εργασίες"
+
+}

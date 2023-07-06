@@ -1,0 +1,8 @@
+{
+  "visitProgramTimeFrame.day": "Μέρα Επισκεπτηρίου",
+  "visitProgramTimeFrame.fromTime": "Ώρα Έναρξης Επισκεπτηρίων",
+  "visitProgramTimeFrame.toTime": "Ώρα Λήξης Επισκεπτηρίων",
+  "visitProgramTimeFrame.fromNameInitials": "Από",
+  "visitProgramTimeFrame.toNameInitials": "Έως",
+  "visitProgramTimeFrame.areaId": "Περιοχή"
+}

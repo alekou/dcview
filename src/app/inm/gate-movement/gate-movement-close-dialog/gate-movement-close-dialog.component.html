@@ -1,0 +1,92 @@
+<form>
+  <div class="grid">
+    <div class="col-12 p-fluid">
+      <p-panel header="{{'gateMovement.details' | translate}}">
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'gateMovement.movementDate' | translate}}</label>
+          <div class="col-12 sm:col-8 inline-flex align-items-center">
+            <app-toitsu-calendar class="flex-grow" [(model)]="gateMovement.movementDate" name="movementDate" [showTime]="true"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'gateMovement.searchEmployees' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-inputNumber [(ngModel)]="gateMovement.firstSearchEmployeeId" name="firstSearchEmployeeId" [useGrouping]="false"></p-inputNumber>
+          </div>
+        </div>
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4"></label>
+          <div class="col-12 sm:col-8 ">
+            <p-inputNumber [(ngModel)]="gateMovement.secondSearchEmployeeId" name="secondSearchEmployeeId" [useGrouping]="false"></p-inputNumber>
+          </div>
+        </div>
+        
+        <!--      <div class="grid align-items-center">-->
+        <!--        <label class="col-12 sm:col-4">{{'gateMovement.searchEmployees' | translate}}</label>-->
+        <!--        <div class="col-12 sm:col-8">-->
+        <!--          <p-dropdown [(ngModel)]="gateMovement.firstSearchEmployeeId" [options]="employees" optionValue="value" optionLabel="label"-->
+        <!--                      placeholder="{{'global.selectOption' | translate}}" emptyMessage="{{'global.noResultsFound' | translate}}"-->
+        <!--                      emptyFilterMessage="{{'global.noResultsFound' | translate}}" [showClear]="true" [filter]="true">-->
+        <!--          </p-dropdown>-->
+        <!--        </div>-->
+        <!--      </div>-->
+        <!--      -->
+        <!--      <div class="grid align-items-center">-->
+        <!--        <label class="col-12 sm:col-4"></label>-->
+        <!--          <div class="col-12 sm:col-8">-->
+        <!--            <p-dropdown [(ngModel)]="gateMovement.secondSearchEmployeeId" [options]="employees" optionValue="value" optionLabel="label"-->
+        <!--                        placeholder="{{'global.selectOption' | translate}}" emptyMessage="{{'global.noResultsFound' | translate}}"-->
+        <!--                        emptyFilterMessage="{{'global.noResultsFound' | translate}}" [showClear]="true" [filter]="true">-->
+        <!--            </p-dropdown>-->
+        <!--          </div>-->
+        <!--      </div>-->
+        
+        <div class="grid align-items-center" *ngIf="movementKind === 'INMATE'">
+          <label class="col-12 sm:col-4">{{'gateMovement.escortName' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="gateMovement.escortName" name="escortName">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center" *ngIf="movementKind === 'INMATE'">
+          <label class="col-12 sm:col-4">{{'gateMovement.escortStatus' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="gateMovement.escortStatus" name="escortStatus">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center" *ngIf="movementKind === 'INMATE'">
+          <label class="col-12 sm:col-4">{{'gateMovement.escortService' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="gateMovement.escortService" name="escortService">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'gateMovement.comments' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="gateMovement.comments" name="comments" rows="6"></textarea>
+          </div>
+        </div>
+      
+      </p-panel>
+    </div>
+  </div>
+  
+  <div class="grid">
+    <div class="col-12 button-container text-align-end m-1">
+      <button pButton type="button" label="{{'global.save' | translate}}" class="p-button-success"
+              icon="fa fa-save" iconPos="left" (click)="closeGateMovement()">
+      </button>
+      <button *ngIf="movementKind === 'INMATE'" pButton type="button" label="{{'gateMovement.previousEscort' | translate}}" class="p-button-plain"
+              icon="fa fa-reply" iconPos="left" (click)="getPreviousEscorts()">
+      </button>
+      <button pButton type="button" label="{{'global.cancel' | translate}}" class="p-button-warning"
+              icon="fa fa-times" iconPos="left" (click)="cancel()">
+      </button>
+    </div>
+  </div>
+  
+</form>

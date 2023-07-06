@@ -1,0 +1,112 @@
+<div class="grid">
+  <div class="col-12 button-container">
+    <button pButton type="submit" label="{{'global.search' | translate}}" class="p-button-warning"
+            icon="fa fa-search" iconPos="left" (click)="loadTableData()">
+    </button>
+    <button pButton type="button" label="{{'global.clearArgs' | translate}}" class="p-button-help"
+            icon="fa fa-times" iconPos="left" (click)="clearArgs()">
+    </button>
+    <button *ngIf="!authService.isMinistry()"
+            pButton type="button" label="{{'global.newRecord' | translate}}" class="p-button-info"
+            icon="fa fa-plus" iconPos="left" (click)="newRecord()">
+    </button>
+    <button *ngIf="!authService.isMinistry()"
+            pButton type="button" label="{{'global.massCreate' | translate}}" class="p-button-info"
+            icon="fa fa-plus" iconPos="left" (click)="goToMassCreate()">
+    </button>
+  </div>
+</div>
+
+<div class="grid">
+
+  <div class="col-12 md:col-3">
+
+    <p-panel header="{{'global.args' | translate}}">
+
+      <div class="p-fluid">
+
+        <app-record-dc-origin [(recordDcOrigin)]="args.recordDcOrigin" [(dcId)]="args.dcId"></app-record-dc-origin>
+
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'inmateLaborApplication.inmateId' | translate}}</label>
+            <app-select-inmate [(model)]="args.inmateId"
+                               [loadOnOpen]="true" [dialogUrl]="inmateDialogUrl">
+            </app-select-inmate>
+          </div>
+        </div>
+
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'inmate.masterInmate.code' | translate}}</label>
+            <input type="text" name="args.masterInmateCode" pInputText [(ngModel)]="args.masterInmateCode">
+          </div>
+        </div>
+
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'inmateLaborApplication.protocolNo' | translate}}</label>
+            <input type="text" name="args.protocolNo" pInputText [(ngModel)]="args.protocolNo">
+          </div>
+        </div>
+
+        <div class="grid align-items-center">
+          <div class="col-12 no-padding-bottom">
+            <label>{{'inmateLaborApplication.requestDate' | translate}}</label>
+            <div class="grid field-group">
+              <app-toitsu-calendar class="col-6" [(model)]="args.requestDateAfter" [noIcon]="true"></app-toitsu-calendar>
+              <span><i class="fa fa-arrow-right no-padding no-margin"></i></span>
+              <app-toitsu-calendar class="col-6" [(model)]="args.requestDateBefore" [noIcon]="true"></app-toitsu-calendar>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'inmateLaborApplication.employment' | translate}}</label>
+            <p-dropdown [options]="employmentOptions" optionLabel="label" optionValue="value"
+                        placeholder="{{'global.selectOption' | translate}}" [showClear]="true"
+                        emptyMessage="{{'global.noResultsFound' | translate}}"
+                        emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [(ngModel)]="args.employment" name="employment">
+            </p-dropdown>
+          </div>
+        </div>
+
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'inmateLaborApplication.status' | translate}}</label>
+            <p-dropdown [options]="requestStatusOptions" optionLabel="label" optionValue="value"
+                        placeholder="{{'global.selectOption' | translate}}" [showClear]="true"
+                        emptyMessage="{{'global.noResultsFound' | translate}}"
+                        emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [(ngModel)]="args.status" name="status">
+            </p-dropdown>
+          </div>
+        </div>
+
+      </div>
+
+    </p-panel>
+  </div>
+
+  <div class="col-12 md:col-9">
+
+    <app-toitsu-table #table
+                      [url]="url"
+                      [cols]="cols"
+                      [first]="paging.first"
+                      [rows]="paging.rows"
+                      [sortField]="paging.sortField"
+                      [sortOrder]="paging.sortOrder"
+                      [args]="args"
+                      [viewLink]="viewLink"
+                      [excel]="true"
+                      [exportModel]="exportModel"
+                      [loadOnInit]="false"
+                      (loadComplete)="loadComplete()">
+    </app-toitsu-table>
+
+  </div>
+
+</div>

@@ -1,0 +1,117 @@
+<form>
+  
+  <div class="grid">
+    <div class="col-12 button-container flex-container">
+      <div class="flex-container-start">
+        <button pButton type="button" *ngIf="!lockedRecord()"
+                label="{{'global.save' | translate}}" class="p-button-success"
+                icon="fa fa-save" iconPos="left" (click)="saveDoctorSession()">
+        </button>
+        <button pButton type="button" *ngIf="id && !lockedRecord()"
+                label="{{'global.delete' | translate}}" class="p-button-danger"
+                icon="fa fa-trash" iconPos="left" (click)="deleteDoctorSession()">
+        </button>
+        <button pButton type="button" label="{{'global.newRecord' | translate}}" class="p-button-info" *ngIf="id"
+                icon="fa fa-plus" iconPos="left" (click)="newRecord()">
+        </button>
+        <button pButton type="button" label="{{'global.index' | translate}}" class="p-button-help"
+                icon="fa fa-table" iconPos="left" (click)="goToList()">
+        </button>
+        <button pButton type="button" label="{{'doctorSession.emptyReport' | translate}}" class="p-button-info" *ngIf="id"
+                icon="fa fa-folder" iconPos="left" (click)="clearReport()">
+        </button>
+        <button pButton type="button" label="{{'doctorSession.templateReport' | translate}}" class="p-button-secondary" *ngIf="id"
+                icon="fa fa-folder" iconPos="left" (click)="openTemplateList()">
+        </button>
+        <button pButton type="button" label="{{'doctorSession.openReport' | translate}}" class="p-button-warning" *ngIf="this.doctorSession.report && this.doctorSession.report.id"
+                icon="fa fa-file-o" iconPos="left" (click)="openReport()">
+        </button>
+      </div>
+      <div class="flex-container-end">
+        <app-documents [entity]="'DOCTOR_SESSION'" [entityId]="id" [inmateId]="doctorSession.inmateId"></app-documents>
+        <app-field-revisions *ngIf="id" [entityClass]="'inm.core.domain.DoctorSession'" [entityId]="id"></app-field-revisions>
+      </div>
+    </div>
+  </div>
+  
+  <div class="grid" appToitsuLockControls [lockCondition]="lockedRecord()">
+    
+    <div class="col-12 md:col-6 p-fluid">
+      
+      <p-panel header="{{'doctorSession.view.participants' | translate}}">
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'doctorSession.doctorId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="doctorSession.doctorId" [options]="doctors" name="doctorId"
+                        optionValue="id" optionLabel="fullName"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}"
+                        emptyFilterMessage="{{'global.noResultsFound' | translate}}" [filter]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold font-bold">{{'transfer.inmateId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-select-inmate [(model)]="doctorSession.inmateId" name="inmateId"
+                               [loadOnOpen]="true" [dialogUrl]="inmateDialogUrl">
+            </app-select-inmate>
+          </div>
+        </div>
+      
+      </p-panel>
+    
+    </div>
+    
+    <div class="col-12 md:col-6 p-fluid">
+      
+      <p-panel header="{{'doctorSession.view.reportData' | translate}}">
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'doctorSession.sessionTypeId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="doctorSession.sessionTypeId" [options]="sessionTypes" name="sessionTypeId"
+                        optionValue="id" optionLabel="description"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}"
+                        emptyFilterMessage="{{'global.noResultsFound' | translate}}" [filter]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'doctorSession.sessionDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar [(model)]="doctorSession.sessionDate" name="sessionDate"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'doctorSession.description' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" pInputText [(ngModel)]="doctorSession.description" name="description">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'doctorSession.comments' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <textarea pInputTextarea [(ngModel)]="doctorSession.comments" name="comments" rows="8"></textarea>
+          </div>
+        </div>
+      
+      </p-panel>
+    
+    </div>
+  
+  </div>
+  
+  <div class="grid" *ngIf="doctorSession.id">
+    <div class="col-12">
+      <app-toitsu-ckeditor [(model)]="doctorSession.report.content" [editorOptions]="editorOptions"></app-toitsu-ckeditor>
+    </div>
+  </div>
+</form>

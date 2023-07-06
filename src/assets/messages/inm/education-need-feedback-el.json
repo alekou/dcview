@@ -1,0 +1,15 @@
+{
+  "educationNeedFeedback.userId": "Χρήστης",
+  "educationNeedFeedback.submitDate": "Ημερομηνία Υποβολής",
+  "educationNeedFeedback.jobPosition": "Θέσεις Εργασίας Κατα την Διάρκεια της Κράτησης",
+  "educationNeedFeedback.participatedSchool": "Ένταξη σε Εκπαιδευτική Δομή την Τρέχουσα Περίοδο",
+  "educationNeedFeedback.participatedSchoolDetails": "Λεπτομέρειες",
+  "educationNeedFeedback.participatedCourse": "Ένταξη σε Πρόγραμμα Επιμόρφωσης την Τρέχουσα Περίοδο",
+  "educationNeedFeedback.participatedCourseDetails": "Λεπτομέρειες",
+  "educationNeedFeedback.satisfactionPid": "Βαθμός Ικανοποίησης",
+  "educationNeedFeedback.schoolEffectiveness": "Αποτελεσματικότητα Προγραμμάτων",
+  "educationNeedFeedback.problems": "Προβλήματα",
+  "educationNeedFeedback.suggestions": "Προτάσεις Αντιμετώπισης Προβλημάτων",
+  "educationNeedFeedback.repeatParticipation": "Επιθυμία Παρακολούθησης Άλλου Προγράμματος",
+  "educationNeedFeedback.repeatParticipationDetails": "Λεπτομέρειες"
+}

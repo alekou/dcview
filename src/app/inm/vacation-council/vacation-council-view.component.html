@@ -1,0 +1,200 @@
+<form>
+  <div class="grid">
+    <div class="col-12 button-container flex-container">
+      <div class="flex-container-start">
+        <button pButton type="button" *ngIf="!lockedRecord()"
+                label="{{'global.save' | translate}}" class="p-button-success"
+                icon="fa fa-save" iconPos="left" (click)="saveVacationCouncil()">
+        </button>
+        <button pButton type="submit" *ngIf="!lockedRecord()"
+                label="{{'vacationCouncil.view.submit' | translate}}" class="p-button-warning"
+                icon="fa fa-paper-plane-o" iconPos="left" (click)="submitVacationCouncil()">
+        </button>
+        <button pButton type="button" *ngIf="id && !lockedRecord()"
+                label="{{'global.delete' | translate}}" class="p-button-danger"
+                icon="fa fa-trash" iconPos="left" (click)="deleteVacationCouncil()">
+        </button>
+        <button pButton type="button" *ngIf="id"
+                label="{{'global.newRecord' | translate}}" class="p-button-info"
+                icon="fa fa-plus" iconPos="left" (click)="newRecord()">
+        </button>
+        <button pButton type="button"
+                label="{{'global.index' | translate}}" class="p-button-help"
+                icon="fa fa-table" iconPos="left" (click)="goToList()">
+        </button>
+        <app-template-button *ngIf="!!id" [entity]="'VACATIONCOUNCIL'" [entityId]="this.id"
+                             [entityIdColName]="'vacCouncilId'" [application]="'INM'">
+        </app-template-button>
+        <app-other-dc-name [dcId]="vacationCouncil.dcId"></app-other-dc-name>
+      </div>
+      <div class="flex-container-end">
+        <app-field-revisions *ngIf="id" [entityClass]="'inm.core.domain.VacationCouncil'" [entityId]="id"></app-field-revisions>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid">
+  
+    <div class="col-12" appToitsuLockControls [lockCondition]="lockedRecord()">
+      <p-panel header="{{'vacationCouncil.view.vacationCouncilData' | translate}}">
+        
+        <div class="grid p-fluid">
+          
+          <div class="col-12 xl:col-6">
+            
+            <div class="grid align-items-center">
+              <label class="col-12 sm:col-4">{{'vacationCouncil.councilCode' | translate}}</label>
+              <div class="col-12 sm:col-8">
+                <input type="text" pInputText [(ngModel)]="vacationCouncil.councilCode" name="councilCode" [disabled]="lockAccomplished()">
+              </div>
+            </div>
+  
+            <div class="grid align-items-center">
+              <label class="col-12 sm:col-4 font-bold">{{'vacationCouncil.councilDate' | translate}}</label>
+              <div class="col-12 sm:col-8">
+                <app-toitsu-calendar [(model)]="vacationCouncil.councilDate" name="councilDate" [disabled]="lockAccomplished()"></app-toitsu-calendar>
+              </div>
+            </div>
+  
+            <div class="grid align-items-center" *ngIf="vacationCouncil.accomplished">
+              <label class="col-12 sm:col-4">{{'vacationCouncil.view.accomplished' | translate}}</label>
+              <div class="col-12 sm:col-8">
+                <p-checkbox [disabled]="true" name="accomplished" [binary]="true" [(ngModel)]="vacationCouncil.accomplished"></p-checkbox>
+              </div>
+            </div>
+          </div>
+  
+          <div class="col-12 xl:col-6">
+  
+            <div class="grid align-items-center">
+              <label class="col-12 sm:col-4">{{'vacationCouncil.councilComments' | translate}}</label>
+              <div class="col-12 sm:col-8">
+                <input type="text" pInputText [(ngModel)]="vacationCouncil.councilComments" name="councilComments" [disabled]="lockAccomplished()">
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      </p-panel>
+      
+    </div>
+  </div>
+  
+  <div class="grid">
+    <div class="col-12">
+      <p-tabView>
+        <p-tabPanel header="vacationCouncil.composition" [disabled]="vacationCouncil.accomplished">
+          <ng-template pTemplate="header">
+            <span>{{'vacationCouncil.composition' | translate}}</span>
+            <i class="fa fa-plus" (click)="openVacationMotionListDialog()"
+               pTooltip="{{'global.add' | translate}}" tooltipPosition="top"></i>
+          </ng-template>
+          
+          <p-table [value]="this.vacationCouncil.vacationCouncilApplications" [scrollable]="true" scrollHeight="25rem" styleClass="p-datatable-gridlines p-datatable-striped" appToitsuPTableCellWidth>
+            <ng-template pTemplate="header">
+              <tr>
+                <th [style.width]="'5rem'" [style.justify-content]="'center'"></th>
+                <th [style.width]="'15rem'" [style.justify-content]="'center'">{{'vacationCouncil.approvalStatus' | translate}}</th>
+                <th [style.width]="'5rem'" [style.justify-content]="'center'"></th>
+                <th [style.width]="'5rem'" [style.justify-content]="'center'"></th>
+                <th [style.width]="'10rem'" [style.justify-content]="'center'">{{'vacationCouncil.postponementStatus' | translate}}</th>
+                <th [style.width]="'10rem'" [style.justify-content]="'center'">{{'vacationCouncil.vacationTypeDescription' | translate}}</th>
+                <th [style.width]="'10rem'" [style.justify-content]="'center'">{{'vacationCouncil.protocolNo' | translate}}</th>
+                <th [style.width]="'15rem'" [style.justify-content]="'center'">{{'vacationCouncil.inmateFullName' | translate}}</th>
+                <th [style.width]="'10rem'" [style.justify-content]="'center'">{{'vacationCouncil.motionProgressDate' | translate}}</th>
+                <th [style.width]="'10rem'" [style.justify-content]="'center'">{{'vacationCouncil.applicationDate' | translate}}</th>
+                <th [style.width]="'10rem'" [style.justify-content]="'center'">{{'vacationCouncil.applicationFromDate' | translate}}</th>
+                <th [style.width]="'10rem'" [style.justify-content]="'center'">{{'vacationCouncil.applicationToDate' | translate}}</th>
+                <th [style.width]="'10rem'" [style.justify-content]="'center'">{{'vacationCouncil.destination' | translate}}</th>
+                <th [style.width]="'10rem'" [style.justify-content]="'center'">{{'vacationCouncil.reason' | translate}}</th>
+                <th [style.width]="'5rem'"></th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-vacationCouncilApplication let-index="rowIndex">
+              <tr class="p-fluid">
+                <td [style.justify-content]="'center'">{{index + 1}}</td>
+                <td [style.justify-content]="'center'">
+                  
+                  <p-dropdown [(ngModel)]="vacationCouncilApplication.vacationApplication.approvalStatus"
+                              [options]="approvalStatuses" name="vacationCouncilApplication.vacationApplication{{index}}.approvalStatus"
+                              optionValue="value" optionLabel="label"
+                              emptyMessage="{{'global.noResultsFound' | translate}}" 
+                              emptyFilterMessage="{{'global.noResultsFound' | translate}}" appendTo="body" 
+                              *ngIf="!vacationCouncilApplication.isPostponed" [disabled]="vacationCouncil.accomplished">
+                  </p-dropdown>
+  
+                  <a role="button" (click)="openVacationApplicationRejectionDialog(index)" pTooltip="{{'vacationCouncilApplication.rejectionDetails' | translate}}"
+                     class="cursor-pointer">
+                    <i *ngIf="(vacationCouncilApplication.vacationApplication.approvalStatus === 'REJECTED') && (!vacationCouncilApplication.isPostponed)" class="fa fa-user"></i>
+                  </a>
+                </td>
+                <td [style.justify-content]="'center'">
+                  <button pButton type="button" class="p-button-info" 
+                          *ngIf="(vacationCouncilApplication.vacationApplication.approvalStatus === 'APPROVED')&& (!vacationCouncilApplication.isPostponed)"
+                          icon="fa fa-edit" iconPos="left" pTooltip="{{'global.edit' | translate}}" tooltipPosition="top"
+                          (click)="openVacationDialogForEdit(index)">
+                  </button>
+                </td>
+                <td [style.justify-content]="'center'">
+                  <app-template-button *ngIf="!!id && vacationCouncilApplication.vacationApplication.vacationId"
+                                       [iconMode]=true [entity]="'VACATION'" [entityIdColName]="'vacationId'" [application]="'INM'"
+                                       [entityId]="vacationCouncilApplication.vacationApplication.vacationId">
+                  </app-template-button>
+                </td>
+                <td [style.align-content]="'center'" [style.justify-content]="'center'">
+  
+                  <button *ngIf="(!vacationCouncilApplication.isPostponed) && (vacationCouncilApplication.vacationApplication.approvalStatus === 'PENDING')" 
+                          pButton type="button" class="p-button-success"
+                          icon="fa fa-paper-plane-o" iconPos="left" pTooltip="{{'vacationCouncilApplication.postponement' | translate}}"
+                          tooltipPosition="top" (click)="postponeVacationApplication(index)">
+                  </button>
+  
+                  <div>
+                    <i *ngIf="vacationCouncilApplication.isPostponed" class="p-element fa fa-check color-green" pTooltip="{{'global.yes' | translate}}"></i>
+                  </div>
+                </td>
+                <td [style.justify-content]="'center'">
+                  {{vacationCouncilApplication.vacationApplication.vacationTypeDescription}}
+                </td>
+                <td [style.justify-content]="'center'">
+                  {{vacationCouncilApplication.vacationApplication.protocolNo}}
+                </td>
+                <td [style.justify-content]="'center'">
+                  {{vacationCouncilApplication.vacationApplication.inmateFullName}}
+                </td>
+                <td [style.justify-content]="'center'">
+                  {{vacationCouncilApplication.vacationApplication.motionProgressDate}}
+                </td>
+                <td [style.justify-content]="'center'">
+                  {{vacationCouncilApplication.vacationApplication.applicationDate}}
+                </td>
+                <td [style.justify-content]="'center'">
+                  {{vacationCouncilApplication.vacationApplication.applicationFromDate}}
+                </td>
+                <td [style.justify-content]="'center'">
+                  {{vacationCouncilApplication.vacationApplication.applicationToDate}}
+                </td>
+                <td [style.justify-content]="'center'">
+                  {{vacationCouncilApplication.vacationApplication.destination}}
+                </td>
+                <td [style.justify-content]="'center'">
+                  {{vacationCouncilApplication.vacationApplication.reason}}
+                </td>
+                <td [style.justify-content]="'center'">
+                  <button pButton type="button" 
+                          class="p-button-danger" 
+                          icon="{{(vacationCouncilApplication.id ? 'fa fa-times' : 'fa fa-minus')}}" iconPos="left"
+                          pTooltip="{{(vacationCouncilApplication.id ? 'global.delete' : 'global.remove') | translate}}" tooltipPosition="top"
+                          (click)="deleteVacationCouncilApplication(index, vacationCouncilApplication.id)">
+                  </button>
+                </td>
+    
+              </tr>
+            </ng-template>
+          </p-table>
+        </p-tabPanel>
+      </p-tabView>
+    </div>
+  </div>
+
+</form>

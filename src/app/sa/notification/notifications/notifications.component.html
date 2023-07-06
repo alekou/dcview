@@ -1,0 +1,47 @@
+<span class="item-container">
+    <a *ngIf="(app.profileMode==='top' || app.isHorizontal()) && authService.isLoggedIn()" class="notification">
+      <i *ngIf="notificationCount > 0" class="pi pi-bell with-animation" (click)="notificationPanel($event, notificationOverlayPanel)"></i>
+      <i *ngIf="notificationCount === 0" class="pi pi-bell without-animation" (click)="notificationPanel($event, notificationOverlayPanel)"></i>
+      <span *ngIf="userNotifications && userNotifications.length > 0 && notificationCount !== 0" class="notification-badge">
+        {{notificationCount}}
+      </span>
+    </a>
+</span>
+
+<p-overlayPanel #notificationOverlayPanel appendTo="body">
+  <ng-template pTemplate="content">
+      <ul class="notification-ul scalein animation-duration-300 no-padding">
+        <li>
+          <a class="a-hover" (click)="goToList($event, notificationOverlayPanel)">
+            <span>{{'notification.all' | translate}}</span>
+            <i class="fa fa-arrow-circle-right font-bold color-dimgrey"></i>
+          </a>
+        </li>
+        <p-divider align="center">
+          <div *ngIf="notificationCount > 0" class="inline-flex align-items-center">
+            <i class="fa fa-comments-o mr-2 color-purple"></i>
+            <b>{{'sa.notification' | translate}}</b>
+          </div>
+        </p-divider>
+        <div *ngIf="notificationCount === 0" class="flex align-items-center justify-content-center">
+          <p class="font-italic">{{'sa.notificationsDoNotExist' | translate}}</p>
+        </div>
+        <li *ngFor="let notification of userNotifications; let i = index" [hidden]="notificationCount === 0">
+          {{i+1}}
+          <i class="fa fa-angle-right" aria-hidden="true"></i>
+          <a (click)="goToEntityNotification($event, notificationOverlayPanel, notification)">
+            <span class="span-hover">{{ notification.notificationMessage }}</span>
+          </a>
+        </li>
+        <p-divider *ngIf="notificationCount > 0"></p-divider>
+        <li *ngIf="notificationCount > 0">
+          <a class="a-hover" (click)="markAsReceived($event, notificationOverlayPanel)">
+            <span>{{'notification.receiveAll' | translate}}</span>
+            <i class="fa fa-check font-bold color-green"></i>
+          </a>
+        </li>
+      </ul>
+  </ng-template>
+</p-overlayPanel>
+
+

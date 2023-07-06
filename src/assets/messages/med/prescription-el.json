@@ -1,0 +1,17 @@
+{
+  "prescription.prescriptionDate": "Ημ/νία",
+  "prescription.description": "Περιγραφή",
+  "prescription.inmateId": "Κρατούμενος",
+  "prescription.doctorId": "Ιατρός",
+  "prescription.isExecuted": "Εκτελέστηκε",
+  "prescription.serialNo": "Αύξων Αριθμός",
+  "prescription.isPsychiatric": "Ψυχιατρικά Φάρμακα",
+  "prescription.view.tab.prescriptionLines": "Λίστα Φαρμάκων",
+  "prescriptionLine.medicineId": "Φάρμακο",
+  "prescriptionLine.isPacket": "Πακέτο",
+  "prescriptionLine.unitQuantity": "Αριθμός Πακέτων",
+  "prescriptionLine.packetQuantity": "Ποσότητα",
+  "prescription.details": "Στοιχεία Συνταγολογίου",
+  "prescription.treatmentLineOption": "Επιλογή Αγωγών",
+  "prescription.medicineTypeOption": "Φάρμακα"
+}

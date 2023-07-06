@@ -1,0 +1,122 @@
+<div class="grid">
+  <div class="col-12 button-container">
+    <button pButton type="submit" label="{{'global.search' | translate}}" class="p-button-warning"
+            icon="fa fa-search" iconPos="left" (click)="loadTableData()">
+    </button>
+    <button pButton type="button" label="{{'global.clearArgs' | translate}}" class="p-button-help"
+            icon="fa fa-times" iconPos="left" (click)="clearArgs()">
+    </button>
+    <button pButton type="button" label="{{'global.newRecord' | translate}}" class="p-button-info"
+            icon="fa fa-plus" iconPos="left" (click)="newRecord()">
+    </button>
+  </div>
+</div>
+
+<div class="grid">
+  
+  <div class="col-12 md:col-3">
+    
+    <!-- Κριτήρια Αναζήτησης -->
+    <p-panel header="{{'global.args' | translate}}">
+      
+      <div class="p-fluid">
+        
+        <app-record-dc-origin [(dcId)]="args.dcId"></app-record-dc-origin>
+        
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'eventRecord.eventTypePid' | translate}}</label>
+            <app-select-gen-parameter [type]="pEventType" [(model)]="args.eventTypePid" name="eventTypePid" [hideAdd]="true"></app-select-gen-parameter>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'eventRecord.eventPlacePid' | translate}}</label>
+            <app-select-gen-parameter [type]="pEventPlace" [(model)]="args.eventPlacePid" name="eventPlacePid" [hideAdd]="true"></app-select-gen-parameter>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <div class="col-12 no-padding-bottom">
+            <label>{{'eventRecord.eventStartDate' | translate}}</label>
+            <div class="grid field-group">
+              <app-toitsu-calendar class="col-6" [(model)]="args.eventStartDateAfter" [noIcon]="true" name="eventStartDateAfter"></app-toitsu-calendar>
+              <span><i class="fa fa-arrow-right no-padding no-margin"></i></span>
+              <app-toitsu-calendar class="col-6" [(model)]="args.eventStartDateBefore" [noIcon]="true" name="eventStartDateBefore"></app-toitsu-calendar>
+            </div>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <div class="col-12 no-padding-bottom">
+            <label>{{'eventRecord.eventEndDate' | translate}}</label>
+            <div class="grid field-group">
+              <app-toitsu-calendar class="col-6" [(model)]="args.eventEndDateAfter" [noIcon]="true" name="eventEndDateAfter"></app-toitsu-calendar>
+              <span><i class="fa fa-arrow-right no-padding no-margin"></i></span>
+              <app-toitsu-calendar class="col-6" [(model)]="args.eventEndDateBefore" [noIcon]="true" name="eventEndDateBefore"></app-toitsu-calendar>
+            </div>
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'eventRecord.description' | translate}}</label>
+              <input type="text" pInputText [(ngModel)]="args.description" name="description">
+          </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'eventRecord.daProtocolNo' | translate}}</label>
+              <input type="text" pInputText [(ngModel)]="args.daProtocolNo" name="daProtocolNo">
+            </div>
+        </div>
+  
+        <div class="grid align-items-center">
+          <div class="col-12 no-padding-bottom">
+            <label>{{'eventRecord.daProtocolDate' | translate}}</label>
+            <div class="grid field-group">
+              <app-toitsu-calendar class="col-6" [(model)]="args.daProtocolDateAfter" [noIcon]="true" name="daProtocolDateAfter"></app-toitsu-calendar>
+              <span><i class="fa fa-arrow-right no-padding no-margin"></i></span>
+              <app-toitsu-calendar class="col-6" [(model)]="args.daProtocolDateBefore" [noIcon]="true" name="daProtocolDateBefore"></app-toitsu-calendar>
+            </div>
+          </div>
+        </div>
+  
+          <div class="grid align-items-center">
+            <div class="col-12">
+              <label>{{'eventRecord.hasDisciplinaryControl' | translate}}</label>
+              <p-dropdown [(ngModel)]="args.hasDisciplinaryControl" name="hasDisciplinaryControl"
+                          [options]="yesNoEnums" optionValue="value" optionLabel="label"
+                          placeholder="{{'global.selectOption' | translate}}" [showClear]="true"
+                          emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}">
+              </p-dropdown>
+            </div>
+          </div>      
+      
+      </div>
+      
+    </p-panel>
+    
+  </div>
+
+<div class="col-12 md:col-9">
+    <app-toitsu-table #table
+                      [url]="url"
+                      [cols]="cols"
+                      [first]="paging.first"
+                      [rows]="paging.rows"
+                      [sortField]="paging.sortField"
+                      [sortOrder]="paging.sortOrder"
+                      [args]="args"
+                      [viewLink]="viewLink"
+                      [excel]="true"
+                      [exportModel]="exportModel"
+                      [loadOnInit]="false"
+                      (loadComplete)="loadComplete()">
+    </app-toitsu-table>
+  </div>
+  
+</div>
+

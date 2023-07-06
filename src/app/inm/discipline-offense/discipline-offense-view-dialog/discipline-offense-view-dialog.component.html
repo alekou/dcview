@@ -1,0 +1,71 @@
+<!--  ΕΝΟΤΗΤΑ ΑΝΑΦΕΡΟΜΕΝΟΙ-->
+
+<!--- Εμφάνιση spinner κατά την φόρτωση του dialog απόφασης πειθαρχικών --->
+<i class="flex align-items-center justify-content-center fa fa-spinner fa-pulse" *ngIf="isDisciplineOffenseDialogLoading"></i>
+
+<form *ngIf="!isDisciplineOffenseDialogLoading">
+  
+<div class="grid fadein animation-duration-300"  appToitsuLockControls [lockCondition]="lockIfDisciplineOffenseIsAddedInDisciplineCouncil()">
+  <div class="col-12 p-fluid">
+  
+    <p-panel header="{{'disciplineOffense.view.reportedData' | translate}}">
+  
+      <div class="grid align-items-center">
+        <label class="col-12 sm:col-4 font-bold">{{'disciplineOffense.inmateId' | translate}}</label>
+        <div class="col-12 sm:col-8">
+          <app-select-inmate [(model)]="disciplineOffense.inmateId" [inmates]="inmates" [dialogUrl]="inmateDialogUrl" (modelChange)="inmateIdOrIncidentDateChanged()"></app-select-inmate>
+        </div>
+      </div>
+  
+      <div class="grid align-items-center">
+        <label class="col-12 sm:col-4 font-bold">{{'disciplineOffense.incidentDate' | translate}}</label>
+        <div class="col-12 sm:col-6">
+          <app-toitsu-calendar [(model)]="disciplineOffense.incidentDate" name="incidentDate" (modelChange)="inmateIdOrIncidentDateChanged()"></app-toitsu-calendar>
+        </div>
+      </div>
+  
+      <div class="grid align-items-center">
+        <label class="col-12 sm:col-4 font-bold">{{'disciplineOffense.offenseTypePid' | translate}}</label>
+        <div class="col-12 md:col-8">
+          <app-select-gen-parameter [type]="disciplineOffenseTypeParams" [(model)]="disciplineOffense.offenseTypePid" name="offenseTypePid" ></app-select-gen-parameter>
+        </div>
+      </div>
+  
+      <div class="grid align-items-center">
+        <label class="col-12 sm:col-4">{{'disciplineOffense.articles' | translate}}</label>
+        <div class="col-12 sm:col-8">
+          <textarea pInputTextarea [(ngModel)]="disciplineOffense.articles" name="articles" rows="2"></textarea>
+        </div>
+      </div>
+  
+      <div class="grid align-items-center">
+        <label class="col-12 sm:col-4">{{'disciplineOffense.comments' | translate}}</label>
+        <div class="col-12 sm:col-8">
+          <textarea pInputTextarea [(ngModel)]="disciplineOffense.comments" name="comments" rows="2"></textarea>
+        </div>
+      </div>
+      
+    </p-panel>
+
+  </div>
+</div>
+
+<div class="grid">
+  <div class="col-12 button-container text-align-end m-1">
+    <button pButton type="button" label="{{'global.save' | translate}}" class="p-button-success"
+            icon="fa fa-save" iconPos="left" (click)="saveDisciplineOffense()" *ngIf="!showIfDisciplineOffenseIsAddedInDisciplineCouncil()">
+    </button>
+    <button pButton type="button" label="{{'global.cancel' | translate}}" class="p-button-warning"
+            icon="fa fa-times" iconPos="left" (click)="cancel()" *ngIf="!showIfDisciplineOffenseIsAddedInDisciplineCouncil()">
+    </button>
+    <button pButton type="button" label="{{'global.close' | translate}}" class="p-button-warning"
+            icon="fa fa-times" iconPos="left" (click)="cancel()" *ngIf="showIfDisciplineOffenseIsAddedInDisciplineCouncil()">
+    </button>
+  </div>
+</div>
+  
+</form>
+
+<!--  ΕΝΟΤΗΤΑ ΑΝΑΦΕΡΟΜΕΝΟΙ-->
+
+

@@ -1,0 +1,169 @@
+<div class="flipleft animation-duration-200">
+
+  <!--- Κουμπιά Ευρετηρίου --->
+  <div class="grid">
+    <div class="col-12 button-container">
+      <button pButton type="submit" label="{{'global.search' | translate}}" class="p-button-warning"
+              icon="fa fa-search" iconPos="left" (click)="loadTableData()">
+      </button>
+      <button pButton type="button" label="{{'global.clearArgs' | translate}}" class="p-button-help"
+              icon="fa fa-times" iconPos="left" (click)="clearArgs()">
+      </button>
+    </div>
+  </div>
+
+  <div class="grid">
+
+    <!--- Κριτήρια Ευρετηρίου --->
+    <div class="col-12 md:col-12">
+
+      <p-panel header="{{'global.args' | translate}}">
+
+        <div class="grid">
+
+          <!--- 1η στήλη --->
+          <div class="col-3 md:col-3 p-fluid">
+
+            <!--- Κατάστημα Κράτησης Εγγραφής --->
+            <app-record-dc-origin [(recordDcOrigin)]="args.recordDcOrigin" [(dcId)]="args.dcId"></app-record-dc-origin>
+
+            <!--- Ημερομηνία Έναρξης --->
+            <div class="grid align-items-center">
+              <div class="col-12 no-padding-bottom">
+                <label>{{'laborDay.args.laborDate' | translate}}</label>
+                <div class="grid field-group">
+                  <app-toitsu-calendar class="col-6" [(model)]="args.laborDateAfter" [noIcon]="true"></app-toitsu-calendar>
+                  <span><i class="fa fa-arrow-right no-padding no-margin"></i></span>
+                  <app-toitsu-calendar class="col-6" [(model)]="args.laborDateBefore" [noIcon]="true"></app-toitsu-calendar>
+                </div>
+              </div>
+            </div>
+
+            <!--- Ημερομηνία Λήξης --->
+            <div class="grid align-items-center">
+              <div class="col-12 no-padding-bottom">
+                <label>{{'laborDay.args.laborDateTo' | translate}}</label>
+                <div class="grid field-group">
+                  <app-toitsu-calendar class="col-6" [(model)]="args.laborDateToAfter" [noIcon]="true"></app-toitsu-calendar>
+                  <span><i class="fa fa-arrow-right no-padding no-margin"></i></span>
+                  <app-toitsu-calendar class="col-6" [(model)]="args.laborDateToBefore" [noIcon]="true"></app-toitsu-calendar>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!--- 2η στήλη --->
+          <div class="col-3 md:col-3 p-fluid">
+
+            <!--- Απόφαση --->
+            <div class="grid align-items-center">
+              <div class="col-12">
+                <label>{{'inmateLaborDays.list.judgmentId' | translate}}</label>
+                <p-dropdown [(ngModel)]="args.judgmentId" [options]="inmateJudgmentDecisions" optionValue="id" optionLabel="displayName"
+                            placeholder="{{'global.selectOption' | translate}}"
+                            emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                            [showClear]="true" [filter]="true">
+                </p-dropdown>
+              </div>
+            </div>
+
+            <!--- Από Μεταφορά --->
+            <div class="grid align-items-center">
+              <div class="col-12">
+                <label>{{'laborDay.census' | translate}}</label>
+                <p-dropdown [(ngModel)]="args.census" [options]="yesNoEnums" optionValue="value" optionLabel="label"
+                            placeholder="{{'global.selectOption' | translate}}"
+                            emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                            [showClear]="true">
+                </p-dropdown>
+              </div>
+            </div>
+
+          </div>
+
+          <!--- 3η στήλη --->
+          <div class="col-3 md:col-3 p-fluid">
+
+            <!--- Κατηγορία --->
+            <div class="grid align-items-center">
+              <div class="col-12">
+                <label>{{'laborDay.args.category' | translate}}</label>
+                <p-dropdown [(ngModel)]="args.category" [options]="laborDayCategories" optionValue="value" optionLabel="label"
+                            placeholder="{{'global.selectOption' | translate}}"
+                            emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                            [showClear]="true">
+                </p-dropdown>
+              </div>
+            </div>
+
+            <!--- Παρουσία --->
+            <div class="grid align-items-center">
+              <div class="col-12">
+                <label>{{'laborDay.presence' | translate}}</label>
+                <p-dropdown [(ngModel)]="args.presence" [options]="yesNoEnums" optionValue="value" optionLabel="label"
+                            placeholder="{{'global.selectOption' | translate}}"
+                            emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                            [showClear]="true">
+                </p-dropdown>
+              </div>
+            </div>
+
+          </div>
+
+          <!--- 4η στήλη --->
+          <div class="col-3 md:col-3 p-fluid">
+
+            <!--- Σε πρακτικό --->
+            <div class="grid align-items-center">
+              <div class="col-12">
+                <label>{{'laborDay.args.linkedToProtocol' | translate}}</label>
+                <p-dropdown [(ngModel)]="args.linkedToProtocol" [options]="yesNoEnums" optionValue="value" optionLabel="label"
+                            placeholder="{{'global.selectOption' | translate}}"
+                            emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                            [showClear]="true">
+                </p-dropdown>
+              </div>
+            </div>
+
+            <!--- Έγκριση --->
+            <div class="grid align-items-center">
+              <div class="col-12">
+                <label>{{'laborDay.approved' | translate}}</label>
+                <p-dropdown [(ngModel)]="args.approved" [options]="yesNoEnums" optionValue="value" optionLabel="label"
+                            placeholder="{{'global.selectOption' | translate}}"
+                            emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                            [showClear]="true">
+                </p-dropdown>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </p-panel>
+    </div>
+
+    <!--- Ευρετήριο Ημερομισθίων Κρατουμένου --->
+    <div class="col-12 md:col-12">
+      <app-toitsu-table #table
+                        [url]="url"
+                        [cols]="cols"
+                        [first]="paging.first"
+                        [rows]="paging.rows"
+                        [sortField]="paging.sortField"
+                        [sortOrder]="paging.sortOrder"
+                        [args]="args"
+                        [viewLink]="viewLink"
+                        [excel]="true"
+                        [exportModel]="exportModel"
+                        [loadOnInit]="false">
+      </app-toitsu-table>
+    </div>
+
+  </div>
+
+</div>
+
+

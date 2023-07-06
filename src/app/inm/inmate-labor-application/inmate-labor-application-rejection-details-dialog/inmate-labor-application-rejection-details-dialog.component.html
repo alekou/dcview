@@ -1,0 +1,93 @@
+<!--- Dialog: Απόρριψη αιτήματος εργασίας και συμπλήρωση λεπτομερειών --->
+<form *ngIf="placementProtocolApproveStatus === false">
+  <div>
+    <div class="col-12 p-fluid">
+      <p-panel header="{{'inmateLaborApplication.rejectionDetails.basicData' | translate}}">
+
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmateLaborApplication.reject' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox binary="true" name="rejected"
+                        [(ngModel)]="inmateLaborApplicationToReject.rejected"
+                        (ngModelChange)="enableRejectionDate()">
+            </p-checkbox>
+          </div>
+        </div>
+
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmateLaborApplication.rejectionDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar
+              name="rejectionDate" [disabled]="!inmateLaborApplicationToReject.rejected"
+              [(model)]="inmateLaborApplicationToReject.rejectionDate">
+            </app-toitsu-calendar>
+          </div>
+        </div>
+
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmateLaborApplication.rejectionComments' | translate}}</label>
+          <div class="col-12 sm:col-8">
+              <textarea pInputTextarea
+                        name="rejectionComments" rows="5"
+                        [(ngModel)]="inmateLaborApplicationToReject.rejectionComments">
+              </textarea>
+          </div>
+        </div>
+
+      </p-panel>
+    </div>
+  </div>
+
+  <!--- Κουμπιά --->
+  <div class="grid">
+    <div class="col-12 button-container text-align-end">
+      <button pButton type="button" label="{{'global.confirm' | translate}}" class="p-button-success"
+              icon="fa fa-check" iconPos="left" (click)="confirm()">
+      </button>
+      <button pButton type="button" label="{{'global.cancel' | translate}}" class="p-button-warning"
+              icon="fa fa-times" iconPos="left" (click)="cancel()">
+      </button>
+    </div>
+  </div>
+
+</form>
+
+
+<!--- Προβολή στοιχείων απόρριψης αιτήματος εργασίας σε εγκεκριμένα πρακτικά τοποθέτησης --->
+<div *ngIf="placementProtocolApproveStatus === true">
+  <!--- Προβολή μηνύματος για αιτήματα εργασίας που δεν έχουν απορριφθεί --->
+  <div class="flex align-items-center justify-content-center" *ngIf="!inmateLaborApplicationToReject.rejected">
+    <i class="fa fa-info-circle" aria-hidden="true"></i>
+    <p class="font-italic">{{'inmateLaborApplication.infoMessage.notRejected' | translate}}</p>
+  </div>
+  <!--- Προβολή στοιχείων απόρριψης για αιτήματα εργασίας που έχουν απορριφθεί --->
+  <div class="flex align-items-center justify-content-start" *ngIf="inmateLaborApplicationToReject.rejected">
+    <i class="fa fa-info-circle" aria-hidden="true"></i>
+    <p>
+      <span>{{'inmateLaborApplication.infoMessage.rejected' | translate}}&nbsp;</span>
+      <span class="font-semibold">{{inmateLaborApplicationToReject.rejectionDate}}</span>
+    </p>
+  </div>
+  <div class="flex align-items-center justify-content-start" *ngIf="inmateLaborApplicationToReject.rejected">
+    <i class="fa fa-commenting" aria-hidden="true"></i>
+    <p>
+      <span class="font-semibold">{{'inmateLaborApplication.rejectionComments' | translate}}:&nbsp;</span>
+      <span class="font-italic" *ngIf="inmateLaborApplicationToReject.rejectionComments">
+        {{inmateLaborApplicationToReject.rejectionComments}}
+      </span>
+      <span *ngIf="!inmateLaborApplicationToReject.rejectionComments">
+        -
+      </span>
+    </p>
+
+  </div>
+  <p-divider></p-divider>
+  <!--- Κουμπιά --->
+  <div class="grid">
+    <div class="col-12 button-container text-align-end">
+      <button pButton type="button" label="{{'global.close' | translate}}" class="p-button-warning"
+              icon="fa fa-times" iconPos="left" (click)="closeDisplayApprovedRejectionDetails()">
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,19 @@
+<div class="grid align-items-center" *ngIf="showRecordDcOrigin && !authService.isMinistry() && recordDcOrigins.length > 0">
+  <div class="col-12">
+    <label>{{'global.recordDcOrigin' | translate}}</label>
+    <p-dropdown [(ngModel)]="recordDcOrigin" (ngModelChange)="emitRecordDcOriginChange()" [options]="recordDcOrigins" optionValue="value" optionLabel="label"
+                emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}">
+    </p-dropdown>
+  </div>
+</div>
+
+<div class="grid align-items-center" *ngIf="authService.isMinistry()">
+  <div class="col-12">
+    <label>{{'global.dcId' | translate}}</label>
+    <p-dropdown [(ngModel)]="dcId" (ngModelChange)="emitDcIdChange()" [options]="detentionCenters" optionValue="id" optionLabel="name"
+                placeholder="{{'global.selectOption' | translate}}"
+                emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                [showClear]="true" [filter]="true">
+    </p-dropdown>
+  </div>
+</div>

@@ -1,0 +1,13 @@
+<div class="display-flex align-items-start">
+  <textarea pInputTextarea value="{{visitorLabel}}" placeholder="{{'global.selectOption' | translate}}" disabled [ngClass]="{'locked': disabled}" name="{{name}}" rows="1" appToitsuTextareaAutoResize *ngIf="labelVisible"></textarea>
+  
+  <button pButton type="button" *ngIf="!disabled && !hasId()"
+          class="p-button-info" icon="fa fa-search"
+          pTooltip="{{'global.search' | translate}}"  tooltipPosition="top" (click)="openListDialog()">
+  </button>
+  
+  <button pButton type="button" *ngIf="!disabled && hasId()"
+          class="p-button-info" icon="fa fa-times" aria-label="Remove"
+          pTooltip="{{'global.remove' | translate}}" tooltipPosition="top" (click)="removeRecord()">
+  </button>
+</div>

@@ -1,0 +1,23 @@
+{
+  "courtSummons.inmateId": "Κρατούμενος",
+  "courtSummons.dcId":"Κατάστημα Κράτησης Εγγραφής",
+  "courtSummons.summonsNo": "Αριθμός Κλήσης",
+  "courtSummons.summonsDate":"Ημερομηνία Κλήσης",
+  "courtSummons.daOfficePid": "Γραφείο Εισαγγελέα",
+  "courtSummons.daOfficeCityId": "Πόλη Γραφείου Εισαγγελέα",
+  "courtSummons.daProtocolNo": "Αριθμός Πρωτοκόλλου Εισαγγελίας",
+  "courtSummons.courthouseId":"Δικαστήριο",
+  "courtSummons.courtDate":"Ημερομηνία Δικαστηρίου",
+  "courtSummons.protocolNo": "Αριθμός Πρωτοκόλλου",
+  "courtSummons.protocolDate": "Ημερομηνία Πρωτοκόλλου",
+  "courtSummons.comments":"Παρατηρήσεις",
+  "courtSummons.deliveryStatus":"Κατάσταση",
+  "courtSummons.deliveryDate": "Ημερομηνία",
+  "courtSummons.deliveryEmployeeId": "Υπάλληλος",
+  "courtSummons.deliveryComments": "Παρατηρήσεις",
+
+  "courtSummons.args.inmateCode":"Α.Γ.Μ. Κρατουμένου",
+
+  "courtSummons.view.basicData": "Βασικά Στοιχεία",
+  "courtSummons.view.deliveryData": "Στοιχεία Επίδοσης"
+}

@@ -1,0 +1,66 @@
+<div class="grid">
+  
+  <div class="col-12 p-fluid">
+    {{'judgment.unmerge.description' | translate}}
+  </div>
+  
+  <div class="col-12" *ngIf="willUnmergeCurrentJudgment">
+    
+    <div class="col-12 p-fluid color-red">
+      {{'judgment.unmerge.description.selectNewCurrent' | translate}}
+    </div>
+    
+    <div class="col-12 p-fluid">
+      <div class="grid align-items-center" *ngFor="let judgment of mergedJudgmentsHavingThisAsRelated; let index = index">
+        <label class="col-12 sm:col-4">{{'inmate.folder.judgment' | translate}} {{index + 1}}</label>
+        <div class="col-12 sm:col-6">
+          <input type="text" pInputText value="{{judgment.displayName}}" disabled class="background-color-white">
+        </div>
+        <div class="col-12 sm:col-2">
+          <p-radioButton [value]="judgment.id" [(ngModel)]="data.newCurrentJudgmentId" (ngModelChange)="newCurrentJudgmentIdChanged()"></p-radioButton>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+  
+  <div class="col-12" *ngIf="mergingJudgmentBeneficialCalculation">
+    
+    <div class="col-12 p-fluid">
+      {{'judgment.unmerge.description.moveBeneficialCalculation' | translate:({beneficialCalculationText: mergingJudgmentBeneficialCalculationText})}}
+    </div>
+    
+    <div class="col-12 p-fluid">
+      <div class="grid align-items-center" *ngFor="let judgment of mergedJudgmentsHavingThisAsRelated; let index = index">
+        <label class="col-12 sm:col-2">{{'inmate.folder.judgment' | translate}} {{index + 1}}</label>
+        <div class="col-12 sm:col-5">
+          <input type="text" pInputText value="{{judgment.displayName}}" disabled class="background-color-white">
+        </div>
+        <div class="col-12 sm:col-5">
+          <div class="grid field-group margin-bottom-minus-0-5rem">
+            <p-inputNumber [(ngModel)]="beneficialCalculationSplitMoveMap[judgment.id].integerPart" [useGrouping]="false" inputStyleClass="text-align-center margin-right-0-5rem"></p-inputNumber>
+            <p-inputNumber [(ngModel)]="beneficialCalculationSplitMoveMap[judgment.id].numeratorPart" [useGrouping]="false"
+                           [showButtons]="true" buttonLayout="horizontal" spinnerMode="horizontal"
+                           incrementButtonClass="p-button-success" decrementButtonClass="p-button-danger" 
+                           incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus"
+                           [min]="0" [max]="3" [step]="1" [suffix]="'/4'" inputStyleClass="text-align-center">
+            </p-inputNumber>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+  
+</div>
+
+<div class="grid">
+  <div class="col-12 button-container text-align-end">
+    <button pButton type="button" label="{{'global.confirm' | translate}}" class="p-button-success"
+            icon="fa fa-save" iconPos="left" (click)="confirm()">
+    </button>
+    <button pButton type="button" label="{{'global.cancel' | translate}}" class="p-button-warning"
+            icon="fa fa-times" iconPos="left" (click)="cancel()">
+    </button>
+  </div>
+</div>

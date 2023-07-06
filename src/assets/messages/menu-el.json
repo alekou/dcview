@@ -1,0 +1,321 @@
+{
+  "subsystem.inm": "Διαχείριση Κρατουμένων",
+  "subsystem.med": "Ιατρείο - Φαρμακείο",
+  "subsystem.sa": "Διαχείριση Συστήματος",
+  
+  "inm.group.secretariat": "Γραμματεία",
+  "inm.group.vacation": "Άδειες",
+  "inm.group.transfer": "Μεταγωγές",
+  "inm.group.labor": "Εργασία",
+  "inm.group.warden": "Αρχιφυλακείο",
+  "inm.group.service": "Υπηρεσίες",
+
+  "inm.subgroup.inmateArea": "Θέσεις Κρατουμένων",
+  "inm.subgroup.discipline": "Πειθαρχικά",
+
+  "inm.inmate": "Κρατούμενοι",
+  "inm.inmate.new": "Νέος Κρατούμενος",
+  "inm.inmate.edit": "Επεξεργασία Κρατουμένου",
+  "inm.inmate.folder": "Φάκελος Κρατουμένου",
+  "inm.inmate.oldList": "Παλιοί Κρατούμενοι",
+  "inm.inmate.oldView": "Παλιός Κρατούμενος",
+  
+  "inm.discipline": "Πειθαρχικά",
+  "inm.discipline.new": "Νέο Πειθαρχικό",
+  "inm.discipline.edit": "Επεξεργασία Πειθαρχικού",
+
+  "inm.disciplineReport": "Αναφορές",
+  "inm.disciplineReport.new": "Νέα Αναφορά",
+  "inm.disciplineReport.edit": "Επεξεργασία Αναφοράς",
+
+  "inm.disciplineCouncil": "Συμβούλια",
+  "inm.disciplineCouncil.new": "Νέο Συμβούλιο",
+  "inm.disciplineCouncil.edit": "Επεξεργασία Συμβουλίου",
+  
+  "inm.appeal": "Ένδικα Μέσα",
+  "inm.appeal.new": "Νέο Ένδικο Μέσο",
+  "inm.appeal.edit": "Επεξεργασία Ένδικου Μέσου",
+
+  "inm.transport": "Μεταφορές",
+  "inm.transport.new": "Νέα Μεταφορά",
+  "inm.transport.edit": "Επεξεργασία Μεταφοράς",
+  
+  "inm.vacation": "Άδειες",
+  "inm.vacation.new": "Νέα Άδεια",
+  "inm.vacation.edit": "Επεξεργασία Άδειας",
+
+  "inm.vacationApplication": "Αιτήσεις Άδειας",
+  "inm.vacationApplication.new": "Νέα Αίτηση Άδειας",
+  "inm.vacationApplication.edit": "Επεξεργασία Αίτησης Άδειας",
+
+  "inm.vacationMotion": "Εισηγήσεις Άδειας",
+  "inm.vacationMotion.edit": "Εισήγηση Άδειας",
+  
+  "inm.vacationCouncil": "Συμβούλια",
+  "inm.vacationCouncil.new": "Νέο Συμβούλιο",
+  "inm.vacationCouncil.edit": "Επεξεργασία Συμβουλίου",
+  
+  "inm.courtSummons": "Κλήσεις Δικαστηρίου",
+  "inm.courtSummons.new": "Νέα Κλήση Δικαστηρίου",
+  "inm.courtSummons.edit": "Επεξεργασία Κλήσης Δικαστηρίου",
+  
+  "inm.transfer": "Μεταγωγές",
+  "inm.transfer.new": "Νέα Μεταγωγή",
+  "inm.transfer.edit": "Επεξεργασία Μεταγωγής",
+  "inm.transfer.inProgress": "Σε Εξέλιξη",
+  "inm.transfer.inProgress.title": "Μεταγωγές σε Εξέλιξη",
+
+  "inm.inmateLaborApplication": "Αιτήματα Εργασίας",
+  "inm.inmateLaborApplication.new": "Νέο Αίτημα Εργασίας",
+  "inm.inmateLaborApplication.edit": "Επεξεργασία Αιτήματος Εργασίας",
+
+  "inm.placementProtocol": "Πρακτικά Τοποθέτησης",
+  "inm.placementProtocol.new": "Νέο Πρακτικό Τοποθέτησης",
+  "inm.placementProtocol.edit": "Επεξεργασία Πρακτικού Τοποθέτησης",
+
+  "inm.inmateLabor": "Εργασίες Κρατουμένων",
+  "inm.inmateLabor.new": "Νέα Εργασία Κρατουμένου",
+  "inm.inmateLabor.edit": "Επεξεργασία Εργασίας Κρατουμένου",
+
+  "inm.laborDay": "Ημερομίσθια",
+  "inm.laborDay.new": "Νέο Ημερομίσθιο",
+  "inm.laborDay.edit": "Επεξεργασία Ημερομισθίου",
+  "inm.laborDay.add": "Προσθήκη Ημερομισθίων",
+  "inm.laborDay.add.normal": "Εργασίας",
+  "inm.laborDay.add.special": "Ειδικού Τύπου",
+  "inm.laborDay.addNormal.title": "Προσθήκη Ημερομισθίων Εργασίας",
+  "inm.laborDay.addSpecial.title": "Προσθήκη Ημερομισθίων Ειδικού Τύπου",
+  
+  "inm.laborProtocol": "Πρακτικά Ημερομισθίων",
+  "inm.laborProtocol.new": "Νέο Πρακτικό Ημερομισθίων",
+  "inm.laborProtocol.edit": "Επεξεργασία Πρακτικού Ημερομισθίων",
+  
+  "inm.area": "Περιοχές",
+  "inm.area.new": "Νέα Περιοχή",
+  "inm.area.edit": "Επεξεργασία Περιοχής",
+
+  "inm.inmateArea.manage": "Διαχείριση",
+  "inm.inmateArea.history": "Ιστορικό",
+  "inm.inmateArea.catalog": "Κατάλογος",
+  
+  "inm.visit": "Επισκεπτήρια",
+  "inm.visit.new": "Νέο Επισκεπτήριο",
+  "inm.visit.edit": "Επεξεργασία Επισκεπτηρίου",
+  "inm.visit.lawyerAdd": "Προσθήκη Επισκ. Δικηγόρου",
+
+  "inm.visitor": "Επισκέπτες",
+  "inm.visitor.new": "Νέος Επισκέπτης",
+  "inm.visitor.edit": "Επεξεργασία Επισκέπτη",
+
+  "inm.eventRecord": "Βιβλίο Συμβάντων",
+  "inm.eventRecord.new": "Νέο Συμβάν",
+  "inm.eventRecord.edit": "Επεξεργασία Συμβάντος",
+
+  "inm.postLetter": "Επιστολές",
+  "inm.postLetter.new": "Νέα Επιστολή",
+  "inm.postLetter.edit": "Επεξεργασία Επιστολής",
+  
+  "inm.gateMovement": "Θυρωρείο",
+  "inm.gateMovement.new": "Νέα Κίνηση",
+  "inm.gateMovement.edit": "Επεξεργασία Κίνησης",
+  "inm.gateMovement.massClose": "Μαζικό Κλείσιμο",
+  "inm.gateMovement.closeAll": "Κλείσιμο Κινήσεων",
+  "inm.gateMovement.massCreate": "Μαζική Καταχώριση",
+  
+  "inm.vehicle": "Οχήματα",
+  "inm.vehicle.new": "Νέο Όχημα",
+  "inm.vehicle.edit": "Επεξεργασία Εγγραφης",
+  
+  "inm.doctorSession": "Συνεδρίες Ιατρού",
+  "inm.doctorSession.doctor": "Αναφορές Ιατρού",
+  "inm.doctorSession.psychologist": "Συνεδρίες Ψυχολόγου", 
+  "inm.doctorSession.sociologist": "Συνεδρίες Κοινωνιολόγου",
+  "inm.doctorSession.socialworker": "Συνεδρίες Κοινωνικού Λειτουργού",
+  "inm.doctorSession.criminologist": "Συνεδρίες Εγκληματολόγου",
+  "inm.doctorSession.new": "Νέα Συνεδρία",
+  "inm.doctorSession.edit": "Επεξεργασία Συνεδρίας",
+  "inm.doctor.psychologist": "Ψυχολόγος",
+  "inm.doctor.sociologist": "Κοινωνιολόγος",
+  "inm.doctor.socialworker": "Κοινωνικός Λειτουργός",
+  "inm.doctor.criminologist": "Εγκληματολόγος",
+
+  "inm.visitProgram": "Πρόγραμμα Επισκεπτηρίου",
+  "inm.visitProgram.new": "Νέο Πρόγραμμα Επισκεπτηρίου",
+  "inm.visitProgram.edit": "Επεξεργασία Προγράμματος Επισκεπτηρίου",
+
+  "inm.visitApplication": "Αιτήματα Επισκεπτηρίου",
+  "inm.visitApplication.new": "Νέο Αιτήμα Επισκεπτηρίου",
+  "inm.visitApplication.edit": "Επεξεργασία Αιτήματος Επισκεπτηρίου",
+  
+  "inm.educationNeed": "Εκπαιδευτικές Ανάγκες",
+  "inm.educationNeed.new": "Νέα Εκπαιδευτική Ανάγκη",
+  "inm.educationNeed.edit": "Επεξεργασία Εκπαιδευτικής Ανάγκης",
+  
+  "inm.program": "Επιμορφωτικά Προγράμματα",
+  "inm.programShortName": "Προγράμματα",
+  "inm.program.new": "Νέο Επιμορφωτικό Πρόγραμμα",
+  "inm.program.edit": "Επεξεργασία Επιμορφωτικού Προγράμματος",
+
+  "inm.programApplication": "Αιτήματα Συμμετοχής",
+  "inm.programApplication.new": "Νέο Αίτημα Συμμετοχής",
+  "inm.programApplication.edit": "Επεξεργασία Αιτήματος Συμμετοχής",
+
+  "inm.programProtocol": "Πρακτικά Συμμετοχής",
+  "inm.programProtocol.new": "Νέο Πρακτικό Συμμετοχής",
+  "inm.programProtocol.edit": "Επεξεργασία Πρακτικού Συμμετοχής",
+
+  "inm.programConduct": "Διεξαγωγή Προγράμματος",
+  "inm.programConduct.edit": "Επεξεργασία Διεξαγωγής Προγράμματος",
+  
+  "med.group.medicalDepartment": "Ιατρείο",
+  "med.group.params": "Παράμετροι",
+
+  "med.medicine": "Φάρμακα",
+  "med.medicine.new": "Νέο Φάρμακο",
+  "med.medicine.edit": "Επεξεργασία Φαρμάκου",
+
+  "med.prescription": "Συνταγές",
+  "med.prescription.new": "Νέα Συνταγή",
+  "med.prescription.edit": "Επεξεργασία Συνταγής",
+
+  "med.treatment": "Αγωγές",
+  "med.treatment.new": "Νέα Αγωγή",
+  "med.treatment.edit": "Επεξεργασία Αγωγής",
+
+  "med.medicalFolder": "Ιατρικοί Φάκελοι",
+  "med.medicalFolder.edit": "Προβολή Φακέλου",
+  
+  "med.hearingApplication": "Αιτήματα Ακρόασης",
+  "med.hearingApplication.new": "Νέο Αίτημα Ακρόασης",
+  "med.hearingApplication.edit": "Επεξεργασία Αιτήματος Ακρόασης",
+
+  "med.hearing": "Ακροάσεις",
+  "med.hearing.new": "Νέα Ακρόαση",
+  "med.hearing.edit": "Επεξεργασία Ακρόασης",
+
+  "med.disease": "Παθήσεις",
+  "med.disease.new": "Πάθηση",
+  "med.disease.edit": "Επεξεργασία Πάθησης",
+
+  "med.referral": "Παραπεμπτικά",
+  "med.referral.new": "Νέο Παραπεμπτικό",
+  "med.referral.edit": "Επεξεργασία Παραπεμπτικού",
+  
+  "med.vaccination": "Εμβολιασμοί",
+  "med.vaccination.new": "Νέος Εμβολιασμός",
+  "med.vaccination.edit": "Επεξεργασία Εμβολιασμού",
+  
+  "med.bloodSampling": "Αιμοληψίες",
+  "med.bloodSampling.new": "Νέα Αιμοληψία",
+  "med.bloodSampling.edit": "Επεξεργασία Αιμοληψίας",
+  
+  "med.vaccine": "Εμβόλια",
+  "med.vaccine.new": "Νέο Εμβόλιο",
+  "med.vaccine.edit": "Επεξεργασία Εμβολίου",
+
+  "med.examinationType": "Τύποι Εξέτασης",
+  "med.examinationType.new": "Νέα Εξέταση",
+  "med.examinationType.edit": "Επεξεργασία Εξέτασης",
+
+  "med.diseaseType": "Τύποι Πάθησης",
+  "med.diseaseType.new": "Νέος Τύπος Πάθησης",
+  "med.diseaseType.edit": "Επεξεργασία Τύπου Πάθησης",
+  
+  "med.hearingType": "Τύποι Ακρόασης",
+  "med.hearingType.new": "Νέος Τύπος Ακρόασης",
+  "med.hearingType.edit": "Επεξεργασία Τύπου Ακρόασης",
+
+  "med.shift": "Βάρδιες",
+  "med.shift.new": "Νέα Βάρδια",
+  "med.shift.edit": "Επεξεργασία Βάρδιας",
+
+  "med.examination": "Εξετάσεις",
+  "med.examination.new": "Νέα Εξέταση",
+  "med.examination.edit": "Επεξεργασία Εξέτασης",
+  
+  "sa.user": "Χρήστες",
+  "sa.scheduledJob": "Προγραμ. Εργασίες",
+  "sa.appLog": "Logs",
+
+  "sa.template": "Πρότυπα Φορμών",
+  "sa.template.new": "Νέο Πρότυπο",
+  "sa.template.edit": "Επεξεργασία Προτύπου",
+
+  "sa.report": "Εκτυπώσεις",
+  "sa.report.new": "Νέα Εκτύπωση",
+  "sa.report.edit": "Επεξεργασία Εκτύπωσης",
+  
+  "sa.group.notifications": "Ειδοποιήσεις",
+  "sa.group.params": "Παράμετροι",
+
+  "sa.classification": "Κατατάξεις",
+  "sa.classification.new": "Νέα Κατάταξη",
+  "sa.classification.edit": "Επεξεργασία Κατάταξης",
+
+  "sa.doctor": "Γιατροί",
+  "sa.doctor.new": "Νέος Ιατρός",
+  "sa.doctor.edit": "Επεξεργασία Ιατρού",
+  
+  "sa.country": "Χώρες",
+  "sa.country.new": "Νέα Χώρα",
+  "sa.country.edit": "Επεξεργασία Χώρας",
+  
+  "sa.courthouse": "Δικαστήρια",
+  "sa.courthouse.new": "Νέο Δικαστήριο",
+  "sa.courthouse.edit": "Επεξεργασία Δικαστηρίου",
+
+  "sa.vacationType": "Τύποι Άδειας",
+  "sa.vacationType.new": "Νέος Τύπος Άδειας",
+  "sa.vacationType.edit": "Επεξεργασία Τύπου Άδειας",
+
+  "sa.visitType": "Τύποι Επισκεπτηρίου",
+  "sa.visitType.new": "Νέος Τύπος Επισκεπτηρίου",
+  "sa.visitType.edit": "Επεξεργασία Τύπου Επισκεπτηρίου",
+
+  "sa.areaType": "Τύποι Περιοχής",
+  "sa.areaType.new": "Νέος Τύπος Περιοχής",
+  "sa.areaType.edit": "Επεξεργασία Τύπου Περιοχής",
+
+  "sa.gateMovementType": "Τύποι Θυρωρείου",
+  "sa.gateMovementType.new": "Νέος Τύπος Θυρωρείου",
+  "sa.gateMovementType.edit": "Επεξεργασία Τύπου Θυρωρείου",
+
+  "sa.sessionType": "Τύποι Συνεδρίας",
+  "sa.sessionType.new": "Νέος Τύπος Συνεδρίας",
+  "sa.sessionType.edit": "Επεξεργασία Τύπου Συνεδρίας",
+  
+  "sa.programType": "Τύποι Προγράμματος",
+  "sa.programType.new": "Νέος Τύπος Προγράμματος",
+  "sa.programType.edit": "Επεξεργασία Τύπου Προγράμματος",
+
+  "sa.policeDepartment": "Αστυνομικά Τμήματα",
+  "sa.policeDepartment.new": "Νέο Αστυνομικό Τμήμα",
+  "sa.policeDepartment.edit": "Επεξεργασία Αστυνομικού Τμήματος",
+  
+  "sa.hospital": "Νοσοκομεία",
+  "sa.hospital.new": "Νέο Νοσοκομείο",
+  "sa.hospital.edit": "Επεξεργασία Νοσοκομείου",
+  
+  "sa.director": "Διαχειριστές",
+  "sa.director.new": "Νέος Διαχειριστής",
+  "sa.director.edit": "Επεξεργασία Διαχειριστή",
+  
+  "sa.detentionCenter": "Καταστήματα",
+  "sa.detentionCenter.new": "Νέο Κατάστημα",
+  "sa.detentionCenter.edit": "Επεξεργασία Καταστήματος",
+  
+  "sa.genParameterType": "Τύποι Γενικού Παραμετρικού",
+  "sa.genParameter": "Γενικά Παραμετρικά",
+
+  "sa.notificationType": " Τύποι Ειδοποίησης",
+  "sa.notificationType.new": "Νέος Τύπος Ειδοποίησης",
+  "sa.notificationType.edit": "Επεξεργασία Τύπου Ειδοποίησης",
+
+  "sa.notification": "Ειδοποιήσεις",
+  "sa.notification.new": "Νέα Ειδοποίηση",
+  "sa.notification.edit": "Επεξεργασία Ειδοποίησης",
+  
+  "sa.dcConfig": "Παράμετροι Συστήματος",
+  
+  "sa.lexicography": "Λεξικογραφίες"
+}

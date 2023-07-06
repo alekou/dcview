@@ -1,0 +1,15 @@
+{
+  "detentionCenter.isActive": "Ενεργό",
+  "detentionCenter.code": "Κωδικός",
+  "detentionCenter.name": "Ονομασία",
+  "detentionCenter.type": "Τύπος",
+  "detentionCenter.allowsTemporary": "Επιτρέπει Προσωρινή Κράτηση",
+  "detentionCenter.cityId": "Πόλη",
+  "detentionCenter.address": "Διεύθυνση",
+  "detentionCenter.postalCode": "Ταχ. Κώδικας",
+  "detentionCenter.phone": "Τηλέφωνο",
+  "detentionCenter.capacity": "Χωρητικότητα",
+  "dc.myDetentionCenter": "Το Κατάστημά μου",
+
+  "detentionCenter.view.detentionCenterData": "Στοιχεία Καταστήματος"
+}

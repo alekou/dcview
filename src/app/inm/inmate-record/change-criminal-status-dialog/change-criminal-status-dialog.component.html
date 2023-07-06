@@ -1,0 +1,99 @@
+<div class="grid">
+  
+  <div class="col-12 md:col-6 p-fluid">
+    
+    <p-panel header="{{'inmateRecord.changeCriminalStatus.oldInmateRecordData' | translate}}">
+      
+      <div class="grid align-items-center">
+        <label class="col-12 sm:col-4 font-bold">{{'inmateRecord.exitDate' | translate}}</label>
+        <div class="col-12 sm:col-8">
+          <app-toitsu-calendar [(model)]="data.oldExitDate" name="oldExitDate"></app-toitsu-calendar>
+        </div>
+      </div>
+      
+      <div class="grid align-items-center">
+        <label class="col-12 sm:col-4">{{'inmateRecord.closingClassificationId' | translate}}</label>
+        <div class="col-12 sm:col-8">
+          <p-dropdown [(ngModel)]="data.oldClosingClassificationId" name="oldClosingClassificationId"
+                      [options]="closingRecordClassifications" optionValue="id" optionLabel="description"
+                      placeholder="{{'global.selectOption' | translate}}"
+                      emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                      [showClear]="true" [filter]="true" appendTo="body">
+          </p-dropdown>
+        </div>
+      </div>
+      
+      <div class="grid align-items-center">
+        <label class="col-12 sm:col-4">{{'inmateRecord.closingComments' | translate}}</label>
+        <div class="col-12 sm:col-8">
+          <textarea pInputTextarea [(ngModel)]="data.oldClosingComments" name="oldClosingComments" rows="4"></textarea>
+        </div>
+      </div>
+      
+    </p-panel>
+    
+  </div>
+  
+  <div class="col-12 md:col-6 p-fluid">
+    
+    <p-panel header="{{'inmateRecord.changeCriminalStatus.newInmateRecordData' | translate}}">
+      
+      <div class="grid align-items-center">
+        <label class="col-12 sm:col-4 font-bold">{{'inmateRecord.category' | translate}}</label>
+        <div class="col-12 sm:col-8">
+          <p-dropdown [(ngModel)]="data.newCategory" name="newCategory"
+                      [options]="inmateRecordCategories" optionValue="value" optionLabel="label"
+                      placeholder="{{'global.selectOption' | translate}}"
+                      emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                      [showClear]="true">
+          </p-dropdown>
+        </div>
+      </div>
+      
+      <div class="grid align-items-center">
+        <label class="col-12 sm:col-4 font-bold">{{'inmateRecord.characterizationPid' | translate}}</label>
+        <div class="col-12 sm:col-8">
+          <app-select-gen-parameter [type]="pCharacterization" [(model)]="data.newCharacterizationPid" name="newCharacterizationPid"></app-select-gen-parameter>
+        </div>
+      </div>
+      
+      <div class="grid align-items-center">
+        <label class="col-12 sm:col-4" [ngClass]="{'font-bold': data.newCategory === 'CONVICT'}">{{'inmateRecord.duration' | translate}}</label>
+        <div class="col-12 sm:col-4">
+          <app-select-gen-parameter [type]="pDurationType" [(model)]="data.newDurationTypePid" name="newDurationTypePid"></app-select-gen-parameter>
+        </div>
+        <div class="col-12 sm:col-4">
+          <app-select-gen-parameter [type]="pDuration" [(model)]="data.newDurationPid" name="newDurationPid"></app-select-gen-parameter>
+        </div>
+      </div>
+      
+      <div class="grid align-items-center">
+        <label class="col-12 sm:col-4 font-bold">{{'inmateRecord.entryDate' | translate}}</label>
+        <div class="col-12 sm:col-8">
+          <app-toitsu-calendar [(model)]="data.newEntryDate" name="newEntryDate"></app-toitsu-calendar>
+        </div>
+      </div>
+      
+      <div class="grid align-items-center">
+        <label class="col-12 sm:col-4 font-bold">{{'inmateRecord.entryReasonPid' | translate}}</label>
+        <div class="col-12 sm:col-8">
+          <app-select-gen-parameter [type]="pEntryReason" [(model)]="data.newEntryReasonPid" name="newEntryReasonPid"></app-select-gen-parameter>
+        </div>
+      </div>
+      
+    </p-panel>
+    
+  </div>
+  
+</div>
+
+<div class="grid">
+  <div class="col-12 button-container text-align-end">
+    <button pButton type="button" label="{{'global.confirm' | translate}}" class="p-button-success"
+            icon="fa fa-save" iconPos="left" (click)="confirm()">
+    </button>
+    <button pButton type="button" label="{{'global.cancel' | translate}}" class="p-button-warning"
+            icon="fa fa-times" iconPos="left" (click)="cancel()">
+    </button>
+  </div>
+</div>

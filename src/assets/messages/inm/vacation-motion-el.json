@@ -1,0 +1,26 @@
+{
+  "vacationMotion.args.vacationMotionStatus": "Εξέλιξη Εισήγησης",
+  "vacationMotion.args.vacationApplicationStatusInMotion": "Κατάσταση",
+  "vacationMotion.args.vacationApprovalStatus": "Κατάσταση 'Εγκρισης",
+  
+  "vacationMotion.list.vacationApplicationStatus": "Κατάσταση",
+  "vacationMotion.list.vacationApprovalStatus": "Κατάσταση Έγκρισης",
+  
+  "vacationApplication.view.submitMotion": "Ολοκλήρωση Εισήγησης",
+  
+  "vacationMotion.view.applicationStatus": "Κατάσταση",
+  "vacationMotion.view.motionData": "Στοιχεία Εισήγησης",
+  "vacationMotion.view.motionProgress": "Εξέλιξη Εισήγησης",
+  "vacationMotion.view.vacationApplicationData": "Στοιχεία Αίτησης Άδειας",
+  "vacationMotion.view.vacationCouncilData": "Στοιχεία Συμβουλίου",
+  "vacationMotion.view.inmateData": "Στοιχεία Κρατουμένου",
+  
+  "vacationMotion.applicationStatus": "Κατάσταση",
+  "vacationMotion.motionProgressDate": "Ημερομηνία Έναρξης Εισήγησης",
+  "vacationMotion.motionComments": "Παρατηρήσεις Εισήγησης",
+  "vacationMotion.pendingFelonies": "Εκκρεμότητες σε βαθμό κακουργήματος",
+  "vacationMotion.pendingFeloniesComments": "Παρατηρήσεις για εκκρεμότητες σε βαθμό κακουργήματος",
+  "vacationMotion.secMotionCheck": "Εισήγηση Γραμματείας",
+  "vacationMotion.doctorMotionCheck": "Εισήγηση Γιατρού"
+  
+}

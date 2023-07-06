@@ -1,0 +1,55 @@
+<div class="grid">
+  <div class="col-12 button-container">
+    <button pButton type="submit" label="{{'global.search' | translate}}" class="p-button-warning"
+            icon="fa fa-search" iconPos="left" (click)="loadGenParameterTableData()">
+    </button>
+    <button pButton type="button" label="{{'global.clearArgs' | translate}}" class="p-button-help"
+            icon="fa fa-times" iconPos="left" (click)="clearArgs()">
+    </button>
+    <button pButton type="button"
+            label="{{'global.add' | translate}}" class="p-button-info"
+            icon="fa fa-save" iconPos="left" (click)="openGenParameterDialogForCreate()">
+    </button>
+  </div>
+</div>
+
+<div class="grid">
+  <div class="col-12 md:col-3">
+    
+    <p-panel header="{{'global.args' | translate}}">
+      
+      <div class="p-fluid">
+        
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'genParameter.category' | translate}}</label>
+            <p-dropdown [(ngModel)]="args.category" [options]="genParameterCategories"
+                        name="category" optionValue="category" optionLabel="description"
+                        placeholder="{{'global.selectOption' | translate}}" emptyMessage="{{'global.noResultsFound' | translate}}"
+                        emptyFilterMessage="{{'global.noResultsFound' | translate}}" [filter]="true" [showClear]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+      </div>
+    
+    </p-panel>
+  </div>
+  
+  <div class="col-12 md:col-9">
+    <app-toitsu-table #genParameterTable
+                      [url]="url"
+                      [cols]="cols"
+                      [sortField]="genParameterSortField"
+                      [sortOrder]="genParameterSortOrder"
+                      [args]="args"
+                      [loadOnInit]="false">
+      <ng-template let-rowData #cell1>
+        <button pButton type="button" class="p-button-info" *ngIf="(rowData.dcId && rowData.genParameterTypeIsEditable) || authService.isMinistry()"
+                icon="fa fa-edit" iconPos="left" pTooltip="{{'global.edit' | translate}}" tooltipPosition="top"
+                (click)="openGenParameterDialogForEdit(rowData)">
+        </button>
+      </ng-template>
+    </app-toitsu-table>
+  </div>
+</div>

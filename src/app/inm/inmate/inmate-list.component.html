@@ -1,0 +1,196 @@
+<div class="grid">
+  <div class="col-12 button-container">
+    <button pButton type="submit" label="{{'global.search' | translate}}" class="p-button-warning"
+            icon="fa fa-search" iconPos="left" (click)="loadTableData()">
+    </button>
+    <button pButton type="button" label="{{'global.clearArgs' | translate}}" class="p-button-help"
+            icon="fa fa-times" iconPos="left" (click)="clearArgs()">
+    </button>
+    <button pButton type="button" label="{{'global.newRecord' | translate}}" class="p-button-info" *ngIf="!authService.isMinistry()"
+            icon="fa fa-plus" iconPos="left" (click)="goToOldList()">
+    </button>
+    <button pButton type="button" label="{{'inmate.goToOldList' | translate}}" class="p-button-info" *ngIf="authService.isMinistry()"
+            icon="fa fa-table" iconPos="left" (click)="goToOldList()">
+    </button>
+    <button pButton type="button" label="{{'inm.inmatePhoto.list' | translate}}" class="p-button-secondary"
+            icon="fa fa-picture-o" iconPos="left" (click)="goToPhotoList()">
+    </button>
+  </div>
+</div>
+
+<div class="grid">
+  
+  <div class="col-12 md:col-3">
+    
+    <p-panel header="{{'global.args' | translate}}">
+      
+      <div class="p-fluid">
+        
+        <div class="grid align-items-center" *ngIf="authService.isMinistry()">
+          <div class="col-12">
+            <label>{{'inmate.args.dcId' | translate}}</label>
+            <p-dropdown [(ngModel)]="args.dcId" [options]="detentionCenters" optionValue="id" optionLabel="name"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [showClear]="true" [filter]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'inmate.masterInmate.code' | translate}}</label>
+            <input type="text" pInputText [(ngModel)]="args.code">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'inmate.lastName' | translate}}</label>
+            <input type="text" pInputText [(ngModel)]="args.lastName">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'inmate.firstName' | translate}}</label>
+            <input type="text" pInputText [(ngModel)]="args.firstName">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'inmate.fatherName' | translate}}</label>
+            <input type="text" pInputText [(ngModel)]="args.fatherName">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'inmate.motherName' | translate}}</label>
+            <input type="text" pInputText [(ngModel)]="args.motherName">
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'inmate.args.nationality' | translate}}</label>
+            <p-dropdown [(ngModel)]="args.nationalityId" [options]="countries" optionValue="id" optionLabel="nationalityNameGreek"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [showClear]="true" [filter]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <div class="col-12 no-padding-bottom">
+            <label>{{'inmateRecord.entryDate' | translate}}</label>
+            <div class="grid field-group">
+              <app-toitsu-calendar class="col-6" [(model)]="args.entryDateAfter" [noIcon]="true"></app-toitsu-calendar>
+              <span><i class="fa fa-arrow-right no-padding no-margin"></i></span>
+              <app-toitsu-calendar class="col-6" [(model)]="args.entryDateBefore" [noIcon]="true"></app-toitsu-calendar>
+            </div>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'inmateRecord.entryReasonPid' | translate}}</label>
+            <app-select-gen-parameter [type]="pEntryReason" [(model)]="args.entryReasonPid" [hideAdd]="true"></app-select-gen-parameter>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <div class="col-12 no-padding-bottom">
+            <label>{{'inmateRecord.exitDate' | translate}}</label>
+            <div class="grid field-group">
+              <app-toitsu-calendar class="col-6" [(model)]="args.exitDateAfter" [noIcon]="true"></app-toitsu-calendar>
+              <span><i class="fa fa-arrow-right no-padding no-margin"></i></span>
+              <app-toitsu-calendar class="col-6" [(model)]="args.exitDateBefore" [noIcon]="true"></app-toitsu-calendar>
+            </div>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'inmate.args.status' | translate}}</label>
+            <p-dropdown [(ngModel)]="args.status" [options]="statuses" optionValue="value" optionLabel="label"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [showClear]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center" *ngIf="!authService.isMinistry()">
+          <div class="col-12">
+            <label>{{'inmate.args.folderPossession' | translate}}</label>
+            <p-dropdown [(ngModel)]="args.folderPossession" [options]="yesNoEnums" optionValue="value" optionLabel="label"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [showClear]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="grid align-items-center">
+          <div class="col-12">
+            <label>{{'inmate.args.inmateRecordCategory' | translate}}</label>
+            <p-dropdown [(ngModel)]="args.inmateRecordCategory" [options]="inmateRecordCategories" optionValue="value" optionLabel="label"
+                        placeholder="{{'global.selectOption' | translate}}"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}"
+                        [showClear]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        
+      </div>
+      
+    </p-panel>
+  
+  </div>
+  
+  <div class="col-12 md:col-9">
+    
+    <app-toitsu-table #table
+                      [url]="url"
+                      [cols]="cols"
+                      [first]="paging.first"
+                      [rows]="paging.rows"
+                      [sortField]="paging.sortField"
+                      [sortOrder]="paging.sortOrder"
+                      [args]="args"
+                      [excel]="true"
+                      [exportModel]="exportModel"
+                      [loadOnInit]="false"
+                      (loadComplete)="loadComplete()"
+                      (rowDblClicked)="rowDblClicked($event)">
+      <ng-template let-rowData #cell1>
+        <i class="fa fa-building color-noir" pTooltip="{{rowData.lastInmateRecordDcName}}" tooltipPosition="right"
+           *ngIf="rowData.lastInmateRecordDcId !== authService.getUserDcId()">
+        </i>
+        <a href="{{viewLink}}/{{rowData.id}}" target="_blank" pTooltip="{{'inmate.list.tooltip.goToView' | translate}}" tooltipPosition="right"
+           *ngIf="(rowData.inmateRecordStatus !== 'CLOSED') || rowData.lastRecord || authService.isMinistry()">
+          <i class="fa fa-edit"></i>
+        </a>
+      </ng-template>
+      <ng-template let-rowData #cell2>
+        <a href="{{folderLink}}/{{rowData.id}}" target="_blank" pTooltip="{{'inmate.list.tooltip.goToFolder' | translate}}" tooltipPosition="right"
+           *ngIf="(rowData.inmateRecordStatus !== 'CLOSED') || rowData.lastRecord || authService.isMinistry()">
+          <i class="fa fa-share"></i>
+        </a>
+      </ng-template>
+      <ng-template let-rowData #cell3>
+        <a href="{{laborCatalogLink}}/{{rowData.id}}" target="_blank" pTooltip="{{'inmate.list.tooltip.goToLaborCatalog' | translate}}" tooltipPosition="right">
+          <i class="fa fa-wrench color-orange"></i>
+        </a>
+      </ng-template>
+      <ng-template let-rowData #cell4>
+        <i class="{{getInmateStatusClass(rowData)}}" pTooltip="{{getInmateStatusTooltip(rowData)}}" tooltipPosition="right"></i>
+      </ng-template>
+    </app-toitsu-table>
+    
+  </div>
+  
+</div>

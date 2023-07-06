@@ -1,0 +1,66 @@
+<form>
+<div>
+  <div class="col-12 p-fluid">
+  
+    <div class="grid">
+      <div class="col-12">
+        <th [style.width]="'40rem'" [style.justify-content]="'center'">{{'disciplineOffense.dialog.view.availableDisciplineOffensesToRelate' | translate}}</th>
+      </div>
+    </div>
+    
+    <div class="grid">
+      <div class="col-12">
+        <th [style.width]="'25rem'" [style.justify-content]="'center'">{{'disciplineOffense.inmateId' | translate}}</th>
+        <th [style.width]="'10rem'" [style.justify-content]="'center'">{{'disciplineOffense.incidentDate' | translate}}</th>
+        <div class="col-12">
+          <td style="text-align:center" [style.width]="'25rem'"> {{disciplineOffense.inmateFullName}}</td>
+          <td style="text-align:center" [style.width]="'10rem'"> {{disciplineOffense.incidentDate}}</td>
+        </div>
+      </div>
+    </div>
+    
+    <p-table *ngIf="disciplineOffensesToRelate.length != 0" [value]="disciplineOffensesToRelate" [(selection)]="selectedDisciplineOffenseToRelate" dataKey="id"
+             [scrollable]="true" scrollHeight="25rem" styleClass="p-datatable-gridlines p-datatable-striped" appToitsuPTableCellWidth
+             [selectionMode]="'single'">
+      
+      <ng-template pTemplate="header">
+        
+        <tr>
+          <th [style.width]="'3rem'" [style.justify-content]="'center'">{{'#'}}</th>
+          <th [style.width]="'14rem'" [style.justify-content]="'center'">{{'disciplineOffense.offenseTypePid' | translate}}</th>
+          <th [style.width]="'12rem'" [style.justify-content]="'center'">{{'disciplineOffense.articles' | translate}}</th>
+          <th [style.width]="'12rem'" [style.justify-content]="'center'">{{'disciplineOffense.comments' | translate}}</th>
+<!--          <th [style.width]="'3rem'"></th>-->
+        </tr>
+      
+      </ng-template>
+      <ng-template pTemplate="body" let-disciplineOffenseToRelate let-index="rowIndex">
+        
+        <tr [pSelectableRow]="disciplineOffenseToRelate" [pSelectableRowIndex]="index">
+          <td [style.justify-content]="'center'">{{index + 1}}</td>
+          <td [style.justify-content]="'center'">{{disciplineOffenseToRelate.offenseType}}</td>
+          <td [style.justify-content]="'center'">{{disciplineOffenseToRelate.articles}}</td>
+          <td [style.justify-content]="'center'">{{disciplineOffenseToRelate.comments}}</td>
+<!--          <td>-->
+<!--            <p-tableCheckbox [value]="disciplineOffenseToRelate" (click)="$event.stopPropagation()"></p-tableCheckbox>-->
+<!--          </td>-->
+        </tr>
+        
+      </ng-template>
+    
+    </p-table>
+  
+  </div>
+</div>
+
+<div class="grid">
+  <div class="col-12 button-container text-align-end">
+    <button pButton type="button" label="{{'global.confirm' | translate}}" class="p-button-info"
+            icon="fa fa-check" iconPos="left" (click)="confirm()">
+    </button>
+    <button pButton type="button" label="{{'global.cancel' | translate}}" class="p-button-warning"
+            icon="fa fa-times" iconPos="left" (click)="cancel()">
+    </button>
+  </div>
+</div>
+</form>

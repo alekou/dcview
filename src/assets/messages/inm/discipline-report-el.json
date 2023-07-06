@@ -1,0 +1,18 @@
+{
+  "disciplineReport.id": "Id Εγγραφής",
+  "disciplineReport.dcId": "Κατάστημα Κράτησης",
+  "disciplineReport.reportNo": "Αριθμός Αναφοράς",
+  "disciplineReport.reportDate": "Ημερομηνία Αναφοράς",
+  "disciplineReport.reporterType": "Τύπος Αναφέροντος",
+  "disciplineReport.employeeId": "Υπάλληλος",
+  "disciplineReport.inmateId": "Κρατούμενος",
+  "disciplineReport.reporterFirstName": "Όνομα Αναφέροντος",
+  "disciplineReport.reporterLastName": "Επώνυμο Αναφέροντος",
+  "disciplineReport.comments": "Παρατηρήσεις",
+  "disciplineReport.reporterFullName": "Ονοματεπώνυμο Αναφέροντος",
+
+  "disciplineReport.displayRelatedDisciplineReportsOfDisciplineOffense.dialogTitle": "Συνδεδεμένες Αναφορές Πειθαρχικού",
+
+  "disciplineReport.view.disciplineReportData": "Στοιχεία Αναφοράς"
+
+}

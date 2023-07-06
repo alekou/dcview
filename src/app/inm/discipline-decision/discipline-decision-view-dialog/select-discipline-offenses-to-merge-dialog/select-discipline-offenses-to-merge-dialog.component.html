@@ -1,0 +1,64 @@
+<form>
+  
+  <div *ngIf="candidateDisciplineOffensesToMerge.length >= 2">
+    <div class="col-12 p-fluid">
+  
+      <span>{{'disciplineDecision.mergeDisciplineOffenses.selectAtLeastTwoDisciplineOffensesToMerge' | translate}}</span>
+      <p></p>
+      
+      <div class="grid align-items-center" *ngFor="let disciplineOffense of candidateDisciplineOffensesToMerge; let index = index">
+        <label class="col-12 sm:col-4">{{'disciplineDecision.mergeDisciplineOffenses.disciplineOffense' | translate}} {{index + 1}}</label>
+        <div class="col-12 sm:col-7">
+          <input type="text" pInputText value="{{disciplineOffense.displayName}}" name="displayName" disabled class="background-color-white">
+        </div>
+        <div class="col-12 sm:col-1">
+          <p-checkbox [value]="disciplineOffense.id" [(ngModel)]="mergingDisciplineOffense.disciplineOffenseIdsToMerge" name="id"></p-checkbox>
+        </div>
+      </div>
+  
+      <p></p>
+      <span>{{'disciplineDecision.mergeDisciplineOffenses.fillOutMergingDisciplineOffenseData' | translate}}</span>
+      
+      <div class="col-12 p-fluid">
+        <p-panel header="{{'disciplineDecision.mergeDisciplineOffenses.mergingDisciplineOffenseData' | translate}}">
+  
+          <td>
+            <div class="grid align-items-center">
+              <label class="col-12 md:col-4">{{'disciplineOffense.points' | translate}}</label>
+              <div class="col-12 md:col-6">
+                <p-inputNumber [(ngModel)]="mergingDisciplineOffense.points" name="points" [showButtons]="true" buttonLayout="horizontal" inputId="horizontal" [step]="1" [min]="0"
+                               decrementButtonClass="p-button-danger" incrementButtonClass="p-button-success" incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" [inputStyle]="{'text-align': 'center'}"
+                               name="points">
+                </p-inputNumber>
+              </div>
+            </div>
+          </td>
+          
+      </p-panel>
+    </div>
+      
+    </div>
+  </div>
+  
+  <span *ngIf="candidateDisciplineOffensesToMerge.length == 0">{{'disciplineDecision.mergeDisciplineOffenses.noDisciplineOffensesToMerge' | translate}}</span>
+  <span *ngIf="candidateDisciplineOffensesToMerge.length == 1">{{'disciplineDecision.mergeDisciplineOffenses.disciplineOffensesToMergeLowerThanTwo' | translate}}</span>
+  <p></p>
+  
+  <div class="grid">
+    <div class="col-12 button-container text-align-end">
+      <button pButton type="button" label="{{'global.confirm' | translate}}" class="p-button-info"
+              icon="fa fa-check" iconPos="left" (click)="confirm()"
+              *ngIf="candidateDisciplineOffensesToMerge.length < 2">
+      </button>
+      <button pButton type="button" label="{{'disciplineDecision.mergeDisciplineOffenses.merge' | translate}}" class="p-button-success"
+              icon="fa fa-link" iconPos="left" (click)="mergeDisciplineOffenses()"
+              *ngIf="candidateDisciplineOffensesToMerge.length >= 2">
+      </button>
+      <button pButton type="button" label="{{'global.cancel' | translate}}" class="p-button-warning"
+              icon="fa fa-times" iconPos="left" (click)="cancel()"
+              *ngIf="candidateDisciplineOffensesToMerge.length >= 2">
+      </button>
+    </div>
+  </div>
+
+</form>

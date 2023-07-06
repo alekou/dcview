@@ -1,0 +1,171 @@
+<form>
+
+  <div class="grid">
+    <div class="col-12 md:col-6 button-container flex-container">
+      <div class="flex-container-start">
+        <button pButton type="button" *ngIf="!lockedRecord()"
+                label="{{'global.save' | translate}}" class="p-button-success"
+                icon="fa fa-save" iconPos="left" (click)="saveInmateLaborApplication()">
+        </button>
+        <button pButton type="button" *ngIf="id && !lockedRecord() && authService.hasPermission('')"
+                label="{{'global.delete' | translate}}" class="p-button-danger"
+                icon="fa fa-trash" iconPos="left" (click)="deleteInmateLaborApplication()">
+        </button>
+        <button pButton type="button" *ngIf="id && !authService.isMinistry()"
+                label="{{'global.newRecord' | translate}}" class="p-button-info"
+                icon="fa fa-plus" iconPos="left" (click)="newRecord()">
+        </button>
+        <button pButton type="button"
+                label="{{'global.index' | translate}}" class="p-button-help"
+                icon="fa fa-fw fa-table" iconPos="left" (click)="goToList()">
+        </button>
+        <app-other-dc-name [dcId]="inmateLaborApplication.dcId"></app-other-dc-name>
+      </div>
+      <div class="flex-container-end">
+        <app-documents [entity]="'INMATE_LABOR_APPLICATION'" [entityId]="id"></app-documents>
+        <app-field-revisions *ngIf="id" [entityClass]="'inm.core.domain.InmateLaborApplication'" [entityId]="id"></app-field-revisions>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid" appToitsuLockControls [lockCondition]="lockedRecord()">
+
+    <div class="col-12 md:col-6 p-fluid">
+      <p-panel header="{{'inmateLaborApplication.view.basicData' | translate}}">
+
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'inmateLaborApplication.inmateId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-select-inmate [(model)]="inmateLaborApplication.inmateId" name="inmateId"
+                               [loadOnOpen]="true" [dialogUrl]="inmateDialogUrl" (modelChange)=refreshRenewalStatus()>
+            </app-select-inmate>
+          </div>
+        </div>
+
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'inmateLaborApplication.protocolNo' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input
+              type="text" class="form-control p-inputtext" [(ngModel)]="inmateLaborApplication.protocolNo"
+              name="protocolNo" (ngModelChange)="enableProtocolDate()">
+          </div>
+        </div>
+
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4 font-bold">{{'inmateLaborApplication.protocolDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar
+              [(model)]="inmateLaborApplication.protocolDate" name="protocolDate">
+            </app-toitsu-calendar>
+          </div>
+        </div>
+
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmateLaborApplication.requestedProfession' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="inmateLaborApplication.requestedProfessionId" name="requestedProfessionId" [options]="professions" optionValue="id" optionLabel="name"
+                        placeholder="{{'global.selectOption' | translate}}" [showClear]="true" [filter]="true"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}">
+            </p-dropdown>
+          </div>
+        </div>
+
+        <div class="grid align-items-center" *ngIf="id">
+          <label class="col-12 sm:col-4">{{'inmateLaborApplication.finalProfession' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-dropdown [(ngModel)]="inmateLaborApplication.finalProfessionId" name="finalProfessionId" [options]="professions" optionValue="id" optionLabel="name"
+                        placeholder="{{'global.selectOption' | translate}}" [showClear]="true" [filter]="true"
+                        emptyMessage="{{'global.noResultsFound' | translate}}" emptyFilterMessage="{{'global.noResultsFound' | translate}}">
+            </p-dropdown>
+          </div>
+        </div>
+
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmateLaborApplication.comments' | translate}}</label>
+          <div class="col-12 sm:col-8">
+              <textarea pInputTextarea
+                        name="comments" rows="5"
+                        [(ngModel)]="inmateLaborApplication.comments">
+              </textarea>
+          </div>
+        </div>
+
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmateLaborApplication.renewal' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox
+              binary="true" name="renewal"
+              [(ngModel)]="inmateLaborApplication.renewal"
+              (ngModelChange)="getLastInmateProfession()">
+            </p-checkbox>
+          </div>
+        </div>
+
+        <div class="grid align-items-center animation-duration-200 flip" *ngIf="inmateLaborApplication.renewal && !loading">
+          <label class="col-12 sm:col-4">{{'inmateLaborApplication.reportNo' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" class="form-control p-inputtext" [(ngModel)]="inmateLaborApplication.reportNo" name="reportNo">
+          </div>
+        </div>
+
+        <div class="grid align-items-center animation-duration-200 flip" *ngIf="inmateLaborApplication.renewal && !loading">
+          <label class="col-12 sm:col-4">{{'inmateLaborApplication.reportPerson' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" class="form-control p-inputtext" [(ngModel)]="inmateLaborApplication.reportPerson" name="reportPerson">
+          </div>
+        </div>
+
+        <div class="grid align-items-center">
+          <label class="col-12 sm:col-4">{{'inmateLaborApplication.rejected' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <p-checkbox
+              binary="true" name="rejected"
+              [(ngModel)]="inmateLaborApplication.rejected"
+              (click)="enableRejectionDate()">
+            </p-checkbox>
+          </div>
+        </div>
+
+        <div class="grid align-items-center animation-duration-200 flip" *ngIf="inmateLaborApplication.rejected">
+          <label class="col-12 sm:col-4">{{'inmateLaborApplication.rejectionDate' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <app-toitsu-calendar
+              [(model)]="inmateLaborApplication.rejectionDate" name="rejectionDate">
+            </app-toitsu-calendar>
+          </div>
+        </div>
+
+        <div class="grid align-items-center animation-duration-200 flip" *ngIf="inmateLaborApplication.rejected">
+          <label class="col-12 sm:col-4">{{'inmateLaborApplication.rejectionComments' | translate}}</label>
+          <div class="col-12 sm:col-8">
+              <textarea pInputTextarea
+                        name="rejectionComments" rows="5"
+                        [(ngModel)]="inmateLaborApplication.rejectionComments">
+              </textarea>
+          </div>
+        </div>
+
+        <div class="grid align-items-center" *ngIf="inmateLaborApplication.placementProtocolId">
+          <label class="col-12 sm:col-4">{{'inmateLaborApplication.placementProtocolId' | translate}}</label>
+          <div class="col-12 sm:col-8">
+            <input type="text" class="form-control p-inputtext font-bold" [(ngModel)]="connectedPlacementProtocolDetails" name="placementProtocol">
+          </div>
+        </div>
+
+      </p-panel>
+
+      <!--- Μήνυμα ενημέρωσης για κλειδωμένες εγγραφές --->
+      <div *ngIf="lockedRecord()">
+        <p class="info-message" *ngIf="inmateLaborApplication.placementProtocolId">
+          {{'inmateLaborApplication.info.forbiddenView.attachedToPlacementProtocol' | translate}}
+        </p>
+        <p class="info-message" *ngIf="inmateLaborApplication.dcId !== this.authService.getUserDcId()">
+          {{'inmateLaborApplication.info.forbiddenView.otherDc' | translate}}
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+
+</form>
